@@ -1,3 +1,4 @@
+//后门
 function getLastVersion(){
 	$.post(WST.U('admin/index/getVersion'),{},function(data,textStatus){
 		var json = {};

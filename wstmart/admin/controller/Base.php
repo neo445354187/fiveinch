@@ -21,7 +21,7 @@ class Base extends Controller {
 	}
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
-    	$replace['__ADMIN__'] = str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/admin/view';
+    	$replace['__ADMIN__'] = str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/admin';
         return $this->view->fetch($template, $vars, $replace, $config);
     }
 

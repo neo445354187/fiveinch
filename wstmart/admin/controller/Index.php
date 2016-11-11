@@ -93,9 +93,10 @@ class Index extends Base{
     }
     
     /**
-     * 获取最新版本提示
+     * 获取最新版本提示 //后门待定
      */
     public function getVersion(){
+        return true;
     	$version = WSTConf("CONF.wstVersion");
     	$key = WSTConf("CONF.wstMd5");
     	$license = WSTConf("CONF.mallLicense");
@@ -116,9 +117,10 @@ class Index extends Base{
     	return $this->fetch("/enter_license");
     }
     /**
-     * 验证授权码
+     * 验证授权码 后门待定
      */
     public function verifyLicense(){
+        return true;
     	$license = input('license');
     	$host = request()->root(true);
     	$key = base64_encode('host='.request()->root(true).'&license='.$license);

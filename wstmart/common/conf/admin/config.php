@@ -8,6 +8,9 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+// '__ROOT__'=>str_replace('/index.php','',\think\Request::instance()->root()),
+// '__APP__'=>\think\Request::instance()->root(),
+// '__STATIC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/static'
 
 return [
     // +----------------------------------------------------------------------

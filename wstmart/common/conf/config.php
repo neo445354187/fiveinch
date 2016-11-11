@@ -137,11 +137,12 @@ return [
     // 视图输出字符串内容替换
     'view_replace_str'       => [
         '__ROOT__'=>str_replace('/index.php','',\think\Request::instance()->root()),
-        '__ADMINC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/admin/view',
-        '__STYLE__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/home/view/default',
+        '__ADMINC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/admin/',
+        '__STYLE__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/home/default',
         '__APP__'=>\think\Request::instance()->root(),
         '__STATIC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/static'
     ],
+
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
