@@ -24,11 +24,11 @@ function delCatObj(obj,vk){
 function treeCatOpen(obj,id){
     if( $(obj).attr('class').indexOf('active') > -1 ){
     	$(obj).removeClass('active');
-        $(obj).html('<img class="wst-lfloat" style="margin-top:-3px;" src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/seller_icon_sq.png">');
+        $(obj).html('<img class="wst-lfloat" style="margin-top:-3px;" src="'+WST.conf.ROOT+'/wstmart/home/default/img/seller_icon_sq.png">');
         $('.tree_'+id).hide();
     }else{
     	$(obj).addClass('active');
-        $(obj).html('<img class="wst-lfloat" style="margin-top:-3px;" src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/seller_icon_zk.png">');
+        $(obj).html('<img class="wst-lfloat" style="margin-top:-3px;" src="'+WST.conf.ROOT+'/wstmart/home/default/img/seller_icon_zk.png">');
         $('.tree_'+id).show();
     }
 }

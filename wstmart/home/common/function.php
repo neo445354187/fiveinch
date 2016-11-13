@@ -126,7 +126,7 @@ function WSTSideCategorys(){
 }
 
 /**
- * 获取导航菜单
+ * 获取导航菜单，ps:人为的去掉了index.php
  */
 function WSTNavigations($navType){
 	$data = cache('WST_NAVS');

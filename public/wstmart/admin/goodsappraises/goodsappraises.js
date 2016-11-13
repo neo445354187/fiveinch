@@ -20,7 +20,7 @@ function initGrid(){
 	        { display: '商品评分', name: 'goodsScore', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
-	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/view/goodsappraises/icon_score_yes.png'>";
+	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/goodsappraises/icon_score_yes.png'>";
 	        	}
 	        	s += "</div>";
 	        	return s;
@@ -28,7 +28,7 @@ function initGrid(){
 	        { display: '时效评分', name: 'timeScore', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
-	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/view/goodsappraises/icon_score_yes.png'>";
+	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/goodsappraises/icon_score_yes.png'>";
 	        	}
 	        	s +="</div>";
 	        	return s;
@@ -36,7 +36,7 @@ function initGrid(){
 	        { display: '服务评分', name: 'serviceScore', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
-	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/view/goodsappraises/icon_score_yes.png'>";
+	        		s +="<img src='"+WST.conf.ROOT+"/wstmart/admin/goodsappraises/icon_score_yes.png'>";
 	        	}
 	        	s +="</div>";
 	        	return s;
