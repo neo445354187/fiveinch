@@ -19,7 +19,7 @@ class Index extends Base{
 	 * 清除缓存
 	 */
 	public function clearCache(){
-		$dirpath = WSTRootPath()."/runtime/cache";
+		$dirpath = dirname(WSTRootPath())."/runtime/cache";
 		$isEmpty = WSTDelDir($dirpath);
 		return $isEmpty;
 	}
