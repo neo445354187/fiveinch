@@ -2,8 +2,8 @@
 {block name="title"}忘记密码 - {:WSTConf('CONF.mallName')}{__block__}{/block}
 {block name="css"}
 <link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/login.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="nav"}
     {php}$liteTitle = "找回密码"{/php}
@@ -64,5 +64,5 @@
 {block name="js"}
 	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
-	<script type='text/javascript' src='__STYLE__/js/findpass.js?v={$v}'></script>
+	<script type='text/javascript' src='__HOME__/js/findpass.js?v={$v}'></script>
 {/block}

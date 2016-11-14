@@ -2,7 +2,7 @@
 {block name="title"}安全设置 - 买家中心{__block__}{/block}
 {block name="css"}
 <link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/security.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/security.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="content"}
 <div class="wst-user-head"><span>绑定邮箱</span><a href="{:url('home/users/security')}">返回</a></div>
@@ -45,13 +45,13 @@
 {/if}
 {if ($process=='Three')}
 <div class="wst-sec-su">
-	<span class="wst-sec-sut"><img src="__STYLE__/img/icon_success.png"/></span>
+	<span class="wst-sec-sut"><img src="__HOME__/img/icon_success.png"/></span>
 	<span class="wst-sec-sub">您已成功绑定邮箱！</span>
 </div>
 {/if}
 {/block}
 {block name="js"}
-	<script type='text/javascript' src='__STYLE__/users/security/security.js?v={$v}'></script>
+	<script type='text/javascript' src='__HOME__/users/security/security.js?v={$v}'></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
 	<script>

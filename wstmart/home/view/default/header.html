@@ -137,11 +137,11 @@
                     <p>{if(!session('WST_USER.userId'))}Hello,欢迎您来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,10)}{/if}</p>
                     <div class="visitor-login">
                         <a href="{:Url('home/users/login')}" style="border-right:1px solid #ccc;">
-                            <div class="wst-right-pic"><img src="__STYLE__/img/icon_login.png" /></div>
+                            <div class="wst-right-pic"><img src="__HOME__/img/icon_login.png" /></div>
                             <p class="wst-right-text">登录</p>
                         </a>
                         <a href="{:Url('home/users/regist')}">
-                            <div class="wst-right-pic"><img src="__STYLE__/img/icon_register.png" /></div>
+                            <div class="wst-right-pic"><img src="__HOME__/img/icon_register.png" /></div>
                             <p class="wst-right-text">注册</p>
                         </a>
                         <div class="wst-clear"></div>
@@ -157,7 +157,7 @@
             <ul id="wst-right-new-list" {if(!session( 'WST_USER.userId'))}class="visitor-new-list" {/if}>
                 {wst:article cat="new" num='8' cache='86400'}
                 <li>
-                    <a href="{:url('home/news/view',['id'=>$vo['articleId']])}"><img src="__STYLE__/img/icon_zixun.png" alt="喇叭">{$vo['articleTitle']}</a>
+                    <a href="{:url('home/news/view',['id'=>$vo['articleId']])}"><img src="__HOME__/img/icon_zixun.png" alt="喇叭">{$vo['articleTitle']}</a>
                 </li>
                 {/wst:article}
             </ul>

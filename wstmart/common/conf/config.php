@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+define('ROOT_URL', \think\Request::instance()->root());
 
 return [
     // +----------------------------------------------------------------------
@@ -31,7 +32,7 @@ return [
     // 扩展配置文件
     'extra_config_list'      => ['database', 'validate'],
     // 扩展函数文件
-    'extra_file_list'        => [THINK_PATH.'helper'.EXT,WST_COMM."function.php",WST_HOME_COMM."function.php",WST_ADMIN_COMM."function.php"],
+    'extra_file_list'        => [THINK_PATH . 'helper' . EXT, WST_COMM . "function.php", WST_HOME_COMM . "function.php", WST_ADMIN_COMM . "function.php"],
     // 默认输出类型
     'default_return_type'    => 'html',
     // 默认AJAX 数据返回格式,可选json xml ...
@@ -113,34 +114,33 @@ return [
 
     'template'               => [
         // 模板引擎类型 支持 php think 支持扩展
-        'type'         => 'Think',
+        'type'            => 'Think',
         // 模板路径
-        'view_path'    => '',
+        'view_path'       => '',
         // 模板后缀
-        'view_suffix'  => 'html',
+        'view_suffix'     => 'html',
         // 模板文件名分隔符
-        'view_depr'    => DS,
+        'view_depr'       => DS,
         // 模板引擎普通标签开始标记
-        'tpl_begin'    => '{',
+        'tpl_begin'       => '{',
         // 模板引擎普通标签结束标记
-        'tpl_end'      => '}',
+        'tpl_end'         => '}',
         // 标签库标签开始标记
-        'taglib_begin' => '{',
+        'taglib_begin'    => '{',
         // 标签库标签结束标记
-        'taglib_end'   => '}',
+        'taglib_end'      => '}',
 
         // 预加载自定义模板标签
-        'taglib_pre_load'     =>    'wstmart\common\taglib\Wst',
+        'taglib_pre_load' => 'wstmart\common\taglib\Wst',
 
     ],
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__ROOT__'=>str_replace('/index.php','',\think\Request::instance()->root()),
-        '__ADMINC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/admin/',
-        '__STYLE__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/wstmart/home/default',
-        '__APP__'=>\think\Request::instance()->root(),
-        '__STATIC__'=>str_replace('/index.php','',\think\Request::instance()->root()).'/static'
+        '__APP__'    => ROOT_URL,
+        '__ROOT__'   => str_replace('/index.php', '', ROOT_URL),
+        '__HOME__'   => str_replace('/index.php', '', ROOT_URL) . '/wstmart/home/default',
+        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/static',
     ],
 
     // 默认跳转页面对应的模板文件
@@ -237,5 +237,5 @@ return [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
         'list_rows' => 15,
-    ]
+    ],
 ];

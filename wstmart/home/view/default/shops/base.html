@@ -2,15 +2,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>{block name="title"}{:WSTConf('CONF.mallTitle')}{/block}</title>
-<link href="__STYLE__/css/common.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/shop.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/common.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/shop.css?v={$v}" rel="stylesheet">
 {block name="css"}{/block}
 <script type="text/javascript" src="__STATIC__/js/jquery.min.js?v={$v}"></script>
 <script type="text/javascript" src="__STATIC__/plugins/layer/layer.js?v={$v}"></script>
 	  
 <script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
 {block name="depend_common_js"}{/block}
-<script type='text/javascript' src='__STYLE__/js/common.js?v={$v}'></script>
+<script type='text/javascript' src='__HOME__/js/common.js?v={$v}'></script>
 <script type='text/javascript' src='__ROOT__/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
 <script>
 window.conf = {
@@ -83,7 +83,7 @@ $(function() {
           <div class='wst-main'>
             <div class='wst-menu'>
             	{volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
-            	<span class='wst-menu-title'>{$menus['menuName']}<img src="__STYLE__/img/user_icon_sider_zhankai.png"></span>
+            	<span class='wst-menu-title'>{$menus['menuName']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
             	<ul>
             	{volist name="menus['list']" id="menu" key='k'}
               	<li class="{if($homeMenus['menuId3']==$menu['menuId'])}wst-menua{/if} wst-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">

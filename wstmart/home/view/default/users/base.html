@@ -3,14 +3,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>{block name="title"}{:WSTConf('CONF.mallTitle')}{/block}</title>
-    <link href="__STYLE__/css/common.css?v={$v}" rel="stylesheet">
-    <link href="__STYLE__/css/user.css?v={$v}" rel="stylesheet"> {block name="css"}{/block}
+    <link href="__HOME__/css/common.css?v={$v}" rel="stylesheet">
+    <link href="__HOME__/css/user.css?v={$v}" rel="stylesheet"> {block name="css"}{/block}
     <script type="text/javascript" src="__STATIC__/js/jquery.min.js?v={$v}"></script>
     <script type="text/javascript" src="__STATIC__/plugins/layer/layer.js?v={$v}"></script>
     <script type="text/javascript" src="__STATIC__/plugins/lazyload/jquery.lazyload.min.js?v={$v}"></script>
     <script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
     {block name="depend_common_js"}{/block}
-    <script type='text/javascript' src='__STYLE__/js/common.js?v={$v}'></script>
+    <script type='text/javascript' src='__HOME__/js/common.js?v={$v}'></script>
     <script>
     window.conf = {
         "ROOT": "__ROOT__",
@@ -107,7 +107,7 @@
         <div class='wst-main'>
             <div class='wst-menu'>
                 {volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
-                <span class='wst-menu-title'>{$menus['menuName']}<img src="__STYLE__/img/user_icon_sider_zhankai.png"></span>
+                <span class='wst-menu-title'>{$menus['menuName']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
                 <ul>
                     {volist name="menus['list']" id="menu" key='k'}
                     <li class="{if($homeMenus['menuId3']==$menu['menuId'])}wst-menua{/if} wst-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
@@ -127,54 +127,54 @@
         <div class="wst-bottom" style='display:none'>
             <div class="wst-bottom-m">
                 <span class="wst-bottom-ml wst-bottom-ms">我的专属推荐</span><span class="wst-bottom-ml">我关注的商品</span><span class="wst-bottom-ml">我的足迹</span>
-                <span class="wst-bottom-mr"><img class="wst-lfloat" src="__STYLE__/img/user_icon_hyp.png"><a href="" class="wst-lfloat">换一批</a></span>
+                <span class="wst-bottom-mr"><img class="wst-lfloat" src="__HOME__/img/user_icon_hyp.png"><a href="" class="wst-lfloat">换一批</a></span>
             </div>
             <div style='clear:both;'></div>
             <div class="wst-bottom-g">
                 <div class="wst-bottom-gs">
-                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__STYLE__/img/img_hot_02.jpg"></div>
+                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="wst-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="wst-bottom-n2"><span class="wst-bottom-n2l">￥100.00</span><span class="wst-bottom-n2r">成交数：<span>123</span></span>
                     </span>
                     <span class="wst-bottom-n3"><span class="wst-bottom-n3l">市场价：￥100.00</span><span class="wst-bottom-n3r">已有<span>123</span>人评价</span>
                     </span>
-                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__STYLE__/img/icon_dianpujie_03.png"></span>
+                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="wst-bottom-gs">
-                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__STYLE__/img/img_hot_02.jpg"></div>
+                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="wst-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="wst-bottom-n2"><span class="wst-bottom-n2l">￥100.00</span><span class="wst-bottom-n2r">成交数：<span>123</span></span>
                     </span>
                     <span class="wst-bottom-n3"><span class="wst-bottom-n3l">市场价：￥100.00</span><span class="wst-bottom-n3r">已有<span>123</span>人评价</span>
                     </span>
-                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__STYLE__/img/icon_dianpujie_03.png"></span>
+                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="wst-bottom-gs">
-                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__STYLE__/img/img_hot_02.jpg"></div>
+                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="wst-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="wst-bottom-n2"><span class="wst-bottom-n2l">￥100.00</span><span class="wst-bottom-n2r">成交数：<span>123</span></span>
                     </span>
                     <span class="wst-bottom-n3"><span class="wst-bottom-n3l">市场价：￥100.00</span><span class="wst-bottom-n3r">已有<span>123</span>人评价</span>
                     </span>
-                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__STYLE__/img/icon_dianpujie_03.png"></span>
+                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="wst-bottom-gs">
-                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__STYLE__/img/img_hot_02.jpg"></div>
+                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="wst-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="wst-bottom-n2"><span class="wst-bottom-n2l">￥100.00</span><span class="wst-bottom-n2r">成交数：<span>123</span></span>
                     </span>
                     <span class="wst-bottom-n3"><span class="wst-bottom-n3l">市场价：￥100.00</span><span class="wst-bottom-n3r">已有<span>123</span>人评价</span>
                     </span>
-                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__STYLE__/img/icon_dianpujie_03.png"></span>
+                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="wst-bottom-gs">
-                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__STYLE__/img/img_hot_02.jpg"></div>
+                    <div class="wst-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="wst-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="wst-bottom-n2"><span class="wst-bottom-n2l">￥100.00</span><span class="wst-bottom-n2r">成交数：<span>123</span></span>
                     </span>
                     <span class="wst-bottom-n3"><span class="wst-bottom-n3l">市场价：￥100.00</span><span class="wst-bottom-n3r">已有<span>123</span>人评价</span>
                     </span>
-                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__STYLE__/img/icon_dianpujie_03.png"></span>
+                    <span class="wst-bottom-n4"><span class="wst-lfloat">店铺名称店铺名称</span><img class="wst-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div style='clear:both;'></div>
             </div>

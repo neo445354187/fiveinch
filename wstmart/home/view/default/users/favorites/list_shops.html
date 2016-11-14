@@ -18,7 +18,7 @@
 			<div class="wst-favo-more"><span class="wst-lfloat">推荐商品</span><a href="javascript:getShop({{ d[i].shopId }})" class="wst-rfloat">查看更多 ></a></div>
 			<div class="wst-favo-good wst-lfloat">
 			<div class="als-container" id="{{# if(d[i].goods.length>5){ }}js-goods{{i}}{{# } }}">
-			  {{# if(d[i].goods.length>5){ }}<span class="als-prev"><img src="__STYLE__/img/icon_left.png" alt="prev" title="previous" /></span>{{# } }}
+			  {{# if(d[i].goods.length>5){ }}<span class="als-prev"><img src="__HOME__/img/icon_left.png" alt="prev" title="previous" /></span>{{# } }}
 			  <div class="als-viewport">
 			    <ul class="als-wrapper">
 				{{# for(var a = 0; a < d[i].goods.length; a++){ }}
@@ -29,7 +29,7 @@
 				{{# } }}
 			    </ul>
 			  </div>
-			  {{# if(d[i].goods.length>5){ }}<span class="als-next"><img src="__STYLE__/img/icon_right.png" alt="next" title="next" /></span>{{# } }}
+			  {{# if(d[i].goods.length>5){ }}<span class="als-next"><img src="__HOME__/img/icon_right.png" alt="next" title="next" /></span>{{# } }}
 			</div>
 			</div>
 		</div>
@@ -39,8 +39,8 @@
 </script>
 {/block}
 {block name="js"}
-<script type='text/javascript' src='__STYLE__/js/jquery.als.js?v={$v}'></script>
-<script type='text/javascript' src='__STYLE__/users/favorites/favorites.js?v={$v}'></script>
+<script type='text/javascript' src='__HOME__/js/jquery.als.js?v={$v}'></script>
+<script type='text/javascript' src='__HOME__/users/favorites/favorites.js?v={$v}'></script>
 <script>
 $(function(){
 	freShopList();

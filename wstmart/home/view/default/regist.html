@@ -1,9 +1,9 @@
 {extend name="default/base" /}
 {block name="title"}用户注册-{:WSTConf('CONF.mallName')}{__block__}{/block}
 {block name="css"}
-<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
 <link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/login.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="nav"}
     {php}$liteTitle = "欢迎注册".WSTConf('CONF.mallName');{/php}
@@ -71,6 +71,6 @@
 {block name="js"}
 	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
-	<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
+	<script type='text/javascript' src='__HOME__/js/login.js?v={$v}'></script>
 	<Script>$(function(){initRegist();})</Script>
 {/block}

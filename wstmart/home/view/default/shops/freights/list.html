@@ -34,7 +34,7 @@
 {{# for(var i = 0; i < d.length; i++){ }}
    <tr isLoad='1' class="wst-fre-hov">
      <td class="wst-fre-td">
-     <span class='wst-tree-open active' onclick='javascript:treeOpen(this,"{{ d[i].areaId }}")'><img class="wst-lfloat" style="margin-top:-3px;" src="__STYLE__/img/seller_icon_sq.png"></span>
+     <span class='wst-tree-open active' onclick='javascript:treeOpen(this,"{{ d[i].areaId }}")'><img class="wst-lfloat" style="margin-top:-3px;" src="__HOME__/img/seller_icon_sq.png"></span>
      <span style='width:400px;height:22px;'>{{ d[i].areaName }}</span>
      </td>
      <td><input class='possort text_{{ d[i].areaId }}' type='text' style='width:80px;display:none;' value="" onblur='javascript:freightOnblur(this,"{{ d[i].areaId }}",2)' onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberKey(event)"/></td>
@@ -58,4 +58,4 @@
 {block name="footer"}
 	{include file="default/footer" /}
 {/block}
-{block name="js"}<script type='text/javascript' src='__STYLE__/shops/freights/freights.js?v={$v}'></script>{/block}
+{block name="js"}<script type='text/javascript' src='__HOME__/shops/freights/freights.js?v={$v}'></script>{/block}

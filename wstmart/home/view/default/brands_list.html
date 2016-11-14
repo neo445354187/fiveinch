@@ -6,8 +6,8 @@
 {/block}
 {block name="css"}
 <link href="__STATIC__/plugins/lazyload/skin/laypage.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/brandslist.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/brandslist.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="main"}
 <script>
@@ -18,7 +18,7 @@ function screenCat(id){
 </script>
 <input type="hidden" id="catId" value="" autocomplete="off">
 <div class="wst-container">
-	<div class="wst-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__STYLE__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/brands/index')}">品牌街</a></div>
+	<div class="wst-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__HOME__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/brands/index')}">品牌街</a></div>
 	<div class="wst-brand-cat">
 		<div class="wst-brand-catt">品牌行业</div>
 		{volist name="goodscats" id="ca" key="k"}
@@ -33,7 +33,7 @@ function screenCat(id){
 			<div class="wst-brand-img"><a target='_blank' href="{:Url('home/goods/lists',['cat'=>$vo['catId'],'brand'=>$vo['brandId']])}"><img class="goodsImg" data-original="__ROOT__/{$vo['brandImg']}" title="{$vo['brandName']}"/></a></div>
 			<div class="wst-brand-name">{:WSTMSubstr($vo['brandName'],0,15)}</div>
 			<div class='info'>
-				<span><img src="__STYLE__/img/img_jrpp.png"/></span>
+				<span><img src="__HOME__/img/img_jrpp.png"/></span>
 		        <p>欢迎进入{$vo['brandName']}</p>
 		    </div>
 		</li>
@@ -47,7 +47,7 @@ function screenCat(id){
 {include file="default/right_cart"/}
 {/block}
 {block name="js"}
-<script type='text/javascript' src='__STYLE__/js/brandslist.js?v={$v}'></script>
+<script type='text/javascript' src='__HOME__/js/brandslist.js?v={$v}'></script>
 <script>
 $(function(){
 	if({$list['TotalPage']}>1){

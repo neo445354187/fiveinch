@@ -1,9 +1,9 @@
 {extend name="default/base" /}
 {block name="title"}用户登录-{:WSTConf('CONF.mallName')}{__block__}{/block}
 {block name="css"}
-<link href="__STYLE__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
 <link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
-<link href="__STYLE__/css/login.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/login.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="nav"}
     {php}$liteTitle = "欢迎登录".WSTConf('CONF.mallName');{/php}
@@ -13,22 +13,22 @@
 	<div class="wst-container">
 	<div class="wst-login">
 	<div class="wst-login_l">
-		<img src="__STYLE__/img/img_login01.png"/>
+		<img src="__HOME__/img/img_login01.png"/>
 	</div>
 	<div class="wst-login_r">
 		<form method="post" autocomplete="off">
 		<span class="wst-login-u">用户登陆</span>
 		<table class="wst-table">
 			<tr class="wst-login-tr">
-				<td><img style='margin-right:10px' src="__STYLE__/img/icon_name.png"/></td>
+				<td><img style='margin-right:10px' src="__HOME__/img/icon_name.png"/></td>
 				<td><input id="loginName" name="loginName" class="ipt wst-login-input"  tabindex="1" value="{$loginName}" autocomplete="off" type="text" data-rule="用户名: required;" data-msg-required="请填写用户名" data-tip="请输入用户名" placeholder="邮箱/用户名/手机号"/></td>
 			</tr>
 			<tr class="wst-login-tr">
-				<td><img style='margin-right:10px' src="__STYLE__/img/icon_passard.png"/></td>
+				<td><img style='margin-right:10px' src="__HOME__/img/icon_passard.png"/></td>
 				<td><input id="loginPwd" name="loginPwd" class="ipt wst-login-input" tabindex="2" autocomplete="off" type="password" data-rule="密码: required;" data-msg-required="请填写密码" data-tip="请输入密码" placeholder="密码"/> </td>
 			</tr>
 			<tr class="wst-login-tr">
-				<td><img style='margin-right:10px' src="__STYLE__/img/icon_yanzhengma.png"/></td>
+				<td><img style='margin-right:10px' src="__HOME__/img/icon_yanzhengma.png"/></td>
 				<td>
 					<div class="wst-login-code">
 					<input id="verifyCode" style="ime-mode:disabled" name="verifyCode"  class="ipt wst-login-codein" tabindex="6" autocomplete="off" maxlength="6" type="text" data-rule="验证码: required;" data-msg-required="请输入验证码" data-tip="请输入验证码" data-target="#verify"placeholder="验证码"/>
@@ -53,8 +53,8 @@
 			</table>
 		</form>
 		 <span class="wst-login-three" style='display:none'>您还可以使用以下方式登录：</span>
-		 <a href="#" style='display:none'><img style='margin-right:10px' src="__STYLE__/img/btn_QQ.png"/></a>
-		 <a href="#" style='display:none'><img src="__STYLE__/img/btn_wechat.png"/></a>
+		 <a href="#" style='display:none'><img style='margin-right:10px' src="__HOME__/img/btn_QQ.png"/></a>
+		 <a href="#" style='display:none'><img src="__HOME__/img/btn_wechat.png"/></a>
 	</div>
 	<div class="wst-clear"></div>
 	</div>
@@ -63,5 +63,5 @@
 {block name="js"}
 	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
 	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
-	<script type='text/javascript' src='__STYLE__/js/login.js?v={$v}'></script>
+	<script type='text/javascript' src='__HOME__/js/login.js?v={$v}'></script>
 {/block}

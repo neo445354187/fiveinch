@@ -1,7 +1,7 @@
 {extend name="default/users/base" /}
 {block name="title"}安全设置 - 买家中心{__block__}{/block}
 {block name="css"}
-<link href="__STYLE__/css/security.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/security.css?v={$v}" rel="stylesheet">
 {/block}
 {block name="content"}
 	<div class="wst-sec-info">
@@ -26,13 +26,13 @@
 	<div style='clear:both;'></div>
 	</div>
 	<div class="wst-sec-s">
-		<div class="wst-sec-lists">{if ($data['loginPwd'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未设置</span>{/if}
+		<div class="wst-sec-lists">{if ($data['loginPwd'])}<span class="wst-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="wst-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未设置</span>{/if}
 		<span class="wst-sec-w">&nbsp;登录密码</span>&nbsp;&nbsp;登陆密码用于会员的登陆以及进行登陆的一系列操作，{if ($data['loginPwd'])}建议您定期更改密码{else}您还没有设置密码{/if}
 		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editPass')">{if ($data['loginPwd'])}修改密码{else}立即设置{/if}</a></div>
-		<div class="wst-sec-lists">{if ($data['userEmail'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未验证</span>{/if}
+		<div class="wst-sec-lists">{if ($data['userEmail'])}<span class="wst-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
 		<span class="wst-sec-w">&nbsp;邮箱验证</span>&nbsp;&nbsp;邮箱验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userEmail'])}您的绑定邮箱：{$data['userEmail']}{else}您还没有验证邮箱{/if}
 		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editEmail')">{if ($data['userEmail'])}修改邮箱{else}立即验证{/if}</a></div>
-		<div class="wst-sec-lists">{if ($data['userPhone'])}<span class="wst-sec-green"><img src="__STYLE__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__STYLE__/img/icon_wyz.png"/>未验证</span>{/if}
+		<div class="wst-sec-lists">{if ($data['userPhone'])}<span class="wst-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="wst-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
 		<span class="wst-sec-w">&nbsp;手机验证</span>&nbsp;&nbsp;手机验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userPhone'])}您的绑定手机：{$data['userPhone']}{else}您还没有验证手机{/if}
 		<a class="wst-user-buta wst-rfloat" onclick="location.href=WST.U('home/users/editPhone')">{if ($data['userPhone'])}修改手机{else}立即验证{/if}</a></div>
 		<div style='clear:both;'></div>
