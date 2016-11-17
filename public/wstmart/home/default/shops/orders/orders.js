@@ -286,7 +286,7 @@ function toRespond(id){
 }
 
 function complainByPage(p){
-  $('#list').html('<img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...');
+  $('#list').html('<img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...');
   var params = {};
   params = WST.getParams('.s-query');
   params.key = $.trim($('#key').val());
@@ -339,7 +339,7 @@ $('.gImg').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,
           if(json.status==1){
           var tdiv = $("<div style='width:75px;float:left;margin-right:5px;'>"+
                        "<img class='respond_pic"+"' width='75' height='75' src='"+WST.conf.ROOT+"/"+json.savePath+json.thumb+"' v='"+json.savePath+json.name+"'></div>");
-          var btn = $('<div style="position:relative;top:-80px;left:60px;cursor:pointer;" ><img src="'+WST.conf.ROOT+'/wstmart/home/View/default/img/seller_icon_error.png"></div>');
+          var btn = $('<div style="position:relative;top:-80px;left:60px;cursor:pointer;" ><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/seller_icon_error.png"></div>');
           tdiv.append(btn);
           $('#picBox').append(tdiv);
           btn.on('click','img',function(){

@@ -47,7 +47,7 @@ function WSTReturn($msg, $status = -1, $data = [])
  * 检测字符串不否包含
  * @param $srcword 被检测的字符串
  * @param $filterWords 禁用使用的字符串列表
- * @return boolean true-检测到,false-未检测到
+ * @return boolean true-检测到,false-未检测到 (感觉反了)
  */
 function WSTCheckFilterWords($srcword, $filterWords)
 {
@@ -466,7 +466,7 @@ function WSTUploadPic($fromType = 0)
         return json_encode(['msg' => $validate->getError(), 'status' => -1]);
     }
     $root = dirname(ROOT_PATH);
-    $info = $file->rule('uniqid')->move($root . '/upload/' . $dir . "/" . date('Y-m'));
+    $info = $file->rule('uniqid')->move($root . '/upload/' . $dir . "/" . date('Y-m-d'));
     if ($info) {
         $filePath = $info->getPathname();
         $filePath = str_replace($root, '', $filePath);
@@ -829,8 +829,8 @@ function WSTOrderNo()
     return $orderId . (fmod($orderId, 7));
 }
 /**
- * 高精度数字相加
- * @param $num
+ * 高精度
+ * @param $num数字相加
  * @param number $i 保留小数位
  */
 function WSTBCMoney($num1, $num2, $i = 2)
@@ -1056,7 +1056,7 @@ function WSTEditUpload($fromType)
     if (!$validate->check($data)) {
         return json_encode(['message' => $validate->getError(), 'error' => 1]);
     }
-    $info = $file->rule('uniqid')->move(ROOT_PATH . '/upload/' . $dir . "/" . date('Y-m'));
+    $info = $file->rule('uniqid')->move(ROOT_PATH . '/upload/' . $dir . "/" . date('Y-m-d'));
     if ($info) {
         $filePath = $info->getPathname();
         $filePath = str_replace(ROOT_PATH, '', $filePath);

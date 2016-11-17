@@ -19,7 +19,7 @@ class Index extends Base
 
     public function index()
     {
-        $categorys = model('GoodsCats')->getFloors();
+        $categorys = model('GoodsCats')->getFloors();//获取首页楼层信息
         $this->assign('floors', $categorys);
         $this->assign('hideCategory', 1);
         return $this->fetch('default/index');

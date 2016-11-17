@@ -209,8 +209,8 @@ function fBGoods(id){
 		move: 1, 
 		auto: 0, 
 		controls: true,
-		prev_image: conf.ROOT+'/wstmart/home/view/default/img/btn_slide_left.png',
-    	next_image: conf.ROOT+'/wstmart/home/view/default/img/btn_slide_right.png',
+		prev_image: conf.ROOT+'/wstmart/home/default/img/btn_slide_left.png',
+    	next_image: conf.ROOT+'/wstmart/home/default/img/btn_slide_right.png',
 		margin: 10,
 		auto_hover: true
 	});

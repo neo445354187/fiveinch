@@ -528,7 +528,7 @@ function getSpecAttrs(goodsCatId){
 }
 
 function saleByPage(p){
-	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</td></tr>');
+	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</td></tr>');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.key = $.trim($('#key').val());
@@ -561,7 +561,7 @@ function saleByPage(p){
 	});
 }
 function auditByPage(p){
-	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</td></tr>');
+	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</td></tr>');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.key = $.trim($('#key').val());
@@ -594,7 +594,7 @@ function auditByPage(p){
 	});
 }
 function storeByPage(p){
-	$('#list1').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</td></tr>');
+	$('#list1').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</td></tr>');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.key = $.trim($('#key1').val());
@@ -627,7 +627,7 @@ function storeByPage(p){
 	});
 }
 function illegalByPage(p){
-	$('#list2').html('<tr><td colspan="4"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</td></tr>');
+	$('#list2').html('<tr><td colspan="4"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</td></tr>');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.key = $.trim($('#key2').val());

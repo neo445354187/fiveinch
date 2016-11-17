@@ -243,7 +243,7 @@ select{
 }
 
 .wst-gallery-del {
-	background: url('../../../View/default/images/close_botton.png') no-repeat;
+	background: url('../../../default/images/close_botton.png') no-repeat;
 	display: block;
 	height: 20px;
 	position: absolute;
@@ -253,7 +253,7 @@ select{
 }
 
 .wst-gallery-goods-del {
-	background: url('../../../View/default/images/close_botton.png') no-repeat;
+	background: url('../../../default/images/close_botton.png') no-repeat;
 	display: block;
 	height: 20px;
 	position: absolute;
@@ -305,7 +305,7 @@ select{
 	display: inline-block;
 	width: 20px;
 	height: 20px;
-	background-image: url(../../../View/default/images/icon_leftmenu.png);
+	background-image: url(../../../default/images/icon_leftmenu.png);
 	background-repeat: no-repeat;
 }
 .wst-tree-open{

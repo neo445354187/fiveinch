@@ -21,6 +21,7 @@ class Base extends Controller
     public function __construct()
     {
         parent::__construct();
+        
         $this->assign("v", WSTConf('CONF.wstVersion'));
     }
     /**

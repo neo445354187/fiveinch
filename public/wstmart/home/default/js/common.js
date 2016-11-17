@@ -460,7 +460,7 @@ WST.delCheckCart = function(id,func){
 WST.checkCart = function(){
 	$('#list-carts2').html('');
 	$('#list-carts3').html('');
-	$('#list-carts').html('<div style="padding:32px 0px 77px 112px;"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</div>');
+	$('#list-carts').html('<div style="padding:32px 0px 77px 112px;"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</div>');
 	$.post(WST.U('home/carts/getCartInfo'),'',function(data) {
 		var json = WST.toJson(data);
 		if(json.status==1){

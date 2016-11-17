@@ -57,7 +57,7 @@ function getVerifyCode(){
 		var html = [];
 			html.push('<table class="wst-smsverfy"><tr><td width="80" align="right">');
 			html.push('验证码：</td><td><input type="text" id="smsVerfyl" size="12" class="wst-text" maxLength="8">');
-			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+WST.DOMAIN+'/wstmart/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:WST.getVerify(\'.verifyImg\')"/>');
+			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+WST.DOMAIN+'/wstmart/Home/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:WST.getVerify(\'.verifyImg\')"/>');
 			html.push('</td></tr></table>');
 		layer.open({
 			title:'请输入验证码',

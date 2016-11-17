@@ -40,7 +40,7 @@ function showImg(id){
     });
 }
 function queryByPage(p){
-	$('#list').html('<img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...');
+	$('#list').html('<img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.key = $.trim($('#key').val());

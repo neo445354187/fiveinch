@@ -2,7 +2,7 @@ $(function(){
 	stockByPage();
 });
 function stockByPage(p){
-	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/view/default/img/loading.gif">正在加载数据...</td></tr>');
+	$('#list').html('<tr><td colspan="11"><img src="'+WST.conf.ROOT+'/wstmart/home/default/img/loading.gif">正在加载数据...</td></tr>');
 	var params = {};
 	params = WST.getParams('.s-query');
 	params.page = p;
