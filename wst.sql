@@ -4,6 +4,13 @@
 
 /*!40101 SET NAMES utf8 */;
 
+
+/**
+ * 规格是影响价格的，属性是不影响价格只展示的
+ */
+
+
+
 #
 # Structure for table "wst_accreds"
 #

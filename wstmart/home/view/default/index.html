@@ -12,17 +12,19 @@
 <div class="wst-ads" >
 	<div class="wst-slide" id="wst-slide">
 		<ul class="wst-slide-items">
-			<!--babababa-->
+			<!--轮播广告 start-->
 			{wst:ads code="ads-index" cache='86400'}
 				<a href="{$vo.adURL}" {if ($vo['adURL']!='')}onclick="WST.recordClick({$vo['adId']})"{/if}><li style="background: url(__ROOT__/{$vo.adFile}) no-repeat  scroll center top;background-size:cover;" ></li></a>
 			{/wst:ads}
+			<!--轮播广告 end-->
 		</ul>
+		<!--轮播下面的转换灯-->
 		<div class="wst-slide-numbox">
 			<div class="wst-slide-controls">
 			  	{wst:ads code="ads-index" cache='86400' key='k'}
 				  	{if condition="$k+1 eq 1"}
 				  		 <span class="curr">{$k+1}</span>
-				  	{else/}
+				  	{else/} 
 				  		 <span class="">{$k+1}</span>
 				  	{/if}
 				{/wst:ads}
@@ -267,7 +269,7 @@
 {include file="default/right_cart"/}
 {/block}
 {block name="js"}
-<script type='text/javascript' src='__ROOT__/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
+<script type='text/javascript' src='__ROOT__/wstmart/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
 <script type='text/javascript' src='__HOME__/js/index.js?v={$v}'></script>
 {/block}
 {/block}

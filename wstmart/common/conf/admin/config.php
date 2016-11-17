@@ -142,7 +142,7 @@ return [
         '__APP__'    => ROOT_URL,
         '__ROOT__'   => str_replace('/index.php', '', ROOT_URL),
         '__ADMIN__'  => str_replace('/index.php', '', ROOT_URL) . '/wstmart/admin/',
-        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/static',
+        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/wstmart/static',
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

@@ -140,7 +140,7 @@ return [
         '__APP__'    => ROOT_URL,
         '__ROOT__'   => str_replace('/index.php', '', ROOT_URL),
         '__HOME__'   => str_replace('/index.php', '', ROOT_URL) . '/wstmart/home/default',
-        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/static',
+        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/wstmart/static',
     ],
 
     // 默认跳转页面对应的模板文件

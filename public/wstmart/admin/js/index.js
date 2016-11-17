@@ -72,7 +72,7 @@ $(function (){
 	        	 var ltab = $("#wst-tab-"+menuId);
 	        	 mMgrs['m'+menuId] = true;
 	        	 if(menuId=='market'){
-	        		 $('#wst-market').attr('src','http://market.shangtaosoft.com');
+	        		 $('#wst-market').attr('src','http://market.***.com');
 	        	 }else{
 	        	     initTabMenus(menuId);
         	     }
