@@ -54,3 +54,27 @@ location / {
 12. 清除缓存没作用(搞定)
 13. 无论是商家还是系统后台，没有统计功能（重要）
 14. home/view/default/base.html中的meta信息要改掉
+
+## 表说明
+
+/**
+ * 商品属性说明：
+ * 商品属性表wst_attributes、商品属性对应表wst_goods_attributes、商品表wst_goods、商品分类表wst_goods_cats
+ * 1. 商品分类表与商品属性表形成一对多的关系，注意：goodsCatId字段是'最后一级商品分类ID'，即不可能再有子分类，如手机
+ * 耳机等
+ * 2. 商品属性表与商品表，通过商品属性对应表，形成多对多的关系。商品属性表中的attrVal，即属性值是提供给
+ * 商品上传时选择的(当然有些也只提供输入框)。而具体商品的具体属性值是放在了商品属性对应表中的attrVal字段
+ *
+ * 商品规格说明：
+ * 商品分类表wst_goods_cats、商品规格表wst_goods_specs、商品规格分类表wst_spec_cats、商品规格值表wst_spec_items、商品表wst_goods
+ * 1. 商品分类表wst_goods_cats与商品规格分类表wst_spec_cats形成一对多的关系，注意：goodsCatId字段是'最后一级商品分类ID'，即不可能再有子分类，如手机
+ * 耳机等
+ * 2. 商品规格值表wst_spec_items与商品表wst_goods，通过 商品规格表wst_goods_specs建立多对多关系，不过该系统
+ * 在 商品规格表wst_goods_specs表中直接用 specIds字段 来存储所有的 商品规格值表wst_spec_items的id，猜测：这样可以减少连接查询的表
+ * 3. 商品规格分类表wst_spec_cats与商品规格值表wst_spec_items形成一对多关系
+ *
+ * 总结：其实商品分类表wst_goods_cats、商品表wst_goods是处于最中心的，前者关联商品属性名，规定属性值范围(即值填写和范围)，
+ * 又关联规格名；后者则关联具体属性值、具体规格值
+ * 
+ * 
+ */
