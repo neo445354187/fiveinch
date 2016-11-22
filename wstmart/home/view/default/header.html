@@ -29,7 +29,7 @@
             <input type="text" id='search-ipt' class='search-ipt' placeholder='{:WSTConf("CONF.adsGoodsWordsSearch")}' value='{:isset($keyword)?$keyword:""}' />
             <input type='hidden' id='adsGoodsWordsSearch' value='{:WSTConf("CONF.adsGoodsWordsSearch")}'>
             <input type='hidden' id='adsShopWordsSearch' value='{:WSTConf("CONF.adsShopWordsSearch")}'>
-            <div id='search-btn' class="search-btn" onclick='javascript:WST.search(this.value)'>搜索</div>
+            <div id='search-btn' class="search-btn" onclick='javascript:WST.search(this.value)'>搜 索</div>
         </div>
         <div class="wst-search-keys">
             {php}$searchKeys = WSTSearchKeys();{/php} {volist name="$searchKeys" id="vo"}
@@ -53,14 +53,13 @@
                     <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a>
                 </div>
                 <div class="number">
-                    <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{WST.cutStr(d.list[i].goodsName,26)}}</a></p>
-                    <p>数量：{{ d.list[i].cartNum }}</p>
+                    <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{WST.cutStr(d.list[i].goodsName,20)}}</a></p>
                 </div>
                 <div class="price">
-                    <p>￥{{ d.list[i].shopPrice }}</p><span><a href="javascript:WST.delCheckCart({{ d.list[i].cartId }})">删除</a></span></div>
-    </div>
-    {{# } }}
-    </script>
+                    <span>￥{{ d.list[i].shopPrice }} × {{ d.list[i].cartNum }}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:WST.delCheckCart({{ d.list[i].cartId }})" >×</a></div>
+                </div>
+            {{# } }}
+        </script>
 </div>
 <div class="wst-clear"></div>
 {/* 左侧菜单栏 */}
@@ -130,11 +129,16 @@
                 </div>
                 <div id="wst-right-join">
                     {if(session('WST_USER.userId'))}
-                    <p>Hello,{:session('WST_USER.userName')?session('WST_USER.userName'):session('WST_USER.loginName')}</p>
-                    <p>欢迎来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,13)}</p>
+                    <p>{:session('WST_USER.userName')?session('WST_USER.userName'):session('WST_USER.loginName')}</p>
+                    <div class="visitor-login">
+                        <a href="javascript:WST.logout();" style="border-top:1px solid #ccc;width:100%;">
+                            <div class="wst-right-pic" style="margin-left:80px;"><img src="__HOME__/img/icon_login.png" /></div>
+                            <p class="wst-right-text">退出</p>
+                        </a>
+                        <div class="wst-clear"></div>
+                    </div>
                     {else}
                     <p>&nbsp;</p>
-                    <p>{if(!session('WST_USER.userId'))}Hello,欢迎您来到{:WSTMSubstr(WSTConf('CONF.mallName'),0,10)}{/if}</p>
                     <div class="visitor-login">
                         <a href="{:Url('home/users/login')}" style="border-right:1px solid #ccc;">
                             <div class="wst-right-pic"><img src="__HOME__/img/icon_login.png" /></div>
@@ -150,17 +154,6 @@
                 </div>
             </div>
             <div class="wst-clear"></div>
-            <div id="wst-right-news" style="">
-                <p>最新资讯</p>
-                <a href="{:url('home/news/view')}">更多</a>
-            </div>
-            <ul id="wst-right-new-list" {if(!session( 'WST_USER.userId'))}class="visitor-new-list" {/if}>
-                {wst:article cat="new" num='8' cache='86400'}
-                <li>
-                    <a href="{:url('home/news/view',['id'=>$vo['articleId']])}"><img src="__HOME__/img/icon_zixun.png" alt="喇叭">{$vo['articleTitle']}</a>
-                </li>
-                {/wst:article}
-            </ul>
             <div id="wst-right-ads">
                 {wst:ads code="index-art-bottom" num='1' cache='86400'}
                 <a {if ($vo[ 'adURL']!='' )}onclick="WST.recordClick({$vo['adId']})" {/if} href="{$vo.adURL}" onfocus="this.blur()">

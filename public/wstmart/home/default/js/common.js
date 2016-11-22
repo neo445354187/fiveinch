@@ -470,7 +470,7 @@ WST.checkCart = function(){
 				laytpl(gettpl).render(json, function(html){
 					$('#list-carts').html(html);
 				});
-				$('#list-carts2').html('<div class="comm" id="list-comm">&nbsp;&nbsp;共<span>'+json.goodsTotalNum+'</span>件商品<span class="span2">￥'+json.goodsTotalMoney+'</span></div>');
+				$('#list-carts2').html('<div class="comm" id="list-comm">&nbsp;&nbsp;共<span> '+json.goodsTotalNum+' </span>件商品<span class="span2">￥'+json.goodsTotalMoney+'</span></div>');
 				$('#list-carts3').html('<a href="'+window.conf.ROOT+'/home/carts/index" class="btn btn-3">去购物车结算</a>');
 				$('.goodsImgc').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
 				if(json.list.length>5){

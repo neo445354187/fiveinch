@@ -53,21 +53,21 @@ class GoodsCats extends Base
     {
         $cats1 = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => 0, 'isFloor' => 1])
             ->field("catName,catId")->order('catSort asc')->limit(10)->select();
-        if (!empty($cats1)) {
-            $ids = [];
-            foreach ($cats1 as $key => $v) {
-                $ids[] = $v['catId'];
-            }
-            $cats2 = [];
-            $rs    = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => ['in', $ids], 'isFloor' => 1])
-                ->field("parentId,catName,catId")->order('catSort asc')->select();
-            foreach ($rs as $key => $v) {
-                $cats2[$v['parentId']][] = $v;
-            }
-            foreach ($cats1 as $key => $v) {
-                $cats1[$key]['children'] = (isset($cats2[$v['catId']])) ? $cats2[$v['catId']] : [];
-            }
-        }
+        // if (!empty($cats1)) {
+            // $ids = [];
+            // foreach ($cats1 as $key => $v) {
+            //     $ids[] = $v['catId'];
+            // }
+            // $cats2 = [];
+            // $rs    = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => ['in', $ids], 'isFloor' => 1])
+            //     ->field("parentId,catName,catId")->order('catSort asc')->select();
+            // foreach ($rs as $key => $v) {
+            //     $cats2[$v['parentId']][] = $v;//parentId就是上一级的catId
+            // }
+            // foreach ($cats1 as $key => $v) {
+            //     $cats1[$key]['children'] = (isset($cats2[$v['catId']])) ? $cats2[$v['catId']] : [];
+            // }
+        // }
         return $cats1;
     }
 }
