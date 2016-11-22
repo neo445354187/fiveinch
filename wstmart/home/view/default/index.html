@@ -61,8 +61,6 @@
 		    </ul>
 		</div>
 		<div class="wst-clear"></div>
-
-
 		<!--推荐商品 end-->
 
 
@@ -74,9 +72,20 @@
 			<div class="floor-box">
 				<div class="floor-header c{$l}" id="c{$l}">
 					<div class="floor-header-f{$l}">
-						<p class="floor-left-title"><a name="{$l}F"></a>{$l}F</p>
-						<p class="floor-right-title">{:str_replace('、','<br>',$vo['catName'])}</p>
+						<p class="floor-right-title">{$vo['catName']}</p>
 					</div>
+					<!--热搜 start-->
+					<div class="part-hot"> <span>热搜：</span>
+					    <ul>
+					        <li><a href="http://mall.360.com/rush/item?item_id=57b6a988eac499110d6063f2" target="_blank" data-monitor="home_floor1_hot1">360手机Q5</a> </li>
+					        <li><a href="http://mall.360.com/rush/item?item_id=57876cb3215ea061b38eb52f" target="_blank" data-monitor="home_floor1_hot2">360手机N4S</a> </li>
+					        <li><a href="http://mall.360.com/shop/item?item_id=57529fc9534b7f14ef786124" target="_blank" data-monitor="home_floor1_hot3">360手机N4</a> </li>
+					        <li><a href="http://mall.360.com/shop/item?item_id=56eb6d045efb116b378b456c" target="_blank" data-monitor="home_floor1_hot4">360手机f4</a> </li>
+					        <li><a href="http://mall.360.com/shop/item?item_id=55b1d41f5efb11ea158b456b" target="_blank" data-monitor="home_floor1_hot5">10000毫安移动电源</a> </li>
+					    </ul>
+					    <a href="http://mall.360.com/search/?sort=weight&amp;q=*&amp;cate=3" target="_blank" class="indexmore" data-monitor="home_floor1_more">更多</a>
+					</div> 
+					<!--热搜 end-->
 				</div>
 				<div class="floor-left">
 				    {/* 楼层左侧广告(左上) start */}
@@ -131,14 +140,10 @@
 					  {wst:goods type='hot' cat="vo['catId']" cache="86400" num='6' id='cs'}
 				      <div class="goods goods-f{$l}">
 				      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" title="{$cs['goodsName']}"><img title="{$cs['goodsName']}" class='goodsImg' data-original="__ROOT__/{$cs['goodsImg']}"/></a></div>
-				      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="wst-redlink" title="{$cs['goodsName']}">{:WSTMSubstr($cs['goodsName'],0,33)}</a></div>
-				      	<div>
-				      		<div class="p-price">￥{$cs['shopPrice']}</div>
-				      		<div class="p-hsale">
-				      			<div class="sale-num">成交数：<span class="wst-fred">{$cs['saleNum']}</span></div>
-				      			<a class="f-add-cart" style="display:none;" href="javascript:WST.addCart({$cs['goodsId']});">加入购物车</a>
-				      		</div>
-				      		<div class='wst-clear'></div>
+				      	<div class="p-name">
+				      		<p class="p-price">￥{$cs['shopPrice']}</p>
+				      		<a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="wst-redlink" title="{$cs['goodsName']}">{:WSTMSubstr($cs['goodsName'],0,12)}</a>
+							
 				      	</div>
 				      </div>
 				      {/wst:goods}

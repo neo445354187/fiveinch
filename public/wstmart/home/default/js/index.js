@@ -233,7 +233,7 @@ $('.lnav').click(function(){
 function leftNav(){
 	//内容距离左边空白处宽度
 	var containerW = $('.wst-container').offset().left;
-	left = containerW-35;
+	left = containerW-50;
 	$('#screen-left-nav').css('left', left);
 }
 $(window).resize(function(){leftNav()});
