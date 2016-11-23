@@ -308,16 +308,16 @@ input[type=button]{cursor:pointer}
 .wst-cart-box{float:right;width:163px;height:56px;margin-top:45px;background:url(../img/img_cart_bg.png) no-repeat;position: relative;cursor:pointer;}
 .wst-cart-box .word{float:left;width:112px;margin-top:15px;padding: 5px 6px 7px 52px;color: #ffffff;font-size:16px;font-family: "microsoft yahei";}
 .wst-cart-box .num{font-size:17px;color: #fcff00;}
-.wst-cart-boxs{width:332px;margin-top:22px;border:1px solid #dedbdb;position: absolute;z-index: 1200;background-color:#ffffff;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);border-top-left-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;left:-171px;top:22px;}
+.wst-cart-boxs{width:352px;margin-top:22px;border:1px solid #dedbdb;position: absolute;z-index: 1200;background-color:#ffffff;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);border-top-left-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;left:-171px;top:22px;}
 .wst-cart-boxs:after{top:-16px;border-color:transparent transparent #ffffff;}
 .wst-cart-boxs .carts{background:url(../img/top_icon_cartdown.png) 28px 47px no-repeat;width:332px;height:130px;text-indent:4.5em;line-height:130px;font-size:15px;color: #b9b6b6;}
-.wst-cart-box .goods{float:left;width:96.666666%;border-bottom: 1px dashed #bfbfbf;padding:5px;}
+.wst-cart-box .goods{float:left;position:relative;width:96.666666%;border-bottom: 1px dashed #bfbfbf;padding:5px;}
 .wst-cart-box .goods .imgs{float:left;width:72px;height:72px;text-align:center;vertical-align:middle;display:block;position:relative;}
 .wst-cart-box .goods .imgs a{width:72px;height:72px;display:table-cell;vertical-align:middle;}
 .wst-cart-box .goods .imgs img{max-width:72px;max-height:72px;}
 .wst-cart-box .goods .number{float:left;width:50%;}
 .wst-cart-box .goods .number p{float:left;width:92%;margin-top:10px;padding-left:10px;}
-.wst-cart-box .goods .price{float:left;text-align:right;}
+.wst-cart-box .goods .price{text-align:right;position:absolute;top:5px;right:0px;}
 .wst-cart-box .goods .price span{line-height:70px;font-weight: bold;color: #df2003;}
 .wst-cart-box .goods .price a{font-size: 28px;vertical-align: middle;}
 .wst-cart-box .goods .number p a {line-height: 50px;}
