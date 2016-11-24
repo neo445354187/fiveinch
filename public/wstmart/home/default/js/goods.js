@@ -1,5 +1,5 @@
 $(function(){
-	WST.dropDownLayer(".item",".dorp-down-layer");
+	// WST.dropDownLayer(".item",".dorp-down-layer");
 	$('.item-more').click(function(){
 		if($(this).attr('v')==1){
 			$('.hideItem').show(300);
