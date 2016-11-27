@@ -504,7 +504,7 @@ body{
     float: right;
     width: 100%;
     margin-top: 10px;
-    min-height: 1150px;
+    min-height: 1100px;
     position: relative;
 }
 
@@ -620,25 +620,44 @@ input.wst-price-ipt:focus {
 
 .goods-list {
     width: 1200px;
-    background:#fff;
 }
 
+.goods-list a{
+    display: block;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+}
+.goods-list a:hover {
+    color: #31373c;
+}
+.goods-list .goods_li{
+    width: 230px;
+    height:295px;
+    display:inline-block;
+    margin:0px 5px;
+    overflow:visible;
+    position:relative;
+    float:left;
+}
 .goods-list .goods {
-    width: 225px;
-    margin: 5px 4px 5px 6px;
-    border: 1px solid #ddd;
-    float: left;
+    background:#fff;
+    height:285px;
+    overflow:hidden;
+    position:relative;
 }
 
 .goods-list .goods:hover {
-    border: 1px solid #ddd;
-    -webkit-box-shadow: 0 0 10px #ddd;
-    -moz-box-shadow: 0 0 10px #ddd;
-    box-shadow: 0 0 10px #ddd;
+    position:absolute;
+    top:-5px;
+    left:-1px;
+    z-index: 10000;
+    height:320px;
+    -moz-box-shadow: 6px 10px 15px rgba(0,0,0,0.2); /* 老的 Firefox */
+    box-shadow: 6px 10px 15px rgba(0,0,0,0.2);
 }
 
 .goods-list .goods .img {
-    width: 233px;
     margin: 0 auto;
     text-align: center;
     vertical-align: middle;
@@ -652,60 +671,65 @@ input.wst-price-ipt:focus {
     display: table-cell;
     vertical-align: middle;
     width: 233px;
-    height: 233px;
+    height: 230px;
 }
 
 .goods-list .goods .img a img {
-    max-width: 225px;
-    max-height: 225px;
+    max-width: 180px;
+    max-height: 180px;
+}
+.goods-list .goods_addr{
+    font-size: 14px;
+
 }
 
 .goods-list .goods .p-price {
-    padding: 5px 0px 5px 5px;
     font-weight: bold;
     color: #df2003;
-    width: 120px;
-    float: left;
-    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 .goods-list .goods .p-hsale {
-    padding: 5px 5px 5px 0;
-    width: 100px;
-    float: right;
-    text-align: right;
+    width:90%;
+    margin:0 auto;
 }
-
+.goods-list .goods .p-hsale  a{
+    width:48%;
+    display:inline-block;
+}
 .goods-list .goods .p-hsale span {
     font-weight: bold;
     color: #df2003;
 }
 
 .goods-list .goods .p-hsale .p-add-cart {
-    line-height: 15px;
+    font-size: 14px;
     display: block;
+    float:right;
     border: 1px solid #ff6a53;
-    width: 75px;
-    height: 15px;
     text-align: center;
     color: #ff6a53;
-    float: right;
 }
 
 .goods-list .goods .p-hsale .p-add-cart:hover {
-    background: #ff6a53;
     color: white;
+    background:#fc522c;
 }
 
 .goods-list .goods .p-name {
-    height: 40px;
     line-height: 20px;
     overflow: hidden;
     padding: 0 5px;
 }
 
 .goods-list .goods .p-shop {
-    padding: 5px;
+    position:absolute;
+    top:3px;
+    left:3px;
+    // z-index: 100000;
 }
 
 .goods-list .goods .p-mprice {

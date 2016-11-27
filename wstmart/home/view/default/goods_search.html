@@ -244,34 +244,28 @@
 		      </div>
 		   </div>
 		   
-		   	   <div class="goods-list">
+		   	   <ul class="goods-list">
 		   	      {volist name='goodsPage["Rows"]' id='vo'}
-		   	      <div class="goods">
-		   	      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img title="{$vo['goodsName']}" alt="{$vo['goodsName']}" class='goodsImg2' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}"/></a></div>
-		   	      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="wst-redlink" title="{$vo['goodsName']}">{$vo['goodsName']}</a></div>
-		   	      	<div>
-		   	      		<div class="p-price">￥{$vo['shopPrice']}</div>
-		   	      		<div class="p-hsale">
-		   	      			<div class="sale-num">成交数：<span class="wst-fred">{$vo['saleNum']}</span></div>
-		   		      		<a class="p-add-cart" style="display:none;" href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
-		   	      		</div>
-		   	      		<div class='wst-clear'></div>
-		   	      	</div>
-		   	      	<div>
-		   	      		<div class="p-mprice">市场价<span>￥{$vo['marketPrice']}</span></div>
-		   	      		<div class="p-appraise">已有<span class="wst-fred">{$vo['appraiseNum']}</span>人评价</div>
-		   	      		<div class='wst-clear'></div>
-		   	      	</div>
-		   	      	<div class="p-shop"><a href="{:Url('home/shops/home','shopId='.$vo['shopId'])}" target='_blank' class="wst-redlink">{$vo['shopName']}</a></div>
-		   	      </div>
-		   	      
+		   	      <li class="goods_li">
+			   	      <div class="goods">
+			   	      	<div class="p-shop"><p class="goods_addr">四川.成都.锦江</p></div>
+			   	      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img title="{$vo['goodsName']}" alt="{$vo['goodsName']}" class='goodsImg2' data-original="__ROOT__/{:WSTImg($vo['goodsImg'])}"/></a></div>
+			   	      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="wst-redlink" title="{$vo['goodsName']}" style="text-align: center;">{:WSTMSubstr($vo['goodsName'],0,15)}</a></div>
+			   	      	<div>
+			   	      		<p class="p-price">￥{$vo['shopPrice']}</p>
+			   	      	</div>
+			   	      	<div class="p-hsale">
+
+			   	      		<a href="{:Url('home/shops/home','shopId='.$vo['shopId'])}" target='_blank' class="shop_name">{:WSTMSubstr($vo['shopName'],0,8)}</a>
+			   		      	<a class="p-add-cart" style="display:none;" href="javascript:WST.addCart({$vo['goodsId']});">加入购物车</a>
+			   	      	</div>
+			   	      </div>
+		   	      </li>
 		   	      {/volist}
 		   	     <div class='wst-clear'></div>
-		   	   	</div>
-
+		   	   	</ul>
 		   
-		   
-		   	<div style="width:980px;">
+		   	<div style="width:980px;margin-top:60px;">
 		  		<div id="wst-pager"></div>
 			</div>
 			
@@ -280,32 +274,7 @@
 		{else}
 		<div class="wst-no-goods">很抱歉，没有找到“<span>{$keyword}</span>”为关键字的商品搜索结果。</div>
 		{/* 找不到商品的话就为用户推荐一些  */}
-		<div class="wst-recommend">
-			<div class="title">为您推荐<span style="float: right;"></span></div>
-			<div class="tgoods-list">
-		      {wst:goods type='best' num='5' id='rvo'}
-		      <div class="goods">
-		      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$rvo['goodsId'])}"><img title="{$rvo['goodsName']}" alt="{$rvo['goodsName']}" class='goodsImg' data-original="__ROOT__/{$rvo['goodsImg']}"/></a></div>
-		      	<div class="p-name"><a target='_blank' class="wst-redlink">{$rvo['goodsName']}</a></div>
-		      	<div>
-		      		<div class="p-price">￥{$rvo['shopPrice']}</div>
-		      		<div class="p-hsale">
-		      			<div class="sale-num">成交数：<span class="wst-fred">{$rvo['saleNum']}</span></div>
-			      		<a class="p-add-cart" style="display:none;" href="javascript:WST.addCart({$rvo['goodsId']});">加入购物车</a>
-		      		</div>
-		      		<div class='wst-clear'></div>
-		      	</div>
-		      	<div>
-		      		<div class="p-mprice">市场价<span>￥{$rvo['marketPrice']}</span></div>
-		      		<div class="p-appraise">已有<span class="wst-fred">{$rvo['appraiseNum']}</span>人评价</div>
-		      		<div class='wst-clear'></div>
-		      	</div>
-		      	<div class="p-shop"><a href="" class="wst-redlink">{$rvo['shopName']}</a></div>
-		      </div>
-		      {/wst:goods}
-		     <div class='wst-clear'></div>
-		   	</div>
-		</div>
+		
 		{/if}
 		
 	</div>

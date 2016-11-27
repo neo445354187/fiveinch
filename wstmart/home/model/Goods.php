@@ -866,13 +866,11 @@ class Goods extends Base
         if ($eprice != '') {
             $where['g.shopPrice'] = ["<=", (int) $eprice];
         }
-
         $list = Db::table("__GOODS__")->alias('g')->join("__SHOPS__ s", "g.shopId = s.shopId")
             ->where($where)
             ->field('goodsId,goodsName,goodsSn,goodsStock,saleNum,shopPrice,marketPrice,isSpec,goodsImg,appraiseNum,visitNum,s.shopId,shopName')
             ->order($pageBy[$orderBy] . " " . $pageOrder[$order] . ",goodsId asc")
             ->paginate(input('pagesize/d'))->toArray();
-
         return $list;
     }
     /**

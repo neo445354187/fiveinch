@@ -941,11 +941,11 @@ WST.getSysMessages = function(val){
 		if(json.message){
 			$('#wst-user-messages').html(json.message.num);
 			if(parseInt(json.message.num,10)>0){
-				$('#wst-user-messages').css('color','red');
+				$('#wst-user-messages').css('color','#d00');
 				if($('.j-message-count')[0])$('.j-message-count').show().html(json.message.num);
 				if($('#mId_'+json.message.id)[0])$('#mId_'+json.message.id).addClass('wst-msg-tips-box').html(json.message.num);
 			}else{
-				$('#wst-user-messages').css('color','#666');
+				$('#wst-user-messages').css('color','#eee');
 				if($('.j-message-count')[0])$('.j-message-count').hide();
 				if($('#mId_'+json.message.id)[0])$('#mId_'+json.message.id).removeClass('wst-msg-tips-box').html('');
 			}

@@ -5,8 +5,8 @@ ol,ul {list-style: none}
 a {text-decoration: none;}
 a:hover{color:#36aa3f;}
 img{ border:none;} 
-select{background-color: #ffffff;border: 1px solid #cccccc;border-radius: 2px;height: 24px;margin:2px;-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;}
-input[type=text],input[type=password]{border: 1px solid #ccc;height: 23px;line-height: 17px;padding:2px;}
+select{background-color: #ffffff;border: 1px solid #cccccc;border-radius: 2px;height: 30px;margin:2px;-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;}
+input[type=text],input[type=password]{border: 1px solid #ccc;height: 24px;line-height: 17px;padding:2px;border-radius: 2px;}
 input[type="radio"],input[type="checkbox"]{margin:2px;}
 input[type=button]{cursor:pointer}
 .wst-clear {clear: both;}
@@ -588,7 +588,7 @@ input[type=button]{cursor:pointer}
 .wst-nav-menus {
     border-bottom: 2px solid #666;
     height: 36px;
-    margin:10px auto;
+    // margin:10px auto;
     min-width:1200px;
 }
 #wst-categorys {
@@ -878,10 +878,15 @@ input[type=button]{cursor:pointer}
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
 }
 .wst-grey-btn:hover {color:#36aa3f;}
-#wst-pager{text-align: center;margin-top: 20px;}
+#wst-pager{text-align: center;}
 
-
-
+#wst-pager * {
+  font-size: 16px;
+}
+#wst-pager .laypage_main a{
+  background:#fff;
+  border:1px #ccc solid;
+}
 .icon-phone,.icon-email{
   background: url(../img/iconfont_fotter.png) no-repeat;
 }

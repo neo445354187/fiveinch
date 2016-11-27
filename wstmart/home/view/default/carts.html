@@ -58,23 +58,23 @@
 				            <img src='__ROOT__/{$vo2["goodsImg"]}' width='80' height='80' title='{$vo2["goodsName"]}'/>
 				            </a>
 			            </div>
-			            <div class='name'>{$vo2["goodsName"]}</div>
+			            <div class='name'>{:WSTMSubstr($vo2["goodsName"],0,25)}</div>
 			            <div class='spec'>
 			            {volist name='vo2["specNames"]' id='specs'}
 			            <div>{$specs['catName']}：{$specs['itemName']}</div>
 			            {/volist}
 			            </div>
 			        </div>
-			        <div class='price'>¥{$vo2['shopPrice']}</div>
-			        <div class='stock'>{$vo2['goodsStock']}</div>
-			        <div class='num'>
+			        <div class='price item_middle'>¥{$vo2['shopPrice']}</div>
+			        <div class='stock item_middle'>{$vo2['goodsStock']}</div>
+			        <div class='num item_middle'>
 				        <a href='#none' class='buy-btn' id='buy-reduce_{$vo2['cartId']}' onclick='javascript:WST.changeIptNum(-1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")'>-</a>
 			            <input type='text' id='buyNum_{$vo2['cartId']}' class='buy-num' value="{$vo2['cartNum']}" data-max="{$vo2['goodsStock']}" data-min='1' onkeyup='WST.changeIptNum(0,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")' autocomplete="off"  onkeypress="return WST.isNumberKey(event);" maxlength="6"/>
 			            <a href='#none' class='buy-btn' id='buy-add_{$vo2['cartId']}' onclick='javascript:WST.changeIptNum(1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")'>+</a>
 			            <div id='err_{$vo2['cartId']}' class='wst-clear'></div>
 			        </div>
-			        <div class='t-price'>¥<span id="tprice_{$vo2['cartId']}">{$vo2['shopPrice']*$vo2['cartNum']}</span></div>
-			        <div class='action'><a href='javascript:WST.delCart({$vo2["cartId"]})'>删除</a></div>
+			        <div class='t-price item_middle'>¥<span id="tprice_{$vo2['cartId']}" >{$vo2['shopPrice']*$vo2['cartNum']}</span></div>
+			        <div class='action item_middle'><a href='javascript:WST.delCart({$vo2["cartId"]})'>删除</a></div>
 			        <div class='wst-clear'></div>
 	             </div>
 	             {/volist}
@@ -83,7 +83,7 @@
 	       {/volist}
 	       <div class='cart-footer selected2'>
 	          <div class='cart-summary'>
-	             <div class='summary'>应付总金额(不含运费)：¥<span id='totalMoney'>{$carts["goodsTotalMoney"]}</span></div>
+	             <div class='summary'>应付总金额(不含运费)：<span>¥</span><span id='totalMoney'>{$carts["goodsTotalMoney"]}</span></div>
 	             <div class='wst-clear'></div>
 	          </div>
 	       </div>

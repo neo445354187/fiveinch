@@ -166,9 +166,9 @@
 		            {/volist}
 		            </div>
 		        </div>
-		        <div class='price2'>¥{$vo2['shopPrice']}</div>
-		        <div class='num2'>{$vo2['cartNum']}</div>
-		        <div class='t-price2'>¥{$vo2['shopPrice']*$vo2['cartNum']}</div>
+		        <div class='price2 item_middle'>¥{$vo2['shopPrice']}</div>
+		        <div class='num2 item_middle'>{$vo2['cartNum']}</div>
+		        <div class='t-price2 item_middle'>¥{$vo2['shopPrice']*$vo2['cartNum']}</div>
 		        <div class='wst-clear'></div>
              </div>
              {/volist}
@@ -176,10 +176,7 @@
               订单备注：<input type='text' id="remark_{$vo['shopId']}" class='j-ipt' style='width:700px;' maxLength='100' placeholder='给卖家留言'/>
 
              <div style="float: right;margin-top:-10px;">
-             <p style="text-align:right;padding-right:13px;">
-              <span style="text-align: right;line-height: 30px;">运费：<span style='font-weight: bold;color: #E55356;'>￥{$freight}</span></span>
-            </p>
-             <span style='text-align:right;line-height:30px;padding-right:13px;'>店铺合计(含运费)：<span style='font-weight: bold;color: #E55356;'>￥{$freight+$vo['goodsMoney']}</span></span>
+             <span style='text-align:right;line-height:30px;padding-right:13px;'>店铺合计(含运费)：<span style='color: #E55356;font-size: 18px;'>￥{$freight+$vo['goodsMoney']}</span></span>
              </div>
 
            </div>
@@ -214,8 +211,7 @@
      </div>
           	</div>
           	<div class="summarys3" style='text-align:right;padding-top:50px'>
-             <div>运费总计：¥<span id='deliverMoney'>{$shopFreight}</span></div>
-             <div class='summary2'>应付总金额(含运费)：¥<span id='totalMoney' v='{$carts["goodsTotalMoney"]}'>
+             <div class='summary2'>应付总金额(含运费)：<span id='totalMoney' v='{$carts["goodsTotalMoney"]}'>¥
              {if empty($userAddress)}
              {$carts["goodsTotalMoney"]}
              {else}
