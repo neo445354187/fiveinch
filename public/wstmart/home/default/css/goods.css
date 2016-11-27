@@ -32,7 +32,7 @@
     line-height: 22px;
 }
 .wst-filters .item .link:hover{
-  color:#36aa3f;
+  color:#e23c3d;
 }
 
 .wst-filters .item .drop-down {
@@ -672,7 +672,7 @@
     font-size: 22px;
 }
 // .wst-tab-nav li:hover{
-//   color: #34c13f;
+//   color: #e23c3d;
 // }
 
 .wst-tab-nav li:before {
@@ -681,7 +681,7 @@
     color:#666;
 }
 .wst-tab-nav .on {
-    color: #34c13f;
+    color: #e23c3d;
 }
 
 .wst-tab-content {

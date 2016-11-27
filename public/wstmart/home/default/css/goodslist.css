@@ -25,9 +25,9 @@ body{
     line-height: 36px;
     position: absolute;
     padding: 0;
-    border-right: 2px solid #36aa3f;
-    border-left: 2px solid #36aa3f;
-    border-bottom: 2px solid #36aa3f;
+    border-right: 2px solid #e23c3d;
+    border-left: 2px solid #e23c3d;
+    border-bottom: 2px solid #e23c3d;
     cursor: pointer;
     left: -2px;
     text-align: center;
@@ -1172,7 +1172,7 @@ input.wst-price-ipt:focus {
     width: 100px;
 }
 .search-box .search-nav a:hover, .filter-box .filter a:hover, .filter-box .filter .active, .filter-box .filter label:hover {
-    color: #23ac38;
+    color: #e23c3d;
 }
 .filter-box .filter .filter-chkbox {
     color: #848484;

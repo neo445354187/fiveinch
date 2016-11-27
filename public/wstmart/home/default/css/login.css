@@ -80,6 +80,7 @@ input.wst-login-codein,input.wst-regist-codein{
 }
 .wst-login-but:hover {
  background: #dd553a;
+ color:#fff;
 }
 .wst-login-but:before {
  content: ' ';

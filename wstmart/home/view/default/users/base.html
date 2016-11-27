@@ -109,7 +109,7 @@
         <div class='wst-main'>
             <div class='wst-menu'>
                 {volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
-                <span class='wst-menu-title'>{$menus['menuName']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
+                <span class='wst-menu-title'>{$menus['menuName']}<!-- <img src="__HOME__/img/user_icon_sider_zhankai.png"> --></span>
                 <ul>
                     {volist name="menus['list']" id="menu" key='k'}
                     <li class="{if($homeMenus['menuId3']==$menu['menuId'])}wst-menua{/if} wst-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">

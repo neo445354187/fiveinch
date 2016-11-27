@@ -25,9 +25,9 @@ body{
     line-height: 36px;
     position: absolute;
     padding: 0;
-    border-right: 2px solid #36aa3f;
-    border-left: 2px solid #36aa3f;
-    border-bottom: 2px solid #36aa3f;
+    border-right: 2px solid #e23c3d;
+    border-left: 2px solid #e23c3d;
+    border-bottom: 2px solid #e23c3d;
     cursor: pointer;
     left: -2px;
     text-align: center;

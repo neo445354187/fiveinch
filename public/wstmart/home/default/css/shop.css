@@ -213,7 +213,7 @@ select{
 }
 
 .wst-tab-nav .on {
-	background: none repeat scroll 0 0 #e45050;
+	background: none repeat scroll 0 0 #e23c3d;
     border-bottom: 0 none;
     color: #ffffff;
     font-weight:bold;
@@ -264,7 +264,7 @@ select{
 }
 
 .wst-shop-nav {
-	border-bottom:6px solid #e45050;
+	border-bottom:6px solid #e23c3d;
 	text-align: center;
 }
 
@@ -278,7 +278,7 @@ select{
 .wst-nav-box li{
 	width: 156px;
 	text-align: center;
-	color: #e45050;
+	color: #e23c3d;
 	font-size: 18px;
 	font-family:"microsoft yahei";
 }
@@ -416,7 +416,7 @@ select{
 }
 .wst-lite-tit span{
 	float:left;
-	color: #e45050;
+	color: #e23c3d;
 	font-size: 19px;
 	margin-left:10px;
 	font-family:"microsoft yahei";
@@ -425,13 +425,13 @@ a.wst-lite-in{
 	float:left;
 	margin-top:6px;
 	padding:3px 8px;
-	color: #e45050;
-	border:1px solid #e45050;
+	color: #e23c3d;
+	border:1px solid #e23c3d;
 }
 a.wst-lite-in:hover{
 	color: #ffffff;
 	border:1px solid #ffffff;
-	background:#e45050;
+	background:#e23c3d;
 }
 .wst-lite-sea{
 	float:right;
@@ -578,14 +578,14 @@ a.wst-lite-in:hover{
 .wst-shop-head{
 	float: left;
 	width: 100%;
-	border-bottom: 1px solid #e45050;
+	border-bottom: 1px solid #e23c3d;
 }
 .wst-shop-head span{
 	float: left;
 	line-height:28px;
 	padding:0px 28px;
 	color:#ffffff;
-	background:#e45050;
+	background:#e23c3d;
 }
 .wst-shop-head a{
 	float: right;
@@ -732,7 +732,7 @@ a.wst-lite-in:hover{
 	cursor:pointer;
 }
 .s-btn{
-  background: #e45050 none repeat scroll 0 0;
+  background: #e23c3d none repeat scroll 0 0;
   border-color: transparent;
   color: #fff;
   border-radius: 0px;
