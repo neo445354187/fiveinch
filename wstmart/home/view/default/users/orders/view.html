@@ -14,21 +14,21 @@
 <div class="icon">
 	<span class="icons {if condition="($object['orderStatus']==-2)OR($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon12 {else}icon11 {/if}{if condition="($object['orderStatus']==-2)"}icon13 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==0) OR ($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">························></div>
+<div class="arrow {if condition="($object['orderStatus']==0) OR ($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">····························></div>
 	<div class="icon"><span class="icons {if condition="($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon22 {else}icon21{/if}{if condition="($object['orderStatus']==0)"}icon23 {/if}"></span></div>
-	<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">························></div>
+	<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">····························></div>
 {else}
 <div class="icon">
 	<span class="icons {if condition="($object['orderStatus']==-2)OR($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon12 {else}icon11 {/if}{if condition="($object['orderStatus']==0)"}icon13 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">························></div>
+<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">····························></div>
 {/if}
 <div class="icon">
 	<span class="icons {if condition="($object['orderStatus']==1)OR($object['orderStatus']==2)OR($object['orderStatus']==1)"}icon32 {else}icon31 {/if}{if condition="($object['orderStatus']==1)"}icon33 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==2)"}arrow2{/if}">························></div>
+<div class="arrow {if condition="($object['orderStatus']==2)"}arrow2{/if}">····························></div>
 <div class="icon"><span class="icons  {if condition="($object['orderStatus']==2)AND($object['isAppraise']==1)"}icon42 {else}icon41 {/if}{if condition="($object['orderStatus']==2)AND($object['isAppraise']==0)"}icon43 {/if}"></span></div>
-<div class="arrow {if condition="($object['isAppraise']==1)"}arrow2{/if}">························></div>
+<div class="arrow {if condition="($object['isAppraise']==1)"}arrow2{/if}">····························></div>
 <div class="icon"><span class="icons {if condition="($object['isAppraise']==1)"}icon53 {else}icon51 {/if}"></span></div>
 </div>
    <div class="state2">
@@ -61,6 +61,7 @@
          <tr>
            <th width='100'>订单编号：</th>
            <td>{$object['orderNo']}</td>
+
          </tr>
          <tr>
            <th>支付方式：</th>
@@ -113,7 +114,7 @@
       <div class='box-head'>发票信息</div>
       <table class='wst-form'>
          <tr>
-           <th width='100'>是否需要发票：</th>
+           <th width='100'>需要发票：</th>
            <td>{if $object['isInvoice']==1}需要{else}不需要{/if}</td>
          </tr>
          <tr>
@@ -152,16 +153,6 @@
        <div class='goods-item'>
           <div class='shop'>
           {$object['shopName']}
-          {if $object['shopQQ'] !=''}
-          <a href="tencent://message/?uin={$object['shopQQ']}&Site=QQ交谈&Menu=yes">
-			  <img border="0" src="http://wpa.qq.com/pa?p=1:{$object['shopQQ']}:7" alt="QQ交谈" width="71" height="24" />
-		  </a>
-          {/if}
-          {if $object['shopWangWang'] !=''}
-          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$object['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
-			  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$object['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
-		  </a>
-          {/if}
           </div>
           <div class='goods-list'>
              {volist name='$object["goods"]' id='vo2'}
@@ -185,11 +176,10 @@
        </div>
        <div class='goods-footer'>
           <div class='goods-summary' style='text-align:right'>
-             <div class='summary'>商品总金额：¥<span>{$object['goodsMoney']}</span></div>
-             <div class='summary'>运费：¥<span>{$object['deliverMoney']}</span></div>
-             <div class='summary line'>应付总金额：¥<span>{$object['totalMoney']}</span></div>
-             <div class='summary'>实付总金额：¥<span>{$object['realTotalMoney']}</span></div>
-             <div>可获得积分：<span class='orderScore'>{$object["orderScore"]}</span>个</div>
+             <div class='summary'>商品总金额：¥ <span>{$object['goodsMoney']}</span></div>
+             <div class='summary line'>应付总金额：¥ <span>{$object['totalMoney']}</span></div>
+             <div class='summary'>实付总金额：¥ <span>{$object['realTotalMoney']}</span></div>
+             <div class='summary'>可获得积分：<span class='orderScore'>{$object["orderScore"]}</span>个</div>
           </div>
        </div>
    </div>

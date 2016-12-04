@@ -196,7 +196,9 @@ select{
 	border-bottom:1px solid #f7375c;
 	
 }
-
+.second-wst-header{
+	background:#fff;
+}
 .wst-tab-nav li {
 	cursor: pointer;
 	float: left;

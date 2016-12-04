@@ -19,6 +19,7 @@ class Favorites extends Base{
 	 * 关注的商品
 	 */
 	public function goods(){
+		$data = (new M())->listGoodsQuery();
 		return $this->fetch('default/users/favorites/list_goods');
 	}
 	/**

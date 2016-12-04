@@ -17,11 +17,21 @@
 			<div class='wst-tab-item'>
 		<table class='wst-form uinfo-form' >
 		<tr>
-	      <th>登录账号<font color='red'>  </font>：</th>
+	      <th>账号<font color='red'>  </font>：</th>
 	      <td width="260" class="gray">
 	          <div id='user_account'>{:session('WST_USER.loginName')}</div>
 	      </td>
 	      <td class="gray" style='padding-left:15px;'>个人头像：</td>
+	    </tr>
+	    <tr>
+	       <th><font color='red'>*</font>性别：</th>
+	       <td>
+	       	<div class="radio-box">
+	       	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-1" <?=($data['userSex']==1)?'checked':'';?> value="1" /><label class="mt-1" for="userSex-1"></label> 男</label>
+	        	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-2" <?=($data['userSex']==2)?'checked':'';?> value="2" /><label class="mt-1" for="userSex-2"></label> 女</label>
+	        	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-3" <?=($data['userSex']==3)?'checked':'';?> value="3" /><label class="mt-1" for="userSex-3"></label> 保密</label>
+	        	</div>
+	       </td>
 	    </tr>
 	  <tr>
 	      <th width='100'><font color='red'>*</font>昵称：</th>
@@ -41,21 +51,12 @@
 	          </td>
 	   </tr>
 	   		<tr>
-	          <th>真实姓名<font color='red'>  </font>：</th>
+	          <th>姓名<font color='red'>  </font>：</th>
 	          <td class="uinfo">
 	              <input type="text" class="ipt" id="trueName" name="trueName" value="{$data['trueName']}" />
 	          </td>
 	       </tr>
-	         <tr>
-	            <th><font color='red'>*</font>性别：</th>
-	            <td>
-	            	<div class="radio-box">
-	            	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-1" <?=($data['userSex']==1)?'checked':'';?> value="1" /><label class="mt-1" for="userSex-1"></label> 男</label>
-	             	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-2" <?=($data['userSex']==2)?'checked':'';?> value="2" /><label class="mt-1" for="userSex-2"></label> 女</label>
-	             	<label><input type='radio' class='ipt wst-radio' name='userSex'  id="userSex-3" <?=($data['userSex']==3)?'checked':'';?> value="3" /><label class="mt-1" for="userSex-3"></label> 保密</label>
-	             	</div>
-	            </td>
-	         </tr>
+	         
 	       <tr>
 	          <th>生日<font color='red'></font>：</th>
 	          <td class="uinfo">

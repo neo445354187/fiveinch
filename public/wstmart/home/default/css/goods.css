@@ -519,16 +519,16 @@
 .shop-intro .body {
     height: 75px;
     border-bottom: 1px solid #ddd;
-    padding-left: 5px;
 }
 
 .shop-intro .totalScore {
-    width: 90px;
+    width: 75px;
     height: 75px;
     line-height: 75px;
     float: left;
     text-align: center;
     color: #E84735;
+    margin-right: 20px;
 }
 
 .shop-intro .itemScore {

@@ -4,13 +4,11 @@
 {/block}
 {block name="content"}
   <div class="wst-user-head"><span>管理地址</span></div>
-	<input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href=WST.U('home/useraddress/edit')" />
-  <label>你已经创建<span class="g g1">0</span>个收货地址,最多可以创建<span class="g">20个</span></label>
         <script id="address" type="text/html">
             {{# for(var i = 0, len = d.length; i < len; i++){ }}
             <table class='wst-addr' >
                <tr>
-                 <td>{{d[i].userName}}—{{d[i].areaName1}}</td>
+                 <td>&nbsp;<b>{{d[i].userName}}</b></td>
                  <td>
                  &nbsp;&nbsp;&nbsp;&nbsp;
                  {{# if(d[i].isDefault==1) { }}
@@ -50,7 +48,7 @@
            <div id="address_box" class="address_box">
               
            </div>
-           <input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href=WST.U('home/useraddress/edit')" />
+           &nbsp;&nbsp;<input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href=WST.U('home/useraddress/edit')" />
           <label>你已经创建<span class="g g1">0</span>个收货地址,最多可以创建<span class="g">20个</span></label>
 
 {/block}
