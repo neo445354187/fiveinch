@@ -1049,17 +1049,18 @@ function WSTEditUpload($fromType)
         ['fileExt', 'fileExt:jpg,jpeg,gif,png,bmp', '只允许上传后缀为jpg,gif,png,bmp的文件'],
         ['fileSize', 'fileSize:2097152', '文件大小超出限制'], //最大2M
     ]);
-    $data = ['fileMime' => $file,
-        'fileSize'          => $file,
-        'fileExt'           => $file,
+    $data = [
+        'fileMime' => $file,
+        'fileSize' => $file,
+        'fileExt'  => $file,
     ];
     if (!$validate->check($data)) {
         return json_encode(['message' => $validate->getError(), 'error' => 1]);
     }
-    $info = $file->rule('uniqid')->move(ROOT_PATH . '/upload/' . $dir . "/" . date('Y-m-d'));
+    $info = $file->rule('uniqid')->move(ROOT_PATH . '/public/upload/' . $dir . "/" . date('Y-m-d'));
     if ($info) {
         $filePath = $info->getPathname();
-        $filePath = str_replace(ROOT_PATH, '', $filePath);
+        $filePath = str_replace(ROOT_PATH. '/public', '', $filePath);
         $filePath = str_replace('\\', '/', $filePath);
         $name     = $info->getFilename();
         $imageSrc = trim($filePath, '/');

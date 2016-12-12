@@ -13,7 +13,7 @@
 	  </a>
 	</span>
 	<div class="wst-shop-na">
-		<p><a href='{:Url("home/shops/home","shopId=".$data["shop"]["shopId"])}'>{:WSTMSubstr($data['shop']['shopName'],0,10)}</a></p>
+		<p class="second_shop_name"><a href='{:Url("home/shops/home","shopId=".$data["shop"]["shopId"])}'>{:WSTMSubstr($data['shop']['shopName'],0,10)}</a></p>
 		<div class="wst-shop-na2">
 		{volist name="$data['shop']['accreds']" id="v"}
 		<img src="__ROOT__/{$v['accredImg']}"><span>{$v['accredName']}</span>
@@ -57,7 +57,6 @@
 	</div>
 	<div class="wst-shop-con">
 		<p>电话：{$data['shop']['shopTel']}</p>
-		<p>QQ：{$data['shop']['shopQQ']}</p>
 		<p>服务时间：{php}echo date("H:i",strtotime($data['shop']['serviceStartTime']));{/php}-{php}echo date("H:i",strtotime($data['shop']['serviceEndTime']));{/php}</p>
 	</div>
 	<div class="wst-clear"></div>

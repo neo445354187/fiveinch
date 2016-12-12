@@ -139,16 +139,7 @@
        <div class='cart-item'>
           <div class='shop2'>
           {$vo['shopName']}
-          {if $vo['shopQQ'] !=''}
-          <a href="tencent://message/?uin={$vo['shopQQ']}&Site=QQ交谈&Menu=yes">
-			  <img border="0" src="http://wpa.qq.com/pa?p=1:{$vo['shopQQ']}:7" alt="QQ交谈" width="71" height="24"/>
-		  </a>
-          {/if}
-          {if $vo['shopWangWang'] !=''}
-          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$vo['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
-			  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$vo['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
-		  </a>
-          {/if}
+          
           </div>
           <div class='goods-list'>
              {volist name='vo["list"]' id='vo2'}

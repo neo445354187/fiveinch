@@ -153,15 +153,9 @@
           <div class='shop'>
           {$object['shopName']}
           {if $object['shopQQ'] !=''}
-          <a href="tencent://message/?uin={$object['shopQQ']}&Site=QQ交谈&Menu=yes">
-			  <img border="0" src="http://wpa.qq.com/pa?p=1:{$object['shopQQ']}:7" alt="QQ交谈" width="71" height="24" />
 		  </a>
           {/if}
-          {if $object['shopWangWang'] !=''}
-          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$object['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
-			  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$object['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
-		  </a>
-          {/if}
+          
           </div>
           <div class='goods-list'>
              {volist name='$object["goods"]' id='vo2'}
@@ -175,9 +169,9 @@
 		            <div class='name'>{$vo2["goodsName"]}</div>
 		            <div class='spec'>{:str_replace('@@_@@','<br/>',$vo2["goodsSpecNames"])}</div>
 		        </div>
-		        <div class='price'>¥{$vo2['goodsPrice']}</div>
+		        <div class='price'>¥ {$vo2['goodsPrice']}</div>
 		        <div class='num'>{$vo2['goodsNum']}</div>
-		        <div class='t-price'>¥{$vo2['goodsPrice']*$vo2['goodsNum']}</div>
+		        <div class='t-price'>¥ {$vo2['goodsPrice']*$vo2['goodsNum']}</div>
 		        <div class='wst-clear'></div>
              </div>
              {/volist}
@@ -186,10 +180,9 @@
        <div class='goods-footer'>
           <div class='goods-summary' style='text-align:right'>
              <div class='summary'>商品总金额：¥<span>{$object['goodsMoney']}</span></div>
-             <div class='summary'>运费：¥<span>{$object['deliverMoney']}</span></div>
              <div class='summary line'>应付总金额：¥<span>{$object['totalMoney']}</span></div>
              <div class='summary'>实付总金额：¥<span>{$object['realTotalMoney']}</span></div>
-             <div>可获得积分：<span class='orderScore'>{$object["orderScore"]}</span>个</div>
+             <div class='summary'>可获得积分：<span class='orderScore'>{$object["orderScore"]}</span>个</div>
           </div>
        </div>
    </div>

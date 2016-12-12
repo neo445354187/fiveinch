@@ -271,7 +271,8 @@ WST.getTimeDiff = function(startTime,endTime,diffType){
  * 截取字符串
  * is_mark 判断是否需要后面省略号
  */
-WST.cutStr = function (str,len,is_mark = true)
+
+WST.cutStr = function (str,len,is_mark)
 {
 	if(!str || str=='')return '';
 	var strlen = 0;
@@ -279,7 +280,7 @@ WST.cutStr = function (str,len,is_mark = true)
 	for(var i = 0;i < str.length;i++)
 	{
 		if(strlen >= len){
-			return is_mark ? s + "..." : s;
+			return is_mark ? (s + "...") : s;
 		}
 		if(str.charCodeAt(i) > 128)
 			strlen += 2;
