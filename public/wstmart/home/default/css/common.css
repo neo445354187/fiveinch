@@ -53,7 +53,7 @@ input[type=button]{cursor:pointer}
 }
 /**top menu**/
 .wst-header .wst-nav, .wst-container,.wst-search-container,.wst-nav-menus .nav-w,.wst-lite-container{width:1200px;margin:0 auto;}
-.wst-header .wst-nav{height:36px;}
+.wst-header .wst-nav{height:36px;background: #363636;}
 .headrf {margin-top:4px;}
 .headrf li{float:left;height:30px;line-height:30px;}
 .headlf li{height:30px;line-height:36px;padding-left:0px;padding-right:0px;}

@@ -267,7 +267,7 @@ function batchUpload(options){
         var text = '', stats;
 
         if ( state === 'ready' ) {
-            text = '选中' + fileCount + '张图片，共' +
+            text = '新选中 ' + fileCount + ' 张图片，共 ' +
                     WebUploader.formatSize( fileSize ) + '。';
         } else if ( state === 'confirm' ) {
             stats = uploader.getStats();
@@ -278,12 +278,12 @@ function batchUpload(options){
 
         } else {
             stats = uploader.getStats();
-            text = '共' + fileCount + '张（' +
+            text = '新选中 ' + fileCount + ' 张(' +
                     WebUploader.formatSize( fileSize )  +
-                    '），已上传' + stats.successNum + '张';
+                    ')，上传 ' + stats.successNum + ' 张';
 
             if ( stats.uploadFailNum ) {
-                text += '，失败' + stats.uploadFailNum + '张';
+                text += '，失败' + stats.uploadFailNum + ' 张';
             }
         }
 

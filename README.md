@@ -17,7 +17,7 @@ location / {
 
 ## php 配置
 
-1. 开启php_fileinfo.dll模块
+1. 开启php_fileinfo.dll模块，打开php.ini文件，找到extension=php_fileinfo.dll，并打开
 
 
 
