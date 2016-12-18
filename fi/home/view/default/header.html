@@ -1,0 +1,170 @@
+{include file="default/header_top" /} {if !isset($_COOKIE['ads_cookie'])} {fi:ads code="index-top-ads" cache='86400' id="tads"} {if ($tads['adFile']!='')}
+<div class="index-top-ads">
+    <a href="{$tads['adURL']}" {if ($tads[ 'adURL']!='' )}onclick="FI.recordClick({$tads['adId']})" {/if} onfocus="this.blur();">
+        <img src="__ROOT__/{$tads['adFile']}"></a>
+    <a href="javascript:;" class="close-ads" onclick="FI.closeAds(this)"></a>
+</div>
+{/if} {/fi:ads} {/if}
+<div class='fi-search-container'>
+    <div class='fi-logo'>
+        <a href='{$Request.root.true}' title="{:FIConf('CONF.mallName')}">
+            <img src="__ROOT__/{:FIConf('CONF.mallLogo')}" height="120" width='240' title="{:FIConf('CONF.mallName')}" alt="{:FIConf('CONF.mallName')}">
+        </a>
+    </div>
+    <div class="fi-search-box">
+        <div class='fi-search'>
+            <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}" />
+            <ul class="j-search-box">
+                <li class="j-search-type">
+                    搜<span>{if isset($keytype)}店铺{else}商品{/if}</span>&nbsp;<i class="arrow"> </i>
+                </li>
+                <li class="j-type-list">
+                    {if isset($keytype)}
+                    <div data="0">商品</div>
+                    {else}
+                    <div data="1">店铺</div>
+                    {/if}
+                </li>
+            </ul>
+            <input type="text" id='search-ipt' class='search-ipt' placeholder='{:FIConf("CONF.adsGoodsWordsSearch")}' value='{:isset($keyword)?$keyword:""}' />
+            <input type='hidden' id='adsGoodsWordsSearch' value='{:FIConf("CONF.adsGoodsWordsSearch")}'>
+            <input type='hidden' id='adsShopWordsSearch' value='{:FIConf("CONF.adsShopWordsSearch")}'>
+            <div id='search-btn' class="search-btn" onclick='javascript:FI.search(this.value)'>搜 索</div>
+        </div>
+        <div class="fi-search-keys">
+            {php}$searchKeys = FISearchKeys();{/php} {volist name="$searchKeys" id="vo"}
+            <a href='{:Url("home/goods/search","key=".$vo)}'>{$vo}</a> {if $i
+            < count($searchKeys)}&nbsp;&nbsp;|&nbsp;&nbsp;{/if} {/volist} </div>
+        </div>
+        <div class="fi-cart-box">
+            <a href="{:url('home/carts/index')}" target="_blank"><span class="word j-word">共 <span class="num" id="goodsTotalNum">0</span> 件商品</span></a>
+            <div class="fi-cart-boxs hide">
+                <div id="list-carts"></div>
+                <div id="list-carts2"></div>
+                <div id="list-carts3"></div>
+                <div class="fi-clear"></div>
+            </div>
+        </div>
+        {/* 购物车 */}
+        <script id="list-cart" type="text/html">
+            {{# for(var i = 0; i
+            < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cartId }}">
+                <div class="imgs">
+                    <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a>
+                </div>
+                <div class="number">
+                    <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{FI.cutStr(d.list[i].goodsName,20)}}</a></p>
+                </div>
+                <div class="price">
+                    <span>￥{{ d.list[i].shopPrice }} × {{ d.list[i].cartNum }}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:FI.delCheckCart({{ d.list[i].cartId }})" >×</a></div>
+                </div>
+            {{# } }}
+        </script>
+</div>
+<div class="fi-clear"></div>
+{/* 左侧菜单栏 */}
+<div class="fi-nav-menus">
+    <div class="nav-w" style="position: relative;">
+        <div class="w-spacer"></div>
+        <div class="dorpdown {if isset($hideCategory)}j-index{/if}" id="fi-categorys">
+            <div class="dt j-cate-dt">
+                <a href="{:Url('home/goods/lists')}" target="_blank">全部商品分类</a>
+            </div>
+            <div class="dd j-cate-dd" {if !isset($hideCategory)}style="display:none" {/if}>
+                <div class="dd-inner">
+                    {volist name=":FISideCategorys()" id="vo" key="k"}
+                    <div id="cat-icon-{$k}" class="item fore1 {if ($key>=12)}over-cat{/if}">
+                        <h3>
+                      <div class="{if ($key>=12)} over-cat-icon {else /} cat-icon-{$k} {/if}"></div>
+                      <a href="{:Url('home/goods/lists','cat='.$vo['catId'])}" target="_blank">{$vo['catName']}</a>
+                     </h3>
+                        <i>&gt;</i>
+                    </div>
+                    {/volist}
+                </div>
+                <div style="display: none;" class="dorpdown-layer" id="index_menus_sub">
+                    {volist name=":FISideCategorys()" id="vo" key="k"}
+                    <div class="item-sub" i="{$k}">
+                        <div class="item-brands">
+                            <div class="brands-inner">
+                                {volist name="$vo['brand']" id="b" length="16"}
+                                <a target="_blank" class="img-link" href="{:url('home/goods/lists',['cat'=>$vo['catId'],'brand'=>$b['brandId']])}">
+                                    <img width="83" height="35" class='goodsImg' data-original="__ROOT__/{$b['brandImg']}">
+                                </a>
+                                {/volist}
+                            </div>
+                        </div>
+                        <div class="subitems">
+                            {php}if(isset($vo['list'])){{/php} {volist name="vo['list']" id="vo2"}
+                            <dl class="fore2">
+                                <dt>
+                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo2['catId'])}">{$vo2['catName']}<i>&gt;</i></a>
+                                </dt>
+                                <dd>
+                                    {php}if(isset($vo2['list'])){{/php} {volist name="vo2['list']" id="vo3"}
+                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo3['catId'])}">{$vo3['catName']}</a> {/volist} {php}}{/php}
+                                </dd>
+                            </dl>
+                            {/volist} {php}}{/php}
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+        {/* 横栏菜单 */}
+        <div id="fi-nav-items">
+            <ul>
+                {volist name=":FINavigations(0)" id='vo'}
+                <li class="fore1">
+                    <a href="{$vo['navUrl']}" {if $vo[ 'isOpen']==1}target="_blank" {/if}>{$vo['navTitle']}</a>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class='fi-right-panel' {if !isset($hideCategory)}style="display:none" {/if}>
+            <div class="index-user-tab">
+                <div id="fi-right-photo">
+                    <a href="{:url('home/users/index')}"><img class="usersImg" data-original="__ROOT__/{:session('FI_USER.userPhoto')}" /></a>
+                </div>
+                <div id="fi-right-join">
+                    {if(session('FI_USER.userId'))}
+                    <p>{:session('FI_USER.userName')?session('FI_USER.userName'):session('FI_USER.loginName')}</p>
+                    <div class="visitor-login">
+                        <a href="javascript:FI.logout();" style="border-top:1px solid #ccc;width:100%;">
+                            <div class="fi-right-pic" style="margin-left:80px;"><img src="__HOME__/img/icon_login.png" /></div>
+                            <p class="fi-right-text">退出</p>
+                        </a>
+                        <div class="fi-clear"></div>
+                    </div>
+                    {else}
+                    <p>&nbsp;</p>
+                    <div class="visitor-login">
+                        <a href="{:Url('home/users/login')}" style="border-right:1px solid #ccc;">
+                            <div class="fi-right-pic"><img src="__HOME__/img/icon_login.png" /></div>
+                            <p class="fi-right-text">登录</p>
+                        </a>
+                        <a href="{:Url('home/users/regist')}">
+                            <div class="fi-right-pic"><img src="__HOME__/img/icon_register.png" /></div>
+                            <p class="fi-right-text">注册</p>
+                        </a>
+                        <div class="fi-clear"></div>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+            <div class="fi-clear"></div>
+            <div id="fi-right-ads">
+                {fi:ads code="index-art-bottom" num='1' cache='86400'}
+                <a {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if} href="{$vo.adURL}" onfocus="this.blur()">
+                    <img data-original="__ROOT__/{$vo.adFile}" class="goodsImg" />
+                </a>
+                {/fi:ads}
+            </div>
+        </div>
+        <span class="fi-clear">
+        
+      </span>
+    </div>
+</div>
+<div class="fi-clear"></div>

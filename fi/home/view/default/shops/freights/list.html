@@ -1,0 +1,61 @@
+{extend name="default/shops/base" /}
+{block name="title"}运费设置 - 卖家中心{__block__}{/block}
+{block name="css"}{/block}
+
+{block name="content"}
+
+<div class="fi-body"> 
+<div class="fi-shop-head"><span>运费设置</span></div>
+<div class="fi-clear"></div>
+   <form autocomplete="off">
+   <table id="cat_list_tab" class='fi-list fi-form'>
+   <thead>
+   <tr class="fi-colour">
+     <th class="fi-fre-th">名称</th>
+     <th class="fi-fre-th" width="200">运费</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr class="fi-fre-hov">
+     <td class="fi-fre-td">
+     <span style='width:400px;height:22px;'>默认运费</span>
+     </td>
+     <td><input type='text' style='width:80px;' value="{$shFreight['freight']}" onblur="javascript:freightOnblur(this,'',0)"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+   </tr>
+   </tbody>
+   <tbody id="list-info"></tbody>
+</table>
+<div class='fi-tbar-group' style='height:76px;text-align:center;'>
+     <button class='fi-shop-but' style='margin-top:30px;width:100px;height: 30px;' type="button" onclick='javascript:freightSubmit()'>保&nbsp;存</button>
+</div>
+</form>
+</div>
+<script id="list" type="text/html">
+{{# for(var i = 0; i < d.length; i++){ }}
+   <tr isLoad='1' class="fi-fre-hov">
+     <td class="fi-fre-td">
+     <span class='fi-tree-open active' onclick='javascript:treeOpen(this,"{{ d[i].areaId }}")'><img class="fi-lfloat" style="margin-top:-3px;" src="__HOME__/img/seller_icon_sq.png"></span>
+     <span style='width:400px;height:22px;'>{{ d[i].areaName }}</span>
+     </td>
+     <td><input class='possort text_{{ d[i].areaId }}' type='text' style='width:80px;display:none;' value="" onblur='javascript:freightOnblur(this,"{{ d[i].areaId }}",2)' onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+   </tr>
+{{# for(var j = 0; j < d[i].listProvince.length; j++){ }}
+	  <tr class="tree_{{ d[i].listProvince[j].parentId }} hide fi-fre-hov">
+	     <td class="fi-fre-td">
+	     <span class="fi-tree-second"></span>
+	     <span style='width:400px;height:22px;'>{{ d[i].listProvince[j].areaName }}</span>
+	     </td>
+{{# if(FI.blank(d[i].listProvince[j].freight)!=''){}}
+  	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{$shFreight['freight']}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+{{# }else{ }}
+	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{{FI.blank(d[i].listProvince[j].freight)}}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+{{# } }}
+	  </tr>
+{{# } }}
+{{# } }}
+</script>
+{/block}  
+{block name="footer"}
+	{include file="default/footer" /}
+{/block}
+{block name="js"}<script type='text/javascript' src='__HOME__/shops/freights/freights.js?v={$v}'></script>{/block}

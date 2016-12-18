@@ -1,0 +1,317 @@
+@CHARSET "UTF-8";
+/*登录*/
+.fi-login{
+	padding:30px 20px 60px 20px;
+}
+.fi-login_l{
+	float:left;
+	margin:80px 80px 80px 60px;
+}
+.fi-login_r{
+	margin-top:20px;
+	padding:30px 120px 20px 36px;
+	float:right;
+	border:2px solid #dad7d7;
+	border-radius:5px;
+}
+.fi-login-u{
+	width:100px;
+	height:36px;
+	display: block;
+	font-size: 25px;
+	background:url(../img/img_logintitle_bg.png) no-repeat;
+}
+input.fi-login-input,input.fi-regist-input{
+	padding:0px;
+	padding-left:5px;
+	font-size: 15px;
+	outline: none;
+	width:300px;
+	height:36px;
+	border-radius:6px;
+	border:1px solid #bac4c3;
+}
+.fi-login-input:focus,.fi-regist-input:focus,.fi-login-codein:focus,.fi-regist-codein:focus,.fi-regist-codemo:focus{
+	border-radius:6px;
+	border:1px solid #eb654a;
+}
+.fi-table{
+	margin-top:20px;
+}
+.fi-login-tr{
+	height:50px;
+}
+.fi-login-code,.fi-regist-code{
+	height:36px;
+	border-radius:6px;
+	border:1px solid #bac4c3;
+}
+input.fi-login-codein,input.fi-regist-codein{
+	padding:0px;
+	padding-left:5px;
+	width:180px;
+	height:36px;
+	position:absolute;
+	font-size: 15px;
+	outline: none;
+	border:0;
+	border-radius:6px;
+}
+.fi-login-codeim{
+	margin-left:188px;
+}
+.fi-login-ch{
+	border:1px solid #eb654a;
+}
+.fi-login-but{
+ display: block;
+ position: relative;
+ background:#eb5f43;
+ color: #ffffff;
+ text-align: center;
+ font-family: 'Ubuntu', sans-serif;
+ font-size: 15px;
+ font-weight: bold;
+ text-decoration: none;
+ border-radius: 3px;
+ overflow: hidden;
+ -webkit-transition: all 0.15s ease-in;
+ transition: all 0.15s ease-in;
+}
+.fi-login-but:hover {
+ background: #dd553a;
+ color:#fff;
+}
+.fi-login-but:before {
+ content: ' ';
+ position: absolute;
+ background: #ffffff;
+ width: 25px;
+ height: 50px;
+ top: 0;
+ left: -45px;
+ opacity: 0.3;
+ -webkit-transition: all 0.25s ease-out;
+ transition: all 0.25s ease-out;
+ -webkit-transform: skewX(-25deg);
+         transform: skewX(-25deg);
+}
+.fi-login-but:hover:before {
+ width: 45px;
+ left: 205px;
+}
+.fi-login-three{
+	height:36px;
+	display: block;
+	margin-top:40px;
+}
+/*注册*/
+.fi-regist{
+	padding:150px 20px 60px 20px;
+}
+.fi-regist-b{
+	background:url(../img/img_register_main_bg.jpg) no-repeat;
+	background-size: cover;
+}
+.fi-regist-c{
+	width: 760px;
+    margin: 0 auto;
+    padding:20px;
+    background: #ffffff;
+    border: 1px solid #dad7d7;
+    border-radius:5px;
+}
+.fi-regist-head{
+	font-size:28px;
+	font-family:"楷体"; 
+	color:#e86e55;
+	text-align:center;
+}
+input.fi-regist-input{
+	width:400px;
+	margin-left:20px;
+}
+.fi-regist-td{
+	text-align:right;
+	width: 150px;
+	font-size: 15px;
+	color:#626262;
+}
+.fi-regist-code{
+	margin-left:20px;
+}
+input.fi-regist-codein{
+	width:280px;
+}
+.fi-regist-codeim{
+	margin-left:288px;
+}
+input.fi-regist-codemo{
+	padding:0px;
+	margin-left: 20px;
+	padding-left:5px;
+	font-size: 15px;
+	outline: none;
+	width:260px;
+	height:36px;
+	border-radius:6px;
+	border:1px solid #bac4c3;
+}
+.fi-regist-obtain{
+	width:134px;
+ 	background:#f0efef;
+ 	border-radius: 3px;
+ 	border: 1px solid #d3c8c7;
+ 	padding:10px 0px;
+ 	cursor:pointer;
+ 	color: #110f0f;
+}
+.fi-regist-but{
+	outline: none;
+	background:#eb5f43;
+ 	color: #ffffff;
+ 	border: 1px solid #d33110;
+ 	border-radius:3px;
+ 	cursor:pointer;
+}
+.fi-regist-but:not(.disabled):not(:disabled):active, .fi-regist-but.active{
+	background: #dd553a;
+	background-clip: padding-box;
+}
+/*找回密码*/
+.stepflex{
+	float:right;
+	border-top: 5px solid #ccc;
+	text-align: center;
+	width: 640px;
+	margin: 60px 0px 0px 50px;
+}
+.stepflex dl{
+	border-top: 5px solid #ccc;
+	float: left;
+	position: relative;
+	top: -5px;
+	width: 160px;
+}
+dl.doing{
+	border-top-color: #04bd3d;
+}
+.doing .s-num{
+	background-position: -23px 0;
+}
+.s-num,.s-num1{
+	color: #fff;
+	font-weight: 700;
+	height: 23px;
+	line-height: 23px;
+	margin: -15px auto 0;
+	position: relative;
+	width: 23px;
+	border-radius:25px;
+}
+.s-num{
+	background: #04bd3d;
+}
+.s-num1{
+	background: #ccc;
+}
+.s-text{
+	line-height:30px;
+}
+.forget-pwd{
+	width: 750px;
+	margin:50px auto 50px;
+	padding:25px 0px 48px 0px;
+	border:1px solid #bac4c3;
+	border-radius:6px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+input.fi-forget-input{
+	padding: 0px;
+	margin-left:20px;
+	padding-left:5px;
+	font-size: 15px;
+	outline: none;
+	width:300px;
+	height:36px;
+	border-radius:3px;
+	border:1px solid #bac4c3;
+}
+.fi-forget-code,.fi-forget-code2{
+	float:left;
+	width:300px;
+	height:36px;
+	border-radius:3px;
+	margin-left:20px;
+	border:1px solid #bac4c3;
+}
+input.fi-forget-codein,input.fi-forget-codein2{
+	padding: 0px;
+	padding-left:5px;
+	width:180px;
+	height:36px;
+	position:absolute;
+	font-size: 15px;
+	outline: none;
+	border:0;
+	border-radius:6px;
+}
+.fi-forget-input:focus,.fi-forget-codein:focus,.fi-forget-codein2:focus{
+	border-radius:3px;
+	border:1px solid #eb654a;
+}
+.fi-forget-codeim,.fi-forget-codeim2{
+	width:116px;
+	border-top-right-radius:6px;
+	border-bottom-right-radius:6px;
+	margin-left:183px;
+}
+.fi-forget-code2{
+	width:230px;
+}
+input.fi-forget-codein2{
+	width:120px;
+}
+.fi-forget-codeim2{
+	width:112px;
+	margin-left:118px;
+}
+.email-verify{
+	display:none;
+}
+.fi-forget-td{
+	text-align:right;
+	width: 260px;
+	font-size: 15px;
+	color:#626262;
+}
+.fi-forget-te{
+	margin-left:20px;
+	font-size: 15px;
+}
+.fi-forget-select{
+	margin-left:20px;
+	font-size: 15px;
+	outline: none;
+	width:230px;
+	height:36px;
+	border-radius:3px;
+	border:1px solid #bac4c3;
+}
+.fi-forget-obtain{
+	width:134px;
+	height: 36px;
+ 	background:#f0efef;
+ 	border-radius: 3px;
+ 	border: 1px solid #d3c8c7;
+ 	padding:10px 0px;
+ 	cursor:pointer;
+ 	color: #110f0f;
+}
+.fi-forget-c{
+	text-align:center;
+}
+.fi-forget-ct{
+	font-size: 16px;
+	color:#2d2727;
+}

@@ -1,0 +1,202 @@
+<!doctype html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{block name="title"}{:FIConf('CONF.mallTitle')}{/block}</title>
+    <link href="__HOME__/css/common.css?v={$v}" rel="stylesheet">
+    <link href="__HOME__/css/user.css?v={$v}" rel="stylesheet"> {block name="css"}{/block}
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js?v={$v}"></script>
+    <script type="text/javascript" src="__STATIC__/plugins/layer/layer.js?v={$v}"></script>
+    <script type="text/javascript" src="__STATIC__/plugins/lazyload/jquery.lazyload.min.js?v={$v}"></script>
+    <script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
+    {block name="depend_common_js"}{/block}
+    <script type='text/javascript' src='__HOME__/js/common.js?v={$v}'></script>
+    <script>
+    window.conf = {
+        "ROOT": "__ROOT__",
+        "STATIC": "__STATIC__",
+        "SUFFIX": "{:config('url_html_suffix')}",
+        "SMS_VERFY": "{:FIConf('CONF.smsVerfy')}",
+        "PHONE_VERFY": "{:FIConf('CONF.phoneVerfy')}",
+        "GOODS_LOGO": "{:FIConf('CONF.goodsLogo')}",
+        "SHOP_LOGO": "{:FIConf('CONF.shopLogo')}",
+        "MALL_LOGO": "{:FIConf('CONF.mallLogo')}",
+        "USER_LOGO": "{:FIConf('CONF.userLogo')}",
+        "IS_LOGIN": "{if (int)session('FI_USER.userId')>0 }1{else}0{/if}",
+        "TIME_TASK": "1"
+    } 
+
+    {:FILoginTarget(0)}
+
+    $(function(){
+        FI.initUserCenter();
+    });
+    </script>
+</head>
+
+<body>
+    {block name="nav"} {include file="default/header_top" /}
+    <div class='fi-lite-bac'>
+        <div class='fi-lite-container'>
+            <div class='fi-logo'>
+                <a href='{$Request.root.true}'><img src="__ROOT__/{:FIConf('CONF.mallLogo')}" height="80" width='160'></a>
+            </div>
+            <div class="fi-lite-tit"><span>买家中心</span><a class="fi-lite-in" href='{$Request.root.true}'>返回商城首页</a></div>
+            <div class="fi-lite-cart">
+                <a href="{:url('home/carts/index')}" target="_blank"><span class="word j-word">共 <span class="num" id="goodsTotalNum">0</span> 件商品</span></a>
+                <div class="fi-lite-carts hide">
+                    <div id="list-carts"></div>
+                    <div id="list-carts2"></div>
+                    <div id="list-carts3"></div>
+                    <div class="fi-clear"></div>
+                </div>
+            </div>
+            <script id="list-cart" type="text/html">
+                {{# for(var i = 0; i
+                < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cartId }}">
+                    <div class="imgs">
+                        <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a>
+                    </div>
+                    <div class="number">
+                        <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{FI.cutStr(d.list[i].goodsName,26)}}</a></p>
+                        <p>数量：{{ d.list[i].cartNum }}</p>
+                    </div>
+                    <div class="price">
+                        <p>￥{{ d.list[i].shopPrice }}</p><span><a href="javascript:FI.delCheckCart({{ d.list[i].cartId }})">删除</a></span></div>
+        </div>
+        {{# } }}
+        </script>
+        <div class="fi-lite-sea">
+            <div class='search'>
+                <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}" />
+                <ul class="j-search-box">
+                    <li class="j-search-type">
+                        搜<span>{if isset($keytype)}店铺{else}商品{/if}</span>&nbsp;<i class="arrow"> </i>
+                    </li>
+                    <li class="j-type-list">
+                        {if isset($keytype)}
+                        <div data="0">商品</div>
+                        {else}
+                        <div data="1">店铺</div>
+                        {/if}
+                    </li>
+                </ul>
+                <input type="text" id='search-ipt' class='search-ipt' value='{:isset($keyword)?$keyword:""}' />
+                <div id='search-btn' class="search-btn" onclick='javascript:FI.search(this.value)'></div>
+            </div>
+        </div>
+        <div class="fi-clear"></div>
+    </div>
+    <div class="fi-clear"></div>
+    </div>
+    {/block}
+    <div class="fi-wrap">
+        <div class='fi-header' style='border-bottom: 1px solid #ffffff;'>
+            <div class="fi-shop-nav">
+                <div class="fi-nav-box">
+                    {php}$homeMenus = FIHomeMenus(0);{/php} {volist name="$homeMenus['menus']" id="vo"}
+                    <a href="__ROOT__/{$vo['menuUrl']}?id={$vo['menuId']}">
+                        <li class="liselect fi-lfloat {if($vo['menuId'] == $homeMenus['menuId1'])}fi-nav-boxa{/if}">{$vo['menuName']}</li>
+                    </a>
+                    {/volist}
+                    <div class="fi-clear"></div>
+                </div>
+            </div>
+            <div class="fi-clear"></div>
+        </div>
+        <div class='fi-nav'></div>
+        <div class='fi-main'>
+            <div class='fi-menu'>
+                {volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
+                <span class='fi-menu-title'>{$menus['menuName']}<!-- <img src="__HOME__/img/user_icon_sider_zhankai.png"> --></span>
+                <ul>
+                    {volist name="menus['list']" id="menu" key='k'}
+                    <li class="{if($homeMenus['menuId3']==$menu['menuId'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
+                        {$menu['menuName']}
+                        <span id="mId_{$menu['menuId']}"></span>
+                    </li>
+                    {/volist}
+                </ul>
+                {/volist}
+            </div>
+            <div class='fi-content'>
+                {block name="content"}
+                <div class="result"></div>{/block}
+            </div>
+        </div>
+        <div style='clear:both;'></div>
+        <!-- 他们的测试数据 -->
+        <div class="fi-bottom" style='display:none'>
+            <div class="fi-bottom-m">
+                <span class="fi-bottom-ml fi-bottom-ms">我的专属推荐</span><span class="fi-bottom-ml">我关注的商品</span><span class="fi-bottom-ml">我的足迹</span>
+                <span class="fi-bottom-mr"><img class="fi-lfloat" src="__HOME__/img/user_icon_hyp.png"><a href="" class="fi-lfloat">换一批</a></span>
+            </div>
+            <div style='clear:both;'></div>
+            <div class="fi-bottom-g">
+                <div class="fi-bottom-gs">
+                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
+                    <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
+                    </span>
+                    <span class="fi-bottom-n3"><span class="fi-bottom-n3l">市场价：￥100.00</span><span class="fi-bottom-n3r">已有<span>123</span>人评价</span>
+                    </span>
+                    <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
+                </div>
+                <div class="fi-bottom-gs">
+                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
+                    <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
+                    </span>
+                    <span class="fi-bottom-n3"><span class="fi-bottom-n3l">市场价：￥100.00</span><span class="fi-bottom-n3r">已有<span>123</span>人评价</span>
+                    </span>
+                    <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
+                </div>
+                <div class="fi-bottom-gs">
+                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
+                    <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
+                    </span>
+                    <span class="fi-bottom-n3"><span class="fi-bottom-n3l">市场价：￥100.00</span><span class="fi-bottom-n3r">已有<span>123</span>人评价</span>
+                    </span>
+                    <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
+                </div>
+                <div class="fi-bottom-gs">
+                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
+                    <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
+                    </span>
+                    <span class="fi-bottom-n3"><span class="fi-bottom-n3l">市场价：￥100.00</span><span class="fi-bottom-n3r">已有<span>123</span>人评价</span>
+                    </span>
+                    <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
+                </div>
+                <div class="fi-bottom-gs">
+                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
+                    <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
+                    </span>
+                    <span class="fi-bottom-n3"><span class="fi-bottom-n3l">市场价：￥100.00</span><span class="fi-bottom-n3r">已有<span>123</span>人评价</span>
+                    </span>
+                    <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+        </div>
+        <!--他们的测试数据 end-->
+
+
+        <div style='clear:both;'></div>
+        <br/>
+    </div>
+    {block name="footer"} {include file="default/footer" /} {/block} {block name="js"}{/block}
+    <script>
+    function getMenus(menuId, menuUrl) {
+        $.post(FI.U('home/index/getMenuSession'), {
+            menuId: menuId
+        }, function(data) {
+            location.href = FI.U(menuUrl);
+        });
+    }
+    </script>
+</body>
+
+</html>

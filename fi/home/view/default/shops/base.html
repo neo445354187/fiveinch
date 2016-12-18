@@ -1,0 +1,115 @@
+<!doctype html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{block name="title"}{:FIConf('CONF.mallTitle')}{/block}</title>
+<link href="__HOME__/css/common.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/shop.css?v={$v}" rel="stylesheet">
+{block name="css"}{/block}
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js?v={$v}"></script>
+<script type="text/javascript" src="__STATIC__/plugins/layer/layer.js?v={$v}"></script>
+	  
+<script type='text/javascript' src='__STATIC__/js/common.js?v={$v}'></script>
+{block name="depend_common_js"}{/block}
+<script type='text/javascript' src='__HOME__/js/common.js?v={$v}'></script>
+<script type='text/javascript' src='__ROOT__/fi/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
+<script>
+window.conf = {
+		"ROOT"      : "__ROOT__", 
+		"STATIC"    : "__STATIC__", 
+		"SUFFIX"    : "{:config('url_html_suffix')}", 
+		"SMS_VERFY" : "{:FIConf('CONF.smsVerfy')}",
+    	"PHONE_VERFY" : "{:FIConf('CONF.phoneVerfy')}",
+    	"GOODS_LOGO"  : "{:FIConf('CONF.goodsLogo')}",
+    	"SHOP_LOGO"  : "{:FIConf('CONF.shopLogo')}",
+    	"MALL_LOGO"  : "{:FIConf('CONF.mallLogo')}",
+    	"USER_LOGO"  : "{:FIConf('CONF.userLogo')}",
+    	"IS_LOGIN"   : "{if (int)session('FI_USER.userId')>0 }1{else}0{/if}",
+    	"TIME_TASK"  : "1"
+	}
+	{:FILoginTarget(1)}
+$(function() {
+	FI.initShopCenter();
+});
+</script>
+</head>
+<body>
+{block name="nav"}
+	{include file="default/header_top" /}
+<div class='fi-lite-bac'>
+<div class='fi-lite-container'>
+   <div class='fi-logo'><a href='{$Request.root.true}'><img src="__ROOT__/{:FIConf('CONF.mallLogo')}" height="80" width='160'></a></div>
+   <div class="fi-lite-tit"><span>卖家中心</span><a class="fi-lite-in" href='{$Request.root.true}'>返回商城首页</a></div>
+   <div class="fi-lite-sea">
+      <div class='search'>
+      	  <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}"/>
+
+      	  <ul class="j-search-box">
+            <li class="j-search-type">
+              搜<span>{if isset($keytype)}店铺{else}商品{/if}</span>&nbsp;<i class="arrow"> </i>
+            </li>
+            <li class="j-type-list">
+              {if isset($keytype)}
+              <div data="0">商品</div>
+              {else}
+              <div data="1">店铺</div>
+              {/if}
+            </li>
+          </ul>
+          
+	      <input type="text" id='search-ipt' class='search-ipt' value='{:isset($keyword)?$keyword:""}'/>
+	      <div id='search-btn' class="search-btn" onclick='javascript:FI.search(this.value)'></div>
+      </div>
+   </div>
+   <div class="fi-clear"></div>
+</div>
+<div class="fi-clear"></div>
+</div>
+{/block}
+<div class="fi-wrap">
+          <div class='second-fi-header'>
+			<div class="fi-shop-nav">
+				<div class="fi-nav-box">
+				    {php}$homeMenus = FIHomeMenus(1);{/php}
+					{volist name="$homeMenus['menus']" id="vo"}
+						<a href="__ROOT__/{$vo['menuUrl']}?id={$vo['menuId']}"><li class="liselect fi-lfloat {if($vo['menuId'] == $homeMenus['menuId1'])}fi-nav-boxa{/if}">{$vo['menuName']}</li></a>
+					{/volist}
+					<div class="fi-clear"></div>
+				</div>
+			</div>
+			<div class="fi-clear"></div>
+		</div>
+          <div class='fi-nav'></div>
+          <div class='fi-main'>
+            <div class='fi-menu'>
+            	{volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
+            	<span class='fi-menu-title'>{$menus['menuName']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
+            	<ul>
+            	{volist name="menus['list']" id="menu" key='k'}
+              	<li class="{if($homeMenus['menuId3']==$menu['menuId'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
+              	{$menu['menuName']}
+              	<span id="mId_{$menu['menuId']}"></span>
+              	</li>
+            	{/volist}
+            	</ul>
+            	{/volist}
+            </div>
+            <div class='fi-content'>
+            {block name="content"}<div class="result">卖家中心</div>{/block}
+            </div>
+          </div>
+          <div style='clear:both;'></div>
+          <br/>
+        </div>
+{block name="footer"}
+	{include file="default/footer" /}
+{/block}
+{block name="js"}{/block}
+<script>
+function getMenus(menuId,menuUrl){
+    $.post(FI.U('home/index/getMenuSession'), {menuId:menuId}, function(data){
+    	location.href=FI.U(menuUrl);
+    });
+}
+</script>
+</body>
+</html>

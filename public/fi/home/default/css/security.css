@@ -1,0 +1,173 @@
+@CHARSET "UTF-8";
+a{
+	cursor:pointer;
+}
+.fi-sec-info{
+	padding:20px 0px 20px 30px;
+	background: #fed1b0;
+}
+.fi-sec-infor{
+	float: left;
+	margin-left:20px;
+}
+.fi-sec-na{
+	font-size:20px;
+	color:#f06f69;
+	line-height:20px;
+}
+.fi-sec-grade img{
+	width: 20px;
+	margin-top:1px;
+	margin-left:20px;
+}
+.fi-sec-grade span{
+	margin-left:8px;
+	line-height:20px;
+	font-family:"microsoft yahei";
+}
+.fi-sec-infoi{
+	float: left;
+	width: 100%;
+	color:#3c3228;
+	font-family:"microsoft yahei";
+}
+.fi-sec-infoin{
+	color:#0cd8d5;
+}
+.fi-sec-s{
+	padding:30px 20px;
+	font-family:"microsoft yahei";
+}
+.fi-sec-lists{
+	float: left;
+	width: 100%;
+	height: 60px;
+	line-height:60px;
+}
+.fi-sec-green{
+	color:#11cc71;
+}
+.fi-sec-ash{
+	color:#f1730f;
+}
+.fi-sec-green img,.fi-sec-ash img{
+	float: left;
+	margin-top:24px;
+	margin-right:3px;
+}
+.fi-sec-w{
+	color:#363636;
+	font-size:17px;
+}
+.fi-sec-strip{
+	width: 300px;
+	height: 20px;
+	background: #d7cece;
+}
+.fi-sec-strip2{
+	width: 100px;
+	height: 20px;
+	background: #53e053;
+}
+/**/
+.fi-sec-head2{
+	margin-top:20px;
+	padding: 28px;
+	height: 30px;
+}
+.fi-sec-min{
+	width: 30%;
+	text-align: center;
+	height:26px;
+	line-height:26px;
+	background: #e0e0e0;
+	color:#282828;
+	font-size:15px;
+	font-family:"microsoft yahei";
+}
+.fi-sec-mi{
+	width: 13px;
+}
+.fi-sec-min1{
+	width: 0;
+    height: 0;
+    border-top: 13px solid transparent;
+    border-left: 13px solid #e0e0e0;
+    border-bottom: 13px solid transparent;
+}
+.fi-sec-min2{
+	width: 0;
+    height: 0;
+    border-top: 13px solid #e0e0e0;
+    border-left: 13px solid transparent; 
+}
+.fi-sec-min3{
+	width: 0;
+    height: 0;
+    border-bottom: 13px solid #e0e0e0;
+    border-left: 13px solid transparent;
+}
+.fi-sec-gr{
+	color:#ffffff;
+	background: #45d862;
+}
+.fi-sec-gr1{
+	border-left: 13px solid #45d862;
+}
+.fi-sec-gr2{
+	border-top: 13px solid #45d862;
+}
+.fi-sec-gr3{
+	border-bottom: 13px solid #45d862;
+}
+/*密码*/
+.fi-form{
+	float: left;
+	margin-top:20px;
+	margin-left:20px;
+}
+/*邮箱*/
+.fi-sec-img{
+	float: left;
+	margin-top:3px;
+}
+.fi-sec-prompt{
+	margin-top:36px;
+	margin-left:30px;
+}
+.fi-sec-p1{
+	margin-top:20px;
+	font-size:15px;
+}
+.fi-sec-p2{
+	margin-top:20px;
+}
+.fi-sec-su{
+	margin: 0 auto;
+	width: 260px;
+	height: 120px;
+}
+.fi-sec-sut,.fi-sec-sub{
+	float: left;
+	width: 100%;
+	text-align:center;
+}
+.fi-sec-sut{
+	margin-top:60px;
+}
+.fi-sec-sub{
+	color: #11cd6e;
+	font-size:18px;
+	font-family:"microsoft yahei";
+	margin-top:6px;
+}
+/*手机*/
+.fi-sec-obtain{
+	width:130px;
+ 	background:#f0efef;
+ 	border-radius: 3px;
+ 	border: 1px solid #d3c8c7;
+ 	padding:8px 0px;
+ 	cursor:pointer;
+ 	color: #110f0f;
+}

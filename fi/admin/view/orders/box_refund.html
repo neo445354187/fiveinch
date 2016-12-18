@@ -1,0 +1,51 @@
+{extend name="base" /}
+{block name="js"}
+<script src="__ADMIN__/orders/orders.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+{if !empty($object)}
+<form id='editFrom'>
+<table class='fi-form'>
+   <tr>
+      <th width='100'>订单编号：</th>
+      <td>{$object['orderNo']}</td>
+   </tr>
+   <tr>
+      <th>支付方式：</th>
+      <td>{:FILangPayType($object['payType'])}</td>
+  </tr>
+  {if($object['payType']==1)}
+  <tr>
+      <th>交易流水：</th>
+      <td>【{:FILangPayFrom($object['payFrom'])}】{$object['tradeNo']}</td>
+  </tr>
+  {/if}
+  <tr>
+     <th>订单总金额：</th>
+     <td>¥{$object['totalMoney']}&nbsp;&nbsp;&nbsp;&nbsp;【商品总金额：¥{$object['goodsMoney']}&nbsp;&nbsp;&nbsp;&nbsp;运费：¥{$object['deliverMoney']}】</td>
+  </tr>
+  <tr>
+     <th>实收总金额：</th>
+     <td>¥{$object['realTotalMoney']}</td>
+  </tr>
+  <tr>
+     <th>退款备注<font color='red'>*</font>：</th>
+     <td>
+       <textarea id='content' style='width:90%;height:100px;' placeholder='退款流水号、备注' maxLength='200' data-target="#msg_content" data-rule="退款备注: required;" ></textarea>
+       <br/><div class='msg-box' id='msg_content'></div>
+     </td>
+  </tr>
+  <tr>
+     <td colspan='2' style='text-align:center;padding-top:30px;'>
+        <input type='button' value='确&nbsp;&nbsp;定' class='btn btn-blue' onclick="javascript:orderRefund({$object['orderId']})"">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type='button' value='取&nbsp;&nbsp;消' class='btn' onclick='javascript:closeIframe()'>
+     </td>
+  </tr>
+</table>
+</form>
+{else}
+<div style='color:red;margin:20px;'>
+该订单不存在或已退款。
+</div>
+{/if}
+{/block}

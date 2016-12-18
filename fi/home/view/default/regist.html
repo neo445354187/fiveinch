@@ -1,0 +1,76 @@
+{extend name="default/base" /}
+{block name="title"}用户注册-{:FIConf('CONF.mallName')}{__block__}{/block}
+{block name="css"}
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/login.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="nav"}
+    {php}$liteTitle = "欢迎注册".FIConf('CONF.mallName');{/php}
+	{include file="default/header_lite" /}
+{/block}
+{block name="main"}
+<div class="fi-regist-b">
+	<div class="fi-container">
+	<div class="fi-regist">
+	<div class="fi-regist-c">
+	<input type="hidden" id="nameType" class="fi_ipt nameType" value='2' autocomplete="off"/>
+	<form id="reg_form"  method="post" autocomplete="off">
+	<div class="fi-regist-head">Hi～欢迎来注册</div>
+	<table class="fi-table">
+		<tr class="fi-login-tr">
+			<td class="fi-regist-td"><font color='red'>*</font>用户名</td>
+			<td><input id="loginName" name="loginName" class="fi_ipt fi-regist-input" tabindex="1" maxlength="30" autocomplete="off" onpaste="return false;" style="ime-mode:disabled;" placeholder="邮箱/用户名/手机号"  type="text" onkeyup="javascript:FI.isChinese(this,1)"/></td>
+		</tr>
+		<tr class="fi-login-tr">
+			<td class="fi-regist-td"><font color='red'>*</font>密码</td>
+			<td><input id="loginPwd" name="loginPwd" class="fi_ipt fi-regist-input" tabindex="2" style="ime-mode:disabled;" autocomplete="off" type="password" placeholder="6-16位字符"/></td>
+		</tr>
+		<tr class="fi-login-tr">
+			<td class="fi-regist-td"><font color='red'>*</font>确认密码</td>
+			<td><input id="reUserPwd" name="reUserPwd" class="fi_ipt fi-regist-input" tabindex="3" autocomplete="off" type="password" placeholder="6-16位字符"/></td>
+		</tr>
+		<tr id="mobileCodeDiv" class="fi-login-tr hide">
+			<td class="fi-regist-td"><font color='red'>*</font>短信验证码</td>
+			<td>
+				<input maxlength="6" autocomplete="off" tabindex="6" class="fi_ipt fi-regist-codemo" name="mobileCode" style="ime-mode:disabled" id="mobileCode" type="text" data-target="#mobileCodeTips" placeholder="短信验证码"/>
+				<button id="timeTips" onclick="getVerifyCode();" class="fi-regist-obtain">获取短信验证码</button>
+				<span id="mobileCodeTips"></span>
+			</td>
+		</tr>
+		<tr id="authCodeDiv" class="fi-login-tr">
+			<td class="fi-regist-td"><font color='red'>*</font>验证码</td>
+			<td>
+				<div class="fi-regist-code">
+				<input id="verifyCode" style="ime-mode:disabled" name="verifyCode"  class="fi_ipt fi-regist-codein" tabindex="6" autocomplete="off" maxlength="6" type="text"  data-target="#verifyCodeTips" placeholder="验证码"/>
+				<img id='verifyImg' class="fi-regist-codeim" src="{:url('home/users/getVerify')}" onclick='javascript:FI.getVerify("#verifyImg")' style="width:116px;border-top-right-radius:6px;border-bottom-right-radius:6px;"><span id="verifyCodeTips"></span>    	
+			   	</div>
+			</td>
+		</tr>
+		<tr class="fi-login-tr">
+			<td colspan="2" style="padding-left:180px;">
+				<label>
+					<input id="protocol" name="protocol" type="checkbox" class="fi_ipt" value="1" data-rule="checked"/>我已阅读并同意
+	           		<a href="javascript:;" style="color:#69b7b5;" id="protocolInfo" onclick="showProtocol();">《用户注册协议》</a>
+	           	</label>                                  
+				<label style="float:right;margin-top:3px;">看不清？<a style="color:#69b7b5;" href="javascript:FI.getVerify('#verifyImg')">换一张</a></label>
+			</td>
+		</tr>
+		<tr style="height:80px;">
+			<td colspan="2" style="padding-left:260px;">
+				<input id="reg_butt" class="fi-regist-but" type="submit" value="注册" style="width: 180px;height:30px;"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+{/block}
+{block name="js"}
+	<script type="text/javascript" src="__STATIC__/plugins/validator/jquery.validator.js?v={$v}"></script>
+	<script type="text/javascript" src="__STATIC__/plugins/validator/local/zh-CN.js?v={$v}"></script>
+	<script type='text/javascript' src='__HOME__/js/login.js?v={$v}'></script>
+	<Script>$(function(){initRegist();})</Script>
+{/block}

@@ -1,0 +1,248 @@
+{extend name="default/base" /}
+{block name="title"}{$data['shop']['shopName']} - {:FIConf('CONF.mallName')}{__block__}{/block}
+<meta name="description" content="{$data['shop']['shopDesc']},{:FIConf('CONF.mallName')}">
+<meta name="Keywords" content="{$data['shop']['shopKeywords']},{:FIConf('CONF.mallName')}">
+{block name="css"}
+<link href="__STATIC__/plugins/lazyload/skin/laypage.css?v={$v}" rel="stylesheet">
+<link href="__STATIC__/plugins/slide/css/slide.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/style.css?v={$v}" rel="stylesheet">
+<link href="__HOME__/css/shophome.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="nav"}
+	{include file="default/header_top" /}
+	<div class="fi-container">
+		<div class="fi-shop-h">
+		<div class="fi-shop-img"><a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}"><img class="shopsImg" data-original="__ROOT__/{$data['shop']['shopImg']}" title="{$data['shop']['shopName']}"></a></div>
+		<div class="fi-shop-info">
+			<p>{$data['shop']['shopName']}</p>
+			<div class="fi-shop-info2">
+			{volist name="$data['shop']['accreds']" id="ac"}
+			<img src="__ROOT__/{$ac['accredImg']}"><span>{$ac['accredName']}</span>
+			{/volist}
+			{if($data['shop']['shopQQ'])}
+			<a href="tencent://message/?uin={$data['shop']['shopQQ']}&Site=QQ交谈&Menu=yes">
+		        <img border="0" style="width:65px;height:24px;" src="http://wpa.qq.com/pa?p=1:{$data['shop']['shopQQ']}:7">
+		    </a>
+			{/if}
+			{if($data['shop']['shopWangWang'])}
+			<a href="http://www.taobao.com/webww/ww.php?ver=3&touid={$data['shop']['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8" target="_blank">
+			<img style="margin:-1px 0px 0px 6px;" src="__HOME__/img/icon_dianpujie_04.png">
+			</a>
+			{/if}
+			</div>
+			<div class="fi-shop-info3">
+				<span class="fi-shop-eva">商品评价：<span class="fi-shop-red">{$data['shop']['scores']['goodsScore']}</span></span>
+				<span class="fi-shop-eva">时效评价：<span class="fi-shop-red">{$data['shop']['scores']['timeScore']}</span></span>
+				<span class="fi-shop-eva">服务评价：<span class="fi-shop-red">{$data['shop']['scores']['serviceScore']}</span></span>
+				{if($data['shop']['favShop']>0)}
+				<a href='javascript:void(0);' onclick='FI.cancelFavorite(this,1,{$data['shop']['favShop']})' class="fi-shop-evaa j-fav">已关注</a>
+				{else}
+				<a href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$data['shop']['shopId']})' class="fi-shop-evaa j-fav2">关注店铺</a>
+				{/if}
+				<span class="fi-shop-eva">用手机逛本店  &nbsp;&nbsp;|</span>
+				<a class="fi-shop-code"><span class="fi-shop-codes hide"><div id='qrcode' style='width:142px;height:142px;'></div></span></a>
+			</div>
+		</div>
+		<div class="fi-shop-sea">
+			<input type="text" id="goodsName" value="{$goodsName}" placeholder="输入商品名称">
+			<a class="search" href="javascript:void(0);" onclick="javascript:FI.goodsSearch($('#goodsName').val());">搜全站</a>
+			<a class="search" href="javascript:void(0);" onclick="javascript:searchShopsGoods(0);">搜本店</a>
+			<div class="fi-shop-word">
+			{volist name="data['shop']['shopHotWords']" id="shw"}
+			<a href='{:Url("home/shops/home",array('shopId'=>$data['shop']['shopId'],'goodsName'=>$shw))}'>{$shw}</a>{if $i< count($data['shop']['shopHotWords'])}&nbsp;|&nbsp;{/if}
+			{/volist}
+			</div>
+		</div>
+		<div class="fi-clear"></div>
+		</div>
+	</div>
+	{if($data['shop']['shopBanner'])}<div class="fi-shop-tu" style="background: url(__ROOT__/{$data['shop']['shopBanner']}) no-repeat  scroll center top;background-size:cover;"></div>{/if}
+	 <div class='fi-header'>
+		<div class="fi-shop-nav">
+			<div class="fi-nav-box">
+				<a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq 0"}fi-nav-boxa{/if}">本店全部商品</li></a>
+				{volist name="$data['shopcats']" id="sc" offset="0" length='8'}
+					<a href="{:url('home/shops/home',array('shopId'=>$sc['shopId'],'ct1'=>$sc['catId']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq $sc['catId']"}fi-nav-boxa{/if}">{$sc['catName']}</li></a>
+				{/volist}
+				<a class="homepage" href='{$Request.root.true}'>返回商城首页</a>
+				<div class="fi-clear"></div>
+			</div>
+		</div>
+		<div class="fi-clear"></div>
+	</div>
+	{if($data['shop']['shopAds'])}
+	<div class="ck-slide">
+		<ul class="ck-slide-wrapper">
+			{volist name="$data['shop']['shopAds']" id="ads"}
+			<li>
+				<a href="{$ads['adUrl']}" ><img class='goodsImg' data-original="__ROOT__/{$ads['adImg']}" width="100%" height="400"/></a>
+			</li>
+			{/volist}
+		</ul>
+		<!-- <a href="javascript:;" class="ctrl-slide ck-prev" ></a> 
+		<a href="javascript:;" class="ctrl-slide ck-next" ></a> -->
+		<div class="ck-slidebox">
+			<div class="slideWrap">
+				<ul class="dot-wrap">
+				{volist name="$data['shop']['shopAds']" id="ads" key="i"}
+					{if condition="$i eq 1"}
+						<li class="current"><em>{$i}</em></li>
+					{else}
+						<li><em>{$i}</em></li>
+					{/if}
+				{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{/if}
+{/block}
+{block name="main"}
+<input type="hidden" id="msort" value="{$msort}" autocomplete="off"/>
+<input type="hidden" id="mdesc" value="{$mdesc}" autocomplete="off"/>
+<input type="hidden" id="shopId" value="{$data['shop']['shopId']}" autocomplete="off"/>
+<input type="hidden" id="ct1" value="{$ct1}" autocomplete="off"/>
+<input type="hidden" id="ct2" value="{$ct2}" autocomplete="off"/>
+<div class="fi-container">
+	<div class="fi-shop-contl">
+		<div class="fi-shop-cat">
+			<p class="fi-shop-conlp">店铺分类</p>
+			<div class="fi-shop-catt">
+			{volist name="$data['shopcats']" id="sc1"}
+				<li onclick="javascript:dropDown(this,{$sc1['catId']});" class="js-shop-plus">{:FIMSubstr($sc1['catName'],0,15)}</li>
+				{if($sc1['children'])}
+				<div class="fi-shop-catts tree_{$sc1['catId']}">
+				{volist name="sc1['children']" id="sc2"}
+					<a href="{:url('home/shops/home',array('shopId'=>$sc1['shopId'],'ct1'=>$sc1['catId'],'ct2'=>$sc2['catId']))}"><li>{:FIMSubstr($sc2['catName'],0,15)}</li></a>
+				{/volist}
+				</div>
+				{/if}
+			{/volist}
+			</div>
+		</div>
+		<div class="fi-shop-best">
+			<p class="fi-shop-conlp">热卖商品</p>
+			{fi:shopgoods type='hot' num='5' id='ho' shop="$data['shop']['shopId']"}
+			<a href="{:url('home/goods/detail',array('id'=>$ho['goodsId']))}" target="_blank">
+			<div class="fi-shop-bestg">
+				<div class="fi-shop-besti"><img class="goodsImg" data-original="__ROOT__/{$ho['goodsImg']}" title="{$ho['goodsName']}" alt="{$ho['goodsName']}"></div>
+				<a href="{:url('home/goods/detail',array('id'=>$ho['goodsId']))}"><p class="fi-shop-bestgp1">{:FIMSubstr($ho['goodsName'],0,20)}</p></a>
+				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$ho['saleNum']}</span>件</p>
+				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$ho['shopPrice']}</span><span class="fi-shop-bestpr2">￥{$ho['marketPrice']}</span></p>
+			</div>
+			</a>
+			{/fi:shopgoods}
+			<div class="fi-clear"></div>
+		</div>
+		{if cookie("history_goods")!=''}
+		<div class="fi-shop-lat">
+			<p class="fi-shop-conlp">最近浏览</p>
+			{fi:goods type='history' num='4'}
+			<div class="fi-shop-bestg">
+				<div class="fi-shop-besti"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img class="goodsImg" data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" title="{$vo['goodsName']}" alt="{$vo['goodsName']}" ></div>
+				<a href="{:url('home/goods/detail','id='.$vo['goodsId'])}" target='_blank'><p class="fi-shop-bestgp1">{$vo['goodsName']}</p></a>
+				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$vo['saleNum']}</span>件</p>
+				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$vo['shopPrice']}</span><span class="fi-shop-bestpr2">￥{$vo['marketPrice']}</span></p>
+			</div>
+			{/fi:goods}
+			<div class="fi-clear"></div>
+		</div>
+		{/if}
+	</div>
+	<div class="fi-shop-contr">
+		<div class="fi-shop-rec">
+			<p class="fi-shop-conrp">店长推荐</p>
+			<div class="fi-shop-recb">
+			    {fi:shopgoods type='recom' num='4' id='re' shop="$data['shop']['shopId']"}
+				<div class="fi-shop-rgoods">
+					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$re['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$re['goodsImg']}" title="{$re['goodsName']}"></a></div>
+					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$re['goodsId']))}" target="_blank">{:FIMSubstr($re['goodsName'],0,28)}</a></p>
+					<div class="fi-shop-rect">
+					<span>￥{$re['shopPrice']}</span>
+					{if($re['goodsStock'])}
+					<a class="fi-shop-recta" href="javascript:FI.addCart({$re['goodsId']})">加入购物车</a>
+					{else}
+					<a class="fi-shop-recta2" href="javascript:void(0);">暂无商品</a>
+					{/if}
+					</div>
+				</div>
+			    {/fi:shopgoods}
+				<div class="fi-clear"></div>
+			</div>
+		</div>
+		<div class="fi-shop-list">
+			<div class="fi-shop-listh">
+				<a href="javascript:void(0);" class="{if condition="$msort eq 0"}fi-shop-a{/if}" onclick="searchShopsGoods(0);">综合排序</a>
+				<a href="javascript:void(0);" class="{if condition="$msort eq 1"}fi-shop-a{/if}" onclick="searchShopsGoods(1);">人气<span class="{if condition="$msort neq 1"}fi-shop-store{/if}{if condition="$msort eq 1 and $mdesc eq 1"}fi-shop-store2{/if}{if condition="$msort eq 1 and $mdesc eq 0"}fi-shop-store3{/if}"></span></a>
+				<a href="javascript:void(0);" class="{if condition="$msort eq 2"}fi-shop-a{/if}" onclick="searchShopsGoods(2);">销量<span class="{if condition="$msort neq 2"}fi-shop-store{/if}{if condition="$msort eq 2 and $mdesc eq 1"}fi-shop-store2{/if}{if condition="$msort eq 2 and $mdesc eq 0"}fi-shop-store3{/if}"></span></a>
+				<a href="javascript:void(0);" class="{if condition="$msort eq 3"}fi-shop-a{/if}" onclick="searchShopsGoods(3);">价格<span class="{if condition="$msort neq 3"}fi-shop-store{/if}{if condition="$msort eq 3 and $mdesc eq 1"}fi-shop-store2{/if}{if condition="$msort eq 3 and $mdesc eq 0"}fi-shop-store3{/if}"></span></a>
+				<a href="javascript:void(0);" class="{if condition="$msort eq 4"}fi-shop-a{/if}" onclick="searchShopsGoods(4);">好评度<span class="{if condition="$msort neq 4"}fi-shop-store{/if}{if condition="$msort eq 4 and $mdesc eq 1"}fi-shop-store2{/if}{if condition="$msort eq 4 and $mdesc eq 0"}fi-shop-store3{/if}"></span></a>
+				<a href="javascript:void(0);" class="{if condition="$msort eq 5"}fi-shop-a{/if}" onclick="searchShopsGoods(5);">上架时间<span class="{if condition="$msort neq 5"}fi-shop-store{/if}{if condition="$msort eq 5 and $mdesc eq 1"}fi-shop-store2{/if}{if condition="$msort eq 5 and $mdesc eq 0"}fi-shop-store3{/if}"></span></a>
+				<div class="fi-price-ipts">
+				<span class="fi-price-ipt1">￥</span><span class="fi-price-ipt2">￥</span>
+				<input type="text" class="fi-price-ipt" id="sprice" value="{$sprice}" style="margin-left:8px;" onkeypress='return FI.isNumberdoteKey(event);' onkeyup="javascript:FI.isChinese(this,1)">
+				- <input type="text" class="fi-price-ipt" id="eprice" value="{$eprice}" onkeypress='return FI.isNumberKey(event);' onkeyup="javascript:FI.isChinese(this,1)">
+				</div>
+				<button class="fi-shop-but" type="submit" style="width:60px;height: 33px;" onclick="searchShopsGoods(0);">确定</button>
+			</div>
+			<div class="fi-clear"></div>
+			<div class="fi-shop-listg">
+				{volist name="$data['list']['Rows']" id="li"}
+				<div class="fi-shop-goods">
+					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$li['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$li['goodsImg']}" title="{$li['goodsName']}"></a><a href="javascript:FI.addCart({$li['goodsId']});"><span class="js-cart">加入购物车</span></a></div>
+					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$li['goodsId']))}" target="_blank">{:FIMSubstr($li['goodsName'],0,15)}</a></p>
+					<p class="fi-shop-goodp1"><span class="fi-shop-goodpr">￥{$li['shopPrice']}</span><span class="fi-rfloat">成交数：<span class="fi-shop-goodpr2">{$li['saleNum']}</span></span></p>
+					<p class="fi-shop-goodp2"><span class="fi-shop-goodpr3">市场价：￥{$li['marketPrice']}</span><span class="fi-rfloat">已有<span class="fi-shop-goodpr4">{$li['appraiseNum']}</span>人评价</span></p>
+				</div>
+				{/volist}
+				<div class="fi-clear"></div>
+			</div>
+			<div class="fi-shop-pa">
+				<div id="shopPage"></div>
+			</div>
+		</div>
+	</div>
+	<div class="fi-clear"></div>
+</div>
+{include file="default/right_cart"/}
+{/block}
+{block name="js"}
+<script type="text/javascript" src="__STATIC__/plugins/slide/js/slide.js?v={$v}"></script>
+<script type='text/javascript' src='__HOME__/js/shophome.js?v={$v}'></script>
+<script type='text/javascript' src='__HOME__/js/qrcode.js?v={$v}'></script>
+<script>
+$(function(){
+	if({$data['list']['TotalPage']}>1){
+	laypage({
+	    cont: 'shopPage',
+	    pages: {$data['list']['TotalPage']}, //总页数
+	    curr: {$data['list']['CurrentPage']},
+	    skip: true, //是否开启跳页
+	    skin: '#fd6148',
+	    groups: 3, //连续显示分页数
+	   	prev: '<<',
+		next: '>>',
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = FI.splitURL("page");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&page='+e.curr;
+	        	}else{
+	        		location.href = '?page='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	}
+	var qr = qrcode(10, 'M');
+	var url = window.location.href;
+	qr.addData(url);
+	qr.make();
+	$('#qrcode').html(qr.createImgTag());
+});
+</script>
+{/block}
+{block name="footer"}{__block__}
+{/block}

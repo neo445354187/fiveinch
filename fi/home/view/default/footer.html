@@ -1,0 +1,52 @@
+<div class="mod-footer">
+    <div class="foot-bannerw">
+        <div class="foot-banner clearfix">
+            <div class="banner-item"><a href="http://mall.360.com/help/show?id=helpcontent_52efb0302e80307378d75a52ad77dcfe" target="_blank" data-monitor="home_foot_days7"><i class="icon1">7</i>7天无理由退货</a></div>
+            <div class="banner-item"><a href="http://mall.360.com/help/show?id=helpcontent_39b7f4bf73e2cda4f61f7b446e9a4307" target="_blank" data-monitor="home_foot_days15"><i class="icon2">15</i>15天免费换货</a></div>
+            <div class="banner-item"><i class="icon3">包</i>满99元包邮</div>
+            <div class="banner-item"><a href="http://www.360shouji.com/service" target="_blank" data-monitor="home_foot_moblie"><i class="icon4">服</i>手机特色服务</a></div>
+        </div>
+    </div>
+    <div class="foot-containerw">
+        <div class="foot-container clearfix">
+        	{volist name=":FIHelps(5,6)" id="vo1"}
+        	<dl class="foot-con">
+        	    <dt data-monitor="home_foot_freshman">{$vo1["catName"]}</dt>
+        	    {volist name="vo1['articlecats']" id="vo2"}
+        	    <dd><a target="_blank" href="{:Url('Home/Helpcenter/view',array('id'=>$vo2['articleId']))}" rel="nofollow">{:FIMSubstr($vo2['articleTitle'],0,8)}</a> </dd>
+        	    {/volist}
+        	    
+        	</dl>
+        	{/volist}
+            
+            <dl class="foot-con contactus">
+                <dt>联系我们 </dt>
+                <dd class="servicebox">
+                    <a href="javascript:;" onclick="showServiceSelector(); return false" class="inline-kefu"><img src="__HOME__/img/online_server.png"></a>
+                    <a href="javascript:;" target="_blank" class="weixin"><img src="__HOME__/img/icon_weixin.png"> <span class="wxtips"> <img src="https://p.ssl.qhmsg.com/t01d06b994b8798623c.jpg"> </span><!--后面图片时微信二维码--></a>
+                   	<a class="weibo" data-monitor="home_foot_weibo" href="http://weibo.com/qikoo360" target="_blank"><img src="https://p.ssl.qhmsg.com/t0128093bd494ffc7e9.png"> <span class="wxtips"> <img src="https://p.ssl.qhmsg.com/t013f6db48422a373d6.jpg"> </span></a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        {php}
+        	if(FIConf('CONF.mallFooter')!=''){
+         		echo htmlspecialchars_decode(FIConf('CONF.mallFooter'));
+        	}
+        {/php}
+      	{php}
+			if(FIConf('CONF.visitStatistics')!=''){
+				echo htmlspecialchars_decode(FIConf('CONF.visitStatistics'))."<br/>";
+		    }
+		{/php}
+        {if condition="FIConf('CONF.mallLicense') eq ''"}
+        <div>
+			Copyright©2016 Powered By <a target="_blank" href="http://www.fi.net">five</a>
+		</div>
+		{else/}
+			<div id="fi-mallLicense" data='1' style="display:none;">Copyright©2016 Powered By <a target="_blank" href="http://www.fi.net">five</a></div>
+        {/if}
+    </div>
+</div>
+
