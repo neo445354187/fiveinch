@@ -11,7 +11,7 @@
 			// 密码
 			'password'       => 'root',
 			// 端口
-			'hostport'       => '',
+			'hostport'       => '3306',
 			// 连接dsn
 			'dsn'            => '',
 			// 数据库连接参数

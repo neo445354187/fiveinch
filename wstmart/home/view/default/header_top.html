@@ -146,7 +146,7 @@ $(function(){
 	//二维码
 	//参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
 	var a = qrcode(8, 'M');
-	var url = window.location.host+window.conf.APP;
+	var url = window.location.host;
 	a.addData(url);
 	a.make();
 	$('#qrcodea').html(a.createImgTag());

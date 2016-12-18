@@ -450,7 +450,7 @@ $(function(){
 			url += "?" + $.param(vars);
 		}
 		//url = url.replace(new RegExp("%2F","gm"),"+");
-		url = WST.conf.APP + "/"+url;
+		url = "/"+url;
 		return url;
 	}
 });

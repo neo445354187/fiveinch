@@ -19,7 +19,7 @@ location / {
 
 1. 开启php_fileinfo.dll模块，打开php.ini文件，找到extension=php_fileinfo.dll，并打开
 
-
+## 在断网情况下，访问页面可以通过报错查看时候有后门
 
 
 # 前台

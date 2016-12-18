@@ -8,7 +8,6 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-define('ROOT_URL', \think\Request::instance()->root());
 
 return [
     // +----------------------------------------------------------------------
@@ -137,10 +136,9 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__APP__'    => ROOT_URL,
-        '__ROOT__'   => str_replace('/index.php', '', ROOT_URL),
-        '__HOME__'   => str_replace('/index.php', '', ROOT_URL) . '/wstmart/home/default',
-        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/wstmart/static',
+        '__ROOT__'   => '',
+        '__HOME__'   => '/wstmart/home/default',
+        '__STATIC__' => '/wstmart/static',
     ],
 
     // 默认跳转页面对应的模板文件

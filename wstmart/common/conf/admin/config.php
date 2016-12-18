@@ -18,7 +18,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用命名空间
-    'app_namespace'          => 'wstmart',
+    'app_namespace'          => 'wstmart1',
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
@@ -139,10 +139,9 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__APP__'    => ROOT_URL,
-        '__ROOT__'   => str_replace('/index.php', '', ROOT_URL),
-        '__ADMIN__'  => str_replace('/index.php', '', ROOT_URL) . '/wstmart/admin/',
-        '__STATIC__' => str_replace('/index.php', '', ROOT_URL) . '/wstmart/static',
+        '__ROOT__'   => '',
+        '__ADMIN__'  => '/wstmart/admin',
+        '__STATIC__' => '/wstmart/static',
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
