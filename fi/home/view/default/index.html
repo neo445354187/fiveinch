@@ -1,174 +1,142 @@
-{extend name="default/base" /}
-{block name="title"}{:FIConf('CONF.mallName')}-{:FIConf('CONF.mallSlogan')}{__block__}{/block}
-{block name="meta"}
+{extend name="default/base" /} {block name="title"}{:FIConf('CONF.mallName')}-{:FIConf('CONF.mallSlogan')}{__block__}{/block} {block name="meta"}
 <meta name="description" content="{:FIConf('CONF.seoMallDesc')}">
-<meta name="Keywords" content="{:FIConf('CONF.seoMallKeywords')}">
-{/block}
-{block name="css"}
-<link href="__HOME__/css/index.css?v={$v}" rel="stylesheet">
-{/block}
-{block name="main"}
-{/* 横栏广告  */}
-<div class="fi-ads" >
-	<div class="fi-slide" id="fi-slide">
-		<ul class="fi-slide-items">
-			<!--轮播广告 start-->
-			{fi:ads code="ads-index" cache='86400'}
-				<a href="{$vo.adURL}" {if ($vo['adURL']!='')}onclick="FI.recordClick({$vo['adId']})"{/if}><li style="background: url(__ROOT__/{$vo.adFile}) no-repeat  scroll center top;background-size:cover;" ></li></a>
-			{/fi:ads}
-			<!--轮播广告 end-->
-		</ul>
-		<!--轮播下面的转换灯-->
-		<div class="fi-slide-numbox">
-			<div class="fi-slide-controls">
-			  	{fi:ads code="ads-index" cache='86400' key='k'}
-				  	{if condition="$k+1 eq 1"}
-				  		 <span class="curr">{$k+1}</span>
-				  	{else/} 
-				  		 <span class="">{$k+1}</span>
-				  	{/if}
-				{/fi:ads}
-			</div>
-		</div>
-	</div>
+<meta name="Keywords" content="{:FIConf('CONF.seoMallKeywords')}"> {/block} {block name="css"}
+<link href="__HOME__/css/index.css?v={$v}" rel="stylesheet"> {/block} {block name="main"} {/* 横栏广告 */}
+<div class="fi-ads">
+    <div class="fi-slide" id="fi-slide">
+        <ul class="fi-slide-items">
+            <!--轮播广告 start-->
+            {fi:ads code="ads-index" cache='86400'}
+            <a href="{$vo.adURL}" {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if}>
+                <li style="background: url(__ROOT__/{$vo.adFile}) no-repeat  scroll center top;background-size:cover;"></li>
+            </a>
+            {/fi:ads}
+            <!--轮播广告 end-->
+        </ul>
+        <!--轮播下面的转换灯-->
+        <div class="fi-slide-numbox">
+            <div class="fi-slide-controls">
+                {fi:ads code="ads-index" cache='86400' key='k'} {if condition="$k+1 eq 1"}
+                <span class="curr">{$k+1}</span> {else/}
+                <span class="">{$k+1}</span> {/if} {/fi:ads}
+            </div>
+        </div>
+    </div>
 </div>
 <div class='fi-main' style="margin-top: 35px;">
-	<div class='fi-container'>
-		<!--推荐商品 start-->
-		<div class="recommend" id="recommend">
-		    <div class="part-container"><span class="vline"></span><span class="vicon"></span><span class="part-title">推荐商品</span><span class="vicon"></span><span class="vline"></span></div>
-		    <div class="fi-clear"></div>
-		    <ul class="part-container">
-		        <li class="ac0">
-		            <a href="http://mall.360.com/ac/jiatingyingyuan" target="_blank" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01e770e96f127b565c.jpg" src="https://p.ssl.qhmsg.com/t01e770e96f127b565c.webp" > </a>
-		        </li>
-		        <li class="ac1">
-		            <a href="http://mall.360.com/ac/pingguo" target="_blank" data-monitor="home_activity_ziyuanwei02"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.png" src="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.webp" > </a>
-		        </li>
-		        <li class="ac2">
-		            <a href="http://mall.360.com/ac/0912manbuzhe" target="_blank" data-monitor="home_activity_ziyuanwei03"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.jpg" src="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.webp" style="display: block;"> </a>
-		        </li>
-		        <li class="ac3">
-		            <a href="http://mall.360.com/ac/qianggou1114" target="_blank" data-monitor="home_activity_ziyuanwei04"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016f89a105cf283cae.jpg" src="https://p.ssl.qhmsg.com/t016f89a105cf283cae.webp" style="display: block;"> </a>
-		        </li>
-		        <li class="ac4">
-		            <a href="http://mall.360.com/ac/zhinengjiaju2016" target="_blank" data-monitor="home_activity_ziyuanwei05"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.jpg" src="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.webp" style="display: block;"> </a>
-		        </li>
-		        <li class="ac5">
-		            <a href="http://mall.360.com/ac/miqilin0801" target="_blank" data-monitor="home_activity_ziyuanwei06"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.jpg" src="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.webp" style="display: block;"> </a>
-		        </li>
-
-		    </ul>
-		</div>
-		<div class="fi-clear"></div>
-		<!--推荐商品 end-->
-
-
-		
-   	 	{/* 楼层商品 */}
-		{volist name="floors" id="vo" key="l" length="10"}
-		{/* 楼层顶部广告 */}
-		{php}$adsCode = "ads-".$l."-1";{/php}
-			<div class="floor-box">
-				<div class="floor-header c{$l}" id="c{$l}">
-					<div class="floor-header-f{$l}">
-						<p class="floor-right-title">{$vo['catName']}</p>
-					</div>
-					<!--热搜 start-->
-					<div class="part-hot"> <span>热搜：</span>
-					    <ul>
-					        <li><a href="http://mall.360.com/rush/item?item_id=57b6a988eac499110d6063f2" target="_blank" data-monitor="home_floor1_hot1">360手机Q5</a> </li>
-					        <li><a href="http://mall.360.com/rush/item?item_id=57876cb3215ea061b38eb52f" target="_blank" data-monitor="home_floor1_hot2">360手机N4S</a> </li>
-					        <li><a href="http://mall.360.com/shop/item?item_id=57529fc9534b7f14ef786124" target="_blank" data-monitor="home_floor1_hot3">360手机N4</a> </li>
-					        <li><a href="http://mall.360.com/shop/item?item_id=56eb6d045efb116b378b456c" target="_blank" data-monitor="home_floor1_hot4">360手机f4</a> </li>
-					        <li><a href="http://mall.360.com/shop/item?item_id=55b1d41f5efb11ea158b456b" target="_blank" data-monitor="home_floor1_hot5">10000毫安移动电源</a> </li>
-					    </ul>
-					    <a href="http://mall.360.com/search/?sort=weight&amp;q=*&amp;cate=3" target="_blank" class="indexmore" data-monitor="home_floor1_more">更多</a>
-					</div> 
-					<!--热搜 end-->
-				</div>
-				<div class="floor-left">
-				    {/* 楼层左侧广告(左上) start */}
-					<div class="floor-left-ads">
-					    {php}$adsCode = "ads-".$l."-2";{/php}
-					    {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
-							<a href="{$lad['adURL']}" {if ($lad['adURL']!='')}onclick="FI.recordClick({$lad['adId']})"{/if}><img style="width:240px;height:418px;" class='goodsImg' data-original="__ROOT__/{$lad['adFile']}"> </a>
-						{/fi:ads}
-					</div>
-					{/* 楼层左侧广告(左上) end */}
-					
-					{/* 楼层左侧广告(左下) start todo */}
-					<div class="floor-left-goods">
-						<a href="{$lad['adURL']}" {if ($lad['adURL']!='')}onclick="FI.recordClick({$lad['adId']})"{/if}><img class="js-lazyload goodsImg" data-size="240_140_" data-original="https://p.ssl.qhmsg.com/t01914c74cb1356796e.jpg" src="https://p.ssl.qhmsg.com/dr/240_140_/t01914c74cb1356796e.webp" style="display: block;"></a>
-					</div>
-					{/* 楼层左侧广告(左下) end todo*/}
-				</div>
-				{/* 热门下的商品,含右侧广告 start*/}
-				<div class="floor-right" id="fl_{$l}_0_pl">
-					<div class="floor-right-ads">
-						<div class="fi-floor-slide-{$l}" id="fi-floor-slide-{$l}">
-							<!--右侧轮播广告 start-->
-							<ul class="fi-floor-slide-items">
-							    {php}$adsCode = "ads-".$l."-3";{/php}
-							    {fi:ads code="$adsCode" cache='86400' id='rad'}
-									<li style="z-index: 1;">
-										<a href="{$rad.adURL}" {if ($rad['adURL']!='')}onclick="FI.recordClick({$rad['adId']})"{/if}><img class='goodsImg' data-original="__ROOT__/{$rad.adFile}"></a>
-									</li>
-								{/fi:ads}
-							</ul>
-							<!--右侧轮播广告 end-->
-
-							<!--右侧轮播广告按钮 start-->
-							<div class="fi-floor-slide-numbox">
-								<div id="fi-floor-slide-controls-{$l}">
-								 {php}$adsCode = "ads-".$l."-3";{/php}
-								 {fi:ads code="$adsCode" cache='86400' key='k' id='rad'}
-									 {if condition="$k eq 1"}
-									  		 <span class="curr"> </span>
-									 {else/}
-									  		 <span class=""> </span>
-									 {/if}
-								 {/fi:ads}
-								</div>
-							</div>
-							<!--右侧轮播广告按钮 end-->
-						</div>
-					</div>
-
-					<div class="goods-list">
-				     {/* 楼层分类下的商品 */}
-					  {fi:goods type='hot' cat="vo['catId']" cache="86400" num='6' id='cs'}
-				      <div class="goods goods-f{$l}">
-				      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" title="{$cs['goodsName']}"><img title="{$cs['goodsName']}" class='goodsImg' data-original="__ROOT__/{$cs['goodsImg']}"/></a></div>
-				      	<div class="p-name">
-				      		<p class="p-price">￥{$cs['shopPrice']}</p>
-				      		<a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="fi-redlink" title="{$cs['goodsName']}">{:FIMSubstr($cs['goodsName'],0,12)}</a>
-							
-				      	</div>
-				      </div>
-				      {/fi:goods}
-				     <div class='fi-clear'></div>
-				   	</div>
-					<div class="fi-clear"></div>
-				</div> 
-				{/* 热门下的商品,含右侧广告 end*/}
-			</div>
-		{/volist}
-	</div>
+    <div class='fi-container'>
+        <!--推荐商品 start-->
+        <div class="recommend" id="recommend">
+            <div class="part-container"><span class="vline"></span><span class="vicon"></span><span class="part-title">推荐商品</span><span class="vicon"></span><span class="vline"></span></div>
+            <div class="fi-clear"></div>
+            <ul class="part-container">
+                <li class="ac0">
+                    <a href="http://mall.360.com/ac/jiatingyingyuan" target="_blank" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01e770e96f127b565c.jpg" src="https://p.ssl.qhmsg.com/t01e770e96f127b565c.webp"> </a>
+                </li>
+                <li class="ac1">
+                    <a href="http://mall.360.com/ac/pingguo" target="_blank" data-monitor="home_activity_ziyuanwei02"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.png" src="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.webp"> </a>
+                </li>
+                <li class="ac2">
+                    <a href="http://mall.360.com/ac/0912manbuzhe" target="_blank" data-monitor="home_activity_ziyuanwei03"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.jpg" src="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.webp" style="display: block;"> </a>
+                </li>
+                <li class="ac3">
+                    <a href="http://mall.360.com/ac/qianggou1114" target="_blank" data-monitor="home_activity_ziyuanwei04"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016f89a105cf283cae.jpg" src="https://p.ssl.qhmsg.com/t016f89a105cf283cae.webp" style="display: block;"> </a>
+                </li>
+                <li class="ac4">
+                    <a href="http://mall.360.com/ac/zhinengjiaju2016" target="_blank" data-monitor="home_activity_ziyuanwei05"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.jpg" src="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.webp" style="display: block;"> </a>
+                </li>
+                <li class="ac5">
+                    <a href="http://mall.360.com/ac/miqilin0801" target="_blank" data-monitor="home_activity_ziyuanwei06"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.jpg" src="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.webp" style="display: block;"> </a>
+                </li>
+            </ul>
+        </div>
+        <div class="fi-clear"></div>
+        <!--推荐商品 end-->
+        {/* 楼层商品 */} {volist name="floors" id="vo" key="l" length="10"} {/* 楼层顶部广告 */} {php}$adsCode = "ads-".$l."-1";{/php}
+        <div class="floor-box">
+            <div class="floor-header c{$l}" id="c{$l}">
+                <div class="floor-header-f{$l}">
+                    <p class="floor-right-title">{$vo['catName']}</p>
+                </div>
+                <!--热搜 start-->
+                <div class="part-hot"> <span>热搜：</span>
+                    <ul>
+                        <li><a href="http://mall.360.com/rush/item?item_id=57b6a988eac499110d6063f2" target="_blank" data-monitor="home_floor1_hot1">360手机Q5</a> </li>
+                        <li><a href="http://mall.360.com/rush/item?item_id=57876cb3215ea061b38eb52f" target="_blank" data-monitor="home_floor1_hot2">360手机N4S</a> </li>
+                        <li><a href="http://mall.360.com/shop/item?item_id=57529fc9534b7f14ef786124" target="_blank" data-monitor="home_floor1_hot3">360手机N4</a> </li>
+                        <li><a href="http://mall.360.com/shop/item?item_id=56eb6d045efb116b378b456c" target="_blank" data-monitor="home_floor1_hot4">360手机f4</a> </li>
+                        <li><a href="http://mall.360.com/shop/item?item_id=55b1d41f5efb11ea158b456b" target="_blank" data-monitor="home_floor1_hot5">10000毫安移动电源</a> </li>
+                    </ul>
+                    <a href="http://mall.360.com/search/?sort=weight&amp;q=*&amp;cate=3" target="_blank" class="indexmore" data-monitor="home_floor1_more">更多</a>
+                </div>
+                <!--热搜 end-->
+            </div>
+            <div class="floor-left">
+                {/* 楼层左侧广告(左上) start */}
+                <div class="floor-left-ads">
+                    {php}$adsCode = "ads-".$l."-2";{/php} {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
+                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img style="width:240px;height:418px;" class='goodsImg' data-original="__ROOT__/{$lad['adFile']}"> </a>
+                    {/fi:ads}
+                </div>
+                {/* 楼层左侧广告(左上) end */} {/* 楼层左侧广告(左下) start todo */}
+                <div class="floor-left-goods">
+                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img class="js-lazyload goodsImg" data-size="240_140_" data-original="https://p.ssl.qhmsg.com/t01914c74cb1356796e.jpg" src="https://p.ssl.qhmsg.com/dr/240_140_/t01914c74cb1356796e.webp" style="display: block;"></a>
+                </div>
+                {/* 楼层左侧广告(左下) end todo*/}
+            </div>
+            {/* 热门下的商品,含右侧广告 start*/}
+            <div class="floor-right" id="fl_{$l}_0_pl">
+                <div class="floor-right-ads">
+                    <div class="fi-floor-slide-{$l}" id="fi-floor-slide-{$l}">
+                        <!--右侧轮播广告 start-->
+                        <ul class="fi-floor-slide-items">
+                            {php}$adsCode = "ads-".$l."-3";{/php} {fi:ads code="$adsCode" cache='86400' id='rad'}
+                            <li style="z-index: 1;">
+                                <a href="{$rad.adURL}" {if ($rad[ 'adURL']!='' )}onclick="FI.recordClick({$rad['adId']})" {/if}><img class='goodsImg' data-original="__ROOT__/{$rad.adFile}"></a>
+                            </li>
+                            {/fi:ads}
+                        </ul>
+                        <!--右侧轮播广告 end-->
+                        <!--右侧轮播广告按钮 start-->
+                        <div class="fi-floor-slide-numbox">
+                            <div id="fi-floor-slide-controls-{$l}">
+                                {php}$adsCode = "ads-".$l."-3";{/php} {fi:ads code="$adsCode" cache='86400' key='k' id='rad'} {if condition="$k eq 1"}
+                                <span class="curr"> </span> {else/}
+                                <span class=""> </span> {/if} {/fi:ads}
+                            </div>
+                        </div>
+                        <!--右侧轮播广告按钮 end-->
+                    </div>
+                </div>
+                <div class="goods-list">
+                    {/* 楼层分类下的商品 */} {fi:goods type='hot' cat="vo['catId']" cache="86400" num='6' id='cs'}
+                    <div class="goods goods-f{$l}">
+                        <div class="img">
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" title="{$cs['goodsName']}"><img title="{$cs['goodsName']}" class='goodsImg' data-original="__ROOT__/{$cs['goodsImg']}" /></a>
+                        </div>
+                        <div class="p-name">
+                            <p class="p-price">￥{$cs['shopPrice']}</p>
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="fi-redlink" title="{$cs['goodsName']}">{:FIMSubstr($cs['goodsName'],0,12)}</a>
+                        </div>
+                    </div>
+                    {/fi:goods}
+                    <div class='fi-clear'></div>
+                </div>
+                <div class="fi-clear"></div>
+            </div>
+            {/* 热门下的商品,含右侧广告 end*/}
+        </div>
+        {/volist}
+    </div>
 </div>
 <div id="screen-left-nav" style="display:none;">
-	<ul>
-		{for start="1" end="$l+1"}
-		{php} if ($i>10)break; {/php}
-		<li class="lnav" id="F{$i}" ><a href="javascript:;" onfocus="this.blur();" >{$i}F</a></li>
-		{/for}
-	</ul>
+    <ul>
+        {for start="1" end="$l+1"} {php} if ($i>10)break; {/php}
+        <li class="lnav" id="F{$i}"><a href="javascript:;" onfocus="this.blur();">{$i}F</a></li>
+        {/for}
+    </ul>
 </div>
-{/* 右侧菜单栏  */}
-{include file="default/right_cart"/}
-{/block}
-{block name="js"}
+{/* 右侧菜单栏 */} {include file="default/right_cart"/} {/block} {block name="js"}
 <script type='text/javascript' src='__ROOT__/fi/static/plugins/lazyload/jquery.lazyload.min.js?v={$v}'></script>
 <script type='text/javascript' src='__HOME__/js/index.js?v={$v}'></script>
-{/block}
-{/block}
+{/block} {/block}
