@@ -355,6 +355,7 @@ FI.getParams = function(obj){
 		}
 	});
 	chk=null,s=null;
+
 	return params;
 }
 FI.setValue = function(name, value){

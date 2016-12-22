@@ -149,7 +149,7 @@ abstract class Paginator
      * @return int
      */
     public function getTotalPage(){
-    	return $this->totalPage;
+        return $this->totalPage;
     }
  
 

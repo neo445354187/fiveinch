@@ -328,7 +328,8 @@ function shopApply(){
 FI.upload = function(opts){
 	var _opts = {};
 	_opts = $.extend(_opts,{auto: true,swf: FI.ROOT +'/plugins/webuploader/Uploader.swf',server:FI.U('home/index/uploadPic')},opts);
-	var uploader = WebUploader.create(_opts);
+	uploader = WebUploader.create(_opts);
+	
 	uploader.on('uploadSuccess', function( file,response ) {
 	    var json = FI.toJson(response._raw);
 	    if(_opts.callback)_opts.callback(json,file);

@@ -51,6 +51,7 @@ class Collection extends \think\Collection
             } catch (Exception $e) {
                 $total = null;
             }
+
             /*
             return [
                 'total'        => $total,
@@ -64,7 +65,7 @@ class Collection extends \think\Collection
                 'Total'       => $total,
                 'PerPage'     => $this->listRows(),
                 'CurrentPage' => $this->currentPage(),
-                'TotalPage'       => $this->getTotalPage(),
+                'TotalPage'   => $this->getTotalPage(),
                 'Rows'        => parent::toArray()
             ];
         } else {

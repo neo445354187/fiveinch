@@ -43,6 +43,17 @@ function checkCoords()
   return false;
 }
 
+/**
+ * [returnPhotoPage  补救一下]
+ * @return {[type]} [description]
+ */
+function returnPhotoPage() {
+  $('#userPhoto').show();
+  $('#userPhotoCut').hide();
+  userPic = $('#userPhotoPreview1 img').attr('data-original').substr(1);
+  uploader.reset();
+}
+
 function uploadUserPhoto()
 {
   FI.upload({
@@ -145,6 +156,7 @@ $(function(){
           },
         valid: function(form){
           var params = FI.getParams('.ipt');
+
           if(!userPic){
             userPic = $('#userPic').val();
           }

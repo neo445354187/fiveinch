@@ -4,12 +4,13 @@
 
 use think\Db;
 /**
- * 生成验证码
+ * [FIVerify 生成验证码]
+ * @param integer $length [验证码长度]
  */
-function FIVerify()
+function FIVerify($length = 4)
 {
     $Verify         = new \verify\Verify();
-    $Verify->length = 4;
+    $Verify->length = $length;
     $Verify->entry();
 }
 /**
@@ -21,20 +22,20 @@ function FIVerifyCheck($code)
     return $verify->check($code);
 }
 /**
- * 生成数据返回值
+ * [FIReturn 生成数据返回值，呵呵设计]
+ * @param [type]  $msg    [description]
+ * @param integer $status [description]
+ * @param [type]  $data   [description]
  */
 function FIReturn($msg, $status = -1, $data = [])
 {
-    $rs = ['status' => $status, 'msg' => $msg];
-    if (!empty($data)) {
-        $rs['data'] = $data;
-    }
-
+    $rs                  = ['status' => $status, 'msg' => $msg];
+    $data && $rs['data'] = $data;
     return $rs;
 }
 
 /**
- * 检测字符串不否包含
+ * 检测字符串不否包含(ps:我想正则匹配更好)
  * @param $srcword 被检测的字符串
  * @param $filterWords 禁用使用的字符串列表
  * @return boolean true-检测到,false-未检测到 (感觉反了)
@@ -73,7 +74,13 @@ function FISendSMS($phoneNumer, $content)
 }
 
 /**
- * 获取指定的全局配置
+ * [FIConf 获取指定的全局配置，获取的是$GLOBALS['FICONF'][$key]]
+ * 说明：
+ * 赋值时，下标是整体，即使包含.(点)的下标，也是整体，不会形成多维数组，要赋值多维数组，需要直接
+ * 值为数组
+ * 取值时，包含.(点)，则表示多维数组下标，所以用这个方法，赋值时，键一定不能包含.
+ * @param [type] $key [键]
+ * @param string $v   [为null，则表示删除该键值，有值表示赋值]
  */
 function FIConf($key, $v = '')
 {
@@ -84,7 +91,8 @@ function FIConf($key, $v = '')
     } else if ($v === '') {
         if (array_key_exists('FICONF', $GLOBALS)) {
             $conf = $GLOBALS['FICONF'];
-            $ks   = explode(".", $key);
+            //用. 分割下标，形成多维数据
+            $ks = explode(".", $key);
             for ($i = 0, $k = count($ks); $i < $k; $i++) {
                 if (array_key_exists($ks[$i], $conf)) {
                     $conf = $conf[$ks[$i]];
@@ -100,7 +108,10 @@ function FIConf($key, $v = '')
     return null;
 }
 
-//php获取中文字符拼音首字母
+/**
+ * [FIGetFirstCharter php获取中文字符拼音首字母，还可以]
+ * @param [type] $str [description]
+ */
 function FIGetFirstCharter($str)
 {
     if (empty($str)) {
@@ -214,8 +225,8 @@ function FIGetFirstCharter($str)
 }
 
 /**
- * 设置当前页面对象
- * @param int 0-用户  1-商家
+ * 设置当前页面对象(待定)
+ * @param int 0-用户  1-商家，待定：以后少些特征码，改为常量或配置
  */
 function FILoginTarget($target = 0)
 {
@@ -273,7 +284,7 @@ function FIConfig()
         foreach ($rv as $v) {
             $rs[$v['fieldCode']] = $v['fieldValue'];
         }
-        //获取上传文件目录配置
+        //获取上传文件目录配置，待定：又来特征码
         $data = Db::table('__DATAS__')->where('catId', 3)->column('dataVal');
         foreach ($data as $key => $v) {
             $data[$key] = str_replace('_', '', $v);
@@ -300,7 +311,12 @@ function FIIsPhone($phoneNo)
 
 /**
  * 检测登录账号是否可用
- * @param $key 要检测的内容
+ * @param $val
+ */
+/**
+ * [FICheckLoginKey 检测登录账号是否可用]
+ * @param [type]  $val    [要检测的内容]
+ * @param integer $userId [需要检查的userId，有userId就将其传入检查，没有就检查登录名、邮箱和电话]
  */
 function FICheckLoginKey($val, $userId = 0)
 {
@@ -411,7 +427,7 @@ function FIGoodsCats($parentId = 0, $isFloor = -1)
 {
     $dbo = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => $parentId]);
     if ($isFloor != -1) {
-        $db0 > where('isFloor', $isFloor);
+        $dbo->where('isFloor', $isFloor);
     }
 
     return $dbo->field("catName,catId")->order('catSort asc')->select();
@@ -448,15 +464,19 @@ function FIUploadPic($fromType = 0)
         ['fileExt', 'fileExt:jpg,jpeg,gif,png,bmp', '只允许上传后缀为jpg,gif,png,bmp的文件'],
         ['fileSize', 'fileSize:2097152', '文件大小超出限制'], //最大2M
     ]);
-    $data = ['fileMime' => $file,
-        'fileSize'          => $file,
-        'fileExt'           => $file,
+    $data = [
+        'fileMime' => $file,
+        'fileSize' => $file,
+        'fileExt'  => $file,
     ];
     if (!$validate->check($data)) {
         return json_encode(['msg' => $validate->getError(), 'status' => -1]);
     }
-    $root = dirname(ROOT_PATH);
+
+    $root = ROOT_PATH . 'public';
+
     $info = $file->rule('uniqid')->move($root . '/upload/' . $dir . "/" . date('Y-m-d'));
+
     if ($info) {
         $filePath = $info->getPathname();
         $filePath = str_replace($root, '', $filePath);
@@ -495,6 +515,7 @@ function FIUploadPic($fromType = 0)
             }
 
         }
+
         /***************************** 添加水印 ***********************************/
         $isWatermark = (int) input('isWatermark');
         if ($isWatermark == 1 && (int) FIConf('CONF.watermarkPosition') !== 0) {
@@ -510,7 +531,7 @@ function FIUploadPic($fromType = 0)
             $ttf       = is_file($customTtf) ? $customTtf : EXTEND_PATH . '/verify/verify/ttfs/3.ttf';
             $image     = \image\Image::open($imageSrc);
             if (!empty($wmWord)) {
-//当设置了文字水印 就一定会执行文字水印,不管是否设置了文件水印
+                //当设置了文字水印 就一定会执行文字水印,不管是否设置了文件水印
 
                 //执行文字水印
                 $image->text($wmWord, $ttf, $wmSize, $wmColor, $wmPosition)->save($imageSrc);
@@ -524,7 +545,7 @@ function FIUploadPic($fromType = 0)
                     $image->thumb($mTWidth, $mTHeight, 2)->save($mThumb, $image->type(), 90);
                 }
             } elseif (!empty($wmFile)) {
-//设置了文件水印,并且没有设置文字水印
+                //设置了文件水印,并且没有设置文字水印
                 //执行图片水印
                 $image->water($wmFile, $wmPosition, $wmOpacity)->save($imageSrc);
                 if ($thumbSrc !== null) {
@@ -613,7 +634,7 @@ function FIGoodsNo($pref = '')
     return $pref . (round(microtime(true), 4) * 10000) . mt_rand(0, 9);
 }
 /**
- * 获取订单统一流水号
+ * 获取订单统一流水号，orders表中的orderunique字段值
  */
 function FIOrderQnique()
 {
@@ -621,7 +642,7 @@ function FIOrderQnique()
 }
 
 /**
- * 图片管理
+ * 图片管理，加入表进行统一管理
  * @param $imgPath    图片路径
  * @param $fromType   0：用户/商家 1：平台管理员
  *
@@ -740,7 +761,7 @@ function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
 }
 
 /**
- * 标记删除图片
+ * 标记删除图片，并没有实际删除图片
  */
 function FIUnuseImage($fromTable, $field = '', $dataId = 0)
 {
@@ -806,12 +827,15 @@ function FIImg($imgurl, $imgType = 1)
 function FIOrderFreight($shopId, $cityId)
 {
     $goodsFreight = ['total' => 0, 'shops' => []];
-    $rs           = Db::table('__SHOPS__')->alias('s')->join('__SHOP_FREIGHTS__ sf', 's.shopId=sf.shopId', 'left')
-        ->where('s.shopId', $shopId)->field('s.freight,sf.freightId,sf.freight freight2')->find();
+    $rs           = Db::table('__SHOPS__')->alias('s')
+        ->join('__SHOP_FREIGHTS__ sf', 's.shopId=sf.shopId', 'left')
+        ->where('s.shopId', $shopId)
+        ->field('s.freight,sf.freightId,sf.freight freight2')
+        ->find();
     return ((int) $rs['freightId'] > 0) ? $rs['freight2'] : $rs['freight'];
 }
 /**
- * 生成订单号
+ * 生成订单号，利用orderids表的主键
  */
 function FIOrderNo()
 {
@@ -843,7 +867,7 @@ function FILangDeliverType($v)
     return ($v == 1) ? "自提" : "送货上门";
 }
 /**
- * 订单状态
+ * 订单状态，这个数字一定要隔10操作
  */
 function FILangOrderStatus($v)
 {
@@ -1050,7 +1074,7 @@ function FIEditUpload($fromType)
     $info = $file->rule('uniqid')->move(ROOT_PATH . '/public/upload/' . $dir . "/" . date('Y-m-d'));
     if ($info) {
         $filePath = $info->getPathname();
-        $filePath = str_replace(ROOT_PATH. '/public', '', $filePath);
+        $filePath = str_replace(ROOT_PATH . '/public', '', $filePath);
         $filePath = str_replace('\\', '/', $filePath);
         $name     = $info->getFilename();
         $imageSrc = trim($filePath, '/');
