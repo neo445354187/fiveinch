@@ -6,6 +6,6 @@ namespace fi\home\model;
 class Ads extends Base{
 	public function recordClick(){
 		$id = (int)input('id');
-		return $this->where("adId=$id")->setInc('adClickNum');
+		return $this->where(['adId'=>$id])->setInc('adClickNum');
 	}
 }

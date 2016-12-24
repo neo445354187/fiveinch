@@ -1,4 +1,5 @@
 <?php
+
 namespace fi\home\model;
 
 use think\Db;
@@ -6,22 +7,21 @@ use think\Db;
 /**
  * 商品类
  */
-class Goods extends Base
-{
+class Goods extends Base {
+
     /**
      *  上架商品列表
      */
-    public function saleByPage()
-    {
-        $shopId               = (int) session('FI_USER.shopId');
-        $where                = [];
-        $where['shopId']      = $shopId;
+    public function saleByPage() {
+        $shopId = (int) session('FI_USER.shopId');
+        $where = [];
+        $where['shopId'] = $shopId;
         $where['goodsStatus'] = 1;
-        $where['dataFlag']    = 1;
-        $where['isSale']      = 1;
-        $c1Id                 = (int) input('cat1');
-        $c2Id                 = (int) input('cat2');
-        $goodsName            = input('goodsName');
+        $where['dataFlag'] = 1;
+        $where['isSale'] = 1;
+        $c1Id = (int) input('cat1');
+        $c2Id = (int) input('cat2');
+        $goodsName = input('goodsName');
         if ($goodsName != '') {
             $where['goodsName'] = ['like', "%$goodsName%"];
         }
@@ -30,31 +30,31 @@ class Goods extends Base
         } else if ($c1Id != 0) {
             $where['shopCatId1'] = $c1Id;
         }
-        $shopId            = (int) session('FI_USER.shopId');
+        $shopId = (int) session('FI_USER.shopId');
         $where['m.shopId'] = $shopId;
-        $rs                = $this->alias('m')
-            ->where($where)
-            ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
-            ->order('saleTime', 'desc')
-            ->paginate(input('pagesize/d'))->toArray();
+        $rs = $this->alias('m')
+                        ->where($where)
+                        ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
+                        ->order('saleTime', 'desc')
+                        ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
             $rs['Rows'][$key]['verfiycode'] = FIShopEncrypt($shopId);
         }
         return $rs;
     }
+
     /**
      * 审核中的商品
      */
-    public function auditByPage()
-    {
-        $shopId               = (int) session('FI_USER.shopId');
-        $where['shopId']      = $shopId;
+    public function auditByPage() {
+        $shopId = (int) session('FI_USER.shopId');
+        $where['shopId'] = $shopId;
         $where['goodsStatus'] = 0;
-        $where['dataFlag']    = 1;
-        $where['isSale']      = 1;
-        $c1Id                 = (int) input('cat1');
-        $c2Id                 = (int) input('cat2');
-        $goodsName            = input('goodsName');
+        $where['dataFlag'] = 1;
+        $where['isSale'] = 1;
+        $c1Id = (int) input('cat1');
+        $c2Id = (int) input('cat2');
+        $goodsName = input('goodsName');
         if ($goodsName != '') {
             $where['goodsName'] = ['like', "%$goodsName%"];
         }
@@ -65,27 +65,27 @@ class Goods extends Base
         }
 
         $rs = $this->alias('m')
-            ->where($where)
-            ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
-            ->order('saleTime', 'desc')
-            ->paginate(input('pagesize/d'))->toArray();
+                        ->where($where)
+                        ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
+                        ->order('saleTime', 'desc')
+                        ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
             $rs['Rows'][$key]['verfiycode'] = FIShopEncrypt($shopId);
         }
         return $rs;
     }
+
     /**
      * 仓库中的商品
      */
-    public function storeByPage()
-    {
-        $shopId            = (int) session('FI_USER.shopId');
-        $where['shopId']   = $shopId;
+    public function storeByPage() {
+        $shopId = (int) session('FI_USER.shopId');
+        $where['shopId'] = $shopId;
         $where['dataFlag'] = 1;
-        $where['isSale']   = 0;
-        $c1Id              = (int) input('cat1');
-        $c2Id              = (int) input('cat2');
-        $goodsName         = input('goodsName');
+        $where['isSale'] = 0;
+        $c1Id = (int) input('cat1');
+        $c2Id = (int) input('cat2');
+        $goodsName = input('goodsName');
         if ($goodsName != '') {
             $where['goodsName'] = ['like', "%$goodsName%"];
         }
@@ -95,29 +95,29 @@ class Goods extends Base
             $where['shopCatId1'] = $c1Id;
         }
         $rs = $this->alias('m')
-            ->where($where)
-            ->where('goodsStatus', '<>', -1)
-            ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
-            ->order('saleTime', 'desc')
-            ->paginate(input('pagesize/d'))->toArray();
+                        ->where($where)
+                        ->where('goodsStatus', '<>', -1)
+                        ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,goodsStock,saleNum,shopPrice,isSpec')
+                        ->order('saleTime', 'desc')
+                        ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
             $rs['Rows'][$key]['verfiycode'] = FIShopEncrypt($shopId);
         }
         return $rs;
     }
+
     /**
      * 违规的商品
      */
-    public function illegalByPage()
-    {
-        $shopId               = (int) session('FI_USER.shopId');
-        $where['shopId']      = $shopId;
+    public function illegalByPage() {
+        $shopId = (int) session('FI_USER.shopId');
+        $where['shopId'] = $shopId;
         $where['goodsStatus'] = -1;
-        $where['dataFlag']    = 1;
-        $where['isSale']      = 1;
-        $c1Id                 = (int) input('cat1');
-        $c2Id                 = (int) input('cat2');
-        $goodsName            = input('goodsName');
+        $where['dataFlag'] = 1;
+        $where['isSale'] = 1;
+        $c1Id = (int) input('cat1');
+        $c2Id = (int) input('cat2');
+        $goodsName = input('goodsName');
         if ($goodsName != '') {
             $where['goodsName'] = ['like', "%$goodsName%"];
         }
@@ -128,10 +128,10 @@ class Goods extends Base
         }
 
         $rs = $this->alias('m')
-            ->where($where)
-            ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,illegalRemarks,goodsStock,saleNum,shopPrice,isSpec')
-            ->order('saleTime', 'desc')
-            ->paginate(input('pagesize/d'))->toArray();
+                        ->where($where)
+                        ->field('goodsId,goodsName,goodsImg,goodsSn,isSale,isBest,isHot,isNew,isRecom,illegalRemarks,goodsStock,saleNum,shopPrice,isSpec')
+                        ->order('saleTime', 'desc')
+                        ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
             $rs['Rows'][$key]['verfiycode'] = FIShopEncrypt($shopId);
         }
@@ -141,10 +141,9 @@ class Goods extends Base
     /**
      * 新增商品
      */
-    public function add()
-    {
-        $shopId   = (int) session('FI_USER.shopId');
-        $data     = input('post.');
+    public function add() {
+        $shopId = (int) session('FI_USER.shopId');
+        $data = input('post.');
         $specsIds = input('post.specsIds');
         FIUnset($data, 'goodsId,statusRemarks,goodsStatus,dataFlag');
         if (FIConf("CONF.isGoodsVerify") == 1) {
@@ -152,12 +151,12 @@ class Goods extends Base
         } else {
             $data['goodsStatus'] = 1;
         }
-        $data['shopId']         = $shopId;
-        $data['saleTime']       = date('Y-m-d H:i:s');
-        $data['createTime']     = date('Y-m-d H:i:s');
-        $goodsCats              = model('GoodsCats')->getParentIs($data['goodsCatId']);
+        $data['shopId'] = $shopId;
+        $data['saleTime'] = date('Y-m-d H:i:s');
+        $data['createTime'] = date('Y-m-d H:i:s');
+        $goodsCats = model('GoodsCats')->getParentIs($data['goodsCatId']);
         $data['goodsCatIdPath'] = implode('_', $goodsCats) . "_";
-        $data['isSpec']         = ($specsIds != '') ? 1 : 0;
+        $data['isSpec'] = ($specsIds != '') ? 1 : 0;
         Db::startTrans();
         try {
             $result = $this->validate(true)->allowField(true)->save($data);
@@ -171,13 +170,13 @@ class Goods extends Base
                 FIEditorImageRocord(0, $goodsId, '', $data['goodsDesc']);
 
                 //建立商品评分记录
-                $gs            = [];
+                $gs = [];
                 $gs['goodsId'] = $goodsId;
-                $gs['shopId']  = $shopId;
+                $gs['shopId'] = $shopId;
                 Db::name('goods_scores')->insert($gs);
                 //如果有销售规格则保存销售和规格值
                 if ($specsIds != '') {
-                    $specsIds   = explode(',', $specsIds);
+                    $specsIds = explode(',', $specsIds);
                     $specsArray = [];
                     foreach ($specsIds as $v) {
                         $vs = explode('-', $v);
@@ -185,22 +184,21 @@ class Goods extends Base
                             if (!in_array($vv, $specsArray)) {
                                 $specsArray[] = $vv;
                             }
-
                         }
                     }
                     //保存规格名称
                     $specMap = [];
                     foreach ($specsArray as $v) {
-                        $vv                  = explode('_', $v);
-                        $sitem               = [];
-                        $sitem['shopId']     = $shopId;
-                        $sitem['catId']      = (int) $vv[0];
-                        $sitem['goodsId']    = $goodsId;
-                        $sitem['itemName']   = input('post.specName_' . $vv[0] . "_" . $vv[1]);
-                        $sitem['itemImg']    = input('post.specImg_' . $vv[0] . "_" . $vv[1]);
-                        $sitem['dataFlag']   = 1;
+                        $vv = explode('_', $v);
+                        $sitem = [];
+                        $sitem['shopId'] = $shopId;
+                        $sitem['catId'] = (int) $vv[0];
+                        $sitem['goodsId'] = $goodsId;
+                        $sitem['itemName'] = input('post.specName_' . $vv[0] . "_" . $vv[1]);
+                        $sitem['itemImg'] = input('post.specImg_' . $vv[0] . "_" . $vv[1]);
+                        $sitem['dataFlag'] = 1;
                         $sitem['createTime'] = date('Y-m-d H:i:s');
-                        $itemId              = Db::name('spec_items')->insertGetId($sitem);
+                        $itemId = Db::name('spec_items')->insertGetId($sitem);
                         if ($sitem['itemImg'] != '') {
                             FIUseImages(0, $itemId, $sitem['itemImg']);
                         }
@@ -208,30 +206,30 @@ class Goods extends Base
                         $specMap[$v] = $itemId;
                     }
                     //保存销售规格
-                    $defaultPrice      = 0; //最低价
-                    $totalStock        = 0; //总库存
-                    $gspecArray        = [];
+                    $defaultPrice = 0; //最低价
+                    $totalStock = 0; //总库存
+                    $gspecArray = [];
                     $isFindDefaultSpec = false;
-                    $defaultSpec       = Input('post.defaultSpec');
+                    $defaultSpec = Input('post.defaultSpec');
                     foreach ($specsIds as $v) {
-                        $vs           = explode('-', $v);
+                        $vs = explode('-', $v);
                         $goodsSpecIds = [];
                         foreach ($vs as $gvs) {
                             $goodsSpecIds[] = $specMap[$gvs];
                         }
-                        $gspec                = [];
-                        $gspec['specIds']     = implode(':', $goodsSpecIds);
-                        $gspec['shopId']      = $shopId;
-                        $gspec['goodsId']     = $goodsId;
-                        $gspec['productNo']   = Input('productNo_' . $v);
+                        $gspec = [];
+                        $gspec['specIds'] = implode(':', $goodsSpecIds);
+                        $gspec['shopId'] = $shopId;
+                        $gspec['goodsId'] = $goodsId;
+                        $gspec['productNo'] = Input('productNo_' . $v);
                         $gspec['marketPrice'] = (float) Input('marketPrice_' . $v);
-                        $gspec['specPrice']   = (float) Input('specPrice_' . $v);
-                        $gspec['specStock']   = (int) Input('specStock_' . $v);
-                        $gspec['warnStock']   = (int) Input('warnStock_' . $v);
+                        $gspec['specPrice'] = (float) Input('specPrice_' . $v);
+                        $gspec['specStock'] = (int) Input('specStock_' . $v);
+                        $gspec['warnStock'] = (int) Input('warnStock_' . $v);
                         //设置默认规格
                         if ($defaultSpec == $v) {
-                            $isFindDefaultSpec  = true;
-                            $defaultPrice       = $gspec['specPrice'];
+                            $isFindDefaultSpec = true;
+                            $defaultPrice = $gspec['specPrice'];
                             $gspec['isDefault'] = 1;
                         } else {
                             $gspec['isDefault'] = 0;
@@ -252,20 +250,20 @@ class Goods extends Base
                 }
                 //保存商品属性
                 $attrsArray = [];
-                $attrRs     = Db::name('attributes')->where(['goodsCatId' => ['in', $goodsCats], 'isShow' => 1, 'dataFlag' => 1, 'attrType' => ['<>', 0]])
-                    ->field('attrId')->select();
+                $attrRs = Db::name('attributes')->where(['goodsCatId' => ['in', $goodsCats], 'isShow' => 1, 'dataFlag' => 1, 'attrType' => ['<>', 0]])
+                                ->field('attrId')->select();
                 foreach ($attrRs as $key => $v) {
-                    $attrs            = [];
+                    $attrs = [];
                     $attrs['attrVal'] = input('attr_' . $v['attrId']);
                     if ($attrs['attrVal'] == '') {
                         continue;
                     }
 
-                    $attrs['shopId']     = $shopId;
-                    $attrs['goodsId']    = $goodsId;
-                    $attrs['attrId']     = $v['attrId'];
+                    $attrs['shopId'] = $shopId;
+                    $attrs['goodsId'] = $goodsId;
+                    $attrs['attrId'] = $v['attrId'];
                     $attrs['createTime'] = date('Y-m-d H:i:s');
-                    $attrsArray[]        = $attrs;
+                    $attrsArray[] = $attrs;
                 }
                 if (count($attrsArray) > 0) {
                     Db::name('goods_attributes')->insertAll($attrsArray);
@@ -285,22 +283,21 @@ class Goods extends Base
     /**
      * 编辑商品资料
      */
-    public function edit()
-    {
-        $shopId   = (int) session('FI_USER.shopId');
-        $goodsId  = input('post.goodsId/d');
+    public function edit() {
+        $shopId = (int) session('FI_USER.shopId');
+        $goodsId = input('post.goodsId/d');
         $specsIds = input('post.specsIds');
-        $data     = input('post.');
+        $data = input('post.');
         FIUnset($data, 'goodsId,dataFlag,statusRemarks,goodsStatus,createTime');
         $ogoods = $this->where('goodsId', $goodsId)->field('goodsStatus')->find();
         //违规商品不能直接上架
         if ($ogoods['goodsStatus'] != 1) {
             $data['goodsStatus'] = 0;
         }
-        $data['saleTime']       = date('Y-m-d H:i:s');
-        $goodsCats              = model('GoodsCats')->getParentIs($data['goodsCatId']);
+        $data['saleTime'] = date('Y-m-d H:i:s');
+        $goodsCats = model('GoodsCats')->getParentIs($data['goodsCatId']);
         $data['goodsCatIdPath'] = implode('_', $goodsCats) . "_";
-        $data['isSpec']         = ($specsIds != '') ? 1 : 0;
+        $data['isSpec'] = ($specsIds != '') ? 1 : 0;
         Db::startTrans();
         try {
             //商品图片
@@ -319,15 +316,15 @@ class Goods extends Base
                  * $specIdMap的保存关系是:array('页面上生成的销售规格ID'=>数据库里销售规格ID)
                  */
                 $specNameMapTmp = explode(',', input('post.specmap'));
-                $specIdMapTmp   = explode(',', input('post.specidsmap'));
-                $specNameMap    = []; //规格值对应关系
-                $specIdMap      = []; //规格和表对应关系
+                $specIdMapTmp = explode(',', input('post.specidsmap'));
+                $specNameMap = []; //规格值对应关系
+                $specIdMap = []; //规格和表对应关系
                 foreach ($specNameMapTmp as $key => $v) {
                     if ($v == '') {
                         continue;
                     }
 
-                    $v                  = explode(':', $v);
+                    $v = explode(':', $v);
                     $specNameMap[$v[1]] = $v[0]; //array('页面上的规则值ID'=>数据库里规则值的ID)
                 }
                 foreach ($specIdMapTmp as $key => $v) {
@@ -335,13 +332,13 @@ class Goods extends Base
                         continue;
                     }
 
-                    $v                = explode(':', $v);
+                    $v = explode(':', $v);
                     $specIdMap[$v[1]] = $v[0]; //array('页面上的销售规则ID'=>数据库里销售规格ID)
                 }
                 //如果有销售规格则保存销售和规格值
                 if ($specsIds != '') {
                     //把之前之前的销售规格
-                    $specsIds   = explode(',', $specsIds);
+                    $specsIds = explode(',', $specsIds);
                     $specsArray = [];
                     foreach ($specsIds as $v) {
                         $vs = explode('-', $v);
@@ -357,11 +354,11 @@ class Goods extends Base
                     //保存规格名称
                     $specMap = [];
                     foreach ($specsArray as $v) {
-                        $vv                = explode('_', $v);
-                        $specNumId         = $vv[0] . "_" . $vv[1];
-                        $sitem             = [];
+                        $vv = explode('_', $v);
+                        $specNumId = $vv[0] . "_" . $vv[1];
+                        $sitem = [];
                         $sitem['itemName'] = input('post.specName_' . $specNumId);
-                        $sitem['itemImg']  = input('post.specImg_' . $specNumId);
+                        $sitem['itemImg'] = input('post.specImg_' . $specNumId);
                         //如果已经存在的规格值则修改，否则新增
                         if (isset($specNameMap[$specNumId]) && (int) $specNameMap[$specNumId] != 0) {
                             $sitem['dataFlag'] = 1;
@@ -369,12 +366,12 @@ class Goods extends Base
                             Db::name('spec_items')->where(['shopId' => $shopId, 'itemId' => (int) $specNameMap[$specNumId]])->update($sitem);
                             $specMap[$v] = (int) $specNameMap[$specNumId];
                         } else {
-                            $sitem['goodsId']    = $goodsId;
-                            $sitem['shopId']     = $shopId;
-                            $sitem['catId']      = (int) $vv[0];
-                            $sitem['dataFlag']   = 1;
+                            $sitem['goodsId'] = $goodsId;
+                            $sitem['shopId'] = $shopId;
+                            $sitem['catId'] = (int) $vv[0];
+                            $sitem['dataFlag'] = 1;
                             $sitem['createTime'] = date('Y-m-d H:i:s');
-                            $itemId              = Db::name('spec_items')->insertGetId($sitem);
+                            $itemId = Db::name('spec_items')->insertGetId($sitem);
                             if ($sitem['itemImg'] != '') {
                                 FIUseImages(0, $itemId, $sitem['itemImg']);
                             }
@@ -386,30 +383,30 @@ class Goods extends Base
                     Db::name('spec_items')->where(['shopId' => $shopId, 'goodsId' => $goodsId, 'dataFlag' => -1])->delete();
                     //保存销售规格
                     $defaultPrice = 0; //默认价格
-                    $totalStock   = 0; //总库存
-                    $gspecArray   = [];
+                    $totalStock = 0; //总库存
+                    $gspecArray = [];
                     //把之前的销售规格值标记删除
                     Db::name('goods_specs')->where(['goodsId' => $goodsId, 'shopId' => $shopId])->update(['dataFlag' => -1, 'isDefault' => 0]);
                     $isFindDefaultSpec = false;
-                    $defaultSpec       = Input('post.defaultSpec');
+                    $defaultSpec = Input('post.defaultSpec');
                     foreach ($specsIds as $v) {
-                        $vs           = explode('-', $v);
+                        $vs = explode('-', $v);
                         $goodsSpecIds = [];
                         foreach ($vs as $gvs) {
                             $goodsSpecIds[] = $specMap[$gvs];
                         }
-                        $gspec                = [];
-                        $gspec['specIds']     = implode(':', $goodsSpecIds);
-                        $gspec['productNo']   = Input('productNo_' . $v);
+                        $gspec = [];
+                        $gspec['specIds'] = implode(':', $goodsSpecIds);
+                        $gspec['productNo'] = Input('productNo_' . $v);
                         $gspec['marketPrice'] = (float) Input('marketPrice_' . $v);
-                        $gspec['specPrice']   = (float) Input('specPrice_' . $v);
-                        $gspec['specStock']   = (int) Input('specStock_' . $v);
-                        $gspec['warnStock']   = (int) Input('warnStock_' . $v);
+                        $gspec['specPrice'] = (float) Input('specPrice_' . $v);
+                        $gspec['specStock'] = (int) Input('specStock_' . $v);
+                        $gspec['warnStock'] = (int) Input('warnStock_' . $v);
                         //设置默认规格
                         if ($defaultSpec == $v) {
                             $gspec['isDefault'] = 1;
-                            $isFindDefaultSpec  = true;
-                            $defaultPrice       = $gspec['specPrice'];
+                            $isFindDefaultSpec = true;
+                            $defaultPrice = $gspec['specPrice'];
                         } else {
                             $gspec['isDefault'] = 0;
                         }
@@ -418,9 +415,9 @@ class Goods extends Base
                             $gspec['dataFlag'] = 1;
                             Db::name('goods_specs')->where(['shopId' => $shopId, 'id' => (int) $specIdMap[$v]])->update($gspec);
                         } else {
-                            $gspec['shopId']  = $shopId;
+                            $gspec['shopId'] = $shopId;
                             $gspec['goodsId'] = $goodsId;
-                            $gspecArray[]     = $gspec;
+                            $gspecArray[] = $gspec;
                         }
                         //获取总库存
                         $totalStock = $totalStock + $gspec['specStock'];
@@ -442,20 +439,20 @@ class Goods extends Base
                 Db::name('goods_attributes')->where(['goodsId' => $goodsId, 'shopId' => $shopId])->delete();
                 //新增商品属性
                 $attrsArray = [];
-                $attrRs     = Db::name('attributes')->where(['goodsCatId' => ['in', $goodsCats], 'isShow' => 1, 'dataFlag' => 1])
-                    ->field('attrId')->select();
+                $attrRs = Db::name('attributes')->where(['goodsCatId' => ['in', $goodsCats], 'isShow' => 1, 'dataFlag' => 1])
+                                ->field('attrId')->select();
                 foreach ($attrRs as $key => $v) {
-                    $attrs            = [];
+                    $attrs = [];
                     $attrs['attrVal'] = input('attr_' . $v['attrId']);
                     if ($attrs['attrVal'] == '') {
                         continue;
                     }
 
-                    $attrs['shopId']     = $shopId;
-                    $attrs['goodsId']    = $goodsId;
-                    $attrs['attrId']     = $v['attrId'];
+                    $attrs['shopId'] = $shopId;
+                    $attrs['goodsId'] = $goodsId;
+                    $attrs['attrId'] = $v['attrId'];
                     $attrs['createTime'] = date('Y-m-d H:i:s');
-                    $attrsArray[]        = $attrs;
+                    $attrsArray[] = $attrs;
                 }
                 if (count($attrsArray) > 0) {
                     Db::name('goods_attributes')->insertAll($attrsArray);
@@ -475,8 +472,7 @@ class Goods extends Base
     /**
      * 获取商品资料方便编辑
      */
-    public function getById($goodsId)
-    {
+    public function getById($goodsId) {
         $rs = $this->where(['shopId' => (int) session('FI_USER.shopId'), 'goodsId' => $goodsId])->find();
         if (!empty($rs)) {
             if ($rs['gallery'] != '') {
@@ -485,9 +481,9 @@ class Goods extends Base
 
             //获取规格值
             $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.catId=sit.catId', 'inner')
-                ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
-                ->field('gc.isAllowImg,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
-                ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
+                            ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
+                            ->field('gc.isAllowImg,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
+                            ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
             $spec0 = [];
             $spec1 = [];
             foreach ($specs as $key => $v) {
@@ -503,15 +499,15 @@ class Goods extends Base
             $rs['saleSpec'] = Db::name('goods_specs')->where('goodsId', $goodsId)->field('id,isDefault,productNo,specIds,marketPrice,specPrice,specStock,warnStock,saleNum')->select();
             //获取属性值
             $rs['attrs'] = Db::table('__GOODS_ATTRIBUTES__')->alias('ga')->join('__ATTRIBUTES__ a', 'ga.attrId=a.attrId', 'inner')
-                ->where('goodsId', $goodsId)->field('ga.attrId,a.attrType,ga.attrVal')->select();
+                            ->where('goodsId', $goodsId)->field('ga.attrId,a.attrType,ga.attrVal')->select();
         }
         return $rs;
     }
+
     /**
      * 获取商品资料在前台展示
      */
-    public function getBySale($goodsId)
-    {
+    public function getBySale($goodsId) {
         $key = input('key');
         // 浏览量
         $this->where('goodsId', $goodsId)->setInc('visitNum', 1);
@@ -535,20 +531,20 @@ class Goods extends Base
                 return [];
             }
 
-            $gallery   = [];
+            $gallery = [];
             $gallery[] = $rs['goodsImg'];
             if ($rs['gallery'] != '') {
-                $tmp     = explode(',', $rs['gallery']);
+                $tmp = explode(',', $rs['gallery']);
                 $gallery = array_merge($gallery, $tmp);
             }
             $rs['gallery'] = $gallery;
             //获取规格值
             $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.catId=sit.catId', 'inner')
-                ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
-                ->field('gc.isAllowImg,gc.catName,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
-                ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
+                            ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
+                            ->field('gc.isAllowImg,gc.catName,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
+                            ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
             foreach ($specs as $key => $v) {
-                $rs['spec'][$v['catId']]['name']   = $v['catName'];
+                $rs['spec'][$v['catId']]['name'] = $v['catName'];
                 $rs['spec'][$v['catId']]['list'][] = $v;
             }
             //获取销售规格
@@ -563,14 +559,14 @@ class Goods extends Base
             }
             //获取商品属性
             $rs['attrs'] = Db::table('__ATTRIBUTES__')->alias('a')->join('__GOODS_ATTRIBUTES__ ga', 'a.attrId=ga.attrId', 'inner')
-                ->where(['a.isShow' => 1, 'dataFlag' => 1, 'goodsId' => $goodsId])->field('a.attrName,ga.attrVal')
-                ->order('attrSort asc')->select();
+                            ->where(['a.isShow' => 1, 'dataFlag' => 1, 'goodsId' => $goodsId])->field('a.attrName,ga.attrVal')
+                            ->order('attrSort asc')->select();
             //获取商品评分
-            $rs['scores']                = Db::name('goods_scores')->where('goodsId', $goodsId)->field('totalScore,totalUsers')->find();
+            $rs['scores'] = Db::name('goods_scores')->where('goodsId', $goodsId)->field('totalScore,totalUsers')->find();
             $rs['scores']['totalScores'] = ($rs['scores']['totalScore'] == 0) ? 5 : FIScore($rs['scores']['totalScore'], $rs['scores']['totalUsers'], 5, 0, 3);
             FIUnset($rs, 'totalUsers');
             //关注
-            $f             = model('Favorites');
+            $f = model('Favorites');
             $rs['favShop'] = $f->checkFavorite($rs['shopId'], 1);
             $rs['favGood'] = $f->checkFavorite($goodsId, 0);
         }
@@ -580,10 +576,9 @@ class Goods extends Base
     /**
      * 删除商品
      */
-    public function del()
-    {
-        $id               = input('post.id/d');
-        $data             = [];
+    public function del() {
+        $id = input('post.id/d');
+        $data = [];
         $data['dataFlag'] = -1;
         Db::startTrans();
         try {
@@ -603,17 +598,17 @@ class Goods extends Base
         }
         return FIReturn('删除失败', -1);
     }
+
     /**
      * 批量删除商品
      */
-    public function batchDel()
-    {
+    public function batchDel() {
         $shopId = (int) session('FI_USER.shopId');
-        $ids    = input('post.ids/a');
+        $ids = input('post.ids/a');
         Db::startTrans();
         try {
             $rs = $this->where(['goodsId' => ['in', $ids],
-                'shopId'                      => $shopId])->setField('dataFlag', -1);
+                        'shopId' => $shopId])->setField('dataFlag', -1);
             if (false !== $rs) {
                 //标记删除购物车
                 foreach ($ids as $v) {
@@ -635,9 +630,8 @@ class Goods extends Base
     /**
      * 批量上架商品
      */
-    public function changeSale()
-    {
-        $ids    = input('post.ids/a');
+    public function changeSale() {
+        $ids = input('post.ids/a');
         $isSale = (int) input('post.isSale', 1);
         //判断商品是否满足上架要求
         if ($isSale == 1) {
@@ -648,14 +642,14 @@ class Goods extends Base
                 return FIReturn('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', -3);
             }
             //直接设置上架 返回受影响条数
-            $where                = [];
-            $where['g.goodsId']   = ['in', $ids];
+            $where = [];
+            $where['g.goodsId'] = ['in', $ids];
             $where['gc.dataFlag'] = 1;
-            $where['gc.isShow']   = 1;
-            $where['g.goodsImg']  = ['<>', ""];
-            $rs                   = $this->alias('g')
-                ->join('__GOODS_CATS__ gc', 'g.goodsCatId=gc.CatId', 'inner')
-                ->where($where)->setField('isSale', 1);
+            $where['gc.isShow'] = 1;
+            $where['g.goodsImg'] = ['<>', ""];
+            $rs = $this->alias('g')
+                            ->join('__GOODS_CATS__ gc', 'g.goodsCatId=gc.CatId', 'inner')
+                            ->where($where)->setField('isSale', 1);
             if ($rs !== false) {
                 $status = ($rs == count($ids)) ? 1 : 2;
                 if ($status == 1) {
@@ -666,7 +660,6 @@ class Goods extends Base
             } else {
                 return FIReturn('上架失败，请核对商品信息是否完整!', -2);
             }
-
         } else {
             $rs = $this->where(['goodsId' => ['in', $ids]])->setField('isSale', $isSale);
             if ($rs !== false) {
@@ -676,55 +669,54 @@ class Goods extends Base
             }
         }
     }
+
     /**
      * 修改商品状态
      */
-    public function changSaleStatus()
-    {
-        $is     = input('post.is');
+    public function changSaleStatus() {
+        $is = input('post.is');
         $status = (input('post.status', 1) == 1) ? 0 : 1;
-        $id     = (int) input('post.id');
-        $rs     = $this->setField([$is => $status, 'goodsId' => $id]);
+        $id = (int) input('post.id');
+        $rs = $this->setField([$is => $status, 'goodsId' => $id]);
         if ($rs !== false) {
             return FIReturn('设置成功', 1);
         } else {
             return FIReturn($this->getError(), -1);
         }
     }
+
     /**
      * 批量修改商品状态
      */
-    public function changeGoodsStatus()
-    {
+    public function changeGoodsStatus() {
         //设置为什么 hot new best rec
         $allowArr = ['isHot', 'isNew', 'isBest', 'isRecom'];
-        $is       = input('post.is');
+        $is = input('post.is');
         if (!in_array($is, $allowArr)) {
             return FIReturn('非法操作', -1);
         }
 
         //设置哪一个状态
         $status = input('post.status', 1);
-        $ids    = input('post.ids/a');
-        $rs     = $this->where(['goodsId' => ['in', $ids]])->setField($is, $status);
+        $ids = input('post.ids/a');
+        $rs = $this->where(['goodsId' => ['in', $ids]])->setField($is, $status);
         if ($rs !== false) {
             return FIReturn('设置成功', 1);
         } else {
             return FIReturn($this->getError(), -1);
         }
-
     }
+
     /**
      * 获取商品规格属性
      */
-    public function getSpecAttrs()
-    {
-        $goodsCatId  = Input('post.goodsCatId/d');
+    public function getSpecAttrs() {
+        $goodsCatId = Input('post.goodsCatId/d');
         $goodsCatIds = model('GoodsCats')->getParentIs($goodsCatId);
-        $data        = [];
-        $specs       = Db::name('spec_cats')->where(['dataFlag' => 1, 'isShow' => 1, 'goodsCatId' => ['in', $goodsCatIds]])->field('catId,catName,isAllowImg')->order('isAllowImg desc,catSort asc,catId asc')->select();
-        $spec0       = null;
-        $spec1       = [];
+        $data = [];
+        $specs = Db::name('spec_cats')->where(['dataFlag' => 1, 'isShow' => 1, 'goodsCatId' => ['in', $goodsCatIds]])->field('catId,catName,isAllowImg')->order('isAllowImg desc,catSort asc,catId asc')->select();
+        $spec0 = null;
+        $spec1 = [];
         foreach ($specs as $key => $v) {
             if ($v['isAllowImg'] == 1) {
                 $spec0 = $v;
@@ -741,8 +733,7 @@ class Goods extends Base
     /**
      * 检测商品主表的货号或者商品编号
      */
-    public function checkExistGoodsKey($key, $val, $id = 0)
-    {
+    public function checkExistGoodsKey($key, $val, $id = 0) {
         if (!in_array($key, array('goodsSn', 'productNo'))) {
             return FIReturn("非法的查询字段");
         }
@@ -759,20 +750,19 @@ class Goods extends Base
     /**
      * 获取符合筛选条件的商品ID
      */
-    public function filterByAttributes()
-    {
+    public function filterByAttributes() {
         $vs = input('vs');
         if ($vs == '') {
             return [];
         }
 
-        $vs       = explode(',', $vs);
+        $vs = explode(',', $vs);
         $goodsIds = [];
-        $prefix   = config('database.prefix');
+        $prefix = config('database.prefix');
         //循环遍历每个属性相关的商品ID
         foreach ($vs as $v) {
             $goodsIds2 = [];
-            $attrVal   = input('v_' . (int) $v);
+            $attrVal = input('v_' . (int) $v);
             if ($attrVal == '') {
                 continue;
             }
@@ -803,16 +793,15 @@ class Goods extends Base
     /**
      * 获取分页商品记录
      */
-    public function pageQuery($goodsCatIds = [])
-    {
+    public function pageQuery($goodsCatIds = []) {
         //查询条件
-        $isStock              = input('isStock/d');
-        $isNew                = input('isNew/d');
-        $keyword              = input('keyword');
-        $where                = $where2                = $where3                = [];
+        $isStock = input('isStock/d');
+        $isNew = input('isNew/d');
+        $keyword = input('keyword');
+        $where = $where2 = $where3 = [];
         $where['goodsStatus'] = 1;
-        $where['g.dataFlag']  = 1;
-        $where['isSale']      = 1;
+        $where['g.dataFlag'] = 1;
+        $where['isSale'] = 1;
         if ($keyword != '') {
             $where['goodsName'] = ['like', '%' . $keyword . '%'];
         }
@@ -830,10 +819,10 @@ class Goods extends Base
         }
 
         //排序条件
-        $orderBy   = input('orderBy/d', 0);
-        $orderBy   = ($orderBy >= 0 && $orderBy <= 4) ? $orderBy : 0;
-        $order     = (input('order/d', 0) == 1) ? 1 : 0;
-        $pageBy    = ['saleNum', 'shopPrice', 'appraiseNum', 'visitNum', 'saleTime'];
+        $orderBy = input('orderBy/d', 0);
+        $orderBy = ($orderBy >= 0 && $orderBy <= 4) ? $orderBy : 0;
+        $order = (input('order/d', 0) == 1) ? 1 : 0;
+        $pageBy = ['saleNum', 'shopPrice', 'appraiseNum', 'visitNum', 'saleTime'];
         $pageOrder = ['asc', 'desc'];
         if ($isStock == 1) {
             $where['goodsStock'] = ['>', 0];
@@ -857,24 +846,24 @@ class Goods extends Base
             $where['g.shopPrice'] = ["<=", (int) $eprice];
         }
         $list = Db::table("__GOODS__")->alias('g')->join("__SHOPS__ s", "g.shopId = s.shopId")
-            ->where($where)
-            ->field('goodsId,goodsName,goodsSn,goodsStock,saleNum,shopPrice,marketPrice,isSpec,goodsImg,appraiseNum,visitNum,s.shopId,shopName')
-            ->order($pageBy[$orderBy] . " " . $pageOrder[$order] . ",goodsId asc")
-            ->paginate(input('pagesize/d'))->toArray();
+                        ->where($where)
+                        ->field('goodsId,goodsName,goodsSn,goodsStock,saleNum,shopPrice,marketPrice,isSpec,goodsImg,appraiseNum,visitNum,s.shopId,shopName')
+                        ->order($pageBy[$orderBy] . " " . $pageOrder[$order] . ",goodsId asc")
+                        ->paginate(input('pagesize/d'))->toArray();
         return $list;
     }
+
     /**
      * 获取价格范围
      */
-    public function getPriceGrade($goodsCatIds = [])
-    {
-        $isStock              = input('isStock/d');
-        $isNew                = input('isNew/d');
-        $keyword              = input('keyword');
-        $where                = $where2                = $where3                = [];
+    public function getPriceGrade($goodsCatIds = []) {
+        $isStock = input('isStock/d');
+        $isNew = input('isNew/d');
+        $keyword = input('keyword');
+        $where = $where2 = $where3 = [];
         $where['goodsStatus'] = 1;
-        $where['g.dataFlag']  = 1;
-        $where['isSale']      = 1;
+        $where['g.dataFlag'] = 1;
+        $where['isSale'] = 1;
         if ($keyword != '') {
             $where['goodsName'] = ['like', '%' . $keyword . '%'];
         }
@@ -891,10 +880,10 @@ class Goods extends Base
         }
 
         //排序条件
-        $orderBy   = input('orderBy/d', 0);
-        $orderBy   = ($orderBy >= 0 && $orderBy <= 4) ? $orderBy : 0;
-        $order     = (input('order/d', 0) == 1) ? 1 : 0;
-        $pageBy    = ['saleNum', 'shopPrice', 'appraiseNum', 'visitNum', 'saleTime'];
+        $orderBy = input('orderBy/d', 0);
+        $orderBy = ($orderBy >= 0 && $orderBy <= 4) ? $orderBy : 0;
+        $order = (input('order/d', 0) == 1) ? 1 : 0;
+        $pageBy = ['saleNum', 'shopPrice', 'appraiseNum', 'visitNum', 'saleTime'];
         $pageOrder = ['asc', 'desc'];
         if ($isStock == 1) {
             $where['goodsStock'] = ['>', 0];
@@ -919,17 +908,17 @@ class Goods extends Base
         }
 
         $rs = Db::table("__GOODS__")->alias('g')->join("__SHOPS__ s", "g.shopId = s.shopId", 'inner')
-            ->where($where)
-            ->field('min(shopPrice) minPrice,max(shopPrice) maxPrice')->find();
+                        ->where($where)
+                        ->field('min(shopPrice) minPrice,max(shopPrice) maxPrice')->find();
 
         if ($rs['maxPrice'] == '') {
             return;
         }
 
-        $minPrice    = 0;
-        $maxPrice    = $rs['maxPrice'];
-        $pavg5       = ($maxPrice / 5);
-        $prices      = array();
+        $minPrice = 0;
+        $maxPrice = $rs['maxPrice'];
+        $pavg5 = ($maxPrice / 5);
+        $prices = array();
         $price_grade = 0.0001;
         for ($i = -2; $i <= log10($maxPrice); $i++) {
             $price_grade *= 10;
@@ -944,7 +933,6 @@ class Goods extends Base
             if (($span * $i) > $maxPrice) {
                 break;
             }
-
         }
 
         return $prices;
@@ -953,11 +941,10 @@ class Goods extends Base
     /**
      * 修改商品库存/价格
      */
-    public function editGoodsBase()
-    {
+    public function editGoodsBase() {
         $goodsId = (int) Input("goodsId");
-        $post    = input('post.');
-        $data    = [];
+        $post = input('post.');
+        $data = [];
         if (isset($post['goodsStock'])) {
             $data['goodsStock'] = (int) input('post.goodsStock', 0);
         } elseif (isset($post['shopPrice'])) {
@@ -976,18 +963,17 @@ class Goods extends Base
     /**
      * 获取店铺商品列表
      */
-    public function shopGoods($shopId)
-    {
-        $msort     = input("param.msort/d");
-        $mdesc     = input("param.mdesc/d");
-        $order     = array('g.saleTime' => 'desc');
+    public function shopGoods($shopId) {
+        $msort = input("param.msort/d");
+        $mdesc = input("param.mdesc/d");
+        $order = array('g.saleTime' => 'desc');
         $orderFile = array('1' => 'g.isHot', '2' => 'g.saleNum', '3' => 'g.shopPrice', '4' => 'g.shopPrice', '5' => '(gs.totalScore/gs.totalUsers)', '6' => 'g.saleTime');
         $orderSort = array('0' => 'asc', '1' => 'desc');
         if ($msort > 0) {
             $order = array($orderFile[$msort] => $orderSort[$mdesc]);
         }
         $goodsName = input("param.goodsName"); //搜索店鋪名
-        $words     = $where     = $where2     = $where3     = [];
+        $words = $where = $where2 = $where3 = [];
         if ($goodsName != "") {
             $words = explode(" ", $goodsName);
         }
@@ -1021,22 +1007,22 @@ class Goods extends Base
         }
 
         $goods = Db::table('__GOODS__')->alias('g')
-            ->join('__GOODS_SCORES__ gs', 'gs.goodsId = g.goodsId', 'left')
-            ->where(['g.shopId' => $shopId, 'g.isSale' => 1, 'g.goodsStatus' => 1, 'g.dataFlag' => 1])
-            ->where($where)->where($where2)->where($where3)
-            ->field('g.goodsId,g.goodsName,g.goodsImg,g.shopPrice,g.marketPrice,g.saleNum,g.appraiseNum,g.goodsStock')
-            ->order($order)
-            ->paginate(20)->toArray();
+                        ->join('__GOODS_SCORES__ gs', 'gs.goodsId = g.goodsId', 'left')
+                        ->where(['g.shopId' => $shopId, 'g.isSale' => 1, 'g.goodsStatus' => 1, 'g.dataFlag' => 1])
+                        ->where($where)->where($where2)->where($where3)
+                        ->field('g.goodsId,g.goodsName,g.goodsImg,g.shopPrice,g.marketPrice,g.saleNum,g.appraiseNum,g.goodsStock')
+                        ->order($order)
+                        ->paginate(20)->toArray();
         return $goods;
     }
+
     /**
      *  预警库存列表
      */
-    public function stockByPage()
-    {
-        $where  = [];
-        $c1Id   = (int) input('cat1');
-        $c2Id   = (int) input('cat2');
+    public function stockByPage() {
+        $where = [];
+        $c1Id = (int) input('cat1');
+        $c2Id = (int) input('cat2');
         $shopId = (int) session('FI_USER.shopId');
         if ($c1Id != 0) {
             $where[] = " shopCatId1=" . $c1Id;
@@ -1047,8 +1033,8 @@ class Goods extends Base
         }
 
         $where[] = " g.shopId = " . $shopId;
-        $prefix  = config('database.prefix');
-        $sql1    = 'SELECT g.goodsId,g.goodsName,g.goodsImg,gs.specStock goodsStock ,gs.warnStock warnStock,g.isSpec,gs.productNo,gs.id,gs.specIds,g.isSale
+        $prefix = config('database.prefix');
+        $sql1 = 'SELECT g.goodsId,g.goodsName,g.goodsImg,gs.specStock goodsStock ,gs.warnStock warnStock,g.isSpec,gs.productNo,gs.id,gs.specIds,g.isSale
                     FROM ' . $prefix . 'goods g inner JOIN ' . $prefix . 'goods_specs gs ON gs.goodsId=g.goodsId and gs.specStock <= gs.warnStock and gs.warnStock>0
                     WHERE g.dataFlag = 1 and ' . implode(' and ', $where);
 
@@ -1056,16 +1042,16 @@ class Goods extends Base
                     FROM ' . $prefix . 'goods g
                     WHERE g.dataFlag = 1  and isSpec=0 and g.goodsStock<=g.warnStock
                     and g.warnStock>0 and ' . implode(' and ', $where);
-        $page     = (int) input('post.' . config('paginate.var_page'));
-        $page     = ($page <= 0) ? 1 : $page;
+        $page = (int) input('post.' . config('paginate.var_page'));
+        $page = ($page <= 0) ? 1 : $page;
         $pageSize = 15;
-        $start    = ($page - 1) * $pageSize;
-        $sql      = $sql1 . " union " . $sql2;
-        $sqlNum   = 'select count(*) fiNum from (' . $sql . ") as c";
-        $sql      = 'select * from (' . $sql . ') as c order by isSale desc limit ' . $start . ',' . $pageSize;
-        $rsNum    = Db::query($sqlNum);
-        $rsRows   = Db::query($sql);
-        $rs       = FIPager((int) $rsNum[0]['fiNum'], $rsRows, $page, $pageSize);
+        $start = ($page - 1) * $pageSize;
+        $sql = $sql1 . " union " . $sql2;
+        $sqlNum = 'select count(*) fiNum from (' . $sql . ") as c";
+        $sql = 'select * from (' . $sql . ') as c order by isSale desc limit ' . $start . ',' . $pageSize;
+        $rsNum = Db::query($sqlNum);
+        $rsRows = Db::query($sql);
+        $rs = FIPager((int) $rsNum[0]['fiNum'], $rsRows, $page, $pageSize);
         if (empty($rs['Rows'])) {
             return $rs;
         }
@@ -1073,34 +1059,34 @@ class Goods extends Base
         $specIds = [];
         foreach ($rs['Rows'] as $key => $v) {
             $specIds[$key] = explode(':', $v['specIds']);
-            $rss           = Db::table('__SPEC_ITEMS__')->alias('si')
-                ->join('__SPEC_CATS__ sc', 'sc.catId=si.catId', 'left')
-                ->where('si.shopId = ' . $shopId . ' and si.goodsId = ' . $v['goodsId'])
-                ->where('si.itemId', 'in', $specIds[$key])
-                ->field('si.itemId,si.itemName,sc.catId,sc.catName')
-                ->select();
+            $rss = Db::table('__SPEC_ITEMS__')->alias('si')
+                    ->join('__SPEC_CATS__ sc', 'sc.catId=si.catId', 'left')
+                    ->where('si.shopId = ' . $shopId . ' and si.goodsId = ' . $v['goodsId'])
+                    ->where('si.itemId', 'in', $specIds[$key])
+                    ->field('si.itemId,si.itemName,sc.catId,sc.catName')
+                    ->select();
             $rs['Rows'][$key]['spec'] = $rss;
         }
         return $rs;
     }
+
     /**
      *  预警修改预警库存
      */
-    public function editwarnStock()
-    {
-        $id             = input('post.id/d');
-        $type           = input('post.type/d');
-        $number         = (int) input('post.number');
-        $shopId         = (int) session('FI_USER.shopId');
-        $data           = $data2           = [];
+    public function editwarnStock() {
+        $id = input('post.id/d');
+        $type = input('post.type/d');
+        $number = (int) input('post.number');
+        $shopId = (int) session('FI_USER.shopId');
+        $data = $data2 = [];
         $data['shopId'] = $data2['shopId'] = $shopId;
-        $datat          = array('1' => 'specStock', '2' => 'warnStock', '3' => 'goodsStock', '4' => 'warnStock');
+        $datat = array('1' => 'specStock', '2' => 'warnStock', '3' => 'goodsStock', '4' => 'warnStock');
         if (!empty($type)) {
             $data[$datat[$type]] = $number;
             if ($type == 1 || $type == 2) {
                 $data['goodsId'] = $goodsId = input('post.goodsId/d');
-                $gs              = new GoodsSpecs();
-                $rss             = $gs->update($data, ['id' => $id]);
+                $gs = new GoodsSpecs();
+                $rss = $gs->update($data, ['id' => $id]);
                 //更新商品库存
                 $goodsStock = 0;
                 if ($rss !== false) {
@@ -1109,7 +1095,7 @@ class Goods extends Base
                         $goodsStock = $goodsStock + $v['specStock'];
                     }
                     $data2['goodsStock'] = $goodsStock;
-                    $rs                  = $this->update($data2, ['goodsId' => $goodsId]);
+                    $rs = $this->update($data2, ['goodsId' => $goodsId]);
                 } else {
                     return FIReturn('操作失败', -1);
                 }
@@ -1125,4 +1111,5 @@ class Goods extends Base
         }
         return FIReturn('操作失败', -1);
     }
+
 }

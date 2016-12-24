@@ -7,6 +7,7 @@ class Alipays extends Base{
 	 * 初始化
 	 */
 	private $aliPayConfig;
+	
 	public function _initialize() {
 		$this->aliPayConfig = array();
 		$m = new M();

@@ -1,4 +1,5 @@
 <?php
+
 namespace fi\home\controller;
 
 use fi\common\model\GoodsCats;
@@ -8,14 +9,12 @@ use fi\home\model\Shops as M;
 /**
  * 门店控制器
  */
+class Shops extends Base {
 
-class Shops extends Base
-{
     /**
      * 商家登录
      */
-    public function login()
-    {
+    public function login() {
         $USER = session('FI_USER');
         if (!empty($USER) && isset($USER['shopId'])) {
             $this->redirect("shops/index");
@@ -28,29 +27,29 @@ class Shops extends Base
         }
         return $this->fetch('default/shop_login');
     }
+
     /**
      * 商家中心
      */
-    public function index()
-    {
+    public function index() {
         session('FI_MENID1', null);
         session('FI_MENUID31', null);
-        $s    = new M();
+        $s = new M();
         $data = $s->getShopSummary((int) session('FI_USER.shopId'));
         $this->assign('data', $data);
         return $this->fetch('default/shops/index');
     }
+
     /**
      * 店铺街
      */
-    public function shopStreet()
-    {
-        $g         = new GoodsCats();
+    public function shopStreet() {
+        $g = new GoodsCats();
         $goodsCats = $g->listQuery(0);
         $this->assign('goodscats', $goodsCats);
         //店铺街列表
-        $s          = new M();
-        $pagesize   = 10;
+        $s = new M();
+        $pagesize = 10;
         $selectedId = input("get.id/d");
         $this->assign('selectedId', $selectedId);
         $list = $s->pageQuery($pagesize);
@@ -59,17 +58,17 @@ class Shops extends Base
         $this->assign('keytype', 1);
         return $this->fetch('default/shop_street');
     }
+
     /**
      * 店铺详情
      */
-    public function home()
-    {
-        $s            = new M();
-        $shopId       = (int) input("param.shopId/d");
+    public function home() {
+        $s = new M();
+        $shopId = (int) input("param.shopId/d");
         $data['shop'] = $s->getShopInfo($shopId);
 
-        $ct1       = input("param.ct1/d", 0);
-        $ct2       = input("param.ct2/d", 0);
+        $ct1 = input("param.ct1/d", 0);
+        $ct2 = input("param.ct2/d", 0);
         $goodsName = input("param.goodsName");
         if (($data['shop']['shopId'] == 1 || $shopId == 0) && $ct1 == 0 && !isset($goodsName)) {
             $this->redirect('home/shops/selfShop');
@@ -80,8 +79,8 @@ class Shops extends Base
         }
 
         $data['shopcats'] = $f = model('ShopCats', 'model')->getShopCats($shopId);
-        $g                = new Goods();
-        $data['list']     = $g->shopGoods($shopId);
+        $g = new Goods();
+        $data['list'] = $g->shopGoods($shopId);
         $this->assign('msort', input("param.msort/d", 0)); //筛选条件
         $this->assign('mdesc', input("param.mdesc/d", 1)); //升降序
         $this->assign('sprice', input("param.sprice")); //价格范围
@@ -96,19 +95,18 @@ class Shops extends Base
     /**
      * 查看店铺设置
      */
-    public function info()
-    {
-        $s      = new M();
+    public function info() {
+        $s = new M();
         $object = $s->getByView((int) session('FI_USER.shopId'));
         $this->assign('object', $object);
         return $this->fetch('default/shops/shops/view');
     }
+
     /**
      * 自营店铺
      */
-    public function selfShop()
-    {
-        $s            = new M();
+    public function selfShop() {
+        $s = new M();
         $data['shop'] = $s->getShopInfo(1);
         if (empty($data['shop'])) {
             return $this->fetch('default/error_lost');
@@ -124,4 +122,5 @@ class Shops extends Base
         $this->assign('data', $data);
         return $this->fetch('default/shops/shops/self_shop');
     }
+
 }

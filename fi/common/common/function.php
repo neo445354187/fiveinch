@@ -1,35 +1,35 @@
 <?php
+
 /**
  */
-
 use think\Db;
+
 /**
  * [FIVerify 生成验证码]
  * @param integer $length [验证码长度]
  */
-function FIVerify($length = 4)
-{
-    $Verify         = new \verify\Verify();
+function FIVerify($length = 4) {
+    $Verify = new \verify\Verify();
     $Verify->length = $length;
     $Verify->entry();
 }
+
 /**
  * 核对验证码
  */
-function FIVerifyCheck($code)
-{
+function FIVerifyCheck($code) {
     $verify = new \verify\Verify();
     return $verify->check($code);
 }
+
 /**
  * [FIReturn 生成数据返回值，呵呵设计]
  * @param [type]  $msg    [description]
  * @param integer $status [description]
  * @param [type]  $data   [description]
  */
-function FIReturn($msg, $status = -1, $data = [])
-{
-    $rs                  = ['status' => $status, 'msg' => $msg];
+function FIReturn($msg, $status = -1, $data = []) {
+    $rs = ['status' => $status, 'msg' => $msg];
     $data && $rs['data'] = $data;
     return $rs;
 }
@@ -40,12 +40,11 @@ function FIReturn($msg, $status = -1, $data = [])
  * @param $filterWords 禁用使用的字符串列表
  * @return boolean true-检测到,false-未检测到 (感觉反了)
  */
-function FICheckFilterWords($srcword, $filterWords)
-{
+function FICheckFilterWords($srcword, $filterWords) {
     $flag = true;
     if ($filterWords != "") {
         $filterWords = str_replace("，", ",", $filterWords);
-        $words       = explode(",", $filterWords);
+        $words = explode(",", $filterWords);
         for ($i = 0; $i < count($words); $i++) {
             if (strpos($srcword, $words[$i]) !== false) {
                 $flag = false;
@@ -61,10 +60,9 @@ function FICheckFilterWords($srcword, $filterWords)
  * @param string $phoneNumer  手机号码
  * @param string $content     短信内容
  */
-function FISendSMS($phoneNumer, $content)
-{
+function FISendSMS($phoneNumer, $content) {
     $url = 'http://utf8.sms.webchinese.cn/?Uid=' . FIConf("CONF.smsKey") . '&Key=' . FIConf("CONF.smsPass") . '&smsMob=' . $phoneNumer . '&smsText=' . $content;
-    $ch  = curl_init($url);
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //设置否输出到页面
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); //设置连接等待时间
     curl_setopt($ch, CURLOPT_ENCODING, "gzip");
@@ -82,8 +80,7 @@ function FISendSMS($phoneNumer, $content)
  * @param [type] $key [键]
  * @param string $v   [为null，则表示删除该键值，有值表示赋值]
  */
-function FIConf($key, $v = '')
-{
+function FIConf($key, $v = '') {
     if (is_null($v)) {
         if (array_key_exists('FICONF', $GLOBALS) && array_key_exists($key, $GLOBALS['FICONF'])) {
             unset($GLOBALS['FICONF'][$key]);
@@ -112,8 +109,7 @@ function FIConf($key, $v = '')
  * [FIGetFirstCharter php获取中文字符拼音首字母，还可以]
  * @param [type] $str [description]
  */
-function FIGetFirstCharter($str)
-{
+function FIGetFirstCharter($str) {
     if (empty($str)) {
         return '';
     }
@@ -124,7 +120,7 @@ function FIGetFirstCharter($str)
 
     $s1 = iconv('UTF-8', 'gb2312', $str);
     $s2 = iconv('gb2312', 'UTF-8', $s1);
-    $s  = $s2 == $str ? $s1 : $str;
+    $s = $s2 == $str ? $s1 : $str;
     if (empty($s{1})) {
         return '';
     }
@@ -228,12 +224,12 @@ function FIGetFirstCharter($str)
  * 设置当前页面对象(待定)
  * @param int 0-用户  1-商家，待定：以后少些特征码，改为常量或配置
  */
-function FILoginTarget($target = 0)
-{
-    $FI_USER                = session('FI_USER');
+function FILoginTarget($target = 0) {
+    $FI_USER = session('FI_USER');
     $FI_USER['loginTarget'] = $target;
     session('FI_USER', $FI_USER);
 }
+
 /**
  * 邮件发送函数
  * @param string to      要发送的邮箱地址
@@ -241,17 +237,16 @@ function FILoginTarget($target = 0)
  * @param string content 邮件内容
  * @return array
  */
-function FISendMail($to, $subject, $content)
-{
+function FISendMail($to, $subject, $content) {
     $mail = new \phpmailer\phpmailer();
     // 装配邮件服务器
     $mail->IsSMTP();
     $mail->SMTPDebug = 0;
-    $mail->Host      = FIConf("CONF.mailSmtp");
-    $mail->SMTPAuth  = FIConf("CONF.mailAuth");
-    $mail->Username  = FIConf("CONF.mailUserName");
-    $mail->Password  = FIConf("CONF.mailPassword");
-    $mail->CharSet   = 'utf-8';
+    $mail->Host = FIConf("CONF.mailSmtp");
+    $mail->SMTPAuth = FIConf("CONF.mailAuth");
+    $mail->Username = FIConf("CONF.mailUserName");
+    $mail->Password = FIConf("CONF.mailPassword");
+    $mail->CharSet = 'utf-8';
     // 装配邮件头信息
     $mail->From = FIConf("CONF.mailAddress");
     $mail->AddAddress($to);
@@ -259,12 +254,12 @@ function FISendMail($to, $subject, $content)
     $mail->IsHTML(true);
     // 装配邮件正文信息
     $mail->Subject = $subject;
-    $mail->Body    = $content;
+    $mail->Body = $content;
     // 发送邮件
     $rs = array();
     if (!$mail->Send()) {
         $rs['status'] = 0;
-        $rs['msg']    = $mail->ErrorInfo;
+        $rs['msg'] = $mail->ErrorInfo;
         return $rs;
     } else {
         $rs['status'] = 1;
@@ -275,8 +270,7 @@ function FISendMail($to, $subject, $content)
 /**
  * 获取系统配置数据
  */
-function FIConfig()
-{
+function FIConfig() {
     $rs = cache('FI_CONF');
     if (!$rs) {
         $rv = Db::table('__SYS_CONFIGS__')->field('fieldCode,fieldValue')->select();
@@ -302,10 +296,9 @@ function FIConfig()
 /**
  * 判断手机号格式是否正确
  */
-function FIIsPhone($phoneNo)
-{
+function FIIsPhone($phoneNo) {
     $reg = "/^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$/";
-    $rs  = \think\Validate::regex($phoneNo, $reg);
+    $rs = \think\Validate::regex($phoneNo, $reg);
     return $rs;
 }
 
@@ -313,13 +306,13 @@ function FIIsPhone($phoneNo)
  * 检测登录账号是否可用
  * @param $val
  */
+
 /**
  * [FICheckLoginKey 检测登录账号是否可用]
  * @param [type]  $val    [要检测的内容]
  * @param integer $userId [需要检查的userId，有userId就将其传入检查，没有就检查登录名、邮箱和电话]
  */
-function FICheckLoginKey($val, $userId = 0)
-{
+function FICheckLoginKey($val, $userId = 0) {
     if ($val == '') {
         return FIReturn("登录账号不能为空");
     }
@@ -341,8 +334,7 @@ function FICheckLoginKey($val, $userId = 0)
 /**
  * 生成随机数账号
  */
-function FIRandomLoginName($loginName)
-{
+function FIRandomLoginName($loginName) {
     $chars = array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
     //简单的派字母
     foreach ($chars as $key => $c) {
@@ -350,7 +342,6 @@ function FIRandomLoginName($loginName)
         if ($crs['status'] == 1) {
             return $loginName . "_" . $c;
         }
-
     }
     //随机派三位数值
     for ($i = 0; $i < 1000; $i++) {
@@ -358,7 +349,6 @@ function FIRandomLoginName($loginName)
         if ($crs['status'] == 1) {
             return $loginName . "_" . $i;
         }
-
     }
     return '';
 }
@@ -366,21 +356,19 @@ function FIRandomLoginName($loginName)
 /**
  * 删除一维数组里的多个key
  */
-function FIUnset(&$data, $keys)
-{
+function FIUnset(&$data, $keys) {
     if ($keys != '' && is_array($data)) {
         $key = explode(',', $keys);
         foreach ($key as $v) {
             unset($data[$v]);
         }
-
     }
 }
+
 /**
  * 只允许一维数组里的某些key通过
  */
-function FIAllow(&$data, $keys)
-{
+function FIAllow(&$data, $keys) {
     if ($keys != '' && is_array($data)) {
         $key = explode(',', $keys);
         foreach ($data as $vkeys => $v) {
@@ -388,7 +376,6 @@ function FIAllow(&$data, $keys)
                 unset($data[$vkeys]);
             }
         }
-
     }
 }
 
@@ -399,9 +386,8 @@ function FIAllow(&$data, $keys)
  * @param int $start      要替换的起始位置,从0开始
  * @param string $splilt  遇到这个指定的字符串就停止替换
  */
-function FIStrReplace($str, $repStr, $start, $splilt = '')
-{
-    $newStr   = substr($str, 0, $start);
+function FIStrReplace($str, $repStr, $start, $splilt = '') {
+    $newStr = substr($str, 0, $start);
     $breakNum = -1;
     for ($i = $start; $i < strlen($str); $i++) {
         $char = substr($str, $i, 1);
@@ -423,8 +409,7 @@ function FIStrReplace($str, $repStr, $start, $splilt = '')
 /**
  * 获取指定商品分类的子分类列表
  */
-function FIGoodsCats($parentId = 0, $isFloor = -1)
-{
+function FIGoodsCats($parentId = 0, $isFloor = -1) {
     $dbo = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => $parentId]);
     if ($isFloor != -1) {
         $dbo->where('isFloor', $isFloor);
@@ -442,10 +427,9 @@ function FIGoodsCats($parentId = 0, $isFloor = -1)
  * 缩略图：mTWidth mTHeight
  * 判断图片来源：fromType 0：商家/用户   1：平台管理员
  */
-function FIUploadPic($fromType = 0)
-{
+function FIUploadPic($fromType = 0) {
     $fileKey = key($_FILES);
-    $dir     = Input('post.dir');
+    $dir = Input('post.dir');
     if ($dir == '') {
         return json_encode(['msg' => '没有指定文件目录！', 'status' => -1]);
     }
@@ -467,7 +451,7 @@ function FIUploadPic($fromType = 0)
     $data = [
         'fileMime' => $file,
         'fileSize' => $file,
-        'fileExt'  => $file,
+        'fileExt' => $file,
     ];
     if (!$validate->check($data)) {
         return json_encode(['msg' => $validate->getError(), 'status' => -1]);
@@ -481,7 +465,7 @@ function FIUploadPic($fromType = 0)
         $filePath = $info->getPathname();
         $filePath = str_replace($root, '', $filePath);
         $filePath = str_replace('\\', '/', $filePath);
-        $name     = $info->getFilename();
+        $name = $info->getFilename();
         $filePath = str_replace($name, '', $filePath);
         //原图路径
         $imageSrc = trim($filePath . $name, '/');
@@ -492,13 +476,13 @@ function FIUploadPic($fromType = 0)
         //缩略图路径 手机版原图路径 手机版缩略图路径
         $thumbSrc = $mSrc = $mThumb = null;
         //手机版原图宽高
-        $mWidth  = min($image->width(), (int) input('mWidth', 700));
+        $mWidth = min($image->width(), (int) input('mWidth', 700));
         $mHeight = min($image->height(), (int) input('mHeight', 700));
         //手机版缩略图宽高
-        $mTWidth  = min($image->width(), (int) input('mTWidth', 250));
+        $mTWidth = min($image->width(), (int) input('mTWidth', 250));
         $mTHeight = min($image->height(), (int) input('mTHeight', 250));
 
-        /****************************** 生成缩略图 *********************************/
+        /*         * **************************** 生成缩略图 ******************************** */
         $isThumb = (int) input('isThumb');
         if ($isThumb == 1) {
             //缩略图路径
@@ -507,32 +491,30 @@ function FIUploadPic($fromType = 0)
             //是否需要生成移动版的缩略图
             $suffix = FIConf("CONF.fiMobileImgSuffix");
             if (!empty($suffix)) {
-                $image  = \image\Image::open($imageSrc);
-                $mSrc   = str_replace('.', "$suffix.", $imageSrc);
+                $image = \image\Image::open($imageSrc);
+                $mSrc = str_replace('.', "$suffix.", $imageSrc);
                 $mThumb = str_replace('.', '_thumb.', $mSrc);
                 $image->thumb($mWidth, $mHeight)->save($mSrc, $image->type(), 90);
                 $image->thumb($mTWidth, $mTHeight, 2)->save($mThumb, $image->type(), 90);
             }
-
         }
 
-        /***************************** 添加水印 ***********************************/
+        /*         * *************************** 添加水印 ********************************** */
         $isWatermark = (int) input('isWatermark');
         if ($isWatermark == 1 && (int) FIConf('CONF.watermarkPosition') !== 0) {
             //取出水印配置
-            $wmWord     = FIConf('CONF.watermarkWord'); //文字
-            $wmFile     = trim(FIConf('CONF.watermarkFile'), '/'); //水印文件
+            $wmWord = FIConf('CONF.watermarkWord'); //文字
+            $wmFile = trim(FIConf('CONF.watermarkFile'), '/'); //水印文件
             $wmPosition = (int) FIConf('CONF.watermarkPosition'); //水印位置
-            $wmSize     = ((int) FIConf('CONF.watermarkSize') != 0) ? FIConf('CONF.watermarkSize') : '20'; //大小
-            $wmColor    = (FIConf('CONF.watermarkColor') != '') ? FIConf('CONF.watermarkColor') : '#000000'; //颜色必须是16进制的
-            $wmOpacity  = ((int) FIConf('CONF.watermarkOpacity') != 0) ? FIConf('CONF.watermarkOpacity') : '100'; //水印透明度
+            $wmSize = ((int) FIConf('CONF.watermarkSize') != 0) ? FIConf('CONF.watermarkSize') : '20'; //大小
+            $wmColor = (FIConf('CONF.watermarkColor') != '') ? FIConf('CONF.watermarkColor') : '#000000'; //颜色必须是16进制的
+            $wmOpacity = ((int) FIConf('CONF.watermarkOpacity') != 0) ? FIConf('CONF.watermarkOpacity') : '100'; //水印透明度
             //是否有自定义字体文件
             $customTtf = $_SERVER['DOCUMENT_ROOT'] . FIConf('CONF.watermarkTtf');
-            $ttf       = is_file($customTtf) ? $customTtf : EXTEND_PATH . '/verify/verify/ttfs/3.ttf';
-            $image     = \image\Image::open($imageSrc);
+            $ttf = is_file($customTtf) ? $customTtf : EXTEND_PATH . '/verify/verify/ttfs/3.ttf';
+            $image = \image\Image::open($imageSrc);
             if (!empty($wmWord)) {
                 //当设置了文字水印 就一定会执行文字水印,不管是否设置了文件水印
-
                 //执行文字水印
                 $image->text($wmWord, $ttf, $wmSize, $wmColor, $wmPosition)->save($imageSrc);
                 if ($thumbSrc !== null) {
@@ -566,11 +548,11 @@ function FIUploadPic($fromType = 0)
         $isCut = (int) input('isCut');
         if ($isCut) {
             $imgSrc = $filePath . $info->getFilename();
-            $image  = \image\Image::open($imgSrc);
-            $size   = $image->size(); //原图宽高
-            $w      = $size[0];
-            $h      = $size[1];
-            $rate   = $w / $h;
+            $image = \image\Image::open($imgSrc);
+            $size = $image->size(); //原图宽高
+            $w = $size[0];
+            $h = $size[1];
+            $rate = $w / $h;
             if ($w > $h && $w > 500) {
                 $newH = 500 / $rate;
                 $image->thumb(500, $newH)->save($imgSrc, $image->type(), 90);
@@ -585,13 +567,13 @@ function FIUploadPic($fromType = 0)
         return $file->getError();
     }
 }
+
 /**
  * 上传文件
  */
-function FIUploadFile()
-{
+function FIUploadFile() {
     $fileKey = key($_FILES);
-    $dir     = Input('post.dir');
+    $dir = Input('post.dir');
     if ($dir == '') {
         return json_encode(['msg' => '没有指定文件目录！', 'status' => -1]);
     }
@@ -617,7 +599,7 @@ function FIUploadFile()
     $filePath = $info->getPathname();
     $filePath = str_replace(ROOT_PATH, '', $filePath);
     $filePath = str_replace('\\', '/', $filePath);
-    $name     = $info->getFilename();
+    $name = $info->getFilename();
     $filePath = str_replace($name, '', $filePath);
     if ($info) {
         return json_encode(['status' => 1, 'name' => $info->getFilename(), 'route' => $filePath]);
@@ -626,18 +608,18 @@ function FIUploadFile()
         return $file->getError();
     }
 }
+
 /**
  * 生成默认商品编号/货号
  */
-function FIGoodsNo($pref = '')
-{
+function FIGoodsNo($pref = '') {
     return $pref . (round(microtime(true), 4) * 10000) . mt_rand(0, 9);
 }
+
 /**
  * 获取订单统一流水号，orders表中的orderunique字段值
  */
-function FIOrderQnique()
-{
+function FIOrderQnique() {
     return (round(microtime(true), 4) * 10000) . mt_rand(1000, 9999);
 }
 
@@ -647,26 +629,25 @@ function FIOrderQnique()
  * @param $fromType   0：用户/商家 1：平台管理员
  *
  */
-function FIRecordImages($imgPath, $fromType)
-{
-    $data            = [];
+function FIRecordImages($imgPath, $fromType) {
+    $data = [];
     $data['imgPath'] = $imgPath;
     if (file_exists($imgPath)) {
         $data['imgSize'] = filesize($imgPath); //返回字节数 imgsize/1024 k      imgsize/1024/1024 m
     }
     //获取表名
-    $table             = explode('/', $imgPath);
+    $table = explode('/', $imgPath);
     $data['fromTable'] = $table[1];
-    $data['fromType']  = (int) $fromType;
+    $data['fromType'] = (int) $fromType;
     //根据类型判断所有者
-    $data['ownId']      = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
-    $data['isUse']      = 0; //默认不使用
+    $data['ownId'] = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
+    $data['isUse'] = 0; //默认不使用
     $data['createTime'] = date('Y-m-d H:i:s');
 
     //保存记录
     Db::table('__IMAGES__')->insert($data);
-
 }
+
 /**
  * 启用图片
  * @param $fromType 0：  用户/商家 1：平台管理员
@@ -675,29 +656,27 @@ function FIRecordImages($imgPath, $fromType)
  * @param $fromTable     该记录来自哪张表
  * @param $imgFieldName  表中的图片字段名称
  */
-function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldName = '')
-{
+function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldName = '') {
     if (empty($imgPath)) {
         return;
     }
 
     $image['fromType'] = (int) $fromType;
     //根据类型判断所有者
-    $image['ownId']  = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
+    $image['ownId'] = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
     $image['dataId'] = (int) $dataId;
 
     $image['isUse'] = 1; //标记为启用
     if ($fromTable != '') {
         $tmp = ['', ''];
         if (strpos($fromTable, '-') !== false) {
-            $tmp       = explode('-', $fromTable);
+            $tmp = explode('-', $fromTable);
             $fromTable = str_replace('-' . $tmp[1], '', $fromTable);
         }
         $image['fromTable'] = str_replace('_', '', $fromTable . $tmp[1]);
     }
 
     $imgPath = is_array($imgPath) ? $imgPath : explode(',', $imgPath); //转数组
-
     //用于与旧图比较
     $newImage = $imgPath;
 
@@ -705,9 +684,9 @@ function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldNam
     if ($imgFieldName != '') {
         //要操作的表名  $fromTable;
         // 获取`$fromTable`表的主键
-        $prefix    = config('database.prefix');
+        $prefix = config('database.prefix');
         $tableName = $prefix . $fromTable;
-        $pk        = Db::getTableInfo("$tableName", 'pk');
+        $pk = Db::getTableInfo("$tableName", 'pk');
         // 取出旧图
         $oldImgPath = model("$fromTable")->where("$pk", $dataId)->value("$imgFieldName");
         // 转数组
@@ -721,7 +700,6 @@ function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldNam
         if ($newImage != $oldImgPath) {
             FIUnuseImage($oldImgPath);
         }
-
     }
     if (!empty($newImage)) {
         Db::table('__IMAGES__')->where(['imgPath' => ['in', $newImage]])->update($image);
@@ -736,8 +714,7 @@ function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldNam
  * @param $newDesc       新商品描述
  * @param $fromTable     该记录来自哪张表
  */
-function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
-{
+function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc) {
     //编辑器里的图片
     $rule = '/src="\/(upload.*?)"/';
     // 获取旧的src数组
@@ -763,17 +740,16 @@ function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
 /**
  * 标记删除图片，并没有实际删除图片
  */
-function FIUnuseImage($fromTable, $field = '', $dataId = 0)
-{
+function FIUnuseImage($fromTable, $field = '', $dataId = 0) {
     if ($fromTable == '') {
         return;
     }
 
     $imgPath = $fromTable;
     if ($field != '') {
-        $prefix    = config('database.prefix');
+        $prefix = config('database.prefix');
         $tableName = $prefix . $fromTable;
-        $pk        = Db::getTableInfo("$tableName", 'pk');
+        $pk = Db::getTableInfo("$tableName", 'pk');
         // 取出旧图
         $imgPath = model("$fromTable")->where("$pk", $dataId)->value("$field");
     }
@@ -782,13 +758,14 @@ function FIUnuseImage($fromTable, $field = '', $dataId = 0)
         Db::table('__IMAGES__')->where(['imgPath' => ['in', $imgPath]])->setField('isUse', 0);
     }
 }
+
 /**
  * 获取系统根目录
  */
-function FIRootPath()
-{
+function FIRootPath() {
     return dirname(dirname(dirname(__DIR__))) . '/public'; //second
 }
+
 /**
  * 切换图片
  * @param $imgurl 图片路径
@@ -799,13 +776,12 @@ function FIRootPath()
  * 移动版大图 :201635459344_m.jpg
  * 移动版缩略图 :201635459344_m_thumb.jpg
  */
-function FIImg($imgurl, $imgType = 1)
-{
-    $m      = FIConf('CONF.fiMobileImgSuffix');
+function FIImg($imgurl, $imgType = 1) {
+    $m = FIConf('CONF.fiMobileImgSuffix');
     $imgurl = str_replace($m . '.', '.', $imgurl);
     $imgurl = str_replace($m . '_thumb.', '.', $imgurl);
     $imgurl = str_replace('_thumb.', '.', $imgurl);
-    $img    = '';
+    $img = '';
     switch ($imgType) {
         case 0:$img = $imgurl;
             break;
@@ -824,53 +800,52 @@ function FIImg($imgurl, $imgType = 1)
  * @param $cityId 送货城市Id
  * @param @shopIds 店铺ID
  */
-function FIOrderFreight($shopId, $cityId)
-{
+function FIOrderFreight($shopId, $cityId) {
     $goodsFreight = ['total' => 0, 'shops' => []];
-    $rs           = Db::table('__SHOPS__')->alias('s')
-        ->join('__SHOP_FREIGHTS__ sf', 's.shopId=sf.shopId', 'left')
-        ->where('s.shopId', $shopId)
-        ->field('s.freight,sf.freightId,sf.freight freight2')
-        ->find();
+    $rs = Db::table('__SHOPS__')->alias('s')
+            ->join('__SHOP_FREIGHTS__ sf', 's.shopId=sf.shopId', 'left')
+            ->where('s.shopId', $shopId)
+            ->field('s.freight,sf.freightId,sf.freight freight2')
+            ->find();
     return ((int) $rs['freightId'] > 0) ? $rs['freight2'] : $rs['freight'];
 }
+
 /**
  * 生成订单号，利用orderids表的主键
  */
-function FIOrderNo()
-{
+function FIOrderNo() {
     $orderId = Db::table('__ORDERIDS__')->insertGetId(['rnd' => time()]);
     return $orderId . (fmod($orderId, 7));
 }
+
 /**
  * 高精度
  * @param $num数字相加
  * @param number $i 保留小数位
  */
-function FIBCMoney($num1, $num2, $i = 2)
-{
+function FIBCMoney($num1, $num2, $i = 2) {
     $num = bcadd($num1, $num2, $i);
     return (float) $num;
 }
+
 /**
  * 获取支付方式
  */
-function FILangPayType($v)
-{
+function FILangPayType($v) {
     return ($v == 1) ? "在线支付" : "货到付款";
 }
+
 /**
  * 收货方式
  */
-function FILangDeliverType($v)
-{
+function FILangDeliverType($v) {
     return ($v == 1) ? "自提" : "送货上门";
 }
+
 /**
  * 订单状态，这个数字一定要隔10操作
  */
-function FILangOrderStatus($v)
-{
+function FILangOrderStatus($v) {
     switch ($v) {
         case -5:return '商家不同意拒收';
         case -4:return '商家同意拒收';
@@ -882,21 +857,21 @@ function FILangOrderStatus($v)
         case 2:return '已收货';
     }
 }
+
 /**
  * 积分来源
  */
-function FILangScore($v)
-{
+function FILangScore($v) {
     switch ($v) {
         case 1:return '商品订单';
         case 2:return '评价订单';
     }
 }
+
 /**
  * 积分来源
  */
-function FILangComplainStatus($v)
-{
+function FILangComplainStatus($v) {
     switch ($v) {
         case 0:return '等待处理';
         case 1:return '等待应诉人应诉';
@@ -905,22 +880,22 @@ function FILangComplainStatus($v)
         case 4:return '已仲裁';
     }
 }
+
 /**
  * 支付来源
  */
-function FILangPayFrom($v)
-{
+function FILangPayFrom($v) {
     switch ($v) {
         case 1:return '支付宝';
         case 2:return '微信';
     }
 }
+
 /**
  * 获取业务数据内容
  */
-function FIDatas($catId, $id = 0)
-{
-    $rs   = Db::table('__DATAS__')->order('catId asc,dataSort asc,id asc')->select();
+function FIDatas($catId, $id = 0) {
+    $rs = Db::table('__DATAS__')->order('catId asc,dataSort asc,id asc')->select();
     $data = [];
     foreach ($rs as $key => $v) {
         $data[$v['catId']][$v['dataVal']] = $v;
@@ -934,11 +909,11 @@ function FIDatas($catId, $id = 0)
     }
     return [];
 }
+
 /**
  * 截取字符串
  */
-function FIMSubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = false)
-{
+function FIMSubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = false) {
     $newStr = '';
     if (function_exists("mb_substr")) {
         if ($suffix) {
@@ -954,21 +929,20 @@ function FIMSubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = fals
         }
     }
     if ($newStr == '') {
-        $re['utf-8']  = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
+        $re['utf-8'] = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
         $re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
-        $re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
-        $re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
+        $re['gbk'] = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
+        $re['big5'] = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
         preg_match_all($re[$charset], $str, $match);
         $slice = join("", array_slice($match[0], $start, $length));
         if ($suffix) {
             $newStr = $slice;
         }
-
     }
     return $newStr;
 }
-function FIScore($score, $users, $type = 5, $len = 0, $total = 1)
-{
+
+function FIScore($score, $users, $type = 5, $len = 0, $total = 1) {
     if ((int) $score == 0) {
         return $type;
     }
@@ -979,20 +953,20 @@ function FIScore($score, $users, $type = 5, $len = 0, $total = 1)
         case 100:return round($score / $total * 2 / $users, $len);
     }
 }
-function FIShopEncrypt($shopId)
-{
+
+function FIShopEncrypt($shopId) {
     return md5(base64_encode("fi" . date("Y-m-d") . $shopId));
 }
+
 /**
  * 根据子分类循环获取其父级分类
  */
-function FIGoodsCatPath($catId, $data = [])
-{
+function FIGoodsCatPath($catId, $data = []) {
     if ($catId == 0) {
         return $data;
     }
 
-    $data[]   = $catId;
+    $data[] = $catId;
     $parentId = Db::table('__GOODS_CATS__')->where('catId', $catId)->value('parentId');
     if ($parentId == 0) {
         krsort($data);
@@ -1001,12 +975,12 @@ function FIGoodsCatPath($catId, $data = [])
         return FIGoodsCatPath($parentId, $data);
     }
 }
+
 /**
  * 提供原生分页处理
  */
-function FIPager($total, $rs, $page, $size = 0)
-{
-    $pageSize  = ($size > 0) ? $size : config('paginate.list_rows');
+function FIPager($total, $rs, $page, $size = 0) {
+    $pageSize = ($size > 0) ? $size : config('paginate.list_rows');
     $totalPage = ($total % $pageSize == 0) ? ($total / $pageSize) : (intval($total / $pageSize) + 1);
     return ['Total' => $total, 'PerPage' => $pageSize, 'CurrentPage' => $page, 'TotalPage' => $totalPage, 'Rows' => $rs];
 }
@@ -1014,8 +988,7 @@ function FIPager($total, $rs, $page, $size = 0)
 /**
  * 编辑器上传图片
  */
-function FIEditUpload($fromType)
-{
+function FIEditUpload($fromType) {
     //PHP上传失败
     if (!empty($_FILES['imgFile']['error'])) {
         switch ($_FILES['imgFile']['error']) {
@@ -1048,8 +1021,8 @@ function FIEditUpload($fromType)
     }
 
     $fileKey = key($_FILES);
-    $dir     = 'image'; // 编辑器上传图片目录
-    $dirs    = FIConf("CONF.fiUploads");
+    $dir = 'image'; // 编辑器上传图片目录
+    $dirs = FIConf("CONF.fiUploads");
     if (!in_array($dir, $dirs)) {
         return json_encode(['error' => 1, 'message' => '非法文件目录！']);
     }
@@ -1066,7 +1039,7 @@ function FIEditUpload($fromType)
     $data = [
         'fileMime' => $file,
         'fileSize' => $file,
-        'fileExt'  => $file,
+        'fileExt' => $file,
     ];
     if (!$validate->check($data)) {
         return json_encode(['message' => $validate->getError(), 'error' => 1]);
@@ -1076,18 +1049,18 @@ function FIEditUpload($fromType)
         $filePath = $info->getPathname();
         $filePath = str_replace(ROOT_PATH . '/public', '', $filePath);
         $filePath = str_replace('\\', '/', $filePath);
-        $name     = $info->getFilename();
+        $name = $info->getFilename();
         $imageSrc = trim($filePath, '/');
         //图片记录
         FIRecordImages($imageSrc, (int) $fromType);
         return json_encode(array('error' => 0, 'url' => $filePath));
     }
 }
+
 /**
  * 转义单引号
  */
-function FIHtmlspecialchars($v)
-{
+function FIHtmlspecialchars($v) {
     return htmlspecialchars($v, ENT_QUOTES);
 }
 
@@ -1097,18 +1070,16 @@ function FIHtmlspecialchars($v)
  * @param string $content 内容
  * @param array  $msgJson 存放json数据
  */
-function FISendMsg($to, $content, $msgJson = [])
-{
-    $message               = [];
-    $message['msgType']    = 0;
+function FISendMsg($to, $content, $msgJson = []) {
+    $message = [];
+    $message['msgType'] = 0;
     $message['sendUserId'] = 1;
     $message['createTime'] = date('Y-m-d H:i:s');
-    $message['msgStatus']  = 0;
-    $message['dataFlag']   = 1;
+    $message['msgStatus'] = 0;
+    $message['dataFlag'] = 1;
 
     $message['receiveUserId'] = $to;
-    $message['msgContent']    = $content;
-    $message['msgJson']       = json_encode($msgJson);
+    $message['msgContent'] = $content;
+    $message['msgJson'] = json_encode($msgJson);
     model('admin/Messages')->save($message);
-
 }
