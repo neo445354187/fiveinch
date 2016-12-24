@@ -26,7 +26,7 @@ return [
     'app_multi_module'       => true,
     // 入口自动绑定模块
     'auto_bind_module'       => false,
-    // 注册的根命名空间
+    // 注册的根命名空间，下标为命名空间名，值为路径
     'root_namespace'         => [],
     // 扩展配置文件
     'extra_config_list'      => ['database', 'validate'],
