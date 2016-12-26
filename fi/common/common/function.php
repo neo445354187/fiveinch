@@ -8,18 +8,15 @@ use think\Db;
  * [FIVerify 生成验证码]
  * @param integer $length [验证码长度]
  */
-function FIVerify($length = 4) {
-    $Verify = new \verify\Verify();
-    $Verify->length = $length;
-    $Verify->entry();
+function FIVerify() {
+    (new \verify\Verify(config('captcha')))->entry();
 }
 
 /**
  * 核对验证码
  */
 function FIVerifyCheck($code) {
-    $verify = new \verify\Verify();
-    return $verify->check($code);
+    return (new \verify\Verify(config('captcha')))->check($code);
 }
 
 /**

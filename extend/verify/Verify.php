@@ -8,9 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-
 namespace verify;
-
 class Verify {
     protected $config =	array(
         'seKey'     =>  'fi.com',   // 验证码加密密钥
@@ -29,10 +27,8 @@ class Verify {
         'bg'        =>  array(243, 251, 254),  // 背景颜色
         'reset'     =>  true,           // 验证成功后是否重置
         );
-
     private $_image   = NULL;     // 验证码图片实例
     private $_color   = NULL;     // 验证码字体颜色
-
     /**
      * 架构方法 设置参数
      * @access public     
@@ -41,7 +37,6 @@ class Verify {
     public function __construct($config=array()){
         $this->config   =   array_merge($this->config, $config);
     }
-
     /**
      * 使用 $this->name 获取配置
      * @access public     
@@ -51,7 +46,6 @@ class Verify {
     public function __get($name) {
         return $this->config[$name];
     }
-
     /**
      * 设置验证码配置
      * @access public     
@@ -64,7 +58,6 @@ class Verify {
             $this->config[$name]    =   $value;
         }
     }
-
     /**
      * 检查配置
      * @access public     
@@ -74,7 +67,6 @@ class Verify {
     public function __isset($name){
         return isset($this->config[$name]);
     }
-
     /**
      * 验证验证码是否正确
      * @access public
@@ -99,10 +91,8 @@ class Verify {
             $this->reset && session($key, null);
             return true;
         }
-
         return false;
     }
-
     /**
      * 输出验证码并把验证码的值保存的session中
      * 验证码保存到session的格式为： array('verify_code' => '验证码值', 'verify_time' => '验证码创建时间');
@@ -119,12 +109,10 @@ class Verify {
         $this->_image = imagecreate($this->imageW, $this->imageH); 
         // 设置背景      
         imagecolorallocate($this->_image, $this->bg[0], $this->bg[1], $this->bg[2]); 
-
         // 验证码字体随机颜色
         $this->_color = imagecolorallocate($this->_image, mt_rand(1,150), mt_rand(1,150), mt_rand(1,150));
         // 验证码使用随机字体
         $ttfPath = dirname(__FILE__) . '/verify/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
-
         if(empty($this->fontttf)){
             $dir = dir($ttfPath);
             $ttfs = array();		
@@ -179,12 +167,10 @@ class Verify {
         header('Cache-Control: post-check=0, pre-check=0', false);		
         header('Pragma: no-cache');
         header("content-type: image/png");
-
         // 输出图像
         imagepng($this->_image);
         imagedestroy($this->_image);
     }
-
     /** 
      * 画一条由两条连在一起构成的随机正弦函数曲线作干扰线(你可以改成更帅的曲线函数) 
      *      
@@ -209,7 +195,6 @@ class Verify {
                         
         $px1 = 0;  // 曲线横坐标起始位置
         $px2 = mt_rand($this->imageW/2, $this->imageW * 0.8);  // 曲线横坐标结束位置
-
         for ($px=$px1; $px<=$px2; $px = $px + 1) {
             if ($w!=0) {
                 $py = $A * sin($w*$px + $f)+ $b + $this->imageH/2;  // y = Asin(ωx+φ) + b
@@ -229,7 +214,6 @@ class Verify {
         $b = $py - $A * sin($w*$px + $f) - $this->imageH/2;
         $px1 = $px2;
         $px2 = $this->imageW;
-
         for ($px=$px1; $px<=$px2; $px=$px+ 1) {
             if ($w!=0) {
                 $py = $A * sin($w*$px + $f)+ $b + $this->imageH/2;  // y = Asin(ωx+φ) + b
@@ -241,7 +225,6 @@ class Verify {
             }
         }
     }
-
     /**
      * 画杂点
      * 往图片上写不同颜色的字母或数字
@@ -257,7 +240,6 @@ class Verify {
             }
         }
     }
-
     /**
      * 绘制背景图片
      * 注：如果验证码输出图片比较大，将占用比较多的系统资源
@@ -265,7 +247,6 @@ class Verify {
     private function _background() {
         $path = dirname(__FILE__).'/verify/bgs/';
         $dir = dir($path);
-
         $bgs = array();		
         while (false !== ($file = $dir->read())) {
             if($file[0] != '.' && substr($file, -4) == '.jpg') {
@@ -273,21 +254,17 @@ class Verify {
             }
         }
         $dir->close();
-
         $gb = $bgs[array_rand($bgs)];
-
         list($width, $height) = @getimagesize($gb);
         // Resample
         $bgImage = @imagecreatefromjpeg($gb);
         @imagecopyresampled($this->_image, $bgImage, 0, 0, 0, 0, $this->imageW, $this->imageH, $width, $height);
         @imagedestroy($bgImage);
     }
-
     /* 加密验证码 */
     private function authcode($str){
         $key = substr(md5($this->seKey), 5, 8);
         $str = substr(md5($str), 8, 10);
         return md5($key . $str);
     }
-
 }
