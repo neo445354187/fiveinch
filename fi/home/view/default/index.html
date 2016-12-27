@@ -46,21 +46,8 @@
         {/* 楼层商品 */} {volist name="floors" id="vo" key="l" length="10"} {/* 楼层顶部广告 */} {php}$adsCode = "ads-".$l."-1";{/php}
         <div class="floor-box">
             <div class="floor-header c{$l}" id="c{$l}">
-                <div class="floor-header-f{$l}">
-                    <p class="floor-right-title">{$vo['catName']}</p>
-                </div>
-                <!--热搜 start-->
-                <div class="part-hot"> <span>热搜：</span>
-                    <ul>
-                        <li><a href="http://mall.360.com/rush/item?item_id=57b6a988eac499110d6063f2" target="_blank" data-monitor="home_floor1_hot1">360手机Q5</a> </li>
-                        <li><a href="http://mall.360.com/rush/item?item_id=57876cb3215ea061b38eb52f" target="_blank" data-monitor="home_floor1_hot2">360手机N4S</a> </li>
-                        <li><a href="http://mall.360.com/shop/item?item_id=57529fc9534b7f14ef786124" target="_blank" data-monitor="home_floor1_hot3">360手机N4</a> </li>
-                        <li><a href="http://mall.360.com/shop/item?item_id=56eb6d045efb116b378b456c" target="_blank" data-monitor="home_floor1_hot4">360手机f4</a> </li>
-                        <li><a href="http://mall.360.com/shop/item?item_id=55b1d41f5efb11ea158b456b" target="_blank" data-monitor="home_floor1_hot5">10000毫安移动电源</a> </li>
-                    </ul>
-                    <a href="http://mall.360.com/search/?sort=weight&amp;q=*&amp;cate=3" target="_blank" class="indexmore" data-monitor="home_floor1_more">更多</a>
-                </div>
-                <!--热搜 end-->
+                <div class="part-container "><span class="vline"></span><span class="vicon"></span><a class="part-title-cat" name="anchor{$l}" id="anchor{$l}">{$vo['catName']}</a><span class="vicon"></span><span class="vline"></span></div>
+                <div class="fi-clear"></div>
             </div>
             <div class="floor-left">
                 {/* 楼层左侧广告(左上) start */}
@@ -72,7 +59,10 @@
                 </div>
                 {/* 楼层左侧广告(左上) end */} {/* 楼层左侧广告(左下) start todo */}
                 <div class="floor-left-goods">
-                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img class="js-lazyload goodsImg" data-size="240_140_" data-original="https://p.ssl.qhmsg.com/t01914c74cb1356796e.jpg" src="https://p.ssl.qhmsg.com/dr/240_140_/t01914c74cb1356796e.webp" style="display: block;"></a>
+                    {php}$adsCode = "ads-".$l."-1";{/php} 
+                    {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
+                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img class="js-lazyload goodsImg" data-size="240_140_" data-original="__ROOT__/{$lad['adFile']}" style="display: block;"> </a>
+                    {/fi:ads}
                 </div>
                 {/* 楼层左侧广告(左下) end todo*/}
             </div>
@@ -124,9 +114,9 @@
 </div>
 <div id="screen-left-nav" style="display:none;">
     <ul>
-        {for start="1" end="$l+1"} {php} if ($i>10)break; {/php}
-        <li class="lnav" id="F{$i}"><a href="javascript:;" onfocus="this.blur();">{$i}F</a></li>
-        {/for}
+        <?php foreach($floors as $k => $val): ?>
+            <li class="lnav" id="F<?php echo $k;?>"><a href="#anchor<?php echo $k; ?>" onfocus="this.blur();"><?php echo $val['catName']; ?></a></li>
+        <?php endforeach; ?>
     </ul>
 </div>
 {/* 右侧菜单栏 */} {include file="default/right_cart"/} {/block} {block name="js"}

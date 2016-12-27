@@ -188,8 +188,7 @@
     height: 45px;
     background: #f5f5f5;
     ;
-	margin-bottom: 5px;
-    margin-top: 20px;
+	margin-bottom: 15px;
 }
 /*楼层导航底边框颜色*/
 
@@ -705,7 +704,7 @@
 
 /*屏幕左侧导航*/
 #screen-left-nav {
-    width: 35px;
+    width: 135px;
     max-height: 335px;
     position: fixed;
     top: 40%;
@@ -724,7 +723,6 @@
     margin-top: -1px;
     cursor: pointer;
     display: block;
-    width: 30px;
     height: 29px;
     color: #625351;
     transition: all 0.2s ease-in;
@@ -801,6 +799,15 @@
 
 .part-container .part-title {
     color: #e23c3d;
+    float: left;
+    font-size: 24px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    width: 240px;
+}
+.part-container .part-title-cat {
+    color: #666;
     float: left;
     font-size: 24px;
     height: 50px;
