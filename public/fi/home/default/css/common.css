@@ -292,13 +292,12 @@ input[type=button]{cursor:pointer}
 .visitor-new-list>li{
   height:18px !important;
 }
-#fi-right-ads>a>img{
+div.fi-right-ads>a>img{
   width:210px;
-  height:185px;
-  margin-top:10px;
+  height:200px;
   background:rgba(255,255,255, .45);
 }
-#fi-right-ads>a>img:hover{
+div.fi-right-ads>a>img:hover{
   background:rgba(255,255,255, .85);
 }
 
@@ -798,7 +797,7 @@ input[type=button]{cursor:pointer}
     overflow: hidden;
    	width: 1px;
 }
-.fi-right-panel{height:398px;width:210px;position:absolute;top:38px;right:0px;z-index:1000;}
+.fi-right-panel{height:400px;width:210px;position:absolute;top:38px;right:0px;z-index:1000;}
 
 
 /*分类图标*/

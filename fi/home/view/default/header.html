@@ -122,45 +122,17 @@
                 {/volist}
             </ul>
         </div>
-        <div class='fi-right-panel' {if !isset($hideCategory)}style="display:none" {/if}>
-            <div class="index-user-tab">
-                <div id="fi-right-photo">
-                    <a href="{:url('home/users/index')}"><img class="usersImg" data-original="__ROOT__/{:session('FI_USER.userPhoto')}" /></a>
+        <div class='fi-right-panel'>
+            <?php for($i = 0; $i < 2; $i++): ?>
+                <?php $adsCode = 'index-art-'.$i; ?>
+                <div class="fi-right-ads">
+                    {fi:ads code="$adsCode" num='1' cache='86400' id='vo'}
+                    <a {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if} href="{$vo['adURL']}" onfocus="this.blur()">
+                        <img data-original="__ROOT__/{$vo.adFile}" class="goodsImg" />
+                    </a>
+                    {/fi:ads}
                 </div>
-                <div id="fi-right-join">
-                    {if(session('FI_USER.userId'))}
-                    <p>{:session('FI_USER.userName')?session('FI_USER.userName'):session('FI_USER.loginName')}</p>
-                    <div class="visitor-login">
-                        <a href="javascript:FI.logout();" style="border-top:1px solid #ccc;width:100%;">
-                            <div class="fi-right-pic" style="margin-left:80px;"><img src="__HOME__/img/icon_login.png" /></div>
-                            <p class="fi-right-text">退出</p>
-                        </a>
-                        <div class="fi-clear"></div>
-                    </div>
-                    {else}
-                    <p>&nbsp;</p>
-                    <div class="visitor-login">
-                        <a href="{:Url('home/users/login')}" style="border-right:1px solid #ccc;">
-                            <div class="fi-right-pic"><img src="__HOME__/img/icon_login.png" /></div>
-                            <p class="fi-right-text">登录</p>
-                        </a>
-                        <a href="{:Url('home/users/regist')}">
-                            <div class="fi-right-pic"><img src="__HOME__/img/icon_register.png" /></div>
-                            <p class="fi-right-text">注册</p>
-                        </a>
-                        <div class="fi-clear"></div>
-                    </div>
-                    {/if}
-                </div>
-            </div>
-            <div class="fi-clear"></div>
-            <div id="fi-right-ads">
-                {fi:ads code="index-art-bottom" num='1' cache='86400'}
-                <a {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if} href="{$vo.adURL}" onfocus="this.blur()">
-                    <img data-original="__ROOT__/{$vo.adFile}" class="goodsImg" />
-                </a>
-                {/fi:ads}
-            </div>
+            <?php endfor; ?>
         </div>
         <span class="fi-clear">
         

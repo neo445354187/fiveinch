@@ -34,9 +34,7 @@
                     <?php $adsCode = 'ads-rec-'.$i; ?>
                     {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
                     <li class="ac<?php echo $i; ?>">
-                        <a href="{$lad['adURL']}" target="_blank" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload goodsImg" data-original="__ROOT__/{$lad['adFile']}"> </a>
-
-                        
+                        <a href="{$lad['adURL']}" target="_blank" {if ($lad[ 'adURL']!='' )} onclick="FI.recordClick({$lad['adId']})" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload goodsImg" data-original="__ROOT__/{$lad['adFile']}"> </a>
                     </li>
                     {/fi:ads}
                 <?php endfor; ?>
