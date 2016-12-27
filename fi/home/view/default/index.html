@@ -30,24 +30,17 @@
             <div class="part-container"><span class="vline"></span><span class="vicon"></span><span class="part-title">推荐商品</span><span class="vicon"></span><span class="vline"></span></div>
             <div class="fi-clear"></div>
             <ul class="part-container">
-                <li class="ac0">
-                    <a href="http://mall.360.com/ac/jiatingyingyuan" target="_blank" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01e770e96f127b565c.jpg" src="https://p.ssl.qhmsg.com/t01e770e96f127b565c.webp"> </a>
-                </li>
-                <li class="ac1">
-                    <a href="http://mall.360.com/ac/pingguo" target="_blank" data-monitor="home_activity_ziyuanwei02"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.png" src="https://p.ssl.qhmsg.com/t016d6a6e1390ba7f86.webp"> </a>
-                </li>
-                <li class="ac2">
-                    <a href="http://mall.360.com/ac/0912manbuzhe" target="_blank" data-monitor="home_activity_ziyuanwei03"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.jpg" src="https://p.ssl.qhmsg.com/t0150a0f23f9216c6ec.webp" style="display: block;"> </a>
-                </li>
-                <li class="ac3">
-                    <a href="http://mall.360.com/ac/qianggou1114" target="_blank" data-monitor="home_activity_ziyuanwei04"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t016f89a105cf283cae.jpg" src="https://p.ssl.qhmsg.com/t016f89a105cf283cae.webp" style="display: block;"> </a>
-                </li>
-                <li class="ac4">
-                    <a href="http://mall.360.com/ac/zhinengjiaju2016" target="_blank" data-monitor="home_activity_ziyuanwei05"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.jpg" src="https://p.ssl.qhmsg.com/t01d49057fb96de0f53.webp" style="display: block;"> </a>
-                </li>
-                <li class="ac5">
-                    <a href="http://mall.360.com/ac/miqilin0801" target="_blank" data-monitor="home_activity_ziyuanwei06"> <img class="js-lazyload" data-original="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.jpg" src="https://p.ssl.qhmsg.com/t01fdd80c649c6addad.webp" style="display: block;"> </a>
-                </li>
+                <?php for($i = 0; $i < 6; $i++): ?>
+                    <?php $adsCode = 'ads-rec-'.$i; ?>
+                    {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
+                    <li class="ac<?php echo $i; ?>">
+                        <a href="{$lad['adURL']}" target="_blank" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload goodsImg" data-original="__ROOT__/{$lad['adFile']}"> </a>
+
+                        
+                    </li>
+                    {/fi:ads}
+                <?php endfor; ?>
+                
             </ul>
         </div>
         <div class="fi-clear"></div>
@@ -74,7 +67,8 @@
             <div class="floor-left">
                 {/* 楼层左侧广告(左上) start */}
                 <div class="floor-left-ads">
-                    {php}$adsCode = "ads-".$l."-2";{/php} {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
+                    {php}$adsCode = "ads-".$l."-2";{/php} 
+                    {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
                     <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img style="width:240px;height:418px;" class='goodsImg' data-original="__ROOT__/{$lad['adFile']}"> </a>
                     {/fi:ads}
                 </div>
@@ -90,7 +84,8 @@
                     <div class="fi-floor-slide-{$l}" id="fi-floor-slide-{$l}">
                         <!--右侧轮播广告 start-->
                         <ul class="fi-floor-slide-items">
-                            {php}$adsCode = "ads-".$l."-3";{/php} {fi:ads code="$adsCode" cache='86400' id='rad'}
+                            {php}$adsCode = "ads-".$l."-3";{/php} 
+                            {fi:ads code="$adsCode" cache='86400' id='rad'}
                             <li style="z-index: 1;">
                                 <a href="{$rad.adURL}" {if ($rad[ 'adURL']!='' )}onclick="FI.recordClick({$rad['adId']})" {/if}><img class='goodsImg' data-original="__ROOT__/{$rad.adFile}"></a>
                             </li>

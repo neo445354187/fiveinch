@@ -163,7 +163,8 @@ class Tags extends Base
         }
 
         $today = date('Y-m-d');
-        $rs    = Db::table("__ADS__")->alias('a')->join('__AD_POSITIONS__ ap', 'a.adPositionId= ap.positionId and ap.dataFlag=1', 'left')
+        $rs    = Db::table("__ADS__")->alias('a')
+            ->join('__AD_POSITIONS__ ap', 'a.adPositionId= ap.positionId and ap.dataFlag=1', 'left')
             ->where("a.dataFlag=1 and ap.positionCode='" . $positionCode . "' and adStartDate<= '$today' and adEndDate>='$today'")
             ->field('adId,adName,adURL,adFile,positionWidth,positionHeight')
             ->order('adSort asc')->limit($num)->select();

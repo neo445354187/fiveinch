@@ -441,8 +441,8 @@ function FIUploadPic($fromType = 0) {
         return json_encode(['msg' => '上传文件不存在或超过服务器限制', 'status' => -1]);
     }
     $validate = new \think\Validate([
-        ['fileMime', 'fileMime:image/png,image/gif,image/jpeg,image/x-ms-bmp', '只允许上传jpg,gif,png,bmp类型的文件'],
-        ['fileExt', 'fileExt:jpg,jpeg,gif,png,bmp', '只允许上传后缀为jpg,gif,png,bmp的文件'],
+        ['fileMime', 'fileMime:image/png,image/gif,image/jpeg,image/webp,image/x-ms-bmp', '只允许上传jpg,gif,png,bmp类型的文件'],
+        ['fileExt', 'fileExt:jpg,jpeg,gif,png,bmp,webp', '只允许上传后缀为jpg,gif,png,bmp的文件'],
         ['fileSize', 'fileSize:2097152', '文件大小超出限制'], //最大2M
     ]);
     $data = [
@@ -1079,4 +1079,24 @@ function FISendMsg($to, $content, $msgJson = []) {
     $message['msgContent'] = $content;
     $message['msgJson'] = json_encode($msgJson);
     model('admin/Messages')->save($message);
+}
+
+
+/**
+ * [FunctionName 进行值过滤操作]
+ * @param [type] $val     [待过滤的值]
+ * @param [type] $funcs  [进行过滤的函数，多个函数用`|`隔开]
+ * @param [type] $default [值为空，返回该值作为默认]
+ */
+function filter($val, $funcs, $default = '')
+{
+    if (empty($val)) {
+        return $default;
+    }
+    !$funcs && $funcs = 'htmlspecialchars';
+    $funcs            = explode('|', $funcs);
+    foreach ($funcs as $key => $func) {
+        $val = $func($val);
+    }
+    return $val;
 }
