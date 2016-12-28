@@ -46,7 +46,7 @@
         {/* 楼层商品 */} {volist name="floors" id="vo" key="l" length="10"} {/* 楼层顶部广告 */} {php}$adsCode = "ads-".$l."-1";{/php}
         <div class="floor-box">
             <div class="floor-header c{$l}" id="c{$l}">
-                <div class="part-container "><span class="vline"></span><span class="vicon"></span><a class="part-title-cat" name="anchor{$l}" id="anchor{$l}">{$vo['catName']}</a><span class="vicon"></span><span class="vline"></span></div>
+                <div class="part-container "><span class="vline"></span><span class="vicon"></span><a class="part-title-cat" name="anchor{$l}" id="anchor{$l-1}">{$vo['catName']}</a><span class="vicon"></span><span class="vline"></span></div>
                 <div class="fi-clear"></div>
             </div>
             <div class="floor-left">
