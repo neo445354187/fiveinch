@@ -14,6 +14,11 @@ function changeTab(obj,n){
     ltab.setHeader("fi-ltab-"+n, $(obj).text());
     $('#fi-lframe-'+n).attr('src',$(obj).attr('url'));
 }
+/**
+ * [initTabMenus 获取横向菜单的子菜单]
+ * @param  {[type]} menuId [description]
+ * @return {[type]}        [description]
+ */
 function initTabMenus(menuId){
 	$.post(FI.U('admin/index/getSubMenus'),{id:menuId},function(data,textStatus){
 		 var json = FI.toAdminJson(data);
@@ -40,6 +45,7 @@ function initTabMenus(menuId){
 		 html.push('</div>'); 
 		 html.push('</div>');
 		 initFrame = true;
+		 //放到了对应的选项卡下面
 		 $('#fi-tab-'+menuId).html(html.join(''));
 		 $("#fi-layout-"+menuId).ligerLayout({
 	         leftWidth: 190,
