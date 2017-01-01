@@ -68,6 +68,7 @@ function FISendSMS($phoneNumer, $content) {
     return $data;
 }
 
+
 /**
  * [FIConf 获取指定的全局配置，获取的是$GLOBALS['FICONF'][$key]]
  * 说明：

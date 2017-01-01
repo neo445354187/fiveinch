@@ -150,4 +150,6 @@ class Areas extends Base{
 	public function listQuery($parentId){
 		return $this->where(['dataFlag'=>1,'parentId'=>$parentId,'isShow'=>1])->field('areaId,areaName,parentId')->order('areaSort desc')->select();
 	}
+
+	
 }

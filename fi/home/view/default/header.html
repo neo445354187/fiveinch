@@ -11,6 +11,10 @@
             <img src="__ROOT__/{:FIConf('CONF.mallLogo')}" height="120" width='240' title="{:FIConf('CONF.mallName')}" alt="{:FIConf('CONF.mallName')}">
         </a>
     </div>
+    <div id="user_location">
+        <span>【{$city}】</span>
+        <p>切换地址</p>
+    </div>
     <div class="fi-search-box">
         <div class='fi-search'>
             <input type="hidden" id="search-type" value="{:isset($keytype)?1:0}" />

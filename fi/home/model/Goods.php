@@ -850,6 +850,7 @@ class Goods extends Base {
                         ->field('goodsId,goodsName,goodsSn,goodsStock,saleNum,shopPrice,marketPrice,isSpec,goodsImg,appraiseNum,visitNum,s.shopId,shopName')
                         ->order($pageBy[$orderBy] . " " . $pageOrder[$order] . ",goodsId asc")
                         ->paginate(input('pagesize/d'))->toArray();
+        // var_dump($list);die;//debug
         return $list;
     }
 
