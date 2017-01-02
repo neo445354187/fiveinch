@@ -29,8 +29,10 @@ body{padding:0px;background:#EAEEF5;overflow:hidden;}
     </div> 
 </div>
 <div id="fi-tabs" style="width:100%; height:100%;overflow: hidden; border: 1px solid #D3D3d3;" class="liger-tab">
+
    {volist name="menus" id="vo" key="k"}
-   <div id="fi-tab-{$vo['menuId']}" tabId="fi-tab-{$vo['menuId']}" v="{$vo['menuId']}" title="{$vo['menuName']}" class='fi-tab' {if condition="$k ==0"}lselected="true"{/if} style="height: 300px"> 
+   {/* $vo虽然是对象，但是继承了array的相应接口，是可以作为数组访问的 */}
+   <div id="fi-tab-{$vo['menuId']}" tabId="fi-tab-{$vo['menuId']}" v="{$vo['menuId']}" title="{$vo['menuName']}" class='fi-tab' {if condition="$k ==0"}selected="true"{/if} style="height: 300px"> 
    </div>
    {/volist}
    <!-- 

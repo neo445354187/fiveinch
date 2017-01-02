@@ -100,6 +100,7 @@ function onRightClick(event, treeId, treeNode) {
                   		          FI.msg("操作成功",{icon:1});
                   		          zTree.reAsyncChildNodes(treeNode.getParentNode(), "refresh",true);
                   		     }else{
+
                   		          FI.msg(json.msg,{icon:2});
                   		     }
                   		 });

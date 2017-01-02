@@ -66,8 +66,10 @@ location / {
 23. 错误页面`/home/error/index.html`有样式问题
 
 
-## 表说明
+## 项目部分说明
 
+### 表说明
+```
 /**
  * 商品属性说明：
  * 商品属性表fi_attributes、商品属性对应表fi_goods_attributes、商品表fi_goods、商品分类表fi_goods_cats
@@ -89,3 +91,11 @@ location / {
  * 
  * 
  */
+```
+
+### 后台菜单 - 权限说明
+该系统有些特别(奇葩)，菜单是菜单，是父子孙无限级结构的，而权限本身是平级结构的，菜单与权限是一对多的关系。分别设置menus和privileges两张表
+
+![](img/001.png)
+![](img/002.png)
+
