@@ -187,49 +187,22 @@ class Goods extends Base
     {
         //获取商品记录
         $m               = new M();
-        $data            = [];
-        $data['isStock'] = Input('isStock/d');
-        $data['isNew']   = Input('isNew/d');
-        $data['orderBy'] = Input('orderBy/d');
-        $data['order']   = Input('order/d', 1);
-        $data['keyword'] = input('keyword');
-        $data['sprice']  = Input('sprice/d');
-        $data['eprice']  = Input('eprice/d');
+        // $data['areaId'] = (int) Input('areaId');
+        $data = [
+            'isStock' => Input('isStock/d'),
+            'isNew' => Input('isNew/d'),
+            'orderBy' => Input('orderBy/d'),
+            'order' => Input('order/d', 1),
+            'keyword' => Input('keyword'),
+            'sprice' => Input('sprice/d'),
+            'eprice' => Input('eprice/d'),
+            'areaId' => (int)Input('areaId')
+        ];
 
-        $data['areaId'] = (int) Input('areaId');
-        $aModel         = model('home/areas');
-
-        // 获取地区
-        $data['area1'] = $aModel->listQuery(); // 省级
-        // 默认地区信息
-        $data['area2'] = $aModel->listQuery(440000); // 广东的下级
-        $data['area3'] = $aModel->listQuery(440100); // 广州的下级
-
-        // 如果有筛选地区 获取上级地区信息
-        if ($data['areaId'] !== 0) {
-            $areaIds = $aModel->getParentIs($data['areaId']);
-            /*
-            2 => int 440000
-            1 => int 440100
-            0 => int 440106
-             */
-            $selectArea = [];
-            $areaName   = '';
-            foreach ($areaIds as $k => $v) {
-                $a = $aModel->getById($v);
-                $areaName .= $a['areaName'];
-                $selectArea[] = $a;
-            }
-            // 地区完整名称
-            $selectArea['areaName'] = $areaName;
-            // 当前选择的地区
-            $data['areaInfo'] = $selectArea;
-
-            $data['area2'] = $aModel->listQuery($areaIds[2]); // 广东的下级
-
-            $data['area3'] = $aModel->listQuery($areaIds[1]); // 广州的下级
-        }
-
+        $data         = array_merge(
+            $data,
+            model('Areas')->getAddr($data['areaId'])
+        );
         $data['goodsPage'] = $m->pageQuery();
         return $this->fetch("default/goods_search", $data);
     }
