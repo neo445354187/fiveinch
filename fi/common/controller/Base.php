@@ -18,7 +18,6 @@ class Base extends \think\Controller{
 	public function __construct()
     {
         parent::__construct();
-        
     	//加载对应的与控制器名对应的语言包，自动加载里面有判断是否为file，所以不用再这里判断
    		Lang::load( APP_PATH . request()->module().'\\lang\\'.Lang::range().'\\'.request()->controller().'.php');
     }

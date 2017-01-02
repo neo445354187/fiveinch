@@ -1,5 +1,11 @@
 ﻿# 配置
 
+## thinkphp 内核修改
+
+### 修改模型的select()只返回对象数组的不足
+位置：thinkphp\library\think\db\Query.php
+
+
 ## nginx 配置
 ```
 location / {

@@ -1,7 +1,9 @@
 <?php
 namespace fi\home\controller;
-use think\Session;
+
 use fi\common\model\Areas;
+use think\Session;
+
 /**
  * 基础控制器
  */
@@ -12,8 +14,9 @@ class Base extends \fi\common\controller\Base
     {
         parent::__construct();
         //判断是否已经通过ip获取的城市地址
-        if ($location = Session::get('user_location')) {
-            $this->assign("city", explode('_',$location['city'])[1]);
+        $location = Session::get('user_location');
+        if (!empty($location['city'])) {
+            $this->assign("city", explode('_', $location['city'])[1]);
         } else {
             $this->assign("city", (new Areas())->getLocation());
         }

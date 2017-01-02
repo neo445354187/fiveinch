@@ -52,6 +52,9 @@ class Query
     // 数据表信息
     protected static $info = [];
 
+    //判断是否返回数据数组，而不是对象数组 by liuzuochao
+    protected $is_return_array = false;
+
     /**
      * 架构函数
      * @access public
@@ -1955,6 +1958,11 @@ class Query
 
         // 返回结果处理
         if (count($resultSet) > 0) {
+            //判断是否直接返回数组 by liuzuochao
+            if ($this->is_return_array) {
+                return $resultSet;
+            }
+
             // 数据列表读取后的处理
             if (!empty($this->model)) {
                 // 生成模型对象
@@ -1978,6 +1986,17 @@ class Query
             $this->throwNotFound($options);
         }
         return $resultSet;
+    }
+
+    /**
+     * [toArray 直接返回数据数组，而不是对象数组 by liuzuochao]
+     * @param  boolean $is_return_array [description]
+     * @return [type]                   [description]
+     */
+    public function toArray($is_return_array = true)
+    {
+        $this->is_return_array = $is_return_array;
+        return $this;
     }
 
     /**

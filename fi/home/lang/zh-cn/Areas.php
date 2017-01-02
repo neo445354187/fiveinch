@@ -3,5 +3,5 @@
  * 语言包
  */
 return [
-    'UNKNOWN' => '未知',
+    'Failed to obtain regional information' => '获取地区信息失败!',
 ];

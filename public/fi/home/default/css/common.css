@@ -1049,3 +1049,21 @@ div.fi-right-ads>a>img:hover{
 }
 
 .fi-loading-img{vertical-align: middle;}
+
+#user_location{
+  float: left;
+  height:auto;
+  text-align: center;
+}
+
+#user_location span{
+  display:block;
+  margin-top: 50px;
+}
+
+#user_location p{
+  cursor:pointer;
+}
+#user_location p:hover{
+  text-decoration:underline;
+}
