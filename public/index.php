@@ -15,12 +15,12 @@ if (version_compare(PHP_VERSION, '5.4.0', '<')) {
 }
 
 // [ 应用入口文件 ]
-$dir = realpath(__DIR__ . '/..');
+define('ROOT', realpath(__DIR__ . '/..'));
 // 定义应用目录
-define('APP_PATH', $dir . '/fi/');
-define('CONF_PATH', $dir . '/fi/common/conf/');
-define('FI_COMM', $dir . '/fi/common/common/');
-define('FI_HOME_COMM', $dir . '/fi/home/common/');
-define('FI_ADMIN_COMM', $dir . '/fi/admin/common/');
+define('APP_PATH', ROOT . '/fi/');
+define('CONF_PATH', ROOT . '/fi/common/conf/');
+define('FI_COMM', ROOT . '/fi/common/common/');
+define('FI_HOME_COMM', ROOT . '/fi/home/common/');
+define('FI_ADMIN_COMM', ROOT . '/fi/admin/common/');
 // 加载框架引导文件
-require $dir . '/thinkphp/start.php';
+require ROOT . '/thinkphp/start.php';

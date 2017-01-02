@@ -26,12 +26,12 @@ class Areas extends Base{
    	{
    		$res = model('Areas')->getProvincesAndCities();
    		if ($res) {
-   			$this->result['data'] = $this->fetch('default/getProvincesAndCities');
+   			$this->result['data'] = $this->fetch('default/areas/getProvincesAndCities');
    		} else {
    			$this->result['status'] = CODE_FAIL;
    			$this->result['msg'] = lang('Failed to obtain regional information');
    		}
-   		die($this->result['data']);
+   		echo $this->result['data'];die;
    		$this->ajax($this->result);
    	}
 }
