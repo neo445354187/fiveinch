@@ -22,13 +22,4 @@ class Base extends \think\Controller{
    		Lang::load( APP_PATH . request()->module().'\\lang\\'.Lang::range().'\\'.request()->controller().'.php');
     }
 
-    /**
-     * [ajax json_encode功能]
-     * @param  [type] $result [description]
-     * @return [type]         [description]
-     */
-    public function ajax($result)
-    {
-    	return json_encode($result);
-    }
 }

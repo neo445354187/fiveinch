@@ -1,10 +1,14 @@
 $(document).ready(function() {
     var cartHeight = FI.pageHeight() - 120;
-    $('.toolbar-tab').hover(function() { $(this).find('.tab-text').addClass("tbar-tab-hover");
+    $('.toolbar-tab').hover(function() {
+        $(this).find('.tab-text').addClass("tbar-tab-hover");
         $(this).find('.footer-tab-text').addClass("tbar-tab-footer-hover");
-        $(this).addClass("tbar-tab-selected"); }, function() { $(this).find('.tab-text').removeClass("tbar-tab-hover");
+        $(this).addClass("tbar-tab-selected");
+    }, function() {
+        $(this).find('.tab-text').removeClass("tbar-tab-hover");
         $(this).find('.footer-tab-text').removeClass("tbar-tab-footer-hover");
-        $(this).removeClass("tbar-tab-selected"); });
+        $(this).removeClass("tbar-tab-selected");
+    });
     $('.j-close').click(function() {
         if ($('.toolbar-wrap').hasClass('toolbar-open')) {
             $('.toolbar-wrap').removeClass('toolbar-open');
@@ -128,25 +132,84 @@ $(document).ready(function() {
             getHistoryGoods();
         }
     });
+    //存储返回的地址信息
+    var $location_content = '',
+        $is_cache = false; //判断是否缓存，以便决定是否请求数据
 
-    $('#user_location p').click(function(){
-    	
-
-    	
-    	layer.open({
-    	  type: 1,
-    	  title:'请选择地址',
-    	  skin: 'layui-layer-demo', //样式类名
-    	  closeBtn: 0, //不显示关闭按钮
-    	  anim: 2,
-    	  area: ['500px', '300px'],
-    	  shadeClose: true, //开启遮罩关闭
-    	  content: ''
-    	});
+    $('#user_location').click(function() {
+        if (!$is_cache) {
+            $.ajax({
+                url: FI.U("home/areas/getProvincesAndCities"),
+                type: 'POST',
+                dataType: 'json',
+                data: {},
+                success: function($json) {
+                    if ($json.status == 1) {
+                    	$is_cache = true;
+                        $location_content = $json.data;
+                        layer_location($location_content);
+                    } else {
+                        layer.msg('获取地址失败', { icon: 2 });
+                    }
+                },
+                error: function($json) {
+                    layer.msg('获取地址失败', { icon: 2 });
+                }
+            })
+        }
+        if ($location_content != '') {
+        	layer_location($location_content);
+        }
     })
 
 
 });
+/**
+ * [layer_location 用layer弹框]
+ * @param  {[type]} $location_content [description]
+ * @return {[type]}                   [description]
+ */
+function layer_location ($location_content) {
+	layer.open({
+	    type: 1,
+	    title: ['请选择地址', 'font-size:18px;text-align:center;'],
+	    skin: 'layui-layer-demo', //样式类名
+	    closeBtn: 0, //不显示关闭按钮
+	    anim: 2,
+	    area: ['800px', '500px'],
+	    shadeClose: true, //开启遮罩关闭
+	    content: $location_content
+	});
+}
+
+/**
+ * [setLocation 设置用户地址]
+ * @param {[type]} $province_id [description]
+ * @param {[type]} $city_id [description]
+ */
+setLocation = function($this, $province_id, $city_id) {
+    $.ajax({
+        url: FI.U("home/areas/setLocation"),
+        type: 'POST',
+        dataType: 'json',
+        data: { province_id: $province_id, city_id: $city_id },
+        success: function($json) {
+        	var $text = $($this).text();
+            $('#user_location span').text('【'+$text.substr(0, 5)+'】').attr('title', $text);
+            layer.closeAll();
+            layer.msg('设置地址成功', { icon: 1 });
+        },
+        error: function($json) {
+            layer.closeAll();
+            layer.msg('设置地址失败', { icon: 2 });
+        }
+    })
+
+
+}
+
+
+
 
 function getRightCart() {
     $.post(FI.U('home/carts/getCart'), '', function(data) {

@@ -124,6 +124,7 @@ class Goods extends Base
     public function add()
     {
         $m                   = new M();
+        //获取goods表格字段的默认值，键为字段名
         $object              = $m->getEModel('goods');
         $object['goodsSn']   = FIGoodsNo();
         $object['productNo'] = FIGoodsNo();

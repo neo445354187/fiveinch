@@ -1,5 +1,5 @@
 <?php
-namespace fi\home\model;
+namespace fi\common\model;
 /**
  * 广告类
  */

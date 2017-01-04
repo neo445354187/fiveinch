@@ -70,6 +70,7 @@ class Base extends Model
             foreach ($rs as $key => $v) {
                 $obj[$v['Field']] = $v['Default'];
                 if ($v['Key'] == 'PRI') {
+                    //将主键的值致为0
                     $obj[$v['Field']] = 0;
                 }
 

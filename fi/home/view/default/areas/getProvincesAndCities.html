@@ -1,22 +1,51 @@
 <title>Document</title>
 <style type="text/css">
-   
-    #clist dt{
-      display:inline-block;
-      float: left;
-      clear:left;
-    }
-    #clist dd{
-      float: left;
-      display:inline-block;
-      max-width: 700px;
-      height: auto;
-    }
-</style>
+#clist dt {
+    display: inline-block;
+    float: left;
+    clear: left;
+    min-width: 40px;
+    font-weight: 700;
+    color: #555;
+    padding: 10px;
+}
 
+#clist dd {
+    float: left;
+    display: inline-block;
+    width: 700px;
+    height: auto;
+    padding: 10px 0 10px 10px;
+}
+
+#clist dd:hover {
+    background: #dfd;
+}
+
+#clist dd a {
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 0 5px 0;
+    color: #00f;
+    font-size: 14px;
+}
+
+#clist dd a:hover {
+    color: #f00;
+}
+
+</style>
 <dl id="clist">
-    <dt>山东</dt><dd><a href="http://qd.58.com/" onclick="co('qd')">青岛</a><a href="http://jn.58.com/" onclick="co('jn')">济南</a><a href="http://yt.58.com/" onclick="co('yt')">烟台</a><a href="http://wf.58.com/" onclick="co('wf')">潍坊</a><a href="http://linyi.58.com/" onclick="co('linyi')">临沂</a><a href="http://zb.58.com/" onclick="co('zb')">淄博</a><a href="http://jining.58.com/" onclick="co('jining')">济宁</a><a href="http://ta.58.com/" onclick="co('ta')">泰安</a><a href="http://lc.58.com/" onclick="co('lc')">聊城</a><a href="http://weihai.58.com/" onclick="co('weihai')">威海</a><a href="http://zaozhuang.58.com/" onclick="co('zaozhuang')">枣庄</a><a href="http://dz.58.com/" onclick="co('dz')">德州</a><a href="http://rizhao.58.com/" onclick="co('rizhao')">日照</a><a href="http://dy.58.com/" onclick="co('dy')">东营</a><a href="http://heze.58.com/" onclick="co('heze')">菏泽</a><a href="http://bz.58.com/" onclick="co('bz')">滨州</a><a href="http://lw.58.com/" onclick="co('lw')">莱芜</a><a href="http://zhangqiu.58.com/" onclick="co('zhangqiu')">章丘</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a></dd>
-    
-  
-    <dt>山东</dt><dd><a href="http://qd.58.com/" onclick="co('qd')">青岛</a><a href="http://jn.58.com/" onclick="co('jn')">济南</a><a href="http://yt.58.com/" onclick="co('yt')">烟台</a><a href="http://wf.58.com/" onclick="co('wf')">潍坊</a><a href="http://linyi.58.com/" onclick="co('linyi')">临沂</a><a href="http://zb.58.com/" onclick="co('zb')">淄博</a><a href="http://jining.58.com/" onclick="co('jining')">济宁</a><a href="http://ta.58.com/" onclick="co('ta')">泰安</a><a href="http://lc.58.com/" onclick="co('lc')">聊城</a><a href="http://weihai.58.com/" onclick="co('weihai')">威海</a><a href="http://zaozhuang.58.com/" onclick="co('zaozhuang')">枣庄</a><a href="http://dz.58.com/" onclick="co('dz')">德州</a><a href="http://rizhao.58.com/" onclick="co('rizhao')">日照</a><a href="http://dy.58.com/" onclick="co('dy')">东营</a><a href="http://heze.58.com/" onclick="co('heze')">菏泽</a><a href="http://bz.58.com/" onclick="co('bz')">滨州</a><a href="http://lw.58.com/" onclick="co('lw')">莱芜</a><a href="http://zhangqiu.58.com/" onclick="co('zhangqiu')">章丘</a><a href="http://kl.58.com/" onclick="co('kl')">垦利</a><a href="http://zc.58.com/" onclick="co('zc')">诸城</a><a href="http://shouguang.58.com/" onclick="co('shouguang')">寿光</a></dd>
+    <?php foreach($list as $key => $val): ?>
+    <div class="line">
+        <dt>
+            <?php echo $val['areaName']; ?>
+        </dt>
+        <dd>
+            <?php foreach($val['_child'] as $k => $v): ?>
+            <a href="javascript:void(0);" onclick="setLocation(this, '<?php echo $val['areaId'] ?>','<?php echo $v['areaId'] ?>')"><?php echo $v['areaName'] ?></a>
+            <?php endforeach; ?>
+        </dd>
+    </div>
+    <?php endforeach; ?>
 </dl>

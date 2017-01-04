@@ -12,6 +12,7 @@ class Areas extends Base
 {
 
     const CODE_PROVINCE = 0;
+    
     const CODE_CITY     = 1;
 
     const COUNTRY = '中国';
@@ -123,11 +124,8 @@ class Areas extends Base
         );
         $ip_info = json_decode($ip_info, true);
         if (isset($ip_info['country']) && $ip_info['country'] == self::COUNTRY) {
-            $province = $ip_info['province'] . self::PROVINCE_EXT;
-            $city     = $ip_info['city'] . self::CITY_EXT;
-            $result   = $this->getLocationByName($province, $city);
+            $result = $this->getLocationByNameOrId($ip_info['province'], $ip_info['city']);
             if ($result) {
-                $this->addLocationToSession($result);
                 return explode('_', $result['city'])[1];
             }
         }
@@ -137,19 +135,29 @@ class Areas extends Base
     }
 
     /**
-     * [getLocationByName ]
+     * [getLocationByNameOrId ]
      * @param  [type] $province [省名]
      * @param  [type] $city     [市名]
+     * @param  [type] $is_id     [判断是否实参是否为id]
      * @return [type]           [description]
      */
-    private function getLocationByName($province, $city)
+    public function getLocationByNameOrId($province, $city, $is_id = false)
     {
+        //组装sql
+        $this->field('areaId, areaName, areaType')->limit(2);
+        if ($is_id) {
+            $this->where(['areaId' => ['IN',[$province, $city]]]);
+        } else {
+            $this->where([
+                'areaName' => ['LIKE', "$province%"],
+                'areaType' => ['IN', [self::CODE_PROVINCE, self::CODE_CITY]],
+            ])->whereOr(['areaName' => ['LIKE', "$city%"]]);
+        }
+        $this->where([
+            'dataFlag' => CODE_SUCCESS,
+        ]);
+        $result = $this->select();
 
-        $result = $this->field('areaId, areaName, areaType')
-            ->where([
-                'areaName' => ['IN', [$province, $city]],
-                'dataFlag' => CODE_SUCCESS,
-            ])->limit(2)->select();
         if ($result) {
             foreach ($result as $key => $res) {
                 if ($res['areaType'] == self::CODE_PROVINCE) {
@@ -159,6 +167,8 @@ class Areas extends Base
                 }
 
             }
+            //加入session
+            $this->addLocationToSession($data);
             return $data;
         }
         return false;
