@@ -11,9 +11,14 @@ use think\Session;
 class Areas extends Base
 {
 
+    /**
+     * 省代号
+     */
     const CODE_PROVINCE = 0;
-    
-    const CODE_CITY     = 1;
+
+    const CODE_CITY = 1;
+
+    const CODE_DISTRICT = 2;
 
     const COUNTRY = '中国';
 
@@ -119,7 +124,7 @@ class Areas extends Base
     {
         // $ip      = request()->ip();//debug
         $ip      = '221.239.19.1';
-        $ip_info = (new Browser())->curl('http://int.dpool.sina.com.cn/iplookup/iplookup.php',
+        $ip_info = Browser::curl('http://int.dpool.sina.com.cn/iplookup/iplookup.php',
             ['format' => 'json', 'ip' => $ip]
         );
         $ip_info = json_decode($ip_info, true);
@@ -146,7 +151,7 @@ class Areas extends Base
         //组装sql
         $this->field('areaId, areaName, areaType')->limit(2);
         if ($is_id) {
-            $this->where(['areaId' => ['IN',[$province, $city]]]);
+            $this->where(['areaId' => ['IN', [$province, $city]]]);
         } else {
             $this->where([
                 'areaName' => ['LIKE', "$province%"],
@@ -197,8 +202,41 @@ class Areas extends Base
             ])->toArray()
             ->select();
         if ($list) {
-            $list = (new Tree)->list_to_tree($list, 'areaId', 'parentId');
+            $list = Tree::list_to_tree($list, 'areaId', 'parentId');
         }
         return $list;
+    }
+
+    /**
+     * [getLocation 把含有省、市、区的记录数组返回下标分别为province、city、district的数组]
+     * @param  [type] $areaIdPath [description]
+     * @return [array]        [description]
+     */
+    public function getLocationByAreaIdPath($areaIdPath)
+    {
+        $areaIds  = explode('_', trim($areaIdPath, '_'));
+        $location = array();
+        $addrs    = $this->field('areaId, areaName, areaType')
+            ->where(['areaId' => ['IN', $areaIds]])
+            ->limit(3)
+            ->toArray()
+            ->select();
+        if ($addrs) {
+            foreach ($addrs as $key => $addr) {
+                switch ($addr['areaType']) {
+                    case self::CODE_PROVINCE:
+                        $location['province'] = $addr['areaName'];
+                        break;
+                    case self::CODE_CITY:
+                        $location['city'] = $addr['areaName'];
+                        break;
+                    case self::CODE_DISTRICT:
+                        $location['district'] = $addr['areaName'];
+                        break;
+                }
+            }
+        }
+
+        return $location;
     }
 }

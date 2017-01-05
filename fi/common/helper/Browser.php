@@ -15,7 +15,7 @@ class Browser
      * @param  string  $method [description]
      * @return [type]          [description]
      */
-    public function curl($url, $params = false, $header = false, $method = 'get')
+    public static function curl($url, $params = false, $header = false, $method = 'get')
     {
         if (is_array($params)) {
             $params = http_build_query($params);

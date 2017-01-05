@@ -17,7 +17,7 @@ class Tree
      * asc正向排序 desc逆向排序 nat自然排序
      * @return array|bool
      */
-    function list_sort_by( $list, $field, $sortby = 'asc' ) {
+    public static function list_sort_by( $list, $field, $sortby = 'asc' ) {
         if ( is_array( $list ) ) {
             $refer = $resultSet = [];
             foreach ( $list as $i => $data )
@@ -49,7 +49,7 @@ class Tree
      * @param string  $level level标记字段
      * @return array
      */
-    function list_to_tree( $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0 ) {
+    public static function list_to_tree( $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0 ) {
         // 创建Tree
         $tree = [];
         if ( is_array( $list ) ) {
@@ -84,7 +84,7 @@ class Tree
      * @return array        返回排过序的列表数组
      * @author yangweijie <yangweijiester@gmail.com>
      */
-    function tree_to_list( $tree, $child = '_child', $order = 'id', &$list = [] ) {
+    public static function tree_to_list( $tree, $child = '_child', $order = 'id', &$list = [] ) {
         if ( is_array( $tree ) ) {
             $refer = [];
             foreach ( $tree as $key => $value ) {
@@ -98,5 +98,22 @@ class Tree
             $list = list_sort_by( $list, $order, $sortby = 'asc' );
         }
         return $list;
+    }
+
+
+    /**
+     * [setKey 数组按指定的键名组装数据返回]
+     * @param [array] $array [description]
+     * @param [string] $key [$key如果有重复，则后面的会覆盖前面的值]
+     */
+    public static function setKey($array, $key)
+    {
+        if (empty($array)) {
+            return [];
+        }
+        foreach ($array as $k => $val) {
+            $result[$val[$key]] = $val;
+        }
+        return $result;
     }
 }

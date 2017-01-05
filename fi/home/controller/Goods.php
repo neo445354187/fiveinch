@@ -43,6 +43,7 @@ class Goods extends Base
     }
     /**
      *   批量上(下)架
+     *   说明：一个方法只能做一件事，这里既包含了上架，又包含下架，不太好，不利于权限管理
      */
     public function changeSale()
     {
@@ -123,7 +124,7 @@ class Goods extends Base
      */
     public function add()
     {
-        $m                   = new M();
+        $m = new M();
         //获取goods表格字段的默认值，键为字段名
         $object              = $m->getEModel('goods');
         $object['goodsSn']   = FIGoodsNo();
@@ -187,20 +188,20 @@ class Goods extends Base
     public function search()
     {
         //获取商品记录
-        $m               = new M();
+        $m = new M();
         // $data['areaId'] = (int) Input('areaId');
         $data = [
             'isStock' => Input('isStock/d'),
-            'isNew' => Input('isNew/d'),
+            'isNew'   => Input('isNew/d'),
             'orderBy' => Input('orderBy/d'),
-            'order' => Input('order/d', 1),
+            'order'   => Input('order/d', 1),
             'keyword' => Input('keyword'),
-            'sprice' => Input('sprice/d'),
-            'eprice' => Input('eprice/d'),
-            'areaId' => (int)Input('areaId')
+            'sprice'  => Input('sprice/d'),
+            'eprice'  => Input('eprice/d'),
+            'areaId'  => (int) Input('areaId'),
         ];
 
-        $data         = array_merge(
+        $data = array_merge(
             $data,
             model('Areas')->getAddr($data['areaId'])
         );

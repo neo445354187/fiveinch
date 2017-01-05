@@ -2,6 +2,7 @@
 
 namespace fi\home\model;
 
+use fi\common\model\Redundancy;
 use think\Db;
 
 /**
@@ -15,7 +16,7 @@ class Goods extends Base
      */
     public function saleByPage()
     {
-        $shopId               = (int) session('FI_USER.shopId');
+        $shopId               = SID;
         $where                = [];
         $where['shopId']      = $shopId;
         $where['goodsStatus'] = 1;
@@ -50,8 +51,7 @@ class Goods extends Base
      */
     public function auditByPage()
     {
-        $shopId               = (int) session('FI_USER.shopId');
-        $where['shopId']      = $shopId;
+        $where['shopId']      = SID;
         $where['goodsStatus'] = 0;
         $where['dataFlag']    = 1;
         $where['isSale']      = 1;
@@ -83,7 +83,7 @@ class Goods extends Base
      */
     public function storeByPage()
     {
-        $shopId            = (int) session('FI_USER.shopId');
+        $shopId            = SID;
         $where['shopId']   = $shopId;
         $where['dataFlag'] = 1;
         $where['isSale']   = 0;
@@ -115,7 +115,7 @@ class Goods extends Base
      */
     public function illegalByPage()
     {
-        $shopId               = (int) session('FI_USER.shopId');
+        $shopId               = SID;
         $where['shopId']      = $shopId;
         $where['goodsStatus'] = -1;
         $where['dataFlag']    = 1;
@@ -144,12 +144,12 @@ class Goods extends Base
     }
 
     /**
-     * need
+     *
      * 新增商品
      */
     public function add()
     {
-        $shopId   = (int) session('FI_USER.shopId');
+        $shopId   = SID;
         $data     = input('post.');
         $specsIds = input('post.specsIds');
         FIUnset($data, 'goodsId,statusRemarks,goodsStatus,dataFlag');
@@ -277,6 +277,10 @@ class Goods extends Base
                 if (count($attrsArray) > 0) {
                     Db::name('goods_attributes')->insertAll($attrsArray);
                 }
+                //插入冗余数据，取决于店铺是否可以跳过审核
+                if ($data['goodsStatus']) {
+                    (new Redundancy())->add($goodsId);
+                }
 
                 Db::commit();
                 return FIReturn("新增成功", 1);
@@ -295,12 +299,16 @@ class Goods extends Base
      */
     public function edit()
     {
-        $shopId   = (int) session('FI_USER.shopId');
+        $shopId   = SID;
         $goodsId  = input('post.goodsId/d');
         $specsIds = input('post.specsIds');
         $data     = input('post.');
         FIUnset($data, 'goodsId,dataFlag,statusRemarks,goodsStatus,createTime');
-        $ogoods = $this->where('goodsId', $goodsId)->field('goodsStatus')->find();
+        $ogoods = $this->where(['goodsId' => $goodsId, 'shopId' => SID])->field('goodsStatus')->find();
+        if (!$ogoods) {
+            return FIReturn('编辑失败', -1);
+        }
+
         //违规商品不能直接上架
         if ($ogoods['goodsStatus'] != 1) {
             $data['goodsStatus'] = 0;
@@ -469,6 +477,9 @@ class Goods extends Base
                     Db::name('goods_attributes')->insertAll($attrsArray);
                 }
 
+                //更改冗余数据
+                (new Redundancy())->edit($goodsId);
+
                 Db::commit();
                 return FIReturn("编辑成功", 1);
             } else {
@@ -598,17 +609,22 @@ class Goods extends Base
         $data['dataFlag'] = -1;
         Db::startTrans();
         try {
-            $result = $this->update($data, ['goodsId' => $id]);
-            if (false !== $result) {
+            $result = $this->update($data, ['goodsId' => $id, 'shopId' => SID]);
+            if ($result) {
                 FIUnuseImage('goods', 'goodsImg', $id);
                 FIUnuseImage('goods', 'gallery', $id);
                 // 商品描述图片
-                $desc = $this->where('goodsId', $id)->value('goodsDesc');
+                $desc = $this->where(['goodsId' => $id, 'shopId' => SID])->value('goodsDesc');
                 FIEditorImageRocord(0, $id, $desc, '');
+
+                //插入冗余数据
+                (new Redundancy())->del($id);
+
                 Db::commit();
                 //标记删除购物车
                 return FIReturn("删除成功", 1);
             }
+            Db::rollback();
         } catch (\Exception $e) {
             Db::rollback();
         }
@@ -621,13 +637,14 @@ class Goods extends Base
      */
     public function batchDel()
     {
-        $shopId = (int) session('FI_USER.shopId');
-        $ids    = input('post.ids/a');
+        $ids = input('post.ids/a');
         Db::startTrans();
         try {
-            $rs = $this->where(['goodsId' => ['in', $ids],
-                'shopId'                      => $shopId])->setField('dataFlag', -1);
-            if (false !== $rs) {
+            $rs = $this->where([
+                'goodsId' => ['in', $ids],
+                'shopId'  => SID,
+            ])->setField('dataFlag', -1);
+            if ($rs) {
                 //标记删除购物车
                 foreach ($ids as $v) {
                     FIUnuseImage('goods', 'goodsImg', (int) $v);
@@ -636,6 +653,10 @@ class Goods extends Base
                     $desc = $this->where('goodsId', (int) $v)->value('goodsDesc');
                     FIEditorImageRocord(0, (int) $v, $desc, '');
                 }
+
+                //删除冗余数据
+                (new Redundancy())->del($ids);
+
                 Db::commit();
                 return FIReturn("删除成功", 1);
             }
@@ -648,58 +669,78 @@ class Goods extends Base
     /**
      * need
      * 批量上架商品
+     *
      */
     public function changeSale()
     {
         $ids    = input('post.ids/a');
         $isSale = (int) input('post.isSale', 1);
-        //判断商品是否满足上架要求
+        //先判断是否是店铺
+        //0.核对店铺状态
+        $shopRs = model('shops')->find(SID);
+        if ($shopRs['shopStatus'] != 1) {
+            return FIReturn('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', -3);
+        }
+        //isSale是前台传过来的值，作为判断应该进行上架还是下架操作
         if ($isSale == 1) {
-            $shopId = (int) session('FI_USER.shopId');
-            //0.核对店铺状态
-            $shopRs = model('shops')->find($shopId);
-            if ($shopRs['shopStatus'] != 1) {
-                return FIReturn('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', -3);
-            }
+
             //直接设置上架 返回受影响条数
             $where                = [];
             $where['g.goodsId']   = ['in', $ids];
+            $where['g.shopId']    = SID;
             $where['gc.dataFlag'] = 1;
             $where['gc.isShow']   = 1;
             $where['g.goodsImg']  = ['<>', ""];
-            $rs                   = $this->alias('g')
-                ->join('__GOODS_CATS__ gc', 'g.goodsCatId=gc.CatId', 'inner')
-                ->where($where)->setField('isSale', 1);
-            if ($rs !== false) {
-                $status = ($rs == count($ids)) ? 1 : 2;
-                if ($status == 1) {
+            //second 因为这里必需要全部插入或全部回滚，因为不然无法确定Redundancy表如何更新数据
+            Db::startTrans();
+            try {
+                $rs = $this->alias('g')
+                    ->join('__GOODS_CATS__ gc', 'g.goodsCatId=gc.CatId', 'inner')
+                    ->where($where)->setField('isSale', 1);
+                if ($rs) {
+                    (new Redundancy())->edit($ids);
+                    Db::commit();
                     return FIReturn('商品上架成功', 1, ['num' => $rs]);
                 } else {
-                    return FIReturn('已成功上架商品' . $rs . '件，请核对未能上架的商品信息是否完整。', 2, ['num' => $rs]);
+                    Db::rollback();
                 }
-            } else {
-                return FIReturn('上架失败，请核对商品信息是否完整!', -2);
+
+            } catch (\Exception $e) {
+                Db::rollback();
             }
+            return FIReturn('上架失败，请核对商品信息是否完整!', -2);
+
         } else {
-            $rs = $this->where(['goodsId' => ['in', $ids]])->setField('isSale', $isSale);
-            if ($rs !== false) {
-                return FIReturn('商品上架成功', 1);
-            } else {
-                return FIReturn($this->getError(), -1);
+            Db::startTrans();
+            try {
+                $rs = $this->where(['goodsId' => ['in', $ids], 'shopId' => SID])->setField('isSale', $isSale);
+                if ($rs) {
+                    //更新冗余数据
+                    (new Redundancy())->del($ids);
+                    Db::commit();
+                    return FIReturn('商品下架成功', 1);
+                } else {
+                    Db::rollback();
+                }
+            } catch (\Exception $e) {
+                Db::rollback();
             }
+            return FIReturn($this->getError(), -1);
         }
     }
 
     /**
      * 修改商品状态
+     * $is前端传递的值：isRecom、isBest、isNew、isHot
      */
     public function changSaleStatus()
     {
         $is     = input('post.is');
         $status = (input('post.status', 1) == 1) ? 0 : 1;
         $id     = (int) input('post.id');
-        $rs     = $this->setField([$is => $status, 'goodsId' => $id]);
-        if ($rs !== false) {
+        $rs     = $this->where(['goodsId' => $id, 'shopId' => SID])->update([$is => $status]);
+
+        if ($rs) {
             return FIReturn('设置成功', 1);
         } else {
             return FIReturn($this->getError(), -1);
@@ -721,7 +762,7 @@ class Goods extends Base
         //设置哪一个状态
         $status = input('post.status', 1);
         $ids    = input('post.ids/a');
-        $rs     = $this->where(['goodsId' => ['in', $ids]])->setField($is, $status);
+        $rs     = $this->where(['goodsId' => ['in', $ids], 'shopId' => SID])->setField($is, $status);
         if ($rs !== false) {
             return FIReturn('设置成功', 1);
         } else {
@@ -982,8 +1023,10 @@ class Goods extends Base
         } else {
             return FIReturn('操作失败', -1);
         }
-        $rs = $this->update($data, ['goodsId' => $goodsId]);
+        $rs = $this->where(['goodsId' => $goodsId, 'shopId' => SID])->update($data);
         if ($rs !== false) {
+            //更新冗余数据
+            (new Redundancy())->edit($goodsId);
             return FIReturn('操作成功', 1);
         } else {
             return FIReturn('操作失败', -1);
@@ -1055,7 +1098,7 @@ class Goods extends Base
         $where  = [];
         $c1Id   = (int) input('cat1');
         $c2Id   = (int) input('cat2');
-        $shopId = (int) session('FI_USER.shopId');
+        $shopId = UID;
         if ($c1Id != 0) {
             $where[] = " shopCatId1=" . $c1Id;
         }
@@ -1110,7 +1153,7 @@ class Goods extends Base
         $id             = input('post.id/d');
         $type           = input('post.type/d');
         $number         = (int) input('post.number');
-        $shopId         = (int) session('FI_USER.shopId');
+        $shopId         = SID;
         $data           = $data2           = [];
         $data['shopId'] = $data2['shopId'] = $shopId;
         $datat          = array('1' => 'specStock', '2' => 'warnStock', '3' => 'goodsStock', '4' => 'warnStock');

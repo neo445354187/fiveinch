@@ -17,7 +17,7 @@ class Users extends Base
         $loginName   = input("post.loginName");
         $loginPwd    = input("post.loginPwd");
         $code        = input("post.verifyCode");
-        $rememberPwd = input("post.rememberPwd", 1);
+        // $rememberPwd = input("post.rememberPwd", 1);//second 不允许记住密码
         if (!FIVerifyCheck($code) && strpos(FIConf("CONF.captcha_model"), "4") >= 0) {
             return FIReturn('验证码错误!');
         }
@@ -31,6 +31,7 @@ class Users extends Base
             $rs['rankId']      = $rrs['rankId'];
             $rs['rankName']    = $rrs['rankName'];
             $rs['userrankImg'] = $rrs['userrankImg'];
+            //判断是否为商家登陆
             if (input("post.typ") == 2) {
                 $shoprs = $this->where(["dataFlag" => 1, "userStatus" => 1, "userType" => 1, "userId" => $userId])->find();
                 if (empty($shoprs)) {
@@ -46,13 +47,16 @@ class Users extends Base
             $this->where(["userId" => $userId])->update(["lastTime" => date('Y-m-d H:i:s'), "lastIP" => $ip]);
             //如果是店铺则加载店铺信息
             if ($rs['userType'] >= 1) {
-                $shops = new Shops();
-                $shop  = $shops->where(["userId" => $userId, "dataFlag" => 1])->find();
+                $shop = (new Shops())->getShopInfoAndAddress($userId);
+                // $shop  = $shops->where(["userId" => $userId, "dataFlag" => 1])->find();
                 if (!empty($shop)) {
-                    $rs = array_merge($shop->toArray(), $rs->toArray());
+                    $rs = array_merge($shop, $rs->toArray());
                 }
 
             }
+            //second 居然把登陆密码、secret以及用户的账户金额都放在session中，删除掉
+            FIUnset($rs, 'bankNo,bankUserName,loginSecret,loginPwd,userMoney,lockMoney');
+
             //记录登录日志
             $data              = array();
             $data["userId"]    = $userId;
@@ -60,19 +64,21 @@ class Users extends Base
             $data["loginIp"]   = $ip;
             Db::name('log_user_logins')->insert($data);
 
-            $rd = $rs;
-            //记住密码
-            cookie("loginName", $loginName, time() + 3600 * 24 * 90);
-            if ($rememberPwd == "on") {
-                $datakey = md5($rs['loginName']) . "_" . md5($rs['loginPwd']);
-                $key     = $rs['loginSecret'];
-                //加密
-                $base64   = new \org\Base64();
-                $loginKey = $base64->encrypt($datakey, $key);
-                cookie("loginPwd", $loginKey, time() + 3600 * 24 * 90);
-            } else {
-                cookie("loginPwd", null);
-            }
+            // $rd = $rs;
+            //记住密码;second 不能记录密码，不然商家浏览器关闭后，其他人将可以使用
+            // cookie("loginName", $loginName, time() + 3600 * 24 * 90);
+            cookie("loginName", $loginName);
+            //second 不允许记住密码
+            // if ($rememberPwd == "on") {
+            //     $datakey = md5($rs['loginName']) . "_" . md5($rs['loginPwd']);
+            //     $key     = $rs['loginSecret'];
+            //     //加密
+            //     $base64   = new \org\Base64();
+            //     $loginKey = $base64->encrypt($datakey, $key);
+            //     cookie("loginPwd", $loginKey, time() + 3600 * 24 * 90);
+            // } else {
+            //     cookie("loginPwd", null);
+            // }
             session('FI_USER', $rs);
             return FIReturn("", "1");
         }

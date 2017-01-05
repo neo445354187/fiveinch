@@ -72,6 +72,25 @@ location / {
 23. 错误页面`/home/error/index.html`有样式问题
 24. 前端的页面全部都是没有主题theme的，虽然tp5没有theme,但是有view_path可以充当，有空将模板页面整理一下
 
+## 直接bug
+bug1：
+商家登陆后，可以删除其他商家的宝贝
+位置：home/goods/del
+
+备注：所有操作必许考虑是否本身就是该用户的，即增删改查的条件必许把用户id(有时是商家id)给带上
+
+bug2：
+商家登陆后，可以下架别人的商品
+位置：home/goods/changeSale
+
+bug3:
+thinkphp5官方bug
+位置：think\Model中的update()方法
+修改：应该返回$result，而不是$model
+
+bug4:
+问题：店铺开通后，增加商品并没有限制商家增加经营范围外的商品
+修改：暂时不弄
 
 ## 项目部分说明
 

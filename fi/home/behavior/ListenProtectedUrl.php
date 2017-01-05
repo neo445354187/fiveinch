@@ -9,20 +9,15 @@ class ListenProtectedUrl
     public function run(&$params)
     {
         $request = request();
-        $urls    = FIConf('protectedUrl');
+        $urls    = FIConf('protectedUrl'); //获取受保护url
         $visit   = strtolower($request->module() . "/" . $request->controller() . "/" . $request->action());
         //受保护资源进来检测身份
         if (isset($urls[$visit])) {
             $menuType = (int) $urls[$visit];
             $userType = -1;
-            if ((int) session('FI_USER.userId') > 0) {
-                $userType = 0;
-            }
-
-            if ((int) session('FI_USER.shopId') > 0) {
-                $userType = 1;
-            }
-
+            
+            UID > 0 && $userType = 0;
+            SID > 0 && $userType = 1;
             //未登录不允许访问受保护的资源
             if ($userType == -1) {
                 if ($request->isAjax()) {

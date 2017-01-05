@@ -8,6 +8,7 @@ namespace fi\home\controller;
 class Index extends Base {
 
     public function index() {
+        // var_dump(UID, SID);die;//debug
         $categorys = model('GoodsCats')->getFloors(); //获取首页楼层信息
         $this->assign('floors', $categorys);
         $this->assign('hideCategory', 1);
