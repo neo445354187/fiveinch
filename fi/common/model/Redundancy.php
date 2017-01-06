@@ -1,6 +1,7 @@
 <?php
 namespace fi\common\model;
 
+use fi\common\cron\Solr;
 use fi\common\helper\Tree;
 use fi\common\model\Areas;
 use think\Db;
@@ -78,6 +79,17 @@ class Redundancy extends Base
                 'brandId'
             );
 
+            //获取商品分数
+            $data['avgScore'] = Tree::setKey(
+                Db::name('goods_scores')
+                    ->field('goodsId, totalScore, totalUsers')
+                    ->where(['goodsId' => ['IN', $goodsId]])
+                    ->limit(count($goodsId))
+                    ->toArray()
+                    ->select(),
+                'goodsId'
+            );
+
             //根据$is_manager获取地址 从session中获取地址
             if ($is_manager) {
                 $userInfo = (new Areas)->getLocationByAreaIdPath($shops[0]['areaIdPath']);
@@ -92,6 +104,7 @@ class Redundancy extends Base
                 @$res['shopName']   = $data['shopName'][$res['shopId']]['shopName'];
                 @$res['catName']    = $data['catName'][$res['goodsCatId']]['catName']; //因为可能没有分类
                 @$res['brandName']  = $data['brandName'][$res['brandId']]['brandName']; //因为可能没有品牌
+                @$res['avgScore']   = ($data['avgScore'][$res['goodsId']]['totalScore'] == 0) ? 5 : FIScore($data['avgScore'][$res['goodsId']]['totalScore'], $data['avgScore'][$res['goodsId']]['totalUsers'], 5, 0, 3);
                 $res['province']    = $userInfo['province'];
                 $res['city']        = $userInfo['city'];
                 $res['district']    = $userInfo['district'];
@@ -99,6 +112,7 @@ class Redundancy extends Base
                 unset($res['shopId'], $res['goodsCatId'], $res['brandId']);
                 $result[$key] = $res;
             }
+            // var_dump($result);die;//debug
             return $this->insertAll($result);
         }
     }
@@ -114,4 +128,13 @@ class Redundancy extends Base
         $this->del($goodsId);
         $this->add($goodsId, $is_manager);
     }
+
+    /**
+     * [__destruct 执行完操作后，调用solr执行增量操作]
+     */
+    public function __destruct()
+    {
+        (new Solr)->deltaImport();
+    }
+
 }

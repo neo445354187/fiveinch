@@ -225,13 +225,13 @@ class Areas extends Base
             foreach ($addrs as $key => $addr) {
                 switch ($addr['areaType']) {
                     case self::CODE_PROVINCE:
-                        $location['province'] = $addr['areaName'];
+                        $location['province'] = $addr['areaId'] .'_'. $addr['areaName'];
                         break;
                     case self::CODE_CITY:
-                        $location['city'] = $addr['areaName'];
+                        $location['city'] = $addr['areaId'] .'_'. $addr['areaName'];
                         break;
                     case self::CODE_DISTRICT:
-                        $location['district'] = $addr['areaName'];
+                        $location['district'] = $addr['areaId'] .'_'. $addr['areaName'];
                         break;
                 }
             }

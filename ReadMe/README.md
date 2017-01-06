@@ -71,6 +71,7 @@ location / {
 22. 控制器含多个单词，除首字母外的单词首字母都是小写的
 23. 错误页面`/home/error/index.html`有样式问题
 24. 前端的页面全部都是没有主题theme的，虽然tp5没有theme,但是有view_path可以充当，有空将模板页面整理一下
+25. 买家退货、还需要运单号
 
 ## 直接bug
 bug1：
@@ -137,3 +138,13 @@ bug4:
 (暂时先这样，以后再优化)，在用户点击确认后，发送地址信息，并将session的地址进行更改
 
 3. 搜索时候，一律采用session地址搜索
+
+## 暂时工作笔记
+
+http://127.0.0.1:8983/solr/redundancy/select?_=1483668297438&bq=(city:%E6%88%90%E9%83%BD%E5%B8%82%5E10000)+AND+(province:%E5%9B%9B%E5%B7%9D%5E100)&defType=edismax&fl=*,score&indent=on&q=%E8%8B%B9%E6%9E%9C&wt=json
+
+喊 q.alt
+http://127.0.0.1:8983/solr/redundancy/select?_=1483668297438&bq=(city:%E6%88%90%E9%83%BD%E5%B8%82%5E10000)+AND+(province:%E5%9B%9B%E5%B7%9D%5E100)&defType=edismax&fl=*,score&indent=on&q.alt=%E8%8B%B9%E6%9E%9C&wt=json
+
+
+bq=(city:100) AND (province:10)

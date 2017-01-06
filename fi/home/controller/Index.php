@@ -8,7 +8,12 @@ namespace fi\home\controller;
 class Index extends Base {
 
     public function index() {
-        // var_dump(UID, SID);die;//debug
+        echo microtime(true).'<br/>';
+        (new \fi\common\model\Redundancy)->edit(1);
+        echo microtime(true);
+        // var_dump(\think\Db::name('Redundancy'));
+        die;//debug
+
         $categorys = model('GoodsCats')->getFloors(); //获取首页楼层信息
         $this->assign('floors', $categorys);
         $this->assign('hideCategory', 1);

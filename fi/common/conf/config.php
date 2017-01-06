@@ -260,4 +260,7 @@ return [
         // 验证成功后是否重置
         'reset'    => true,
     ],
+
+    //solr相关
+    'SOLR_INTERVAL'          => 24 * 3600,
 ];
