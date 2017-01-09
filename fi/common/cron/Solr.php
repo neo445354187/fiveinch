@@ -80,7 +80,7 @@ class Solr
         $this->form_data = array_merge($this->form_data, ['command' => 'full-import', 'clean' => 'true']);
         //猜测：好像是异步
         Browser::curl($this->url, $this->form_data, false, 'POST');
-        echo "completed";
+        echo "fullImport completed";
     }
 
     /**
@@ -104,7 +104,7 @@ class Solr
     public function deltaImport()
     {
         Browser::curl($this->url, $this->form_data, false, 'POST');
-        echo "completed";
+        echo "deltaImport completed";
     }
 
     /**

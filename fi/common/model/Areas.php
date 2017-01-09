@@ -236,7 +236,6 @@ class Areas extends Base
                 }
             }
         }
-
         return $location;
     }
 }

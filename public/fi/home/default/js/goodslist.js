@@ -88,6 +88,7 @@ function removeFilter(id){
 	}
 	location.href=FI.U('home/goods/lists',params.join('&'));
 }
+
 /*搜索列表*/
 function searchFilter(obj,vtype){
 	if(vtype==1){
@@ -112,6 +113,53 @@ function searchFilter(obj,vtype){
 	}
 	location.href=FI.U('home/goods/search',params.join('&'));
 }
+/**
+ * [searchComponent 新的组装搜索条件]
+ * @return {[type]}       [description]
+ */
+function searchComponent () {
+	var ipts = FI.getParams('.sipt');
+	var params = [];
+	for(var key in ipts){
+		if(ipts[key]!='')params.push(key+"="+ipts[key]);
+	}
+	location.href=FI.U('home/goods/search',params.join('&'));
+}
+
+/**
+ * [searchOrderBy ]
+ * @param  {[type]} $mark [description]
+ * @return {[type]}       [description]
+ */
+function searchOrderBy($order_mark) {
+	$('#orderBy').val($order_mark);
+	var $upOrDown = $('#upOrDown'), $upOrDownVal = $upOrDown.val();
+	if ($order_mark == 'price') {
+		switch($upOrDownVal){
+			case 'down':
+				$upOrDown.val('up');
+				break;
+			default:
+				$upOrDown.val('down');
+				break;
+		}
+	} else{
+		$upOrDown.val('');
+	}
+	searchComponent();
+}
+
+/**
+ * [closeBrand 关闭选择的品牌]
+ * @return {[type]} [description]
+ */
+function closeBrand() {
+	$('#brandName').val('');
+	searchComponent();
+}
+
+
+
 function searchOrder(orderby){
 	if($('#orderBy').val()!=orderby){
 		$('#order').val(1);

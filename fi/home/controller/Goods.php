@@ -2,6 +2,7 @@
 namespace fi\home\controller;
 
 use fi\home\model\Goods as M;
+use fi\home\model\SearchGoods;
 
 /**
  * 商品控制器
@@ -187,26 +188,31 @@ class Goods extends Base
      */
     public function search()
     {
+        
         //获取商品记录
-        $m = new M();
-        // $data['areaId'] = (int) Input('areaId');
-        $data = [
-            'isStock' => Input('isStock/d'),
-            'isNew'   => Input('isNew/d'),
-            'orderBy' => Input('orderBy/d'),
-            'order'   => Input('order/d', 1),
-            'keyword' => Input('keyword'),
-            'sprice'  => Input('sprice/d'),
-            'eprice'  => Input('eprice/d'),
-            'areaId'  => (int) Input('areaId'),
+        $condition = [
+            'keyword'   => input('keyword/s'),
+            'orderBy'   => input('orderBy/s', 'default'),
+            'upOrDown'  => input('upOrDown/s'),
+            'brandName' => input('brandName/s'),
+            'p'         => input('p', 1, 'int'),
         ];
+        // $condition = [
+        //     'orderBy'   => input('orderBy/s', 'default'),
+        //     'upOrDown'  => 'up',
+        //     'keyword'   => '',
+        //     'brandName' => '',
+        //     'p'         => input('p', 1, 'int'),
+        // ];
+        $result = (new SearchGoods())->findAll($condition);
+        if ($result) {
+            $result['page'] = (new \page\Page($result['numFound'], '2', $condition))->show();
+        }
 
-        $data = array_merge(
-            $data,
-            model('Areas')->getAddr($data['areaId'])
-        );
-        $data['goodsPage'] = $m->pageQuery();
-        return $this->fetch("default/goods_search", $data);
+        // var_dump($result['facetFields']);die;
+        // die($result['page']);
+        $this->assign($condition);
+        return $this->fetch("default/goods_search", $result);
     }
 
     /**

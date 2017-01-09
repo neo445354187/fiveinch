@@ -261,6 +261,13 @@ return [
         'reset'    => true,
     ],
 
+    //全文检索
+    'SOLR_SERVICE'           => '127.0.0.1:8983',
+    'SOLR_SERVER'            => '127.0.0.1',
+    'SOLR_PORT'              => '8983',
+    'SOLR_CORE'              => 'redundancy',
+    'SOLR_PAGE'              => 60,
+    'SOLR_LIMIT'             => 6000, //现在solr返回的数据
     //solr相关
     'SOLR_INTERVAL'          => 24 * 3600,
 ];

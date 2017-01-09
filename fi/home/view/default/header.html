@@ -126,6 +126,7 @@
                 {/volist}
             </ul>
         </div>
+        <?php if(isset($method) && $method == 'index'): ?>
         <div class='fi-right-panel'>
             <?php for($i = 0; $i < 2; $i++): ?>
                 <?php $adsCode = 'index-art-'.$i; ?>
@@ -138,6 +139,7 @@
                 </div>
             <?php endfor; ?>
         </div>
+    <?php endif; ?>
         <span class="fi-clear">
         
       </span>

@@ -1073,12 +1073,7 @@ input.fi-price-ipt:focus {
 .filter-box .js-cates {
     position: relative;
 }
-.filter-box .filter {
-    border-bottom: 1px solid #e8e8e8;
-    line-height: 48px;
-    margin: 0 auto;
-    width: 1240px;
-}
+
 
 .filter-box .filter .hint {
     color: #31373c;
@@ -1089,7 +1084,7 @@ input.fi-price-ipt:focus {
 }
 
 .filter-box div.hint {
-    border-bottom: 1px solid #e8e8e8;
+    /* border-bottom: 1px solid #e8e8e8; */
     display: block;
     float: left;
 }
@@ -1098,7 +1093,7 @@ input.fi-price-ipt:focus {
     overflow: hidden !important;
 }
 .filter-box .option_box {
-    border-bottom: 1px solid #e8e8e8;
+    /* border-bottom: 1px solid #e8e8e8; */
     float: left;
     max-height: 250px;
     overflow: auto;
@@ -1117,9 +1112,9 @@ input.fi-price-ipt:focus {
     color: #848484;
     display: inline-block;
     font-weight: 400;
-    height: 48px;
-    line-height: 48px;
-    padding-right: 15px;
+    height: 30px;
+    /* line-height: 48px; */
+    /* padding-right: 15px; */
     text-decoration: none;
     width: 100px;
 }
@@ -1131,7 +1126,7 @@ input.fi-price-ipt:focus {
     border-bottom: 1px solid #e8e8e8;
     line-height: 48px;
     margin: 0 auto;
-    width: 1240px;
+    width: 1200px;
 }
 .clearfix {
     zoom: 1;
@@ -1146,31 +1141,8 @@ input.fi-price-ipt:focus {
 .filter-box .last {
     border: none;
 }
-.filter-box .filter {
-    border-bottom: 1px solid #e8e8e8;
-    line-height: 48px;
-    margin: 0 auto;
-    width: 1200px;
-}
 
-.filter-box .filter .hint {
-    color: #31373c;
-    display: inline-block;
-    height: 48px;
-    line-height: 48px;
-    width: 60px;
-}
 
-.filter-box .filter a {
-    color: #848484;
-    display: inline-block;
-    font-weight: 400;
-    height: 48px;
-    line-height: 48px;
-    padding-right: 15px;
-    text-decoration: none;
-    width: 100px;
-}
 .search-box .search-nav a:hover, .filter-box .filter a:hover, .filter-box .filter .active, .filter-box .filter label:hover {
     color: #e23c3d;
 }
@@ -1192,6 +1164,7 @@ label {
     position: absolute;
     right: 0;
     top: 0;
+    cursor:pointer;
 }
 .filter-box .find_more .spread_icon {
     float: right;

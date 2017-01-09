@@ -4,4 +4,5 @@
  */
 return [
     'UNKNOWN' => '未知',
+    'brand name' => '品牌'
 ];

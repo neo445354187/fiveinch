@@ -148,3 +148,5 @@ http://127.0.0.1:8983/solr/redundancy/select?_=1483668297438&bq=(city:%E6%88%90%
 
 
 bq=(city:100) AND (province:10)
+
+http://127.0.0.1:8983/solr/redundancy/select?_=1483949406063&bq=city:510100_%E6%88%90%E9%83%BD%E5%B8%82%5E100++AND+province:510000_%E5%9B%9B%E5%B7%9D%5E1000&defType=edismax&facet=on&facet.field=brandName&fl=*,score&indent=on&q=*:*&wt=json

@@ -173,3 +173,17 @@ function FIPathGoodsCat($catId, $data = array())
         return FIPathGoodsCat($rs['parentId'], $data);
     }
 }
+
+/**
+ * [solr_escape solr过滤特殊字符]
+ *
+ * @param [type]  $value [description]
+ * @return [type]        [description]
+ */
+function solr_escape( $value ) {
+    //list taken from http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+    $pattern = '/(\+|-|&|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|;|~|\/)/';
+    $replace = '\\\$1';
+
+    return preg_replace( $pattern, $replace, $value );
+}

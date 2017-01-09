@@ -96,7 +96,6 @@ class Redundancy extends Base
             } else {
                 $userInfo = session('FI_USER');
             }
-
             $timeStamp = date('Y-m-d H:i:s');
 
             //组装最后的数据
@@ -109,7 +108,7 @@ class Redundancy extends Base
                 $res['city']        = $userInfo['city'];
                 $res['district']    = $userInfo['district'];
                 $res['update_time'] = $timeStamp;
-                unset($res['shopId'], $res['goodsCatId'], $res['brandId']);
+                unset( $res['goodsCatId'], $res['brandId']);
                 $result[$key] = $res;
             }
             // var_dump($result);die;//debug

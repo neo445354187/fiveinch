@@ -8,15 +8,16 @@ namespace fi\home\controller;
 class Index extends Base {
 
     public function index() {
-        echo microtime(true).'<br/>';
-        (new \fi\common\model\Redundancy)->edit(1);
-        echo microtime(true);
+        // echo microtime(true).'<br/>';
+        // (new \fi\common\model\Redundancy)->add(4);
+        // echo microtime(true);
         // var_dump(\think\Db::name('Redundancy'));
-        die;//debug
+        // die;//debug
 
         $categorys = model('GoodsCats')->getFloors(); //获取首页楼层信息
         $this->assign('floors', $categorys);
         $this->assign('hideCategory', 1);
+        $this->assign('method', 'index');
         return $this->fetch('default/index');
     }
 
