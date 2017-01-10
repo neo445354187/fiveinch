@@ -9,17 +9,17 @@ class AdPositions extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field(true)->order('apSort asc,positionId asc')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field(true)->order('ap_sort asc,position_id asc')->paginate(input('pagesize/d'));
 	}
 	public function getById($id){
-		return $this->get(['positionId'=>$id,'dataFlag'=>1]);
+		return $this->get(['position_id'=>$id,'status'=>1]);
 	}
 	/**
 	 * 新增
 	 */
 	public function add(){
 		$data = input('post.');
-		FIUnset($data,'positionId');
+		FIUnset($data,'position_id');
 		$result = $this->validate('AdPositions.add')->allowField(true)->save($data);
         if(false !== $result){
         	return FIReturn("新增成功", 1);
@@ -31,8 +31,8 @@ class AdPositions extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$Id = (int)input('post.positionId');
-	    $result = $this->validate('AdPositions.edit')->allowField(true)->save(input('post.'),['positionId'=>$Id]);
+		$Id = (int)input('post.position_id');
+	    $result = $this->validate('AdPositions.edit')->allowField(true)->save(input('post.'),['position_id'=>$Id]);
         if(false !== $result){
         	return FIReturn("编辑成功", 1);
         }else{
@@ -44,7 +44,7 @@ class AdPositions extends Base{
 	 */
     public function del(){
 	    $id = (int)input('post.id/d');
-	    $result = $this->setField(['positionId'=>$id,'dataFlag'=>-1]);
+	    $result = $this->setField(['position_id'=>$id,'status'=>-1]);
         if(false !== $result){
         	return FIReturn("删除成功", 1);
         }else{
@@ -55,7 +55,7 @@ class AdPositions extends Base{
 	* 获取广告位置
 	*/
 	public function getPositon($typeId){
-		return $this->where(['positionType'=>$typeId,'dataFlag'=>1])->order('apSort asc,positionId asc')->select();
+		return $this->where(['position_type'=>$typeId,'status'=>1])->order('ap_sort asc,position_id asc')->select();
 	}
 	
 }

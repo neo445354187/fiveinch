@@ -6,15 +6,15 @@ use think\Validate;
  */
 class UserAddress extends Validate{
 	protected $rule = [
-        ['areaId'  ,'require','请选择地址'],
-        ['userAddress'  ,'require','请输入详细地址'],
-        ['userName'  ,'require','请输入联系名称'],
-        ['isDefault'  ,'in:0,1','请选择是否默认地址'],
-        ['userPhone'  ,'require','请输入联系电话'],
+        ['area_id'  ,'require','请选择地址'],
+        ['user_address'  ,'require','请输入详细地址'],
+        ['user_name'  ,'require','请输入联系名称'],
+        ['is_default'  ,'in:0,1','请选择是否默认地址'],
+        ['user_phone'  ,'require','请输入联系电话'],
     ];
 
     protected $scene = [
-        'add'   =>  ['areaId','userAddress','userName','isDefault','userPhone'],
-        'edit'  =>  ['areaId','userAddress','userName','isDefault','userPhone'],
+        'add'   =>  ['area_id','user_address','user_name','is_default','user_phone'],
+        'edit'  =>  ['area_id','user_address','user_name','is_default','user_phone'],
     ]; 
 }

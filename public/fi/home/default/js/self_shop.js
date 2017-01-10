@@ -88,8 +88,8 @@ FI.slides = function(){
 
 function searchShopsGoods(){
 	var params = new Array();
-	params.push("shopId=" + $("#shopId").val());
-	params.push("goodsName=" + $("#goodsName").val());
+	params.push("shop_id=" + $("#shop_id").val());
+	params.push("goods_name=" + $("#goods_name").val());
 	document.location.href = FI.U('home/shops/home',params.join('&'));
 }
 $(function(){

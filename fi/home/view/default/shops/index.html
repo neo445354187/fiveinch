@@ -8,27 +8,27 @@
 {block name="content"}
 <div class="fi-shop-info">
 	<span class="fi-shop-img">
-	  <a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}">
-	  <img src="__ROOT__/{:FIImg($data['shop']['shopImg'])}" title="{$data['shop']['shopName']}" alt="{$data['shop']['shopName']}">
+	  <a href="{:url('home/shops/home',array('shop_id'=>$data['shop']['shop_id']))}">
+	  <img src="__ROOT__/{:FIImg($data['shop']['shop_img'])}" title="{$data['shop']['shop_name']}" alt="{$data['shop']['shop_name']}">
 	  </a>
 	</span>
 	<div class="fi-shop-na">
-		<p class="second_shop_name"><a href='{:Url("home/shops/home","shopId=".$data["shop"]["shopId"])}'>{:FIMSubstr($data['shop']['shopName'],0,10)}</a></p>
+		<p class="second_shop_name"><a href='{:Url("home/shops/home","shop_id=".$data["shop"]["shop_id"])}'>{:FIMSubstr($data['shop']['shop_name'],0,10)}</a></p>
 		<div class="fi-shop-na2">
 		{volist name="$data['shop']['accreds']" id="v"}
-		<img src="__ROOT__/{$v['accredImg']}"><span>{$v['accredName']}</span>
+		<img src="__ROOT__/{$v['accred_img']}"><span>{$v['accred_name']}</span>
 		{/volist}
 		</div>
-		<span class="fi-shop-na3">上次登录：{:session('FI_USER.lastTime')}</span>
-		<span class="fi-shop-na3">店铺地址：{:FIMSubstr($data['shop']['shopAddress'],0,10)}</span>
+		<span class="fi-shop-na3">上次登录：{:session('FI_USER.last_time')}</span>
+		<span class="fi-shop-na3">店铺地址：{:FIMSubstr($data['shop']['shop_address'],0,10)}</span>
 	</div>
 	<div class="fi-shop-eva">
 		<p>商品评分</p>
 		<div class="fi-shop-evai">
-		{for start="0" end="$data['shop']['scores']['goodsScore']"}
+		{for start="0" end="$data['shop']['scores']['goods_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-on.png">
 		{/for}
-		{for start="1" end="6-$data['shop']['scores']['goodsScore']"}
+		{for start="1" end="6-$data['shop']['scores']['goods_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-off.png">
 		{/for}
 		</div>
@@ -36,10 +36,10 @@
 	<div class="fi-shop-eva">
 		<p>时效评分</p>
 		<div class="fi-shop-evai">
-		{for start="0" end="$data['shop']['scores']['timeScore']"}
+		{for start="0" end="$data['shop']['scores']['time_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-on.png">
 		{/for}
-		{for start="1" end="6-$data['shop']['scores']['timeScore']"}
+		{for start="1" end="6-$data['shop']['scores']['time_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-off.png">
 		{/for}
 		</div>
@@ -47,17 +47,17 @@
 	<div class="fi-shop-eva">
 		<p>服务评分</p>
 		<div class="fi-shop-evai">
-		{for start="0" end="$data['shop']['scores']['serviceScore']"}
+		{for start="0" end="$data['shop']['scores']['service_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-on.png">
 		{/for}
-		{for start="1" end="6-$data['shop']['scores']['serviceScore']"}
+		{for start="1" end="6-$data['shop']['scores']['service_score']"}
 			<img src="__STATIC__/plugins/raty/img/star-off.png">
 		{/for}
 		</div>
 	</div>
 	<div class="fi-shop-con">
-		<p>电话：{$data['shop']['shopTel']}</p>
-		<p>服务时间：{php}echo date("H:i",strtotime($data['shop']['serviceStartTime']));{/php}-{php}echo date("H:i",strtotime($data['shop']['serviceEndTime']));{/php}</p>
+		<p>电话：{$data['shop']['shop_tel']}</p>
+		<p>服务时间：{php}echo date("H:i",strtotime($data['shop']['service_start_time']));{/php}-{php}echo date("H:i",strtotime($data['shop']['service_end_time']));{/php}</p>
 	</div>
 	<div class="fi-clear"></div>
 </div>

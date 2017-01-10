@@ -28,10 +28,10 @@ function checkCoords()
         layer.close(loading);
         //将上传的图片路径赋给全局变量
             userPic = data.data;
-            $('#userPhotoPreview').html('<img id="userPhoto" class="ipt" src="'+FI.conf.ROOT+'/'+userPic+'?='+Math.random()+'"  height="150" />');
-            $('#userPhotoPreview1').html('<img id="userPhoto1" class="ipt" src="'+FI.conf.ROOT+'/'+userPic+'?='+Math.random()+'"  height="150" />');
-              $('#userPhotoCut').hide();
-              $('#userPhoto').show();
+            $('#user_photoPreview').html('<img id="user_photo" class="ipt" src="'+FI.conf.ROOT+'/'+userPic+'?='+Math.random()+'"  height="150" />');
+            $('#user_photoPreview1').html('<img id="user_photo1" class="ipt" src="'+FI.conf.ROOT+'/'+userPic+'?='+Math.random()+'"  height="150" />');
+              $('#user_photoCut').hide();
+              $('#user_photo').show();
       }else{
         FI.msg(data.msg,{icon:2});
         return false;
@@ -48,24 +48,24 @@ function checkCoords()
  * @return {[type]} [description]
  */
 function returnPhotoPage() {
-  $('#userPhoto').show();
-  $('#userPhotoCut').hide();
-  userPic = $('#userPhotoPreview1 img').attr('data-original').substr(1);
+  $('#user_photo').show();
+  $('#user_photoCut').hide();
+  userPic = $('#user_photoPreview1 img').attr('data-original').substr(1);
   uploader.reset();
 }
 
 function uploadUserPhoto()
 {
   FI.upload({
-    pick:'#userPhotoPicker',
+    pick:'#user_photoPicker',
     formData: {dir:'users',isCut:1},
     accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
     callback:function(f){
       var json = FI.toJson(f);
       if(json.status==1){
         /*上传成功*/
-        $('#userPhotoCut').show();
-        $('#userPhoto').hide();
+        $('#user_photoCut').show();
+        $('#user_photo').hide();
         
         var uploadPhotoSrc = FI.conf.ROOT+"/"+json.savePath+json.thumb+'?='+Math.random();
 
@@ -75,7 +75,7 @@ function uploadUserPhoto()
         cutCode += '<div class="cut-help"><h4>操作帮助</h4>'
         cutCode += '<p>请在裁剪区域放大缩小及移动选取框，选择要裁剪的范围，裁切宽高比例固定；裁切后的效果为右侧预览图所显示；保存提交后生效。</p></div></div>'
         cutCode += '<div class="preview-container"><img src="'+uploadPhotoSrc+'"  class="jcrop-preview"  alt="Preview" /></div></div>';
-        $('#userPhotoCutBox>p').html(cutCode);
+        $('#user_photoCutBox>p').html(cutCode);
         $('#photoSrc').val(json.savePath+json.thumb);
         $('#userPic').val(json.savePath+json.thumb);
         //初始化jcrop
@@ -151,8 +151,8 @@ $(function(){
   /* 表单验证 */
   $('#userEditForm').validator({
           fields: {
-              userName: {rule:"required",msg:{required:"请输入昵称"},tip:"请输入昵称"},
-              userSex:  {rule:"checked;",msg:{checked:"至少选择一项"},tip:"请选择您的性别"}
+              user_name: {rule:"required",msg:{required:"请输入昵称"},tip:"请输入昵称"},
+              user_sex:  {rule:"checked;",msg:{checked:"至少选择一项"},tip:"请选择您的性别"}
           },
         valid: function(form){
           var params = FI.getParams('.ipt');
@@ -161,7 +161,7 @@ $(function(){
             userPic = $('#userPic').val();
           }
           //接收上传的头像路径
-          params.userPhoto = userPic;
+          params.user_photo = userPic;
           var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
           $.post(FI.U('Home/Users/toEdit'),params,function(data,textStatus){
             layer.close(loading);

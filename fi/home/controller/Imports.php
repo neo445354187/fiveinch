@@ -20,7 +20,7 @@ class Imports extends Base {
      * 上传商品数据
      */
     public function importGoods() {
-        $rs = FIUploadFile();
+        $rs = FIUpload_file();
         if (json_decode($rs)->status == 1) {
             $m = new M();
             $rss = $m->importGoods($rs);

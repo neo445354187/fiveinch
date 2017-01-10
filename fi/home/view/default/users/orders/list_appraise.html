@@ -5,8 +5,8 @@
 {block name="content"}
   <div class="fi-user-head"><span>待评价订单</span></div>
   <div class='fi-user-tbar'>
-     订单号：<input type='text' class="s-query" id='orderNo' size="40" /> 
-     店铺名称：<input type='text' class="s-query" id='shopName' size="40" /> 
+     订单号：<input type='text' class="s-query" id='order_no' size="40" /> 
+     店铺名称：<input type='text' class="s-query" id='shop_name' size="40" /> 
      <button class="fi-sec-but u-btn" onclick="waitAppraiseByPage()">查询</button>
   </div>
   <div class='fi-user-content'>
@@ -32,13 +32,13 @@
          </tr>
          <tr class='order-head'>
             <td colspan='4' align='right'>
-              <div class='time'>{{d[i].createTime}}</div>
-              <div class='orderno'>订单号：{{d[i].orderNo}}</div>
-              <div class='shop'>{{d[i].shopName}}</div>
-              <div class='link'>{{FI.shopQQ(d[i].shopQQ)}}{{FI.shopWangWang(d[i].shopWangWang)}}</div>
+              <div class='time'>{{d[i].create_time}}</div>
+              <div class='orderno'>订单号：{{d[i].order_no}}</div>
+              <div class='shop'>{{d[i].shop_name}}</div>
+              <div class='link'>{{FI.shop_qq(d[i].shop_qq)}}{{FI.shop_wangwang(d[i].shop_wangwang)}}</div>
               <div>
                {{d[i].status}}
-               {{#if(d[i].orderStatus==0){}}&nbsp;|&nbsp;<a href='#none' onclick='javascript:cancel(d[i].orderId)'>取消订单</a>{{# } }}
+               {{#if(d[i].order_status==0){}}&nbsp;|&nbsp;<a href='#none' onclick='javascript:cancel(d[i].order_id)'>取消订单</a>{{# } }}
               </div>
             </td>
          </tr>
@@ -50,35 +50,35 @@
          <tr class='goods-box'>
             <td>
                <div class='goods-img'>
-                <a href="{{FI.U('home/goods/detail','id='+tmp.goodsId)}}" target='_blank'>
-                <img data-original='__ROOT__/{{tmp.goodsImg}}'  title='{{tmp.goodsName}}' class="gImg">
+                <a href="{{FI.U('home/goods/detail','id='+tmp.goods_id)}}" target='_blank'>
+                <img data-original='__ROOT__/{{tmp.goods_img}}'  title='{{tmp.goods_name}}' class="gImg">
                 </a>
                </div>
                <div class='goods-name'>
-                 <div>{{tmp.goodsName}}</div>
-                 <div>{{tmp.goodsSpecNames}}</div>
+                 <div>{{tmp.goods_name}}</div>
+                 <div>{{tmp.goods_spec_names}}</div>
                </div>
-               <div class='goods-extra'>{{tmp.goodsPrice}} x {{tmp.goodsNum}}</div>
+               <div class='goods-extra'>{{tmp.goods_price}} x {{tmp.goods_num}}</div>
             </td>
             {{#if(j==0){}}
             <td rowspan="{{rows}}">
-                <div>{{d[i].payTypeName}}</div>
-                <div>{{d[i].deliverType}}</div>
+                <div>{{d[i].pay_typeName}}</div>
+                <div>{{d[i].deliver_type}}</div>
             </td>
             <td rowspan="{{rows}}">
-                <div>商品金额：¥{{d[i].goodsMoney}}</div>
-                <div class='line'>运费：¥{{d[i].deliverMoney}}</div>
-                <div>实付金额：¥{{d[i].realTotalMoney}}</div>
+                <div>商品金额：¥{{d[i].goods_money}}</div>
+                <div class='line'>运费：¥{{d[i].deliver_money}}</div>
+                <div>实付金额：¥{{d[i].real_total_money}}</div>
             </td>
             <td rowspan="{{rows}}">
-                {{#if(d[i].isAppraise==0){}}
+                {{#if(d[i].is_appraise==0){}}
                 <div>
-                <a href='javascript:;' onclick='javascript:toAppraise({{d[i].orderId}})'>【评价订单】</a>
+                <a href='javascript:;' onclick='javascript:toAppraise({{d[i].order_id}})'>【评价订单】</a>
                 </div>
                 {{# } }}
-                <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
+                <div><a href='#none' onclick='view({{d[i].order_id}})'>【订单详情】</a></div>
                 {{# if(d[i].isComplain==''){ }}
-                <div><a href='#none' onclick='complain({{d[i].orderId}})'>【订单投诉】</a></div>
+                <div><a href='#none' onclick='complain({{d[i].order_id}})'>【订单投诉】</a></div>
                 {{# } }}
 
             </td>

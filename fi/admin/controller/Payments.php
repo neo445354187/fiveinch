@@ -23,14 +23,14 @@ class Payments extends Base{
     public function toEdit(){
         $m = new M();
         $rs = $m->getById((int)Input("get.id"));
-        $payConfig = json_decode($rs['payConfig']);
+        $pay_config = json_decode($rs['pay_config']);
         //判断是否为空
-        if(!empty($payConfig)){
-            foreach($payConfig as $k=>$v)
+        if(!empty($pay_config)){
+            foreach($pay_config as $k=>$v)
                 $rs[$k]=$v;
         }
         $this->assign("object",$rs);
-        return $this->fetch("pay_".input('get.payCode'));
+        return $this->fetch("pay_".input('get.pay_code'));
     }
     /*
     * 获取数据

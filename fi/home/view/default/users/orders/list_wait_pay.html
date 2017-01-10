@@ -5,8 +5,8 @@
 {block name="content"}
   <div class="fi-user-head"><span>待付款订单</span></div>
   <div class='fi-user-tbar'>
-     订单号：<input type='text'  class="u-query" id='orderNo' size="40" /> 
-     店铺名称：<input type='text' class="u-query"  id='shopName' size="40" /> 
+     订单号：<input type='text'  class="u-query" id='order_no' size="40" /> 
+     店铺名称：<input type='text' class="u-query"  id='shop_name' size="40" /> 
      <button class="fi-sec-but u-btn" onclick="waitPayByPage()">查询</button>
   </div>
   <div class='fi-user-content'>
@@ -32,10 +32,10 @@
          </tr>
          <tr class='order-head'>
             <td colspan='4' align='right'>
-              <div class='time'>{{d[i].createTime}}</div>
-              <div class='orderno'>订单号：{{d[i].orderNo}}</div>
-              <div class='shop'>{{d[i].shopName}}</div>
-              <div>{{d[i].status}}&nbsp;|&nbsp;<a href='#none' onclick='javascript:cancel({{d[i].orderId}},0)'>取消订单</a></div>
+              <div class='time'>{{d[i].create_time}}</div>
+              <div class='orderno'>订单号：{{d[i].order_no}}</div>
+              <div class='shop'>{{d[i].shop_name}}</div>
+              <div>{{d[i].status}}&nbsp;|&nbsp;<a href='#none' onclick='javascript:cancel({{d[i].order_id}},0)'>取消订单</a></div>
             </td>
          </tr>
          {{# 
@@ -43,36 +43,36 @@
             for(var j = 0; j < d[i]['list'].length; j++){ 
             tmp = d[i]['list'][j];
 			var parmas = {};
-				parmas.id = d[i].orderId;
+				parmas.id = d[i].order_id;
 				parmas.isBatch = 0;
          }}
          <tr class='goods-box'>
             <td>
                <div class='goods-img'>
-                <a href="{{FI.U('home/goods/detail','id='+tmp.goodsId)}}" target='_blank'>
-                <img data-original='__ROOT__/{{tmp.goodsImg}}'  title='{{tmp.goodsName}}' class="gImg">
+                <a href="{{FI.U('home/goods/detail','id='+tmp.goods_id)}}" target='_blank'>
+                <img data-original='__ROOT__/{{tmp.goods_img}}'  title='{{tmp.goods_name}}' class="gImg">
                 </a>
                </div>
 
 
                <div class='goods-name'>
-                 <div>{{tmp.goodsName}}</div>
-                 <div>{{tmp.goodsSpecNames}}</div>
+                 <div>{{tmp.goods_name}}</div>
+                 <div>{{tmp.goods_spec_names}}</div>
                </div>
-               <div class='goods-extra'>{{tmp.goodsPrice}} x {{tmp.goodsNum}}</div>
+               <div class='goods-extra'>{{tmp.goods_price}} x {{tmp.goods_num}}</div>
             </td>
             {{#if(j==0){}}
             <td rowspan="{{rows}}" class="second_pay_way">
-                <p>{{d[i].payTypeName}}</p>
-                <p>{{d[i].deliverType}}</p>
+                <p>{{d[i].pay_typeName}}</p>
+                <p>{{d[i].deliver_type}}</p>
             </td>
             <td rowspan="{{rows}}">
-                <div>商品金额：¥ {{d[i].goodsMoney}}</div>
-                <div>实付金额：¥ {{d[i].realTotalMoney}}</div>
+                <div>商品金额：¥ {{d[i].goods_money}}</div>
+                <div>实付金额：¥ {{d[i].real_total_money}}</div>
             </td>
             <td rowspan="{{rows}}">
                 <div><a href='{{FI.U('home/orders/succeed',parmas)}}'>【立即支付】</a></div>
-                <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
+                <div><a href='#none' onclick='view({{d[i].order_id}})'>【订单详情】</a></div>
             </td>
             {{# } }}
          </tr>

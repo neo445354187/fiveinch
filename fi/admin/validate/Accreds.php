@@ -6,12 +6,12 @@ use think\Validate;
  */
 class Accreds extends Validate{
 	protected $rule = [
-	    ['accredName'  ,'require|max:30','请输入认证名称|认证名称不能超过30个字符'],
-        ['accredImg'  ,'require','请上传图标']
+	    ['accred_name'  ,'require|max:30','请输入认证名称|认证名称不能超过30个字符'],
+        ['accred_img'  ,'require','请上传图标']
     ];
 
     protected $scene = [
-        'add'   =>  ['accredName','accredImg'],
-        'edit'  =>  ['accredName'],
+        'add'   =>  ['accred_name','accred_img'],
+        'edit'  =>  ['accred_name'],
     ]; 
 }

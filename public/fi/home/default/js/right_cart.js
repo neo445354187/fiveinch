@@ -141,7 +141,7 @@ $(document).ready(function() {
             $.ajax({
                 url: FI.U("home/areas/getProvincesAndCities"),
                 type: 'POST',
-                dataType: 'json',
+                data_type: 'json',
                 data: {},
                 success: function($json) {
                     if ($json.status == 1) {
@@ -191,7 +191,7 @@ setLocation = function($this, $province_id, $city_id) {
     $.ajax({
         url: FI.U("home/areas/setLocation"),
         type: 'POST',
-        dataType: 'json',
+        data_type: 'json',
         data: { province_id: $province_id, city_id: $city_id },
         success: function($json) {
         	var $text = $($this).text();
@@ -269,16 +269,16 @@ function getHistoryGoods() {
 }
 
 function statRightCartMoney() {
-    var cartId, goodsNum = 0,
-        goodsMoney = 0,
+    var cart_id, goods_num = 0,
+        goods_money = 0,
         tmpGoodsNum = 0,
         tmpGoodsMoney = 0;
     $('.jtc-item-goods').each(function() {
-        cartId = $(this).attr('dataval');
-        goodsNum = parseInt($('#buyNum_' + cartId).val(), 10);
-        goodsMoney = parseFloat($('#gprice_' + cartId).html(), 10);
+        cart_id = $(this).attr('dataval');
+        goods_num = parseInt($('#buyNum_' + cart_id).val(), 10);
+        goods_money = parseFloat($('#gprice_' + cart_id).html(), 10);
         tmpGoodsNum++;
-        tmpGoodsMoney += goodsMoney * goodsNum;
+        tmpGoodsMoney += goods_money * goods_num;
     })
     var goodsTotalNum = parseInt($('#j-goods-count').html(), 10);
     var goodsTotalMoney = parseFloat($('#j-goods-total-money').html(), 10);

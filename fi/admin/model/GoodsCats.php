@@ -9,23 +9,23 @@ class GoodsCats extends Base{
 	 * 获取树形分类
 	 */
 	public function pageQuery(){
-		return $this->where(['dataFlag'=>1,'parentId'=>input('catId/d',0)])->order('catSort asc,catId desc')->paginate(input('post.pagesize/d'))->toArray();
+		return $this->where(['status'=>1,'parent_id'=>input('cat_id/d',0)])->order('cat_sort asc,cat_id desc')->paginate(input('post.pagesize/d'))->toArray();
 	}
 	/**
 	 * 获取列表
 	 */
-	public function listQuery($parentId){
-		return $this->where(['dataFlag'=>1,'parentId'=>$parentId])->order('catSort asc,catName asc')->select();
+	public function listQuery($parent_id){
+		return $this->where(['status'=>1,'parent_id'=>$parent_id])->order('cat_sort asc,cat_name asc')->select();
 	}
 	
 	/**
 	 *获取商品分类名值对
 	 */
 	public function listKeyAll(){
-		$rs = $this->field("catId,catName")->where(['dataFlag'=>1])->order('catSort asc,catName asc')->select();
+		$rs = $this->field("cat_id,cat_name")->where(['status'=>1])->order('cat_sort asc,cat_name asc')->select();
 		$data = array();
 		foreach ($rs as $key => $cat) {
-			$data[$cat["catId"]] = $cat["catName"];
+			$data[$cat["cat_id"]] = $cat["cat_name"];
 		}
 		return $data;
 	}
@@ -33,14 +33,14 @@ class GoodsCats extends Base{
 	/**
 	 *	获取树形分类
 	 */
-	public function getTree($data, $parentId=0){
+	public function getTree($data, $parent_id=0){
 		$arr = array();
 		foreach($data as $k=>$v)
 		{
-			if($v['parentId']==$parentId && $v['dataFlag']==1)
+			if($v['parent_id']==$parent_id && $v['status']==1)
 			{
 				//再查找该分类下是否还有子分类
-				$v['child'] = $this->getTree($data, $v['catId']);
+				$v['child'] = $this->getTree($data, $v['cat_id']);
 				//统计child
 				$v['childNum'] = count($v['child']);
 				//将找到的分类放回该数组中
@@ -55,7 +55,7 @@ class GoodsCats extends Base{
 	 * 获取一个分类下的所有子级分类id
 	 */
 	public function getChild($pid){
-		$data = $this->where("dataFlag=1")->select();
+		$data = $this->where("status=1")->select();
 		//获取该分类id下的所有子级分类id
 		$ids = $this->_getChild($data, $pid, true);//每次调用都清空一次数组
 		//把自己也放进来
@@ -69,11 +69,11 @@ class GoodsCats extends Base{
 			$ids = array();
 		foreach($data as $k=>$v)
 		{
-			if($v['parentId']==$pid && $v['dataFlag']==1)
+			if($v['parent_id']==$pid && $v['status']==1)
 			{
-				$ids[] = $v['catId'];//将找到的下级分类id放入静态数组
+				$ids[] = $v['cat_id'];//将找到的下级分类id放入静态数组
 				//再找下当前id是否还存在下级id
-				$this->_getChild($data, $v['catId']);
+				$this->_getChild($data, $v['cat_id']);
 			}
 		}
 		return $ids;
@@ -83,7 +83,7 @@ class GoodsCats extends Base{
 	 * 获取指定对象
 	 */
 	public function getGoodscats($id){
-		return $this->where(['catId'=>$id])->find();
+		return $this->where(['cat_id'=>$id])->find();
 	}
 	 
 	 /**
@@ -93,8 +93,8 @@ class GoodsCats extends Base{
 	    $ids = array();
 		$id = input('post.id/d');
 		$ids = $this->getChild($id);
-	 	$isFloor = input('post.isFloor/d')?1:0;
-	 	$result = $this->where("catId in(".implode(',',$ids).")")->update(['isFloor' => $isFloor]);
+	 	$is_floor = input('post.is_floor/d')?1:0;
+	 	$result = $this->where("cat_id in(".implode(',',$ids).")")->update(['is_floor' => $is_floor]);
 	 	if(false !== $result){
 	 		return FIReturn("操作成功", 1);
 	 	}else{
@@ -109,23 +109,23 @@ class GoodsCats extends Base{
 		$ids = array();
 		$id = input('post.id/d');
 		$ids = $this->getChild($id);
-		$isShow = input('post.isShow/d')?1:0;
+		$is_show = input('post.is_show/d')?1:0;
 		Db::startTrans();
         try{
-			$result = $this->where("catId in(".implode(',',$ids).")")->update(['isShow' => $isShow]);
+			$result = $this->where("cat_id in(".implode(',',$ids).")")->update(['is_show' => $is_show]);
 			if(false !== $result){
-				if($isShow==0){
+				if($is_show==0){
 					//删除购物车里的相关商品
-					$goods = Db::table('__GOODS__')->where(["goodsCatId"=>['in',$ids],'isSale'=>1])->field('goodsId')->select();
+					$goods = Db::table('__GOODS__')->where(["goods_cat_id"=>['in',$ids],'is_sale'=>1])->field('goods_id')->select();
 					if(count($goods)>0){
-						$goodsIds = [];
+						$goods_ids = [];
 						foreach ($goods as $key =>$v){
-							$goodsIds[] = $v['goodsId'];
+							$goods_ids[] = $v['goods_id'];
 						}
-						Db::table('__CARTS__')->where(['goodsId'=>['in',$goodsIds]])->delete();
+						Db::table('__CARTS__')->where(['goods_id'=>['in',$goods_ids]])->delete();
 					}
 					//把相关的商品下架了
-					Db::table('__GOODS__')->where("goodsCatId in(".implode(',',$ids).")")->update(['isSale' => 0]);
+					Db::table('__GOODS__')->where("goods_cat_id in(".implode(',',$ids).")")->update(['is_sale' => 0]);
 				}
 		    }
 		    Db::commit();
@@ -141,11 +141,11 @@ class GoodsCats extends Base{
 	 * 新增
 	 */
 	public function add(){
-		$parentId = input('post.parentId/d');
+		$parent_id = input('post.parent_id/d');
 		$data = input('post.');
-		FIUnset($data,'catId,dataFlag');
-		$data['parentId'] = $parentId;
-		$data['createTime'] = date('Y-m-d H:i:s');
+		FIUnset($data,'cat_id,status');
+		$data['parent_id'] = $parent_id;
+		$data['create_time'] = date('Y-m-d H:i:s');
 		$result = $this->validate('GoodsCats.add')->allowField(true)->save($data);
 		if(false !== $result){
 			return FIReturn("新增成功", 1);
@@ -158,26 +158,26 @@ class GoodsCats extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$catId = input('post.id/d');
+		$cat_id = input('post.id/d');
 		$data = input('post.');
-		FIUnset($data,'catId,dataFlag,createTime');
-		$result = $this->validate('GoodsCats.edit')->allowField(true)->save($data,['catId'=>$catId]);
+		FIUnset($data,'cat_id,status,create_time');
+		$result = $this->validate('GoodsCats.edit')->allowField(true)->save($data,['cat_id'=>$cat_id]);
 		$ids = array();
-		$ids = $this->getChild($catId);
-		$this->where("catId in(".implode(',',$ids).")")->update(['isShow' => (int)$data['isShow'],'isFloor'=> $data['isFloor']]);
+		$ids = $this->getChild($cat_id);
+		$this->where("cat_id in(".implode(',',$ids).")")->update(['is_show' => (int)$data['is_show'],'is_floor'=> $data['is_floor']]);
 		if(false !== $result){
-			if($data['isShow']==0){
+			if($data['is_show']==0){
 				//删除购物车里的相关商品
-				$goods = Db::table('__GOODS__')->where(["goodsCatId"=>['in',$ids],'isSale'=>1])->field('goodsId')->select();
+				$goods = Db::table('__GOODS__')->where(["goods_cat_id"=>['in',$ids],'is_sale'=>1])->field('goods_id')->select();
 				if(count($goods)>0){
-					$goodsIds = [];
+					$goods_ids = [];
 					foreach ($goods as $key =>$v){
-							$goodsIds[] = $v['goodsId'];
+							$goods_ids[] = $v['goods_id'];
 					}
-					Db::table('__CARTS__')->where(['goodsId'=>['in',$goodsIds]])->delete();
+					Db::table('__CARTS__')->where(['goods_id'=>['in',$goods_ids]])->delete();
 				}
 		    	//把相关的商品下架了
-		        Db::table('__GOODS__')->where("goodsCatId in(".implode(',',$ids).")")->update(['isSale' => 0]);
+		        Db::table('__GOODS__')->where("goods_cat_id in(".implode(',',$ids).")")->update(['is_sale' => 0]);
 			}
 			return FIReturn("修改成功", 1);
 		}else{
@@ -195,20 +195,20 @@ class GoodsCats extends Base{
 		Db::startTrans();
         try{
 		    $data = [];
-		    $data['dataFlag'] = -1;
-		    $result = $this->where("catId in(".implode(',',$ids).")")->update($data);
+		    $data['status'] = -1;
+		    $result = $this->where("cat_id in(".implode(',',$ids).")")->update($data);
 		    if(false !== $result){
 		        //删除购物车里的相关商品
-				$goods = Db::table('__GOODS__')->where(["goodsCatId"=>['in',$ids],'isSale'=>1])->field('goodsId')->select();
+				$goods = Db::table('__GOODS__')->where(["goods_cat_id"=>['in',$ids],'is_sale'=>1])->field('goods_id')->select();
 				if(count($goods)>0){
-					$goodsIds = [];
+					$goods_ids = [];
 					foreach ($goods as $key =>$v){
-							$goodsIds[] = $v['goodsId'];
+							$goods_ids[] = $v['goods_id'];
 					}
-					Db::table('__CARTS__')->where(['goodsId'=>['in',$goodsIds]])->delete();
+					Db::table('__CARTS__')->where(['goods_id'=>['in',$goods_ids]])->delete();
 				}
 		    	//把相关的商品下架了
-		        Db::table('__GOODS__')->where("goodsCatId in(".implode(',',$ids).")")->update(['isSale' => 0]);
+		        Db::table('__GOODS__')->where("goods_cat_id in(".implode(',',$ids).")")->update(['is_sale' => 0]);
 		    }
             Db::commit();
 	        return FIReturn("删除成功", 1);
@@ -223,12 +223,12 @@ class GoodsCats extends Base{
 	 */
 	public function getParentIs($id,$data = array()){
 		$data[] = $id;
-		$parentId = $this->where('catId',$id)->value('parentId');
-		if($parentId==0){
+		$parent_id = $this->where('cat_id',$id)->value('parent_id');
+		if($parent_id==0){
 			krsort($data);
 			return $data;
 		}else{
-			return $this->getParentIs($parentId, $data);
+			return $this->getParentIs($parent_id, $data);
 		}
 	}
 }

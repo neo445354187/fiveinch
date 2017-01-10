@@ -511,7 +511,7 @@ input, textarea {
     border: 1px dashed #777;
 }
 
-#userPhotoCutBox>p {
+#user_photoCutBox>p {
     width: 500px;
     height: 500px;
     background: url('../img/cut_bg.png')  repeat 0 0;
@@ -1743,7 +1743,7 @@ select::-ms-expand {
     padding-right: 80px;
 }
 
-.order-box .orderScore {
+.order-box .order_score {
     margin-right: 5px;
 }
 
@@ -1790,12 +1790,12 @@ select::-ms-expand {
     padding-left: 20px;
 }
 
-.score-head .user-info .userName {
+.score-head .user-info .user_name {
     height: 25px;
     line-height: 25px;
 }
 
-.score-head .user-info .userScore {
+.score-head .user-info .user_score {
     height: 25px;
     line-height: 25px;
 }
@@ -2120,7 +2120,7 @@ select::-ms-expand {
     float: left;
 }
 
-.goodsName {
+.goods_name {
     margin-top: 10px;
     height: 50px;
     line-height: 50px;
@@ -2220,6 +2220,6 @@ select::-ms-expand {
     width: 24px;
 }
 
-.msgContent {
+.msg_content {
     padding: 10px;
 }

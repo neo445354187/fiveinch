@@ -9,31 +9,31 @@ class Accreds extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field(true)->order('accredId desc')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field(true)->order('accred_id desc')->paginate(input('pagesize/d'));
 	}
 	/**
 	 * 列表
 	 */
     public function listQuery(){
-		return $this->where('dataFlag',1)->field(true)->select();
+		return $this->where('status',1)->field(true)->select();
 	}
 	public function getById($id){
-		return $this->get(['accredId'=>$id,'dataFlag'=>1]);
+		return $this->get(['accred_id'=>$id,'status'=>1]);
 	}
 	/**
 	 * 新增
 	 */
 	public function add(){
 		$data = input('post.');
-		$data['createTime'] = date('Y-m-d H:i:s');
-		FIUnset($data,'accredId');
+		$data['create_time'] = date('Y-m-d H:i:s');
+		FIUnset($data,'accred_id');
 		Db::startTrans();
 		try{
 			$result = $this->validate('Accreds.add')->allowField(true)->save($data);
 			if(false !==$result){
-				$id = $this->accredId;
+				$id = $this->accred_id;
 				//启用上传图片
-				FIUseImages(1, $id, $data['accredImg']);
+				FIUseImages(1, $id, $data['accred_img']);
 		        if(false !== $result){
 		        	Db::commit();
 		        	return FIReturn("新增成功", 1);
@@ -49,11 +49,11 @@ class Accreds extends Base{
 	 */
 	public function edit(){
 		$data = input('post.');
-		FIUnset($data,'createTime');
+		FIUnset($data,'create_time');
 		Db::startTrans();
 		try{
-			FIUseImages(1, (int)$data['accredId'], $data['accredImg'], 'accreds', 'accredImg');
-		    $result = $this->validate('Accreds.edit')->allowField(true)->save($data,['accredId'=>(int)$data['accredId']]);
+			FIUseImages(1, (int)$data['accred_id'], $data['accred_img'], 'accreds', 'accred_img');
+		    $result = $this->validate('Accreds.edit')->allowField(true)->save($data,['accred_id'=>(int)$data['accred_id']]);
 	        if(false !== $result){
 	        	Db::commit();
 	        	return FIReturn("编辑成功", 1);
@@ -70,8 +70,8 @@ class Accreds extends Base{
 	    $id = (int)input('post.id/d');
 	    Db::startTrans();
 		try{
-		    $result = $this->setField(['dataFlag'=>-1,'accredId'=>$id]);
-		    FIUnuseImage('accreds','accredImg',$id);	
+		    $result = $this->setField(['status'=>-1,'accred_id'=>$id]);
+		    FIUnuseImage('accreds','accred_img',$id);	
 	        if(false !== $result){
 	        	Db::commit();
 	        	return FIReturn("删除成功", 1);

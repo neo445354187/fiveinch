@@ -10,7 +10,7 @@ class Useraddress extends Base{
     * 设置为默认地址
     */
     public function setDefault(){
-        return model('userAddress')->setDefault();
+        return model('user_address')->setDefault();
     }
 	public function index(){
 		return $this->fetch('default/users/useraddress/list');
@@ -21,11 +21,11 @@ class Useraddress extends Base{
     */
     public function listQuery(){
         //获取用户信息
-        $userId = (int)session('FI_USER.userId');
-        if(!$userId){
+        $user_id = (int)session('FI_USER.user_id');
+        if(!$user_id){
             return FIReturn('未登录', -1);
         }
-        $list = model('Home/userAddress')->listQuery($userId);
+        $list = model('Home/user_address')->listQuery($user_id);
         return FIReturn('', 1,$list);
     }
 	
@@ -33,7 +33,7 @@ class Useraddress extends Base{
 	* 跳去修改地址
 	*/
 	public function edit(){
-		$m = model('userAddress');
+		$m = model('user_address');
 		$id=(int)input('id');
         $data = $m->getById($id);
         //获取省级地区信息
@@ -46,7 +46,7 @@ class Useraddress extends Base{
      * 新增
      */
     public function add(){
-        $m = model('userAddress');
+        $m = model('user_address');
         $rs = $m->add();
         return $rs;
     }
@@ -54,7 +54,7 @@ class Useraddress extends Base{
     * 修改
     */
     public function toEdit(){
-        $m = model('userAddress');
+        $m = model('user_address');
         $rs = $m->edit();
         return $rs;
     }
@@ -62,7 +62,7 @@ class Useraddress extends Base{
     * 删除
     */
     public function del(){
-    	$m = model('userAddress');
+    	$m = model('user_address');
         $rs = $m->del();
         return $rs;
     }
@@ -71,7 +71,7 @@ class Useraddress extends Base{
      * 获取用户地址
      */
     public function getById(){
-    	$m = model('userAddress');
+    	$m = model('user_address');
         $id=(int)input('id');
         $data = $m->getById($id);
         return FIReturn('', 1,$data);

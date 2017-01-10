@@ -26,7 +26,7 @@ class Orders extends Base {
         $rs = $m->getByUnique();
         $this->assign('object', $rs);
         if (!empty($rs['list'])) {
-            if ($rs['payType'] == 1) {
+            if ($rs['pay_type'] == 1) {
                 $this->assign('id', input("get.id"));
                 $this->assign('isBatch', input("get.isBatch/d", 1));
                 $this->assign('rs', $rs);
@@ -319,9 +319,9 @@ class Orders extends Base {
     /**
      * 设置完成评价
      */
-    public function complateAppraise($orderId) {
+    public function complateAppraise($order_id) {
         $m = new M();
-        return $m->complateAppraise($orderId);
+        return $m->complateAppraise($order_id);
     }
 
     /**

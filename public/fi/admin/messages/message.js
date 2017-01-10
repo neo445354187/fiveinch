@@ -11,21 +11,21 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '消息类型', name: 'msgType', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '消息类型', name: 'msg_type', isSort: false,render:function(rowdata, rowindex, value){
 	        	return (value==0)?'手工发送':'系统发送';
 	        }},
 	        { display: '发送者', name: 'stName', isSort: false},
-	        { display: '接收者', name: 'loginName', isSort: false,render:function(rowdata, rowindex, value){
-	        	return (value!=null)?value:rowdata['shopName'];
+	        { display: '接收者', name: 'login_name', isSort: false,render:function(rowdata, rowindex, value){
+	        	return (value!=null)?value:rowdata['shop_name'];
 	        }},
-	        { display: '消息内容', name: 'msgContent', isSort: false},
-	        { display: '阅读状态', name: 'msgStatus', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '消息内容', name: 'msg_content', isSort: false},
+	        { display: '阅读状态', name: 'msg_status', isSort: false,render:function(rowdata, rowindex, value){
 	        	return (value==0)?'未读':'已读';
 	        }},
-	        { display: '有效状态', name: 'dataFlag', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '有效状态', name: 'status', isSort: false,render:function(rowdata, rowindex, value){
 	        	return (value==-1)?'已删除':'有效';
 	        }},
-	        { display: '发送时间', name: 'createTime', isSort: false},
+	        { display: '发送时间', name: 'create_time', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	        	var h="";
 	            if(FI.GRANT.SCXX_00)h += "<a href='javascript:showFullMsg(" + rowdata['id'] + ")'>查看</a> ";
@@ -86,7 +86,7 @@ tab = $("#fi-tabs").ligerTab({
 
 //编辑器
 KindEditor.ready(function(K) {
-editor1 = K.create('textarea[name="msgContent"]', {
+editor1 = K.create('textarea[name="msg_content"]', {
   uploadJson : FI.conf.ROOT+'/admin/messages/editorUpload',
   height:'350px',
   allowFileManager : false,
@@ -124,11 +124,11 @@ function sendToTheUser(t){
      }
      //账号模糊查找
      function userQuery(){
-      var key = $('#loginName').val();
+      var key = $('#login_name').val();
       var html = '';
-      $.post(FI.U('admin/messages/userQuery'),{'loginName':key},function(text,dataStatus){
+      $.post(FI.U('admin/messages/userQuery'),{'login_name':key},function(text,dataStatus){
           $(text).each(function(k,v){
-            html += '<option value="'+v.userId+'">'+v.loginName+'</option>';
+            html += '<option value="'+v.user_id+'">'+v.login_name+'</option>';
           });
           $('#ltarget').html(html);
       });
@@ -145,7 +145,7 @@ function sendToTheUser(t){
               FI.msg("操作成功",{icon:1});
               $('#ltarget').html('');
               $('#rtarget').html('');
-              $('#loginName').val('');
+              $('#login_name').val('');
               editor1.html('');
 
           }else{

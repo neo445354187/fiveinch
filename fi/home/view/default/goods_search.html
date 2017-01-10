@@ -4,7 +4,7 @@
 <link href="__HOME__/css/goodslist.css?v={$v}" rel="stylesheet"> {/block} {block name="nav"} {include file="default/header" /} {/block} {block name="main"} {/* 推荐热卖 */}
 <input type="hidden" id="keyword" class="sipt" value='{$keyword}' />
 <input type="hidden" id="orderBy" class="sipt" value='{$orderBy}' />
-<input type="hidden" id="brandName" class="sipt" value='{$brandName}' />
+<input type="hidden" id="brand_name" class="sipt" value='{$brand_name}' />
 <input type="hidden" id="upOrDown" class="sipt" value='{$upOrDown}' />
 <div class="filter-box">
     <div class='fi-filters'>
@@ -12,10 +12,10 @@
             <a class='link' href='__ROOT__'>全部结果</a>
         </div>
         <div class='fi-lfloat keyword'><i class="arrow">></i>{$keyword}</div>
-        <?php if(!empty($brandName)): ?>
+        <?php if(!empty($brand_name)): ?>
         <div class='fi-lfloat keyword'><i class="arrow">></i>
             <?php echo lang('brand name').': '; ?>
-            <?php echo $brandName; ?>
+            <?php echo $brand_name; ?>
             <i class="fa fa-window-close" aria-hidden="true" style="cursor:pointer;" onclick="closeBrand()"></i>
         </div>
         <?php endif; ?>
@@ -45,9 +45,9 @@
     <div class="filter js-sort last">
         <span class="hint">排序: </span>
         <a class="<?php if($orderBy == 'default') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("default")'>默认</a>
-        <a class="<?php if($orderBy == 'saleNum') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("saleNum")'>销量</a>
+        <a class="<?php if($orderBy == 'sale_num') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("sale_num")'>销量</a>
         <a class="<?php if($orderBy == 'price') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("price")'>价格<?php if($upOrDown == 'up'): ?> <i class="fa fa-long-arrow-up active" aria-hidden="true"></i><?php elseif($upOrDown == 'down'): ?> <i class="fa fa-long-arrow-down active" aria-hidden="true"></i><?php endif; ?></a>
-        <a class="<?php if($orderBy == 'appraiseNum') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("appraiseNum")'>评论数</a>
+        <a class="<?php if($orderBy == 'appraise_num') echo 'active'; ?>" href='javascript:void(0)' onclick='javascript:searchOrderBy("appraise_num")'>评论数</a>
     </div>
 </div>
 {/* 商品展示 */}
@@ -65,23 +65,23 @@
                             </p>
                         </div>
                         <div class="img">
-                            <a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img title="{$vo['goodsName']}" alt="{$vo['goodsName']}" class='goodsImg2' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" /></a>
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img title="{$vo['goods_name']}" alt="{$vo['goods_name']}" class='goods_img2' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" /></a>
                         </div>
                         <div class="p-name">
-                            <a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="fi-redlink" title="{$vo['goodsName']}" style="text-align: center;">
-                                <?php echo FIMSubstr($vo['goodsName'],0,15) ?>
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}" class="fi-redlink" title="{$vo['goods_name']}" style="text-align: center;">
+                                <?php echo FIMSubstr($vo['goods_name'],0,15) ?>
                             </a>
                         </div>
                         <div>
                             <p class="p-price">￥
-                                <?php echo $vo['shopPrice']; ?>
+                                <?php echo $vo['shop_price']; ?>
                             </p>
                         </div>
                         <div class="p-hsale">
-                            <a href="{:Url('home/shops/home','shopId='.$vo['shopId'])}" target='_blank' class="shop_name">
-                                <?php echo FIMSubstr($vo['shopName'],0,8); ?>
+                            <a href="{:Url('home/shops/home','shop_id='.$vo['shop_id'])}" target='_blank' class="shop_name">
+                                <?php echo FIMSubstr($vo['shop_name'],0,8); ?>
                             </a>
-                            <a class="p-add-cart" style="display:none;" href="javascript:FI.addCart({$vo['goodsId']});">加入购物车</a>
+                            <a class="p-add-cart" style="display:none;" href="javascript:FI.addCart({$vo['goods_id']});">加入购物车</a>
                         </div>
                     </div>
                 </li>
@@ -111,7 +111,7 @@ $(function() {
         $up = $('img.up'),
         $down = $('img.down')
     $brand_a = $('.unspread a');
-    $brandName = $('#brandName');
+    $brand_name = $('#brand_name');
     $find_more.click(function(event) {
         var $index = $(this).index('.find_more'),
             $that = $option_box.eq($index);
@@ -126,7 +126,7 @@ $(function() {
     });
 
     $brand_a.click(function(event) {
-        $brandName.val($(this).attr('title'));
+        $brand_name.val($(this).attr('title'));
         searchComponent();
     })
 })

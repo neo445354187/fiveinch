@@ -2,25 +2,25 @@ function userAddrEditInit(){
  /* 表单验证 */
     $('#useraddressForm').validator({
           fields: {
-                userAddress: {
+                user_address: {
                   rule:"required;length[~60, true]",
                   msg:{required:"请输入您的收货地址"},
                   tip:"请输入您的收货地址",
                   ok:"",
                 },
-                userName: {
+                user_name: {
                   rule:"required;length[~12, true]",
                   msg:{required:"请输入您的名称"},
                   tip:"请输入您的名称",
                   ok:"",
                 },
-                userPhone: {
+                user_phone: {
                   rule:"required;length[~50, true]",
                   msg:{required:"联系电话"},
                   tip:"请输入您的联系电话",
                   ok:"",
                 },
-                isDefault: {
+                is_default: {
                     rule:"checked;",
                     msg:{checked:"至少选择一项"},
                     tip:"是否作为默认地址",
@@ -41,9 +41,9 @@ function userAddrEditInit(){
         		return;
         	}
             var params = FI.getParams('.ipt');
-            params.areaId = FI.ITGetAreaVal('j-areas');
+            params.area_id = FI.ITGetAreaVal('j-areas');
             var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
-            $.post(FI.U('home/useraddress/'+((params.addressId==0)?"add":"toEdit")),params,function(data,textStatus){
+            $.post(FI.U('home/useraddress/'+((params.address_id==0)?"add":"toEdit")),params,function(data,textStatus){
               layer.close(loading);
               var json = FI.toJson(data);
               if(json.status=='1'){
@@ -59,8 +59,8 @@ function userAddrEditInit(){
     });
  }
 
-function getCommunity(areaId3, val){
-    $.post(FI.U('home/Communitys/getCommunity'),{'areaId3':areaId3},function(data,textStatus){
+function getCommunity(area_id3, val){
+    $.post(FI.U('home/Communitys/getCommunity'),{'area_id3':area_id3},function(data,textStatus){
         var json = FI.toJson(data);
         var opts,html=[];
         html.push("<option value=''>请选择</option>");

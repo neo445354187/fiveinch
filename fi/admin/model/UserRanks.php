@@ -9,24 +9,24 @@ class UserRanks extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field(true)->order('rankId desc')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field(true)->order('rank_id desc')->paginate(input('pagesize/d'));
 	}
 	public function getById($id){
-		return $this->get(['rankId'=>$id,'dataFlag'=>1]);
+		return $this->get(['rank_id'=>$id,'status'=>1]);
 	}
 	/**
 	 * 新增
 	 */
 	public function add(){
 		$data = input('post.');
-		$data['createTime'] = date('Y-m-d H:i:s');
-		FIUnset($data,'rankId');
+		$data['create_time'] = date('Y-m-d H:i:s');
+		FIUnset($data,'rank_id');
 		Db::startTrans();
 		try{
 			$result = $this->validate('UserRanks.add')->allowField(true)->save($data);
-			$id = $this->rankId;
+			$id = $this->rank_id;
 			//启用上传图片
-			FIUseImages(1, $id, $data['userrankImg']);
+			FIUseImages(1, $id, $data['userrank_img']);
 	        if(false !== $result){
 	        	Db::commit();
 	        	return FIReturn("新增成功", 1);
@@ -40,13 +40,13 @@ class UserRanks extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$Id = (int)input('post.rankId');
+		$Id = (int)input('post.rank_id');
 		$data = input('post.');
 		Db::startTrans();
 		try{
-			FIUseImages(1, $Id, $data['userrankImg'], 'user_ranks', 'userrankImg');
-			FIUnset($data,'createTime');
-		    $result = $this->validate('UserRanks.edit')->allowField(true)->save($data,['rankId'=>$Id]);
+			FIUseImages(1, $Id, $data['userrank_img'], 'user_ranks', 'userrank_img');
+			FIUnset($data,'create_time');
+		    $result = $this->validate('UserRanks.edit')->allowField(true)->save($data,['rank_id'=>$Id]);
 	        if(false !== $result){
 	        	Db::commit();
 	        	return FIReturn("编辑成功", 1);
@@ -64,10 +64,10 @@ class UserRanks extends Base{
 	    Db::startTrans();
 		try{
 			$data = [];
-			$data['dataFlag'] = -1;
-		    $result = $this->update($data,['rankId'=>$id]);
+			$data['status'] = -1;
+		    $result = $this->update($data,['rank_id'=>$id]);
 	        if(false !== $result){
-	        	FIUnuseImage('user_ranks','userrankImg',$id);
+	        	FIUnuseImage('user_ranks','userrank_img',$id);
 	        	Db::commit();
 	        	return FIReturn("删除成功", 1);
 	        }

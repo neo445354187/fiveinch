@@ -1,5 +1,5 @@
 $(function() {
-    $('.goodsImg').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 100, placeholder: window.conf.ROOT + '/' + window.conf.GOODS_LOGO }); //商品默认图片
+    $('.goods_img').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 100, placeholder: window.conf.ROOT + '/' + window.conf.GOODS_LOGO }); //商品默认图片
     $('.shopsImg').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 100, placeholder: window.conf.ROOT + '/' + window.conf.SHOP_LOGO }); //店铺默认头像
     $('.usersImg').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 100, placeholder: window.conf.ROOT + '/' + window.conf.USER_LOGO }); //会员默认头像
 });
@@ -396,12 +396,12 @@ FI.splitURL = function(spchar) {
         return furl.join("");
     }
 }
-FI.addCart = function(goodsId) {
+FI.addCart = function(goods_id) {
     if (window.conf.IS_LOGIN == 0) {
         FI.loginWindow();
         return;
     }
-    $.post(FI.U('home/carts/addCart'), { goodsId: goodsId, buyNum: 1 }, function(data, textStatus) {
+    $.post(FI.U('home/carts/addCart'), { goods_id: goods_id, buyNum: 1 }, function(data, textStatus) {
         var json = FI.toJson(data);
         if (json.status == 1) {
             FI.msg(json.msg, { icon: 1, time: 600, shade: false });
@@ -427,8 +427,8 @@ FI.delCart = function(id) {
         }
     });
 }
-FI.changeCartGoods = function(id, buyNum, isCheck) {
-    $.post(FI.U('home/carts/changeCartGoods'), { id: id, isCheck: isCheck, buyNum: buyNum, rnd: Math.random() }, function(data, textStatus) {
+FI.changeCartGoods = function(id, buyNum, is_check) {
+    $.post(FI.U('home/carts/changeCartGoods'), { id: id, is_check: is_check, buyNum: buyNum, rnd: Math.random() }, function(data, textStatus) {
         var json = FI.toJson(data);
         if (json.status != 1) {
             FI.msg(json.msg, { icon: 2 });
@@ -476,7 +476,7 @@ FI.checkCart = function() {
                 });
                 $('#list-carts2').html('<div class="comm" id="list-comm">&nbsp;&nbsp;共<span> ' + json.goodsTotalNum + ' </span>件商品<span class="span2">￥' + json.goodsTotalMoney + '</span></div>');
                 $('#list-carts3').html('<a href="' + window.conf.ROOT + '/home/carts/index" class="btn btn-3">去购物车结算</a>');
-                $('.goodsImgc').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 200, placeholder: window.conf.ROOT + '/' + window.conf.GOODS_LOGO }); //商品默认图片
+                $('.goods_imgc').lazyload({ effect: "fadeIn", failurelimit: 10, skip_invisible: false, threshold: 200, placeholder: window.conf.ROOT + '/' + window.conf.GOODS_LOGO }); //商品默认图片
                 if (json.list.length > 5) {
                     $('#list-carts').css('overflow-y', 'scroll').css('height', '416');
                 }
@@ -519,7 +519,7 @@ FI.changeIptNum = function(diffNum, iptId, btnId, id, func) {
         fn();
     }
 }
-FI.shopQQ = function(val) {
+FI.shop_qq = function(val) {
     if (FI.blank(val) != '') {
         return [
             '<a href="tencent://message/?uin=' + val + '&Site=QQ交谈&Menu=yes">',
@@ -530,7 +530,7 @@ FI.shopQQ = function(val) {
         return '';
     }
 }
-FI.shopWangWang = function(val) {
+FI.shop_wangwang = function(val) {
     if (FI.blank(val) != '') {
         return [
             '<a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=' + val + '&siteid=cntaobao&status=1&charset=utf-8">',
@@ -606,7 +606,7 @@ FI.ITSetGoodsCats = function(opts) {
                 fn({ id: opts.id, val: opts.val });
             }
         }
-        $.post(FI.U('home/goodscats/listQuery'), { parentId: opts.val }, function(data, textStatus) {
+        $.post(FI.U('home/goodscats/listQuery'), { parent_id: opts.val }, function(data, textStatus) {
             var json = FI.toJson(data);
             if (json.data && json.data.length > 0) {
                 opts.isLast = false;
@@ -617,7 +617,7 @@ FI.ITSetGoodsCats = function(opts) {
                 html.push("<option value=''>-请选择-</option>");
                 for (var i = 0; i < json.length; i++) {
                     var cat = json[i];
-                    html.push("<option value='" + cat.catId + "' " + ((opts.childIds[0] == cat.catId) ? "selected" : "") + ">" + cat.catName + "</option>");
+                    html.push("<option value='" + cat.cat_id + "' " + ((opts.childIds[0] == cat.cat_id) ? "selected" : "") + ">" + cat.cat_name + "</option>");
                 }
                 html.push('</select>');
                 $(html.join('')).insertAfter(obj);
@@ -704,7 +704,7 @@ FI.ITGoodsCats = function(opts) {
             }
             return;
         }
-        $.post(FI.U('home/goodscats/listQuery'), { parentId: opts.val }, function(data, textStatus) {
+        $.post(FI.U('home/goodscats/listQuery'), { parent_id: opts.val }, function(data, textStatus) {
             var json = FI.toJson(data);
             if (json.data && json.data.length > 0) {
                 opts.isLast = false;
@@ -715,7 +715,7 @@ FI.ITGoodsCats = function(opts) {
                 html.push("<option value='' >-请选择-</option>");
                 for (var i = 0; i < json.length; i++) {
                     var cat = json[i];
-                    html.push("<option value='" + cat.catId + "'>" + cat.catName + "</option>");
+                    html.push("<option value='" + cat.cat_id + "'>" + cat.cat_name + "</option>");
                 }
                 html.push('</select>');
                 $(html.join('')).insertAfter(obj);
@@ -745,22 +745,22 @@ FI.ITGoodsCats = function(opts) {
      * 获取最后已选分类的id
      */
 FI.ITGetAllGoodsCatVals = function(srcObj, className) {
-        var goodsCatId = '';
+        var goods_cat_id = '';
         $('.' + className).each(function() {
-            if ($(this).attr('lastgoodscat') == '1') goodsCatId = $(this).attr('id') + '_' + $(this).val();
+            if ($(this).attr('lastgoodscat') == '1') goods_cat_id = $(this).attr('id') + '_' + $(this).val();
         });
-        goodsCatId = goodsCatId.replace(srcObj + '_', '');
-        return goodsCatId.split('_');
+        goods_cat_id = goods_cat_id.replace(srcObj + '_', '');
+        return goods_cat_id.split('_');
     }
     /**
      * 获取最后分类值
      */
 FI.ITGetGoodsCatVal = function(className) {
-        var goodsCatId = '';
+        var goods_cat_id = '';
         $('.' + className).each(function() {
-            if ($(this).attr('lastgoodscat') == '1') goodsCatId = $(this).val();
+            if ($(this).attr('lastgoodscat') == '1') goods_cat_id = $(this).val();
         });
-        return goodsCatId;
+        return goods_cat_id;
     }
     /**
      * 循环创建地区
@@ -816,7 +816,7 @@ FI.ITAreas = function(opts) {
             }
             return;
         }
-        $.post(FI.U('home/areas/listQuery'), { parentId: opts.val }, function(data, textStatus) {
+        $.post(FI.U('home/areas/listQuery'), { parent_id: opts.val }, function(data, textStatus) {
             var json = FI.toJson(data);
             if (json.data && json.data.length > 0) {
                 json = json.data;
@@ -827,7 +827,7 @@ FI.ITAreas = function(opts) {
                 html.push("<option value='' >-请选择-</option>");
                 for (var i = 0; i < json.length; i++) {
                     tmp = json[i];
-                    html.push("<option value='" + tmp.areaId + "'>" + tmp.areaName + "</option>");
+                    html.push("<option value='" + tmp.area_id + "'>" + tmp.area_name + "</option>");
                 }
                 html.push('</select>');
                 $(html.join('')).insertAfter(obj);
@@ -877,7 +877,7 @@ FI.ITSetAreas = function(opts) {
                     fn({ id: opts.id, val: opts.val });
                 }
             }
-            $.post(FI.U('home/areas/listQuery'), { parentId: opts.val }, function(data, textStatus) {
+            $.post(FI.U('home/areas/listQuery'), { parent_id: opts.val }, function(data, textStatus) {
                 var json = FI.toJson(data);
                 if (json.data && json.data.length > 0) {
                     json = json.data;
@@ -888,7 +888,7 @@ FI.ITSetAreas = function(opts) {
                     html.push("<option value=''>-请选择-</option>");
                     for (var i = 0; i < json.length; i++) {
                         tmp = json[i];
-                        html.push("<option value='" + tmp.areaId + "' " + ((opts.childIds[0] == tmp.areaId) ? "selected" : "") + ">" + tmp.areaName + "</option>");
+                        html.push("<option value='" + tmp.area_id + "' " + ((opts.childIds[0] == tmp.area_id) ? "selected" : "") + ">" + tmp.area_name + "</option>");
                     }
                     html.push('</select>');
                     $(html.join('')).insertAfter(obj);
@@ -924,26 +924,26 @@ FI.ITSetAreas = function(opts) {
      * 获取最后地区的值
      */
 FI.ITGetAreaVal = function(className) {
-        var areaId = '';
+        var area_id = '';
         $('.' + className).each(function() {
-            if ($(this).attr('lastarea') == '1') areaId = $(this).val();
+            if ($(this).attr('lastarea') == '1') area_id = $(this).val();
         });
-        return areaId;
+        return area_id;
     }
     /**
      * 获取最后已选分类的id
      */
 FI.ITGetAllAreaVals = function(srcObj, className) {
-        var areaId = '';
+        var area_id = '';
         $('.' + className).each(function() {
-            if ($(this).attr('lastarea') == '1') areaId = $(this).attr('id') + '_' + $(this).val();
+            if ($(this).attr('lastarea') == '1') area_id = $(this).attr('id') + '_' + $(this).val();
         });
-        areaId = areaId.replace(srcObj + '_', '');
-        return areaId.split('_');
+        area_id = area_id.replace(srcObj + '_', '');
+        return area_id.split('_');
     }
     /**记录广告点击**/
-FI.recordClick = function(adId) {
-        $.post(FI.U('home/ads/recordClick'), { id: adId }, function(data) {});
+FI.recordClick = function(ad_id) {
+        $.post(FI.U('home/ads/recordClick'), { id: ad_id }, function(data) {});
     }
     /**
      * 获取用户信息
@@ -997,7 +997,7 @@ FI.getSysMessages = function(val) {
     });
 }
 FI.position = function(mid, mtype) {
-        $.post(FI.U('home/index/position'), { menuId: mid, menuType: mtype }, function(data) {});
+        $.post(FI.U('home/index/position'), { menu_id: mid, menu_type: mtype }, function(data) {});
     }
     //关闭顶部广告
 FI.closeAds = function(t) {

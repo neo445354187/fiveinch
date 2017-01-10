@@ -18,7 +18,7 @@ class Navs extends Base{
 	 */
 	public function add(){
 		$data = input('post.');
-		$data['createTime'] = date('Y-m-d H:i:s');
+		$data['create_time'] = date('Y-m-d H:i:s');
 		FIUnset($data,'id');
 		$result = $this->validate('navs.add')->allowField(true)->save($data);
         if(false !== $result){
@@ -34,7 +34,7 @@ class Navs extends Base{
 		$Id = input('post.id/d',0);
 		//获取数据
 		$data = input('post.');
-		FIUnset($data,'createTime');
+		FIUnset($data,'create_time');
 	    $result = $this->validate('navs.edit')->allowField(true)->save($data,['id'=>$Id]);
         if(false !== $result){
         	return FIReturn("编辑成功", 1);
@@ -61,7 +61,7 @@ class Navs extends Base{
         $id = input('post.id/d',0);
         $field = input('post.field');
         $val = input('post.val/d',0);
-        if(!in_array($field,['isShow','isOpen']))return FIReturn("非法的操作内容",-1);
+        if(!in_array($field,['is_show','is_open']))return FIReturn("非法的操作内容",-1);
         $result = Db::table('__NAVS__')->where(['id'=>['eq',$id]])->setField($field, $val);
         if(false !== $result){
             return FIReturn("设置成功", 1);

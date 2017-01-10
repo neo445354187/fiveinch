@@ -19,7 +19,7 @@ class SearchGoods extends Base
      */
     private $optional_params = [
         'facet'          => 'on',
-        'facet.field'    => 'brandName',
+        'facet.field'    => 'brand_name',
         'facet.mincount' => 1,
         'facet.limit'    => 50,
         'fl'             => '*,score',
@@ -59,8 +59,8 @@ class SearchGoods extends Base
         $condition = array();
         //搜索条件用双引号包裹，搜索不分词
         ($search = trim(urldecode($params['keyword']))) && $condition['q'][] = "($search)";
-        if ($this->brand = solr_escape(trim($params['brandName'], ','))) {
-            $condition['q'][] = '(brandName:"' . $this->brand . '")';
+        if ($this->brand = solr_escape(trim($params['brand_name'], ','))) {
+            $condition['q'][] = '(brand_name:"' . $this->brand . '")';
             $condition        = array_merge($condition, $this->essential_params);
         } else {
             $condition = array_merge($condition, $this->optional_params, $this->essential_params);
@@ -75,10 +75,10 @@ class SearchGoods extends Base
         //排序
         switch ($params['orderBy']) {
             case 'price':
-                $condition['sort'] = $params['upOrDown'] == 'down' ? 'shopPrice desc' : 'shopPrice asc';
+                $condition['sort'] = $params['upOrDown'] == 'down' ? 'shop_price desc' : 'shop_price asc';
                 break;
-            case 'appraiseNum':
-            case 'saleNum':
+            case 'appraise_num':
+            case 'sale_num':
                 $condition['sort'] = $params['orderBy'] . ' desc';
                 break;
         }
@@ -100,7 +100,7 @@ class SearchGoods extends Base
             //判断是否需要整理facet数据
             $facet = array();
             if (!$this->brand) {
-                $facet = array_filter($result['facet_counts']['facet_fields']['brandName'], function ($val, $key) {
+                $facet = array_filter($result['facet_counts']['facet_fields']['brand_name'], function ($val, $key) {
                     return ($key % 2 == 0 && $val != '') ? true : false;
                 }, ARRAY_FILTER_USE_BOTH);
             }

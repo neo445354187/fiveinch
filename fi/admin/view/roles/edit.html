@@ -9,15 +9,15 @@
 {block name="main"}
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <form autocomplete='off'>
-<input type='hidden' id='roleId' class='ipt' value="{$object['roleId']}"/>
+<input type='hidden' id='role_id' class='ipt' value="{$object['role_id']}"/>
 <table class='fi-form fi-box-top'>
   <tr>
      <th width='120'>角色名称<font color='red'>*</font></th>
-     <td><input type="text" id='roleName' class='ipt' value="{$object['roleName']}" maxLength='20' data-rule="角色名称: required;"/></td>
+     <td><input type="text" id='role_name' class='ipt' value="{$object['role_name']}" maxLength='20' data-rule="角色名称: required;"/></td>
   </tr>
   <tr>
      <th>角色备注</th>
-     <td><input type="text" id='roleDesc' class='ipt' value="{$object['roleDesc']}" style='width:70%' maxLength='100'/></td>
+     <td><input type="text" id='role_desc' class='ipt' value="{$object['role_desc']}" style='width:70%' maxLength='100'/></td>
   </tr>
   <tr>
      <th valign='top'>权限</th>
@@ -36,7 +36,7 @@
 <script>
 var zTree,rolePrivileges = '{$object['privileges']}'.split(',');
 $(function(){
-	var roleId = $('#roleId').val();
+	var role_id = $('#role_id').val();
 	var setting = {
 		    check: {
 				enable: true
@@ -45,7 +45,7 @@ $(function(){
 		        enable: true,
 		        url:FI.U('admin/privileges/listQueryByRole'),
 		        autoParam:["id", "name=n", "level=lv"],
-		        otherParam:["roleId",roleId]
+		        otherParam:["role_id",role_id]
 		    },
 		    callback:{
 		    	onNodeCreated:getNodes

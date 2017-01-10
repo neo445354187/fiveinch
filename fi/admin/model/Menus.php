@@ -8,17 +8,17 @@ use think\Db;
  */
 class Menus extends Base
 {
-    protected $insert = ['dataFlag' => 1];
+    protected $insert = ['status' => 1];
     /**
      * 获取菜单列表
      */
-    public function listQuery($parentId = -1)
+    public function listQuery($parent_id = -1)
     {
-        if ($parentId == -1) {
+        if ($parent_id == -1) {
             return ['id' => 0, 'name' => FIConf('CONF.mallName'), 'isParent' => true, 'open' => true];
         }
 
-        $rs = $this->where(['parentId' => $parentId, 'dataFlag' => 1])->field('menuId id,menuName name')->order('menuSort', 'asc')->select();
+        $rs = $this->where(['parent_id' => $parent_id, 'status' => 1])->field('menu_id id,menu_name name')->order('menu_sort', 'asc')->select();
         if (count($rs) > 0) {
             foreach ($rs as $key => $v) {
                 $rs[$key]['isParent'] = true;
@@ -31,7 +31,7 @@ class Menus extends Base
      */
     public function getById($id)
     {
-        return $this->get(['dataFlag' => 1, 'menuId' => $id]);
+        return $this->get(['status' => 1, 'menu_id' => $id]);
     }
 
     /**
@@ -51,8 +51,8 @@ class Menus extends Base
      */
     public function edit()
     {
-        $menuId = input('post.menuId/d');
-        $result = $this->validate('Menus.edit')->allowField(['menuName', 'menuSort'])->save(input('post.'), ['menuId' => $menuId]);
+        $menu_id = input('post.menu_id/d');
+        $result = $this->validate('Menus.edit')->allowField(['menu_name', 'menu_sort'])->save(input('post.'), ['menu_id' => $menu_id]);
         if (false !== $result) {
             return FIReturn("编辑成功", 1);
         } else {
@@ -64,10 +64,10 @@ class Menus extends Base
      */
     public function del()
     {
-        $menuId           = input('post.id/d');
+        $menu_id           = input('post.id/d');
         $data             = [];
-        $data['dataFlag'] = -1;
-        $result           = $this->update($data, ['menuId' => $menuId]);
+        $data['status'] = -1;
+        $result           = $this->update($data, ['menu_id' => $menu_id]);
         if (false !== $result) {
             return FIReturn("删除成功", 1);
         } else {
@@ -81,28 +81,28 @@ class Menus extends Base
     public function getMenus()
     {
         $STAFF = session('FI_STAFF');
-        return $this->where(['parentId' => 0, 'dataFlag' => 1, 'menuId' => ['in', $STAFF['menuIds']]])->field('menuId,menuName')->order('menuSort', 'asc')->select();
+        return $this->where(['parent_id' => 0, 'status' => 1, 'menu_id' => ['in', $STAFF['menu_ids']]])->field('menu_id,menu_name')->order('menu_sort', 'asc')->select();
     }
 
     /**
      * 获取子菜单
      */
-    public function getSubMenus($parentId)
+    public function getSubMenus($parent_id)
     {
         //用户权限判断
         $STAFF      = session('FI_STAFF');
         $allowMenus = [];
-        $rs2        = $this->where(['parentId' => $parentId, 'dataFlag' => 1, 'menuId' => ['in', $STAFF['menuIds']]])->field('menuId,menuName')->order('menuSort', 'asc')->select();
+        $rs2        = $this->where(['parent_id' => $parent_id, 'status' => 1, 'menu_id' => ['in', $STAFF['menu_ids']]])->field('menu_id,menu_name')->order('menu_sort', 'asc')->select();
         foreach ($rs2 as $key2 => $v2) {
-            if (!in_array($v2['menuId'], $STAFF['menuIds'])) {
+            if (!in_array($v2['menu_id'], $STAFF['menu_ids'])) {
                 continue;
             }
 
             $rs3 = Db::table('__MENUS__')->alias('m')
-                ->join('__PRIVILEGES__ p', 'm.menuId= p.menuId and isMenuPrivilege=1 and p.dataFlag=1', 'inner')
-                ->where(['parentId' => $v2['menuId'], 'm.dataFlag' => 1, 'm.menuId' => ['in', $STAFF['menuIds']]])
-                ->field('m.menuId,m.menuName,privilegeUrl')
-                ->order('menuSort', 'asc')
+                ->join('__PRIVILEGES__ p', 'm.menu_id= p.menu_id and is_menu_privilege=1 and p.status=1', 'inner')
+                ->where(['parent_id' => $v2['menu_id'], 'm.status' => 1, 'm.menu_id' => ['in', $STAFF['menu_ids']]])
+                ->field('m.menu_id,m.menu_name,privilege_url')
+                ->order('menu_sort', 'asc')
                 ->select();
             if (!empty($rs3)) {
                 $rs2[$key2]['list'] = $rs3;

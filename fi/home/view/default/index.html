@@ -8,8 +8,8 @@
         <ul class="fi-slide-items">
             <!--轮播广告 start-->
             {fi:ads code="ads-index" cache='86400'}
-            <a href="{$vo.adURL}" {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if}>
-                <li style="background: url(__ROOT__/{$vo.adFile}) no-repeat  scroll center top;background-size:cover;"></li>
+            <a href="{$vo.ad_url}" {if ($vo[ 'ad_url']!='' )}onclick="FI.recordClick({$vo['ad_id']})" {/if}>
+                <li style="background: url(__ROOT__/{$vo.ad_file}) no-repeat  scroll center top;background-size:cover;"></li>
             </a>
             {/fi:ads}
             <!--轮播广告 end-->
@@ -35,7 +35,7 @@
                     <?php $adsCode = 'ads-rec-'.$i; ?>
                     {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
                     <li class="ac<?php echo $i; ?>">
-                        <a href="{$lad['adURL']}" target="_blank" {if ($lad[ 'adURL']!='' )} onclick="FI.recordClick({$lad['adId']})" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload goodsImg" data-original="__ROOT__/{$lad['adFile']}"> </a>
+                        <a href="{$lad['ad_url']}" target="_blank" {if ($lad[ 'ad_url']!='' )} onclick="FI.recordClick({$lad['ad_id']})" data-monitor="home_activity_ziyuanwei01"> <img class="js-lazyload goods_img" data-original="__ROOT__/{$lad['ad_file']}"> </a>
                     </li>
                     {/fi:ads}
                 <?php endfor; ?>
@@ -47,7 +47,7 @@
         {/* 楼层商品 */} {volist name="floors" id="vo" key="l" length="10"} {/* 楼层顶部广告 */} {php}$adsCode = "ads-".$l."-1";{/php}
         <div class="floor-box">
             <div class="floor-header c{$l}" id="c{$l}">
-                <div class="part-container "><span class="vline"></span><span class="vicon"></span><a class="part-title-cat" name="anchor{$l}" id="anchor{$l-1}">{$vo['catName']}</a><span class="vicon"></span><span class="vline"></span></div>
+                <div class="part-container "><span class="vline"></span><span class="vicon"></span><a class="part-title-cat" name="anchor{$l}" id="anchor{$l-1}">{$vo['cat_name']}</a><span class="vicon"></span><span class="vline"></span></div>
                 <div class="fi-clear"></div>
             </div>
             <div class="floor-left">
@@ -55,14 +55,14 @@
                 <div class="floor-left-ads">
                     {php}$adsCode = "ads-".$l."-2";{/php} 
                     {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
-                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img style="width:240px;height:418px;" class='goodsImg' data-original="__ROOT__/{$lad['adFile']}"> </a>
+                    <a href="{$lad['ad_url']}" {if ($lad[ 'ad_url']!='' )}onclick="FI.recordClick({$lad['ad_id']})" {/if}><img style="width:240px;height:418px;" class='goods_img' data-original="__ROOT__/{$lad['ad_file']}"> </a>
                     {/fi:ads}
                 </div>
                 {/* 楼层左侧广告(左上) end */} {/* 楼层左侧广告(左下) start todo */}
                 <div class="floor-left-goods">
                     {php}$adsCode = "ads-".$l."-1";{/php} 
                     {fi:ads code="$adsCode" num="1" cache='86400' id='lad'}
-                    <a href="{$lad['adURL']}" {if ($lad[ 'adURL']!='' )}onclick="FI.recordClick({$lad['adId']})" {/if}><img class="js-lazyload goodsImg" data-size="240_140_" data-original="__ROOT__/{$lad['adFile']}" style="display: block;"> </a>
+                    <a href="{$lad['ad_url']}" {if ($lad[ 'ad_url']!='' )}onclick="FI.recordClick({$lad['ad_id']})" {/if}><img class="js-lazyload goods_img" data-size="240_140_" data-original="__ROOT__/{$lad['ad_file']}" style="display: block;"> </a>
                     {/fi:ads}
                 </div>
                 {/* 楼层左侧广告(左下) end todo*/}
@@ -76,7 +76,7 @@
                             {php}$adsCode = "ads-".$l."-3";{/php} 
                             {fi:ads code="$adsCode" cache='86400' id='rad'}
                             <li style="z-index: 1;">
-                                <a href="{$rad.adURL}" {if ($rad[ 'adURL']!='' )}onclick="FI.recordClick({$rad['adId']})" {/if}><img class='goodsImg' data-original="__ROOT__/{$rad.adFile}"></a>
+                                <a href="{$rad.ad_url}" {if ($rad[ 'ad_url']!='' )}onclick="FI.recordClick({$rad['ad_id']})" {/if}><img class='goods_img' data-original="__ROOT__/{$rad.ad_file}"></a>
                             </li>
                             {/fi:ads}
                         </ul>
@@ -93,14 +93,14 @@
                     </div>
                 </div>
                 <div class="goods-list">
-                    {/* 楼层分类下的商品 */} {fi:goods type='hot' cat="vo['catId']" cache="86400" num='6' id='cs'}
+                    {/* 楼层分类下的商品 */} {fi:goods type='hot' cat="vo['cat_id']" cache="86400" num='6' id='cs'}
                     <div class="goods goods-f{$l}">
                         <div class="img">
-                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" title="{$cs['goodsName']}"><img title="{$cs['goodsName']}" class='goodsImg' data-original="__ROOT__/{$cs['goodsImg']}" /></a>
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goods_id'])}" title="{$cs['goods_name']}"><img title="{$cs['goods_name']}" class='goods_img' data-original="__ROOT__/{$cs['goods_img']}" /></a>
                         </div>
                         <div class="p-name">
-                            <p class="p-price">￥{$cs['shopPrice']}</p>
-                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goodsId'])}" class="fi-redlink" title="{$cs['goodsName']}">{:FIMSubstr($cs['goodsName'],0,12)}</a>
+                            <p class="p-price">￥{$cs['shop_price']}</p>
+                            <a target='_blank' href="{:Url('home/goods/detail','id='.$cs['goods_id'])}" class="fi-redlink" title="{$cs['goods_name']}">{:FIMSubstr($cs['goods_name'],0,12)}</a>
                         </div>
                     </div>
                     {/fi:goods}
@@ -116,7 +116,7 @@
 <div id="screen-left-nav" style="display:none;">
     <ul>
         <?php foreach($floors as $k => $val): ?>
-            <li class="lnav" id="F<?php echo $k;?>"><a href="#anchor<?php echo $k; ?>" onfocus="this.blur();"><?php echo $val['catName']; ?></a></li>
+            <li class="lnav" id="F<?php echo $k;?>"><a href="#anchor<?php echo $k; ?>" onfocus="this.blur();"><?php echo $val['cat_name']; ?></a></li>
         <?php endforeach; ?>
     </ul>
 </div>

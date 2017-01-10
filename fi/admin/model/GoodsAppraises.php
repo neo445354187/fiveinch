@@ -8,44 +8,44 @@ class GoodsAppraises extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		$where = 'p.shopId=g.shopId and gp.goodsId=g.goodsId and o.orderId=gp.orderId';
-		$shopName = input('shopName');
-     	$goodsName = input('goodsName');
+		$where = 'p.shop_id=g.shop_id and gp.goods_id=g.goods_id and o.order_id=gp.order_id';
+		$shop_name = input('shop_name');
+     	$goods_name = input('goods_name');
 
-	 	$areaId1 = (int)input('areaId1');
-		if($areaId1>0){
-			$where.=" and p.areaIdPath like '".$areaId1."%'";
+	 	$area_id1 = (int)input('area_id1');
+		if($area_id1>0){
+			$where.=" and p.area_id_path like '".$area_id1."%'";
 
-			$areaId2 = (int)input("areaId1_".$areaId1);
-			if($areaId2>0)
-				$where.=" and p.areaIdPath like '".$areaId1."_".$areaId2."%'";
+			$area_id2 = (int)input("area_id1_".$area_id1);
+			if($area_id2>0)
+				$where.=" and p.area_id_path like '".$area_id1."_".$area_id2."%'";
 
-			$areaId3 = (int)input("areaId1_".$areaId1."_".$areaId2);
-			if($areaId3>0)
-				$where.=" and p.areaId = $areaId3";
+			$area_id3 = (int)input("area_id1_".$area_id1."_".$area_id2);
+			if($area_id3>0)
+				$where.=" and p.area_id = $area_id3";
 		}
 
 
-	 	if($shopName!='')
-	 		$where.=" and (p.shopName like '%".$shopName."%' or p.shopSn like '%'".$shopName."%')";
-	 	if($goodsName!='')
-	 		$where.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
+	 	if($shop_name!='')
+	 		$where.=" and (p.shop_name like '%".$shop_name."%' or p.shop_sn like '%'".$shop_name."%')";
+	 	if($goods_name!='')
+	 		$where.=" and (g.goods_name like '%".$goods_name."%' or g.goods_sn like '%".$goods_name."%')";
 
-		$rs = $this->alias('gp')->field('gp.*,g.goodsName,g.goodsImg,o.orderNo,u.loginName')
-					->join('__GOODS__ g ','gp.goodsId=g.goodsId','left') 
-		         	->join('__ORDERS__ o','gp.orderId=o.orderId','left')
-		         	->join('__USERS__ u','u.userId=gp.userId','left')
-		         	->join('__SHOPS__ p','p.shopId=gp.shopId','left')
+		$rs = $this->alias('gp')->field('gp.*,g.goods_name,g.goods_img,o.order_no,u.login_name')
+					->join('__GOODS__ g ','gp.goods_id=g.goods_id','left') 
+		         	->join('__ORDERS__ o','gp.order_id=o.order_id','left')
+		         	->join('__USERS__ u','u.user_id=gp.user_id','left')
+		         	->join('__SHOPS__ p','p.shop_id=gp.shop_id','left')
 		         	->where($where)
 		         	->order('id desc')
 		         	->paginate(input('pagesize/d'))->toArray();
 		return $rs;
 	}
 	public function getById($id){
-		return $this->alias('gp')->field('gp.*,o.orderNo,u.loginName,g.goodsName,g.goodsImg')
-					->join('__GOODS__ g ','gp.goodsId=g.goodsId','left') 
-		         	->join('__ORDERS__ o','gp.orderId=o.orderId','left')
-		         	->join('__USERS__ u','u.userId=gp.userId','left')
+		return $this->alias('gp')->field('gp.*,o.order_no,u.login_name,g.goods_name,g.goods_img')
+					->join('__GOODS__ g ','gp.goods_id=g.goods_id','left') 
+		         	->join('__ORDERS__ o','gp.order_id=o.order_id','left')
+		         	->join('__USERS__ u','u.user_id=gp.user_id','left')
 		         	->where('gp.id',$id)->find();
 	}
     /**
@@ -54,7 +54,7 @@ class GoodsAppraises extends Base{
 	public function edit(){
 		$Id = input('post.id/d',0);
 		$data = input('post.');
-		FIUnset($data,'createTime');
+		FIUnset($data,'create_time');
 	    $result = $this->validate('GoodsAppraises.edit')->allowField(true)->save($data,['id'=>$Id]);
         if(false !== $result){
         	return FIReturn("编辑成功", 1);
@@ -68,7 +68,7 @@ class GoodsAppraises extends Base{
     public function del(){
 	    $id = input('post.id/d',0);
 		$data = [];
-		$data['dataFlag'] = -1;
+		$data['status'] = -1;
 	    $result = $this->update($data,['id'=>$id]);
         if(false !== $result){
         	return FIReturn("删除成功", 1);

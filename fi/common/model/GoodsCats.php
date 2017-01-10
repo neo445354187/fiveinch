@@ -11,14 +11,14 @@ class GoodsCats extends Base
     /**
      * 获取列表
      */
-    public function listQuery($parentId, $isFloor = -1)
+    public function listQuery($parent_id, $is_floor = -1)
     {
-        $dbo = $this->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => $parentId]);
-        if ($isFloor != -1) {
-            $dbo->where('isFloor', $isFloor);
+        $dbo = $this->where(['status' => 1, 'is_show' => 1, 'parent_id' => $parent_id]);
+        if ($is_floor != -1) {
+            $dbo->where('is_floor', $is_floor);
         }
 
-        return $dbo->order('catSort asc')->select();
+        return $dbo->order('cat_sort asc')->select();
     }
 
     /**
@@ -27,12 +27,12 @@ class GoodsCats extends Base
     public function getParentIs($id, $data = array())
     {
         $data[]   = $id;
-        $parentId = $this->where('catId', $id)->value('parentId');
-        if ($parentId == 0) {
+        $parent_id = $this->where('cat_id', $id)->value('parent_id');
+        if ($parent_id == 0) {
             krsort($data);
             return $data;
         } else {
-            return $this->getParentIs($parentId, $data);
+            return $this->getParentIs($parent_id, $data);
         }
     }
 
@@ -41,21 +41,21 @@ class GoodsCats extends Base
      */
     public function getFloors()
     {
-        $cats1 = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => 0, 'isFloor' => 1])
-            ->field("catName,catId")->order('catSort asc')->limit(10)->select();
+        $cats1 = Db::table('__GOODS_CATS__')->where(['status' => 1, 'is_show' => 1, 'parent_id' => 0, 'is_floor' => 1])
+            ->field("cat_name,cat_id")->order('cat_sort asc')->limit(10)->select();
         // if (!empty($cats1)) {
             // $ids = [];
             // foreach ($cats1 as $key => $v) {
-            //     $ids[] = $v['catId'];
+            //     $ids[] = $v['cat_id'];
             // }
             // $cats2 = [];
-            // $rs    = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => ['in', $ids], 'isFloor' => 1])
-            //     ->field("parentId,catName,catId")->order('catSort asc')->select();
+            // $rs    = Db::table('__GOODS_CATS__')->where(['status' => 1, 'is_show' => 1, 'parent_id' => ['in', $ids], 'is_floor' => 1])
+            //     ->field("parent_id,cat_name,cat_id")->order('cat_sort asc')->select();
             // foreach ($rs as $key => $v) {
-            //     $cats2[$v['parentId']][] = $v;//parentId就是上一级的catId
+            //     $cats2[$v['parent_id']][] = $v;//parent_id就是上一级的cat_id
             // }
             // foreach ($cats1 as $key => $v) {
-            //     $cats1[$key]['children'] = (isset($cats2[$v['catId']])) ? $cats2[$v['catId']] : [];
+            //     $cats1[$key]['children'] = (isset($cats2[$v['cat_id']])) ? $cats2[$v['cat_id']] : [];
             // }
         // }
         return $cats1;

@@ -18,7 +18,7 @@ class Orders extends Base{
      */
     public function pageQuery(){
         $m = new M();
-        return $m->pageQuery((int)input('orderStatus',10000));
+        return $m->pageQuery((int)input('order_status',10000));
     }
     /**
      * 退款列表

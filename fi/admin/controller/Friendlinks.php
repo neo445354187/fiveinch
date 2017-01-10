@@ -4,7 +4,7 @@ use fi\admin\model\Friendlinks as M;
 /**
  * 友情链接控制器
  */
-class Friendlinks extends Base{
+class FriendLinks extends Base{
 	
     public function index(){
     	return $this->fetch("list");
@@ -36,6 +36,7 @@ class Friendlinks extends Base{
      * 新增
      */
     public function add(){
+
         $m = new M();
         return $m->add();
     }

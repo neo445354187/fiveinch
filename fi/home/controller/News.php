@@ -20,12 +20,12 @@ class News extends Base {
         $leftList = $m->NewsList();
         $this->assign('list', $leftList);
         $this->assign('newsList', $news['Rows']);
-        $this->assign('catId', (int) input('catId'));
+        $this->assign('cat_id', (int) input('cat_id'));
         //面包屑导航
         $bcNav = $this->bcNav();
         // 防止用户取出帮助中心分类
         foreach ($bcNav as $k => $v) {
-            if ($v['catId'] == 7) {
+            if ($v['cat_id'] == 7) {
                 $bcNav = [];
                 break;
             }
@@ -40,7 +40,7 @@ class News extends Base {
         $list = $m->NewsList();
         //当前分类id
         $content = $m->getNewsById();
-        $this->assign('catId', (int) $content['catId']);
+        $this->assign('cat_id', (int) $content['cat_id']);
         $this->assign('list', $list);
         $this->assign('content', $content);
 

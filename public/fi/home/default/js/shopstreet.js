@@ -3,8 +3,8 @@ function screenCat(id){
 	location.href=FI.U('home/shops/shopStreet','id='+id);
 }
 $(function(){
-	var goodsNum = $(this).find("div[class^='fi-shopstr-shopl']").length;
-	for(var i=1;i<=goodsNum;++i){
+	var goods_num = $(this).find("div[class^='fi-shopstr-shopl']").length;
+	for(var i=1;i<=goods_num;++i){
     	$("#js-goods"+i).als({
     		visible_items: 6,
     		scrolling_items: 1,

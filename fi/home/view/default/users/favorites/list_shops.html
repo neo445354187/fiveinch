@@ -10,12 +10,12 @@
 {{# for(var i = 0; i < d.length; i++){ }}
 	<div class="fi-favo-shop">
 		<div class="fi-favo-shopl">
-			<a href="javascript:getShop({{ d[i].shopId }})" class="fi-favo-shopimg"><img class="shopsImg2" data-original="__ROOT__/{{ d[i].shopImg }}" title="{{ d[i].shopName }}"/></a>
-			<p>{{FI.cutStr(d[i].shopName,15)}}</p>
-			<a href="javascript:getShop({{ d[i].shopId }})" class="fi-favo-shopa">进入店铺</a><a href="javascript:cancelFavorite({{ d[i].favoriteId }},1)" class="fi-favo-shopa">取消关注</a>
+			<a href="javascript:getShop({{ d[i].shop_id }})" class="fi-favo-shopimg"><img class="shopsImg2" data-original="__ROOT__/{{ d[i].shop_img }}" title="{{ d[i].shop_name }}"/></a>
+			<p>{{FI.cutStr(d[i].shop_name,15)}}</p>
+			<a href="javascript:getShop({{ d[i].shop_id }})" class="fi-favo-shopa">进入店铺</a><a href="javascript:cancelFavorite({{ d[i].favorite_id }},1)" class="fi-favo-shopa">取消关注</a>
 		</div>
 		<div class="fi-favo-shopr">
-			<div class="fi-favo-more"><span class="fi-lfloat">推荐商品</span><a href="javascript:getShop({{ d[i].shopId }})" class="fi-rfloat">查看更多 ></a></div>
+			<div class="fi-favo-more"><span class="fi-lfloat">推荐商品</span><a href="javascript:getShop({{ d[i].shop_id }})" class="fi-rfloat">查看更多 ></a></div>
 			<div class="fi-favo-good fi-lfloat">
 			<div class="als-container" id="{{# if(d[i].goods.length>5){ }}js-goods{{i}}{{# } }}">
 			  {{# if(d[i].goods.length>5){ }}<span class="als-prev"><img src="__HOME__/img/icon_left.png" alt="prev" title="previous" /></span>{{# } }}
@@ -23,8 +23,8 @@
 			    <ul class="als-wrapper">
 				{{# for(var a = 0; a < d[i].goods.length; a++){ }}
 			      <li class="als-item fi-favo-goods">
-					<div class="fi-favo-goodimg"><a href="javascript:getGoods({{ d[i].goods[a].goodsId }})"><img class="goodsImg2" data-original="__ROOT__/{{ d[i].goods[a].goodsImg }}" title="{{ d[i].goods[a].goodsName }}"/></a></div>
-					<span>￥{{ d[i].goods[a].shopPrice }}</span>
+					<div class="fi-favo-goodimg"><a href="javascript:getGoods({{ d[i].goods[a].goods_id }})"><img class="goods_img2" data-original="__ROOT__/{{ d[i].goods[a].goods_img }}" title="{{ d[i].goods[a].goods_name }}"/></a></div>
+					<span>￥{{ d[i].goods[a].shop_price }}</span>
 				  </li>
 				{{# } }}
 			    </ul>

@@ -10,10 +10,10 @@ class ShopApplys extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		$page = Db::table('__SHOP_APPLYS__')->alias('s')->join('__USERS__ u','s.userId=u.userId and u.dataFlag=1','left')
-			->where(['s.dataFlag'=>1])
-			->field('u.loginName,s.userId,s.shopId,s.linkman,s.phoneNo,applyStatus,s.createTime,applyDesc,applyId')
-			->order('s.applyId', 'desc')
+		$page = Db::table('__SHOP_APPLYS__')->alias('s')->join('__USERS__ u','s.user_id=u.user_id and u.status=1','left')
+			->where(['s.status'=>1])
+			->field('u.login_name,s.user_id,s.shop_id,s.linkman,s.phone_no,apply_status,s.create_time,apply_desc,apply_id')
+			->order('s.apply_id', 'desc')
 			->paginate(input('pagesize/d'))->toArray();
 		return $page;
 	}
@@ -22,9 +22,9 @@ class ShopApplys extends Base{
 	 * 获取信息
 	 */
 	public function getById($id){
-		return Db::table('__SHOP_APPLYS__')->alias('s')->join('__USERS__ u','s.userId=u.userId and u.dataFlag=1 and s.dataFlag=1','left')
-			->where(['s.dataFlag'=>1,'s.applyId'=>$id])
-			->field('u.loginName,s.*')->find();
+		return Db::table('__SHOP_APPLYS__')->alias('s')->join('__USERS__ u','s.user_id=u.user_id and u.status=1 and s.status=1','left')
+			->where(['s.status'=>1,'s.apply_id'=>$id])
+			->field('u.login_name,s.*')->find();
 	}
 	
 	/**
@@ -33,8 +33,8 @@ class ShopApplys extends Base{
 	public function del(){
 	    $id = input('post.id/d');
 		$data = [];
-		$data['dataFlag'] = -1;
-	    $result = $this->update($data,['applyId'=>$id]);
+		$data['status'] = -1;
+	    $result = $this->update($data,['apply_id'=>$id]);
         if(false !== $result){
         	return FIReturn("删除成功", 1);
         }else{
@@ -46,13 +46,13 @@ class ShopApplys extends Base{
 	 * 处理申请
 	 */
 	public function handle(){
-		$id = input('post.applyId/d');
+		$id = input('post.apply_id/d');
 		$data = [];
-		$data['applyStatus'] = input('post.applyStatus/d');
-		$data['handleDesc'] = input('post.handleDesc');
-		if(!in_array($data['applyStatus'],array(-1,1)))return FIReturn("无效的处理状态", -1);
-		if($data['applyStatus']==-1 && $data['handleDesc']=='')return FIReturn("请输入申请失败原因", -1);
-		$result = $this->where(['applyId'=>$id])->update($data);
+		$data['apply_status'] = input('post.apply_status/d');
+		$data['handle_desc'] = input('post.handle_desc');
+		if(!in_array($data['apply_status'],array(-1,1)))return FIReturn("无效的处理状态", -1);
+		if($data['apply_status']==-1 && $data['handle_desc']=='')return FIReturn("请输入申请失败原因", -1);
+		$result = $this->where(['apply_id'=>$id])->update($data);
         if(false !== $result){
         	return FIReturn("编辑成功", 1);
         }else{
@@ -65,14 +65,14 @@ class ShopApplys extends Base{
 	 */
 	public function checkOpenShop($id){
 		return Db::table('__SHOP_APPLYS__')->alias('s')
-			->where(['s.dataFlag'=>1,'applyId'=>$id])
-			->field('s.userId,s.shopId')
+			->where(['s.status'=>1,'apply_id'=>$id])
+			->field('s.user_id,s.shop_id')
 			->find();
 	}
 	/**
 	 * 修改开店状态
 	 */
-	public function editApplyOpenStatus($id,$shopId){
-		$this->where(['applyId'=>$id,'shopId'=>0])->update(['shopId'=>$shopId]);
+	public function editApplyOpenStatus($id,$shop_id){
+		$this->where(['apply_id'=>$id,'shop_id'=>0])->update(['shop_id'=>$shop_id]);
 	}
 }

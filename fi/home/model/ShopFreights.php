@@ -10,15 +10,15 @@ class ShopFreights extends Base{
 	 *  运费列表
 	 */
 	public function listProvince(){
-		$shopId = session('FI_USER.shopId');
-		$listCity = Db::table('__AREAS__')->where(['isShow'=>1,'dataFlag'=>1,'areaType'=>0])->field('areaId,areaName')->order('areaKey desc')->select();
+		$shop_id = session('FI_USER.shop_id');
+		$listCity = Db::table('__AREAS__')->where(['is_show'=>1,'status'=>1,'area_type'=>0])->field('area_id,area_name')->order('area_key desc')->select();
 		for ($i = 0; $i < count($listCity); $i++) {
-			$parentId = $listCity[$i]["areaId"];
+			$parent_id = $listCity[$i]["area_id"];
 			$listPro = Db::table('__AREAS__')->alias('a')
-			->join('__SHOP_FREIGHTS__ s','a.areaId= s.areaId2 and s.shopId='.$shopId,'left')
-			->where(['a.isShow'=>1,'a.dataFlag'=>1,'a.areaType'=>1,'a.parentId'=>$parentId])
-			->field('a.areaId,a.areaName,a.parentId,s.freightId,s.freight')
-			->order('a.areaKey desc')
+			->join('__SHOP_FREIGHTS__ s','a.area_id= s.area_id2 and s.shop_id='.$shop_id,'left')
+			->where(['a.is_show'=>1,'a.status'=>1,'a.area_type'=>1,'a.parent_id'=>$parent_id])
+			->field('a.area_id,a.area_name,a.parent_id,s.freight_id,s.freight')
+			->order('a.area_key desc')
 			->select();
 			$listCity[$i]['listProvince'] = $listPro;
 		}	
@@ -29,22 +29,22 @@ class ShopFreights extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$shopId = session('FI_USER.shopId');
+		$shop_id = session('FI_USER.shop_id');
 		$info = input("post.");
 		$shop = new Shops;
-		$shFreight = $shop->getShopsFreight($shopId);
-		$sh = $this->where(['shopId'=>$shopId])->count();
+		$shFreight = $shop->getShopsFreight($shop_id);
+		$sh = $this->where(['shop_id'=>$shop_id])->count();
 		Db::startTrans();
 		try{
 		if($sh==0){
 			$list = [];
 			foreach($info as $k => $v){
 				$data = [];
-				$data['shopId'] = $shopId;
-				$data['areaId2'] = $k;
+				$data['shop_id'] = $shop_id;
+				$data['area_id2'] = $k;
 				if($v=='')$v=$shFreight['freight'];
 				$data['freight'] = $v;
-				$data['createTime'] = date('Y-m-d H:i:s');
+				$data['create_time'] = date('Y-m-d H:i:s');
 				$list[] = $data;
 			}
 			$result = $this->insertAll($list);
@@ -52,7 +52,7 @@ class ShopFreights extends Base{
 			foreach($info as $k => $v){
 				if($v=='')$v=$shFreight['freight'];
 				$data['freight'] = $v;
-				$result = $this->where(['shopId'=>$shopId,'areaId2'=>$k])->update($data);
+				$result = $this->where(['shop_id'=>$shop_id,'area_id2'=>$k])->update($data);
 			}
 		}
 		Db::commit();

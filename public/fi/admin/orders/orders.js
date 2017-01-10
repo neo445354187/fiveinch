@@ -9,18 +9,18 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-            { display: '订单编号', name: 'orderNo',isSort: false},
-	        { display: '收货人', name: 'userName',isSort: false},
-	        { display: '店铺', name: 'shopName',isSort: false},
-	        { display: '订单总金额', name: 'totalMoney',isSort: false},
-	        { display: '实收金额', name: 'realTotalMoney',isSort: false},
-	        { display: '支付方式', name: 'payType',isSort: false},
-	        { display: '配送方式', name: 'deliverType',isSort: false},
-	        { display: '下单时间', name: 'createTime',isSort: false},
+            { display: '订单编号', name: 'order_no',isSort: false},
+	        { display: '收货人', name: 'user_name',isSort: false},
+	        { display: '店铺', name: 'shop_name',isSort: false},
+	        { display: '订单总金额', name: 'total_money',isSort: false},
+	        { display: '实收金额', name: 'real_total_money',isSort: false},
+	        { display: '支付方式', name: 'pay_type',isSort: false},
+	        { display: '配送方式', name: 'deliver_type',isSort: false},
+	        { display: '下单时间', name: 'create_time',isSort: false},
 	        { display: '订单状态', name: 'status'},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            h += "<a href='javascript:toView(" + rowdata['orderId'] + ")'>详情</a> ";
+	            h += "<a href='javascript:toView(" + rowdata['order_id'] + ")'>详情</a> ";
 	            return h;
 	        }}
         ]
@@ -44,23 +44,23 @@ function initRefundGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-            { display: '订单编号', name: 'orderNo',isSort: false},
-	        { display: '收货人', name: 'userName',isSort: false},
-	        { display: '店铺', name: 'shopName',isSort: false},
-	        { display: '配送方式', name: 'deliverType',isSort: false},
-	        { display: '订单总金额', name: 'totalMoney',isSort: false},
-	        { display: '实收金额', name: 'realTotalMoney',isSort: false},
-	        { display: '下单时间', name: 'createTime',isSort: false},
-	        { display: '退款状态', name: 'isRefund',render: function (rowdata, rowindex, value){
-	        	return (rowdata['isRefund']==1)?"已退款":"未退款";
+            { display: '订单编号', name: 'order_no',isSort: false},
+	        { display: '收货人', name: 'user_name',isSort: false},
+	        { display: '店铺', name: 'shop_name',isSort: false},
+	        { display: '配送方式', name: 'deliver_type',isSort: false},
+	        { display: '订单总金额', name: 'total_money',isSort: false},
+	        { display: '实收金额', name: 'real_total_money',isSort: false},
+	        { display: '下单时间', name: 'create_time',isSort: false},
+	        { display: '退款状态', name: 'is_refund',render: function (rowdata, rowindex, value){
+	        	return (rowdata['is_refund']==1)?"已退款":"未退款";
 	        }},
-	        { display: '退款备注', name: 'refundRemark'},
+	        { display: '退款备注', name: 'refund_remark'},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	        	var h = '';
-	            if(rowdata['isRefund']==0){
-	            	if(FI.GRANT.TKDD_04)h += "<a href='javascript:toRefund(" + rowdata['orderId'] + ")'>退款</a> ";
+	            if(rowdata['is_refund']==0){
+	            	if(FI.GRANT.TKDD_04)h += "<a href='javascript:toRefund(" + rowdata['order_id'] + ")'>退款</a> ";
 	            }
-	            h += "<a href='javascript:toView(" + rowdata['orderId'] + ")'>详情</a> ";
+	            h += "<a href='javascript:toView(" + rowdata['order_id'] + ")'>详情</a> ";
 	            return h;
 	        }}
         ]

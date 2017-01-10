@@ -16,47 +16,47 @@ function changeTab(obj,n){
 }
 /**
  * [initTabMenus 获取横向菜单的子菜单]
- * @param  {[type]} menuId [description]
+ * @param  {[type]} menu_id [description]
  * @return {[type]}        [description]
  */
-function initTabMenus(menuId){
-	$.post(FI.U('admin/index/getSubMenus'),{id:menuId},function(data,textStatus){
+function initTabMenus(menu_id){
+	$.post(FI.U('admin/index/getSubMenus'),{id:menu_id},function(data,textStatus){
 		 var json = FI.toAdminJson(data);
 		 var html = [];
-		 html.push('<div id="fi-layout-'+menuId+'" style="width:99.2%; margin:0 auto; margin-top:4px; ">'); 
-		 html.push('<div position="left" id="fi-accordion-'+menuId+'" title="管理菜单" class="fi-accordion">');
+		 html.push('<div id="fi-layout-'+menu_id+'" style="width:99.2%; margin:0 auto; margin-top:4px; ">'); 
+		 html.push('<div position="left" id="fi-accordion-'+menu_id+'" title="管理菜单" class="fi-accordion">');
 		 if(json && json.length>0){
 			 for(var i=0;i<json.length;i++){
-       		 html.push('<div title="'+json[i]['menuName']+'">'); 
+       		 html.push('<div title="'+json[i]['menu_name']+'">'); 
        		 html.push('     <div style=" height:7px;"></div>');
        		 if(json[i]['list']){
 	        		 for(var j=0;j<json[i]['list'].length;j++){
-		        		 html.push('<a class="fi-link" href="javascript:void(0)" url="'+FI.U(FI.blank(json[i]['list'][j]['privilegeUrl'],''))+'" onclick="javascript:changeTab(this,'+menuId+')">'+json[i]['list'][j]['menuName']+'</a>');  
+		        		 html.push('<a class="fi-link" href="javascript:void(0)" url="'+FI.U(FI.blank(json[i]['list'][j]['privilege_url'],''))+'" onclick="javascript:changeTab(this,'+menu_id+')">'+json[i]['list'][j]['menu_name']+'</a>');  
 	        		 }
        		 }
        		 html.push('     </div> ');
 			 }
 		 }
 		 html.push('</div>');
-		 html.push('<div id="fi-ltabs-'+menuId+'" position="center" class="fi-lnavtabs">'); 
-		 html.push('  <div tabid="fi-ltab-'+menuId+'" title="我的主页" style="height:300px" >');
-		 html.push('      <iframe frameborder="0" class="fi-iframe" id="fi-lframe-'+menuId+'" src="'+(initFrame?"":FI.U('admin/index/main'))+'"></iframe>');
+		 html.push('<div id="fi-ltabs-'+menu_id+'" position="center" class="fi-lnavtabs">'); 
+		 html.push('  <div tabid="fi-ltab-'+menu_id+'" title="我的主页" style="height:300px" >');
+		 html.push('      <iframe frameborder="0" class="fi-iframe" id="fi-lframe-'+menu_id+'" src="'+(initFrame?"":FI.U('admin/index/main'))+'"></iframe>');
 		 html.push('  </div>');
 		 html.push('</div>'); 
 		 html.push('</div>');
 		 initFrame = true;
 		 //放到了对应的选项卡下面
-		 $('#fi-tab-'+menuId).html(html.join(''));
-		 $("#fi-layout-"+menuId).ligerLayout({
+		 $('#fi-tab-'+menu_id).html(html.join(''));
+		 $("#fi-layout-"+menu_id).ligerLayout({
 	         leftWidth: 190,
 	         height: '100%',
 	         space: 0
 	     });
 		 var height = $(".l-layout-center").height();
-		 $("#fi-accordion-"+menuId).ligerAccordion({
+		 $("#fi-accordion-"+menu_id).ligerAccordion({
 		      height: height - 24, speed: null
 		 });
-		 $("#fi-ltabs-"+menuId).ligerTab({
+		 $("#fi-ltabs-"+menu_id).ligerTab({
 		      height: height,
 		      changeHeightOnResize:true,
 		      showSwitchInTab : false,
@@ -73,14 +73,14 @@ $(function (){
          showSwitchInTab : false,
          showSwitch: false,
          onAfterSelectTabItem:function(n){
-        	 var menuId = n.replace('fi-tab-','');
-        	 if(!mMgrs['m'+menuId]){
-	        	 var ltab = $("#fi-tab-"+menuId);
-	        	 mMgrs['m'+menuId] = true;
-	        	 if(menuId=='market'){
+        	 var menu_id = n.replace('fi-tab-','');
+        	 if(!mMgrs['m'+menu_id]){
+	        	 var ltab = $("#fi-tab-"+menu_id);
+	        	 mMgrs['m'+menu_id] = true;
+	        	 if(menu_id=='market'){
 	        		 $('#fi-market').attr('src','http://market.***.com');
 	        	 }else{
-	        	     initTabMenus(menuId);
+	        	     initTabMenus(menu_id);
         	     }
         	 }
          }

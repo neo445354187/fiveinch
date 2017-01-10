@@ -9,17 +9,17 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '账号', name: 'loginName', isSort: false},
-	        { display: '用户名', name: 'userName', isSort: false},
-	        { display: '手机号码', name: 'userPhone', isSort: false},
-	        { display: '电子邮箱', name: 'userEmail', isSort: false},
-	        { display: '最后登录时间', name: 'lastTime', isSort: false},
-	        { display: '状态', name: 'userStatus', isSort: false, render:function(rowdata, rowindex, value){
-	        	return (value==1)?'<span style="cursor:pointer;" onclick="changeUserStatus('+rowdata['userId']+',0)">启用</span>':'<span style="cursor:pointer;" onclick="changeUserStatus('+rowdata['userId']+',1)">停用</span>';
+	        { display: '账号', name: 'login_name', isSort: false},
+	        { display: '用户名', name: 'user_name', isSort: false},
+	        { display: '手机号码', name: 'user_phone', isSort: false},
+	        { display: '电子邮箱', name: 'user_email', isSort: false},
+	        { display: '最后登录时间', name: 'last_time', isSort: false},
+	        { display: '状态', name: 'user_status', isSort: false, render:function(rowdata, rowindex, value){
+	        	return (value==1)?'<span style="cursor:pointer;" onclick="changeUserStatus('+rowdata['user_id']+',0)">启用</span>':'<span style="cursor:pointer;" onclick="changeUserStatus('+rowdata['user_id']+',1)">停用</span>';
 	        }},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.ZHGL_02)h += "<a href='javascript:getForEdit(" + rowdata['userId'] + ")'>修改</a> ";
+	            if(FI.GRANT.ZHGL_02)h += "<a href='javascript:getForEdit(" + rowdata['user_id'] + ")'>修改</a> ";
 	            return h;
 	        }}
         ]
@@ -32,10 +32,10 @@ function getForEdit(id){
            layer.close(loading);
            var json = FI.toAdminJson(data);
            //清空密码
-           json.loginPwd = '';
-           if(json.userId){
+           json.login_password = '';
+           if(json.user_id){
            		FI.setValues(json);
-           		toEdit(json.userId);
+           		toEdit(json.user_id);
            }else{
            		FI.msg(json.msg,{icon:2});
            }
@@ -48,7 +48,7 @@ function toEdit(id){
 						if(v){
 							var params = FI.getParams('.ipt');
 			                if(id>0)
-			                	params.userId = id;
+			                	params.user_id = id;
 			                var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 			           		$.post(FI.U('admin/users/editAccount'),params,function(data,textStatus){
 			           			  layer.close(loading);

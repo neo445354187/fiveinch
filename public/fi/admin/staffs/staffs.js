@@ -9,20 +9,20 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '职员账号', name: 'loginName',isSort: false},
-	        { display: '职员名称', name: 'staffName',isSort: false},
-	        { display: '职员角色', name: 'roleName',isSort: false},
-	        { display: '职员编号', name: 'staffNo',isSort: false},
-	        { display: '工作状态', name: 'workStatus',isSort: false,render: function (rowdata, rowindex, value){
+	        { display: '职员账号', name: 'login_name',isSort: false},
+	        { display: '职员名称', name: 'staff_name',isSort: false},
+	        { display: '职员角色', name: 'role_name',isSort: false},
+	        { display: '职员编号', name: 'staff_no',isSort: false},
+	        { display: '工作状态', name: 'work_itatus',isSort: false,render: function (rowdata, rowindex, value){
 	        	return (value==1)?"在职":"离职";
 	        }},
-	        { display: '登录时间', name: 'lastTime',isSort: false},
-	        { display: '登录IP', name: 'lastIP',isSort: false},
+	        { display: '登录时间', name: 'last_time',isSort: false},
+	        { display: '登录IP', name: 'last_ip',isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.ZYGL_02)h += "<a href='javascript:toEditPass(" + rowdata['staffId'] + ")'>修改密码</a> ";
-	            if(FI.GRANT.ZYGL_02)h += "<a href='javascript:toEdit(" + rowdata['staffId'] + ")'>修改</a> ";
-	            if(FI.GRANT.ZYGL_03)h += "<a href='javascript:toDel(" + rowdata['staffId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.ZYGL_02)h += "<a href='javascript:toEditPass(" + rowdata['staff_id'] + ")'>修改密码</a> ";
+	            if(FI.GRANT.ZYGL_02)h += "<a href='javascript:toEdit(" + rowdata['staff_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.ZYGL_03)h += "<a href='javascript:toDel(" + rowdata['staff_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -52,7 +52,7 @@ function toDel(id){
 }
 function checkLoginKey(obj){
 	if($.trim(obj.value)=='')return;
-	var params = {key:obj.value,userId:0};
+	var params = {key:obj.value,user_id:0};
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/staffs/checkLoginKey'),params,function(data,textStatus){
     	layer.close(loading);
@@ -65,13 +65,13 @@ function checkLoginKey(obj){
 }
 function save(){
 	var params = FI.getParams('.ipt');
-	if(params.staffId==0){
-		if(!$('#loginName').isValid())return;
-		if(!$('#loginPwd').isValid())return;
+	if(params.staff_id==0){
+		if(!$('#login_name').isValid())return;
+		if(!$('#login_password').isValid())return;
 	}
-	if(!$('#staffName').isValid())return;
+	if(!$('#staff_name').isValid())return;
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
-    $.post(FI.U('admin/staffs/'+((params.staffId==0)?"add":"edit")),params,function(data,textStatus){
+    $.post(FI.U('admin/staffs/'+((params.staff_id==0)?"add":"edit")),params,function(data,textStatus){
     	layer.close(loading);
     	var json = FI.toAdminJson(data);
     	if(json.status=='1'){
@@ -88,7 +88,7 @@ function toEditPass(id){
 	    	$('#editPassFrom').isValid(function(v){
 	    		if(v){
 		        	var params = FI.getParams('.ipt');
-		        	params.staffId = id;
+		        	params.staff_id = id;
 		        	var ll = FI.msg('数据处理中，请稍候...');
 				    $.post(FI.U('admin/Staffs/editPass'),params,function(data){
 				    	layer.close(ll);

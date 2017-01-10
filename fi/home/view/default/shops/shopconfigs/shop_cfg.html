@@ -40,31 +40,31 @@ $(function(){
         <table class="fi-form">
            <tr>
              <th width='120' align='right'>店铺SEO关键字<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopKeywords' name='shopKeywords' class="ipt"  value='{$object.shopKeywords}' data-rule='关键字:required;' style='width:350px;' maxLength='25' /></td>
+             <td><input type='text' id='shop_keywords' name='shop_keywords' class="ipt"  value='{$object.shop_keywords}' data-rule='关键字:required;' style='width:350px;' maxLength='25' /></td>
            </tr>
            <tr>
            <th width='120'>店铺SEO描述：</th>
            <td colspan='3'>
-               <textarea rows="3" style='width:350px;' class="ipt" id='shopDesc' name='shopDesc' >{$object.shopDesc}</textarea>
+               <textarea rows="3" style='width:350px;' class="ipt" id='shop_desc' name='shop_desc' >{$object.shop_desc}</textarea>
            </td>
            </tr>
            <tr>
            <th width='120'>店铺热搜关键词：</th>
-           <td><input type='text' id='shopHotWords' name='shopHotWords' class="ipt"  value='{$object.shopHotWords}' style='width:350px;' placeholder="店铺主页搜索栏下的引导搜索词" maxLength='100'/></td>
+           <td><input type='text' id='shop_hot_words' name='shop_hot_words' class="ipt"  value='{$object.shop_hot_words}' style='width:350px;' placeholder="店铺主页搜索栏下的引导搜索词" maxLength='100'/></td>
          </tr>
 
 
            <tr style="height:80px">
              <th width='120' align='right' valign='top'>顶部广告：</th>
              <td>
-                <div id="shopBannerPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传顶部广告图片</div>
+                <div id="shop_bannerPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传顶部广告图片</div>
               <div>图片大小:1920 x 110 (px)(格式为 gif, jpg, jpeg, png)</div>
               <div style="margin-top:5px;">
-              <div class="fi-lfloat shopbanner" {if empty($object.shopBanner)}style='display:none'{/if}>
-                <img id="shopBannerPreview" class="lazyImg" height="100" style="max-width:500px;" src="__ROOT__/{$object.shopBanner}">
+              <div class="fi-lfloat shopbanner" {if empty($object.shop_banner)}style='display:none'{/if}>
+                <img id="shop_bannerPreview" class="lazyImg" height="100" style="max-width:500px;" src="__ROOT__/{$object.shop_banner}">
                 <span class="del-banner" onclick="delbanner(this)">删除</span>
               </div>
-                <input type="hidden" id="shopBanner" class="ipt" value="{$object.shopBanner}" />
+                <input type="hidden" id="shop_banner" class="ipt" value="{$object.shop_banner}" />
               </div>
              </td>
            </tr>
@@ -78,12 +78,12 @@ $(function(){
                   <div id="batchUpload" class="fi-batchupload" style="border:1px solid #ccc">
                     <div style="border-bottom:1px solid #dadada;padding-left:10px; "> 图片大小:1200 x 400 (px)(格式为 gif, jpg, jpeg, png) </div>
                     <div class="queueList filled">
-                        <div id="dndArea" class="placeholder {if !empty($object['shopAds'])}element-invisible{/if}">
+                        <div id="dndArea" class="placeholder {if !empty($object['shop_ads'])}element-invisible{/if}">
 				            <div id="filePicker"></div>
 				            <p>或将照片拖到这里，单次最多可选5张，每张最大不超过5M</p>
 				        </div>
                         <ul class="filelist" >
-                            {volist name="$object['shopAds']" id="vo"}
+                            {volist name="$object['shop_ads']" id="vo"}
                             <li  class="state-complete" style="border: 1px solid rgb(59, 114, 165);height:210px;">
                                <p class="title"></p>
                                <p class="imgWrap">
@@ -91,7 +91,7 @@ $(function(){
                                </p>
                                <input type="hidden" v="{$vo}" iv="{$vo}" class="j-gallery-img">
                                <span class="btn-del">删除</span>
-                               <input class="cfg-img-url" type="text" value="{$object['shopAdsUrl'][$key]}" style="width:170px;" placeholder="广告路径">
+                               <input class="cfg-img-url" type="text" value="{$object['shop_ads_url'][$key]}" style="width:170px;" placeholder="广告路径">
                             </li>
                             {/volist}
                       </ul>
@@ -116,7 +116,7 @@ $(function(){
              <td colspan='2' style='text-align:center;padding:20px;'>
                  <button type="submit" class='s-btn' onclick="save()">保&nbsp;存</button>&nbsp;&nbsp;
                  <button type="button" class='s-btn' onclick='javascript:location.reload();'>重&nbsp;置</button>
-                 <button type="button" class='s-btn' onclick='javascript:location.href="{:url('home/shops/home',array('shopId'=>$object['shopId']))}";'>前&nbsp;台</button>
+                 <button type="button" class='s-btn' onclick='javascript:location.href="{:url('home/shops/home',array('shop_id'=>$object['shop_id']))}";'>前&nbsp;台</button>
              </td>
            </tr>
         </table>
@@ -141,8 +141,8 @@ $(function(){
 })
 function delbanner(obj){
     var c = FI.confirm({content:'您确定要删除顶部广告图片吗?',yes:function(){
-             $('#shopBannerPreview').attr('src','');
-             $('#shopBanner').val('');
+             $('#shop_bannerPreview').attr('src','');
+             $('#shop_banner').val('');
              $(obj).hide();
              layer.close(c);
           }})

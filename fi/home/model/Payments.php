@@ -10,10 +10,10 @@ class Payments extends Base{
 	 */
 	public function getByGroup(){
 		$payments = ['0'=>[],'1'=>[]];
-		$rs = $this->where(['enabled'=>1])->order('payOrder asc')->select();
+		$rs = $this->where(['enabled'=>1])->order('pay_order asc')->select();
 		foreach ($rs as $key =>$v){
-			if($v['payConfig']!='')$v['payConfig'] = json_decode($v['payConfig'], true);
-			$payments[$v['isOnline']][] = $v;
+			if($v['pay_config']!='')$v['pay_config'] = json_decode($v['pay_config'], true);
+			$payments[$v['is_online']][] = $v;
 		}
 		return $payments;
 	}
@@ -26,10 +26,10 @@ class Payments extends Base{
 	 * 获取支付信息
 	 * @return unknown
 	 */
-	public function getPayment($payCode){
-		$payment = $this->where("enabled=1 AND payCode='$payCode' AND isOnline=1")->find();
-		$payConfig = json_decode($payment["payConfig"]) ;
-		foreach ($payConfig as $key => $value) {
+	public function getPayment($pay_code){
+		$payment = $this->where("enabled=1 AND pay_code='$pay_code' AND is_online=1")->find();
+		$pay_config = json_decode($payment["pay_config"]) ;
+		foreach ($pay_config as $key => $value) {
 			$payment[$key] = $value;
 		}
 		return $payment;
@@ -39,17 +39,17 @@ class Payments extends Base{
 	 * 获取支付订单信息
 	 */
 	public function getPayOrders ($obj){
-		$userId = (int)$obj["userId"];
-		$orderId = $obj["orderId"];
+		$user_id = (int)$obj["user_id"];
+		$order_id = $obj["order_id"];
 		$isBatch = (int)$obj["isBatch"];
-		$needPay = 0;
-		$where = ["userId"=>$userId,"dataFlag"=>1,"orderStatus"=>-2,"isPay"=>0,"payType"=>1,"needPay"=>[">",0]];
+		$need_pay = 0;
+		$where = ["user_id"=>$user_id,"status"=>1,"order_status"=>-2,"is_pay"=>0,"pay_type"=>1,"need_pay"=>[">",0]];
 		if($isBatch==1){
-			$where['orderunique'] = $orderId;
+			$where['order_unique'] = $order_id;
 		}else{
-			$where['orderId'] = $orderId;
+			$where['order_id'] = $order_id;
 		}
-		return model('orders')->where($where)->sum('needPay');
+		return model('orders')->where($where)->sum('need_pay');
 	}
 	
 	/**
@@ -58,65 +58,65 @@ class Payments extends Base{
 	public function complatePay ($obj){
 		$trade_no = $obj["trade_no"];
 		$isBatch = (int)$obj["isBatch"];
-		$orderId = $obj["out_trade_no"];
-		$userId = (int)$obj["userId"];
-		$payFrom = (int)$obj["payFrom"];
+		$order_id = $obj["out_trade_no"];
+		$user_id = (int)$obj["user_id"];
+		$pay_from = (int)$obj["pay_from"];
 		$payMoney = (float)$obj["total_fee"];
 		
-		if($payFrom>0){
+		if($pay_from>0){
 			$cnt = model('orders')
-						->where(['payFrom'=>$payFrom,"userId"=>$userId,"tradeNo"=>$trade_no])
+						->where(['pay_from'=>$pay_from,"user_id"=>$user_id,"trade_no"=>$trade_no])
 						->count();
 			if($cnt>0){
 				return FIReturn('订单已支付',-1);
 			}
 		}
-		$where = ["userId"=>$userId,"dataFlag"=>1,"orderStatus"=>-2,"isPay"=>0,"payType"=>1,"needPay"=>[">",0]];
+		$where = ["user_id"=>$user_id,"status"=>1,"order_status"=>-2,"is_pay"=>0,"pay_type"=>1,"need_pay"=>[">",0]];
 		if($isBatch==1){
-			$where['orderunique'] = $orderId;
+			$where['order_unique'] = $order_id;
 		}else{
-			$where['orderId'] = $orderId;
+			$where['order_id'] = $order_id;
 		}
-		$needPay = model('orders')->where($where)->sum('needPay');
+		$need_pay = model('orders')->where($where)->sum('need_pay');
 		
-		if($needPay>$payMoney){
+		if($need_pay>$payMoney){
 			return FIReturn('支付金额不正确',-1);
 		}
 		Db::startTrans();
 		try{
 			$data = array();
-			$data["needPay"] = 0;
-			$data["isPay"] = 1;
-			$data["orderStatus"] = 0;
-			$data["tradeNo"] = $trade_no;
-			$data["payFrom"] = $payFrom;
+			$data["need_pay"] = 0;
+			$data["is_pay"] = 1;
+			$data["order_status"] = 0;
+			$data["trade_no"] = $trade_no;
+			$data["pay_from"] = $pay_from;
 			$rs = model('orders')->where($where)->update($data);
 			
-			if($needPay>0 && false != $rs){
-				$where = ["o.userId"=>$userId];
+			if($need_pay>0 && false != $rs){
+				$where = ["o.user_id"=>$user_id];
 				if($isBatch==1){
-					$where["orderunique"] = $orderId;
+					$where["order_unique"] = $order_id;
 				}else{
-					$where["orderId"] = $orderId;
+					$where["order_id"] = $order_id;
 				}
-				$list = Db::table('__ORDERS__')->alias('o')->join('__SHOPS__ s','o.shopId=s.shopId ','inner')
-					          ->where($where)->field('orderId,orderNo,s.userId')
+				$list = Db::table('__ORDERS__')->alias('o')->join('__SHOPS__ s','o.shop_id=s.shop_id ','inner')
+					          ->where($where)->field('order_id,order_no,s.user_id')
 					          ->select();
 				if(!empty($list)){
 					foreach ($list as $key =>$v){
-						$orderId = $v["orderId"];
+						$order_id = $v["order_id"];
 						//新增订单日志
 						$logOrder = [];
-						$logOrder['orderId'] = $orderId;
-						$logOrder['orderStatus'] = 0;
-						$logOrder['logContent'] = "订单已支付,下单成功";
-						$logOrder['logUserId'] = $userId;
-						$logOrder['logType'] = 0;
-						$logOrder['logTime'] = date('Y-m-d H:i:s');
+						$logOrder['order_id'] = $order_id;
+						$logOrder['order_status'] = 0;
+						$logOrder['log_content'] = "订单已支付,下单成功";
+						$logOrder['log_user_id'] = $user_id;
+						$logOrder['log_type'] = 0;
+						$logOrder['log_time'] = date('Y-m-d H:i:s');
 						Db::name('log_orders')->insert($logOrder);
 						//发送一条商家信息
-						$msgContent = "订单【".$v['orderNo']."】用户已支付完成，请尽快发货哦~";
-						FISendMsg($v["userId"],$msgContent,['from'=>1,'dataId'=>$orderId]);
+						$msg_content = "订单【".$v['order_no']."】用户已支付完成，请尽快发货哦~";
+						FISendMsg($v["user_id"],$msg_content,['from'=>1,'data_id'=>$order_id]);
 					}
 				}
 			}

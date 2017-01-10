@@ -10,7 +10,7 @@
        <tr>
           <th width='120'>导航位置<font color='red'>  </font>：</th>
           <td>
-            <select id="navType" class='ipt' maxLength='20'>
+            <select id="nav_type" class='ipt' maxLength='20'>
               <option value="0">顶部</option>
               <option value="1">底部</option>
             </select>
@@ -19,7 +19,7 @@
        <tr>
           <th>导航名称<font color='red'>*</font>：</th>
           <td>
-              <input type="text" id="navTitle" name="navTitle" class="ipt" maxLength='50' style='width:300px;'/>
+              <input type="text" id="nav_title" name="nav_title" class="ipt" maxLength='50' style='width:300px;'/>
           </td>
        </tr>
        <tr>
@@ -41,17 +41,17 @@
                   <option value="2">-请选择2-</option>
                 </volist>
               </select>
-            <input type='text' id='navUrl' name="navUrl"  class='ipt' style='width:500px;'/>
+            <input type='text' id='nav_url' name="nav_url"  class='ipt' style='width:500px;'/>
           </td>
        </tr>
        <tr>
           <th>是否显示<font color='red'>  </font>：</th>
           <td>
             <lable>
-              <input type="radio" name="isShow" value="1" id="isShow" class="ipt" <?=($data['isShow']!==0)?'checked="checked"':'';?> />显示
+              <input type="radio" name="is_show" value="1" id="is_show" class="ipt" <?=($data['is_show']!==0)?'checked="checked"':'';?> />显示
             </lable>
             <lable>
-              <input type="radio" name="isShow" value="0" id="isShow" class="ipt" <?=($data['isShow']===0)?'checked="checked"':'';?> />隐藏
+              <input type="radio" name="is_show" value="0" id="is_show" class="ipt" <?=($data['is_show']===0)?'checked="checked"':'';?> />隐藏
             </lable>
           </td>
        </tr>
@@ -60,17 +60,17 @@
           <td>
 
             <lable>
-              <input type="radio" name="isOpen" value="1" id="isOpen" class="ipt" <?=($data['isOpen']!==0)?'checked="checked"':'';?> />新窗口打开
+              <input type="radio" name="is_open" value="1" id="is_open" class="ipt" <?=($data['is_open']!==0)?'checked="checked"':'';?> />新窗口打开
             </lable>
             <lable>
-              <input type="radio" name="isOpen" value="0" id="isOpen" class="ipt" <?=($data['isOpen']===0)?'checked="checked"':'';?> />页面跳转
+              <input type="radio" name="is_open" value="0" id="is_open" class="ipt" <?=($data['is_open']===0)?'checked="checked"':'';?> />页面跳转
             </lable>
           </td>
        </tr>
        <tr>
           <th>导航排序号<font color='red'>*</font>：</th>
           <td>
-            <input type="text" id="navSort" class="ipt" maxLength="20"  />
+            <input type="text" id="nav_sort" class="ipt" maxLength="20"  />
           </td>
        </tr>
        

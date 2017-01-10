@@ -9,12 +9,12 @@ class ShopConfigs extends Base{
     * 店铺设置
     */
      public function getShopCfg($id){
-        $rs = $this->where("shopId=".$id)->find();
+        $rs = $this->where("shop_id=".$id)->find();
         if($rs != ''){
             //图片
-            $rs['shopAds'] = ($rs['shopAds']!='')?explode(',',$rs['shopAds']):null;
+            $rs['shop_ads'] = ($rs['shop_ads']!='')?explode(',',$rs['shop_ads']):null;
             //图片的广告地址
-            $rs['shopAdsUrl'] = ($rs['shopAdsUrl']!='')?explode(',',$rs['shopAdsUrl']):null;
+            $rs['shop_ads_url'] = ($rs['shop_ads_url']!='')?explode(',',$rs['shop_ads_url']):null;
             return $rs;
         }
      }
@@ -22,23 +22,23 @@ class ShopConfigs extends Base{
      /**
       * 修改店铺设置
       */
-     public function editShopCfg($shopId){
+     public function editShopCfg($shop_id){
         $data = input('post.');
         //加载商店信息
         Db::startTrans();
 		try{
-	        $shopcg = $this->where('shopId='.$shopId)->find(); 
+	        $shopcg = $this->where('shop_id='.$shop_id)->find(); 
 	        $scdata = array();
-	        $scdata["shopId"] =  $shopId;
-	        $scdata["shopKeywords"] =  Input("shopKeywords");
-	        $scdata["shopBanner"] =  Input("shopBanner");
-	        $scdata["shopDesc"] =  Input("shopDesc");
-	        $scdata["shopAds"] =  Input("shopAds");
-	        $scdata["shopAdsUrl"] =  Input("shopAdsUrl");
-	        $scdata["shopHotWords"] =  Input("shopHotWords");
-	        FIUseImages(0, $shopcg['configId'], $scdata['shopBanner'],'shop_configs','shopBanner');
-	        FIUseImages(0, $shopcg['configId'], $scdata['shopAds'],'shop_configs','shopAds');
-	        $rs = $this->where("shopId=".$shopId)->update($scdata);	
+	        $scdata["shop_id"] =  $shop_id;
+	        $scdata["shop_keywords"] =  Input("shop_keywords");
+	        $scdata["shop_banner"] =  Input("shop_banner");
+	        $scdata["shop_desc"] =  Input("shop_desc");
+	        $scdata["shop_ads"] =  Input("shop_ads");
+	        $scdata["shop_ads_url"] =  Input("shop_ads_url");
+	        $scdata["shop_hot_words"] =  Input("shop_hot_words");
+	        FIUseImages(0, $shopcg['config_id'], $scdata['shop_banner'],'shop_configs','shop_banner');
+	        FIUseImages(0, $shopcg['config_id'], $scdata['shop_ads'],'shop_configs','shop_ads');
+	        $rs = $this->where("shop_id=".$shop_id)->update($scdata);	
 	        if($rs!==false){
 	        	Db::commit();
 	            return FIReturn('操作成功',1);
@@ -52,10 +52,10 @@ class ShopConfigs extends Base{
      /**
       * 获取商城搜索关键字
       */
-     public function searchShopkey($shopId){
-     	$rs = $this->where('shopId='.$shopId)->field('configId,shopHotWords')->find();
+     public function searchShopkey($shop_id){
+     	$rs = $this->where('shop_id='.$shop_id)->field('config_id,shop_hot_words')->find();
      	$keys = [];
-     	if($rs['shopHotWords']!='')$keys = explode(',',$rs['shopHotWords']);
+     	if($rs['shop_hot_words']!='')$keys = explode(',',$rs['shop_hot_words']);
      	return $keys;
      }
 }

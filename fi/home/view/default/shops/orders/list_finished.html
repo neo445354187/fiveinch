@@ -5,14 +5,14 @@
 {block name="content"}
   <div class="fi-shop-head"><span>已收货订单</span></div>
   <div class='fi-shop-tbar'>
-     订单号：<input type='text' class="s-ipt" id='orderNo' size="40" /> 
-     支付方式：<select name="payType" id="payType" class="s-ipt">
+     订单号：<input type='text' class="s-ipt" id='order_no' size="40" /> 
+     支付方式：<select name="pay_type" id="pay_type" class="s-ipt">
                 <option value="-1">请选择</option>
                 <option value="0">货到付款</option>
                 <option value="1">在线支付</option>
                </select>
 
-     配送方式：<select name="deliverType" id="deliverType" class="s-ipt">
+     配送方式：<select name="deliver_type" id="deliver_type" class="s-ipt">
                 <option value="-1">请选择</option>
                 <option value="0">送货上门</option>
                 <option value="1">自提</option>
@@ -37,14 +37,14 @@
        </tbody>
        <script id="tblist" type="text/html">
        {{# for(var i = 0; i < d.length; i++){ }}
-       <tbody class="j-order-row {{#if(d[i].isAppraise==0){}}j-warn{{#} }}">
+       <tbody class="j-order-row {{#if(d[i].is_appraise==0){}}j-warn{{#} }}">
          <tr class='empty-row'>
             <td colspan='4'>&nbsp;</td>
          </tr>
          <tr class='order-head'>
             <td colspan='4' align='right'>
-              <div class='time'>{{d[i].createTime}}</div>
-              <div class='orderno'>订单号：{{d[i].orderNo}}</div>
+              <div class='time'>{{d[i].create_time}}</div>
+              <div class='orderno'>订单号：{{d[i].order_no}}</div>
               <div>{{d[i].status}}</div>
             </td>
          </tr>
@@ -56,32 +56,32 @@
          <tr class='goods-box'>
             <td>
                <div class='goods-img'>
-                <a href="{{FI.U('home/goods/detail','id='+tmp.goodsId)}}" target='_blank'>
-                <img data-original='__ROOT__/{{tmp.goodsImg}}'  title='{{tmp.goodsName}}' class="gImg">
+                <a href="{{FI.U('home/goods/detail','id='+tmp.goods_id)}}" target='_blank'>
+                <img data-original='__ROOT__/{{tmp.goods_img}}'  title='{{tmp.goods_name}}' class="gImg">
                 </a>
                </div>
                <div class='goods-name'>
-                 <div>{{tmp.goodsName}}</div>
-                 <div>{{tmp.goodsSpecNames}}</div>
+                 <div>{{tmp.goods_name}}</div>
+                 <div>{{tmp.goods_spec_names}}</div>
                </div>
-               <div class='goods-extra'>{{tmp.goodsPrice}} x {{tmp.goodsNum}}</div>
+               <div class='goods-extra'>{{tmp.goods_price}} x {{tmp.goods_num}}</div>
             </td>
             {{# if(j==0){ }}
             <td rowspan="{{rows}}">
-                <div>{{d[i].payTypeName}}</div>
-                <div>{{d[i].deliverType}}</div>
+                <div>{{d[i].pay_typeName}}</div>
+                <div>{{d[i].deliver_type}}</div>
             </td>
             <td rowspan="{{rows}}">
-                <div>商品金额：¥{{d[i].goodsMoney}}</div>
-                <div>实付金额：¥{{d[i].realTotalMoney}}</div>
+                <div>商品金额：¥{{d[i].goods_money}}</div>
+                <div>实付金额：¥{{d[i].real_total_money}}</div>
             </td>
             <td rowspan="{{rows}}">
-				{{#if(d[i].isAppraise==1){}}
+				{{#if(d[i].is_appraise==1){}}
 				<div style="text-align:center;">已评价</div>
 				{{#}else{}}
 				<div style="text-align:center;">未评价</div>
 				{{#}}}
-                <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
+                <div><a href='#none' onclick='view({{d[i].order_id}})'>【订单详情】</a></div>
             </td>
             {{#}}}
          </tr>

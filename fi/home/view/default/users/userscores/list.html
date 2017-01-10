@@ -2,10 +2,10 @@
 {block name="title"}积分管理-买家中心{__block__}{/block}
 {block name="content"}
 <div class='score-head'>
-  <div class='user-logo'><img height='100' width='100'src='__ROOT__/{:session("FI_USER.userPhoto")}'></div>
+  <div class='user-logo'><img height='100' width='100'src='__ROOT__/{:session("FI_USER.user_photo")}'></div>
   <div class='user-info'> 
-     <div class='userName'>{:session('FI_USER.loginName')}</div>
-     <div class='userScore'>可用积分：<font color='red'>{$object['userScore']}</font>个</div>
+     <div class='user_name'>{:session('FI_USER.login_name')}</div>
+     <div class='user_score'>可用积分：<font color='red'>{$object['user_score']}</font>个</div>
   </div>
 </div>
 <div class='fi-user-content'>
@@ -27,16 +27,16 @@
            <script id="tblist" type="text/html">
 			{{# for(var i = 0; i < d.length; i++){ }}
             <tr>
-               <td width='160'>{{d[i].dataSrc}}</td>
+               <td width='160'>{{d[i].data_src}}</td>
                <td width='120'>
-				{{# if(d[i].scoreType==1){ }}
+				{{# if(d[i].score_type==1){ }}
 					<span class="score-add">+ {{ d[i].score }}</span>
 				{{# }else{ }}
 					<span class='score-reduce'> - {{ d[i].score }}</span>
 				{{# } }}
 				</td>
-			   <td width='160'>{{ d[i].createTime }}</td>
-               <td width='*'>{{ d[i].dataRemarks }}</td>
+			   <td width='160'>{{ d[i].create_time }}</td>
+               <td width='*'>{{ d[i].data_remarks }}</td>
              </tr>
 			{{# } }}
 			</script>

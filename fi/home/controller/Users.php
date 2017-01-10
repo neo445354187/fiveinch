@@ -16,14 +16,14 @@ class Users extends Base
     {
         $USER = session('FI_USER');
         //如果已经登录了则直接跳去用户中心
-        if (!empty($USER) && $USER['userId'] != '') {
+        if (!empty($USER) && $USER['user_id'] != '') {
             $this->redirect("users/index");
         }
-        $loginName = cookie("loginName");
-        if (!empty($loginName)) {
-            $this->assign('loginName', cookie("loginName"));
+        $login_name = cookie("login_name");
+        if (!empty($login_name)) {
+            $this->assign('login_name', cookie("login_name"));
         } else {
-            $this->assign('loginName', '');
+            $this->assign('login_name', '');
         }
         return $this->fetch('default/user_login');
     }
@@ -34,7 +34,7 @@ class Users extends Base
     public function logout()
     {
         session('FI_USER', null);
-        setcookie("loginPwd", null);
+        setcookie("login_password", null);
         return FIReturn("", 1);
     }
 
@@ -44,11 +44,11 @@ class Users extends Base
      */
     public function regist()
     {
-        $loginName = cookie("loginName");
-        if (!empty($loginName)) {
-            $this->assign('loginName', cookie("loginName"));
+        $login_name = cookie("login_name");
+        if (!empty($login_name)) {
+            $this->assign('login_name', cookie("login_name"));
         } else {
-            $this->assign('loginName', '');
+            $this->assign('login_name', '');
         }
         return $this->fetch('default/regist');
     }
@@ -80,14 +80,14 @@ class Users extends Base
      */
     public function getPhoneVerifyCode()
     {
-        $userPhone = input("post.userPhone");
+        $user_phone = input("post.user_phone");
         $rs        = array();
-        if (!FIIsPhone($userPhone)) {
+        if (!FIIsPhone($user_phone)) {
             return FIReturn("手机号格式不正确!");
             exit();
         }
         $m  = new MUsers();
-        $rs = $m->checkUserPhone($userPhone, (int) session('FI_USER.userId'));
+        $rs = $m->checkUserPhone($user_phone, (int) session('FI_USER.user_id'));
         if ($rs["status"] != 1) {
             return FIReturn("手机号已存在!");
             exit();
@@ -95,11 +95,11 @@ class Users extends Base
         $phoneVerify = rand(100000, 999999);
         $msg         = "欢迎您注册成为" . FIConf("CONF.mallName") . "会员，您的注册验证码为:" . $phoneVerify . "，请在10分钟内输入。【" . FIConf("mallName") . "】";
         $m           = new LogSms();
-        $rv          = $m->sendSMS(0, $userPhone, $msg, 'getPhoneVerifyCode', $phoneVerify);
+        $rv          = $m->sendSMS(0, $user_phone, $msg, 'getPhoneVerifyCode', $phoneVerify);
 
         if ($rv['status'] == 1) {
-            session('VerifyCode_userPhone', $phoneVerify);
-            session('VerifyCode_userPhone_Time', time());
+            session('VerifyCode_user_phone', $phoneVerify);
+            session('VerifyCode_user_phone_Time', time());
         }
         return $rv;
     }
@@ -110,16 +110,16 @@ class Users extends Base
     public function checkLoginKey()
     {
         $m = new MUsers();
-        if (input("post.loginName")) {
-            $val = input("post.loginName");
+        if (input("post.login_name")) {
+            $val = input("post.login_name");
         }
 
-        if (input("post.userPhone")) {
-            $val = input("post.userPhone");
+        if (input("post.user_phone")) {
+            $val = input("post.user_phone");
         }
 
-        if (input("post.userEmail")) {
-            $val = input("post.userEmail");
+        if (input("post.user_email")) {
+            $val = input("post.user_email");
         }
 
         $rs = FICheckLoginKey($val);
@@ -149,8 +149,8 @@ class Users extends Base
     public function checkFindKey()
     {
         $m      = new MUsers();
-        $userId = (int) session('FI_USER.userId');
-        $rs     = FICheckLoginKey(input("post.loginName"), $userId);
+        $user_id = (int) session('FI_USER.user_id');
+        $rs     = FICheckLoginKey(input("post.login_name"), $user_id);
         if ($rs["status"] == 1) {
             return array("error" => "该用户不存在！");
         } else {
@@ -184,8 +184,8 @@ class Users extends Base
     {
         $m = new MUsers();
         //获取用户信息
-        $userId = (int) session('FI_USER.userId');
-        $data   = $m->getById($userId);
+        $user_id = (int) session('FI_USER.user_id');
+        $data   = $m->getById($user_id);
         $this->assign('data', $data);
         return $this->fetch('default/users/user_edit');
     }
@@ -196,8 +196,8 @@ class Users extends Base
     {
         $m = new MUsers();
         //获取用户信息
-        $userId = (int) session('FI_USER.userId');
-        $data   = $m->getById($userId);
+        $user_id = (int) session('FI_USER.user_id');
+        $data   = $m->getById($user_id);
         $this->assign('data', $data);
         return $this->fetch('default/users/security/user_pass');
     }
@@ -206,9 +206,9 @@ class Users extends Base
      */
     public function passedit()
     {
-        $userId = (int) session('FI_USER.userId');
+        $user_id = (int) session('FI_USER.user_id');
         $m      = new MUsers();
-        $rs     = $m->editPass($userId);
+        $rs     = $m->editPass($user_id);
         return $rs;
     }
     /**
@@ -227,13 +227,13 @@ class Users extends Base
     {
         //获取用户信息
         $m    = new MUsers();
-        $data = $m->getById((int) session('FI_USER.userId'));
-        if ($data['userPhone'] != '') {
-            $data['userPhone'] = FIStrReplace($data['userPhone'], '*', 3);
+        $data = $m->getById((int) session('FI_USER.user_id'));
+        if ($data['user_phone'] != '') {
+            $data['user_phone'] = FIStrReplace($data['user_phone'], '*', 3);
         }
 
-        if ($data['userEmail'] != '') {
-            $data['userEmail'] = FIStrReplace($data['userEmail'], '*', 2, '@');
+        if ($data['user_email'] != '') {
+            $data['user_email'] = FIStrReplace($data['user_email'], '*', 2, '@');
         }
 
         $this->assign('data', $data);
@@ -245,17 +245,17 @@ class Users extends Base
     public function editEmail()
     {
         //获取用户信息
-        $userId = (int) session('FI_USER.userId');
+        $user_id = (int) session('FI_USER.user_id');
         $m      = new MUsers();
-        $data   = $m->getById($userId);
-        if ($data['userEmail'] != '') {
-            $data['userEmail'] = FIStrReplace($data['userEmail'], '*', 2, '@');
+        $data   = $m->getById($user_id);
+        if ($data['user_email'] != '') {
+            $data['user_email'] = FIStrReplace($data['user_email'], '*', 2, '@');
         }
 
         $this->assign('data', $data);
         $process = 'One';
         $this->assign('process', $process);
-        if ($data['userEmail']) {
+        if ($data['user_email']) {
             return $this->fetch('default/users/security/user_edit_email');
         } else {
             return $this->fetch('default/users/security/user_email');
@@ -266,8 +266,8 @@ class Users extends Base
      */
     public function getEmailVerify()
     {
-        $userEmail = input('post.userEmail');
-        if (!$userEmail) {
+        $user_email = input('post.user_email');
+        if (!$user_email) {
             return FIReturn('请输入邮箱!', -1);
         }
         $code    = input("post.verifyCode");
@@ -275,21 +275,21 @@ class Users extends Base
         if (!FIVerifyCheck($code)) {
             return FIReturn('验证码错误!', -1);
         }
-        $rs = FICheckLoginKey($userEmail, (int) session('FI_USER.userId'));
+        $rs = FICheckLoginKey($user_email, (int) session('FI_USER.user_id'));
         if ($rs["status"] != 1) {
             return FIReturn("邮箱已存在!");
             exit();
         }
         $base64 = new \org\Base64();
-        $key    = $base64->encrypt($userEmail . "_" . session('FI_USER.userId') . "_" . time() . "_" . $process, (int) session('FI_USER.loginSecret'), 30 * 60);
+        $key    = $base64->encrypt($user_email . "_" . session('FI_USER.user_id') . "_" . time() . "_" . $process, (int) session('FI_USER.login_secret'), 30 * 60);
         $url    = url('home/users/emailEdit', array('key' => $key), true, true);
-        $html   = "您好，会员 " . session('FI_USER.loginName') . "：<br>
+        $html   = "您好，会员 " . session('FI_USER.login_name') . "：<br>
         您在" . date('Y-m-d H:i:s') . "发出了绑定邮箱的请求,请点击以下链接进行绑定邮箱:<br>
         <a href='" . $url . "'>" . $url . "</a><br>
         <br>如果您的邮箱不支持链接点击，请将以上链接地址拷贝到你的浏览器地址栏中。<br>
         该验证邮件有效期为30分钟，超时请重新发送邮件。<br>
         <br><br>*此邮件为系统自动发出的，请勿直接回复。";
-        $sendRs = FISendMail($userEmail, '绑定邮箱', $html);
+        $sendRs = FISendMail($user_email, '绑定邮箱', $html);
         if ($sendRs['status'] == 1) {
             return FIReturn('发送成功', 1);
         } else {
@@ -302,7 +302,7 @@ class Users extends Base
     public function emailEdit()
     {
         $USER = session('FI_USER');
-        if (empty($USER) && $USER['userId'] == '') {
+        if (empty($USER) && $USER['user_id'] == '') {
             $this->redirect("home/users/login");
         }
         $key = input('param.');
@@ -312,7 +312,7 @@ class Users extends Base
 
         $key        = $key['key'];
         $keyFactory = new \org\Base64();
-        $key        = $keyFactory->decrypt($key, (int) session('FI_USER.loginSecret'));
+        $key        = $keyFactory->decrypt($key, (int) session('FI_USER.login_secret'));
         $key        = explode('_', $key);
         if (time() > floatval($key[2]) + 30 * 60) {
             $this->error('连接已失效！');
@@ -322,7 +322,7 @@ class Users extends Base
             $this->error('无效的用户！');
         }
 
-        $rs = FICheckLoginKey($key[1], (int) session('FI_USER.userId'));
+        $rs = FICheckLoginKey($key[1], (int) session('FI_USER.user_id'));
         if ($rs["status"] != 1) {
             $this->error('邮箱已存在!');
             exit();
@@ -346,9 +346,9 @@ class Users extends Base
     public function getEmailVerifyt()
     {
         $m         = new MUsers();
-        $data      = $m->getById(session('FI_USER.userId'));
-        $userEmail = $data['userEmail'];
-        if (!$userEmail) {
+        $data      = $m->getById(session('FI_USER.user_id'));
+        $user_email = $data['user_email'];
+        if (!$user_email) {
             return FIReturn('请输入邮箱!', -1);
         }
         $code = input("post.verifyCode");
@@ -356,15 +356,15 @@ class Users extends Base
             return FIReturn('验证码错误!', -1);
         }
         $base64 = new \org\Base64();
-        $key    = $base64->encrypt("0_" . session('FI_USER.userId') . "_" . time(), (int) session('FI_USER.loginSecret'), 30 * 60);
+        $key    = $base64->encrypt("0_" . session('FI_USER.user_id') . "_" . time(), (int) session('FI_USER.login_secret'), 30 * 60);
         $url    = url('home/users/emailEditt', array('key' => $key), true, true);
-        $html   = "您好，会员 " . session('FI_USER.loginName') . "：<br>
+        $html   = "您好，会员 " . session('FI_USER.login_name') . "：<br>
         您在" . date('Y-m-d H:i:s') . "发出了修改邮箱的请求,请点击以下链接进行修改邮箱:<br>
         <a href='" . $url . "'>" . $url . "</a><br>
         <br>如果您的邮箱不支持链接点击，请将以上链接地址拷贝到你的浏览器地址栏中。<br>
         该验证邮件有效期为30分钟，超时请重新发送邮件。<br>
         <br><br>*此邮件为系统自动发出的，请勿直接回复。";
-        $sendRs = FISendMail($userEmail, '修改邮箱', $html);
+        $sendRs = FISendMail($user_email, '修改邮箱', $html);
         if ($sendRs['status'] == 1) {
             return FIReturn('发送成功', 1);
         } else {
@@ -377,7 +377,7 @@ class Users extends Base
     public function emailEditt()
     {
         $USER = session('FI_USER');
-        if (empty($USER) && $USER['userId'] != '') {
+        if (empty($USER) && $USER['user_id'] != '') {
             $this->redirect("home/users/login");
         }
         $key = input('param.');
@@ -387,7 +387,7 @@ class Users extends Base
 
         $key        = $key['key'];
         $keyFactory = new \org\Base64();
-        $key        = $keyFactory->decrypt($key, (int) session('FI_USER.loginSecret'));
+        $key        = $keyFactory->decrypt($key, (int) session('FI_USER.login_secret'));
         $key        = explode('_', $key);
         if (time() > floatval($key[2]) + 30 * 60) {
             $this->error('连接已失效！');
@@ -399,7 +399,7 @@ class Users extends Base
 
         $m    = new MUsers();
         $data = $m->getById($key[1]);
-        if ($data['userId'] == session('FI_USER.userId')) {
+        if ($data['user_id'] == session('FI_USER.user_id')) {
             $process = 'Two';
             $this->assign('process', $process);
             return $this->fetch('default/users/security/user_edit_email');
@@ -412,17 +412,17 @@ class Users extends Base
     public function editPhone()
     {
         //获取用户信息
-        $userId = (int) session('FI_USER.userId');
+        $user_id = (int) session('FI_USER.user_id');
         $m      = new MUsers();
-        $data   = $m->getById($userId);
-        if ($data['userPhone'] != '') {
-            $data['userPhone'] = FIStrReplace($data['userPhone'], '*', 3);
+        $data   = $m->getById($user_id);
+        if ($data['user_phone'] != '') {
+            $data['user_phone'] = FIStrReplace($data['user_phone'], '*', 3);
         }
 
         $this->assign('data', $data);
         $process = 'One';
         $this->assign('process', $process);
-        if ($data['userPhone']) {
+        if ($data['user_phone']) {
             return $this->fetch('default/users/security/user_edit_phone');
         } else {
             return $this->fetch('default/users/security/user_phone');
@@ -440,14 +440,14 @@ class Users extends Base
      */
     public function getPhoneVerifyo()
     {
-        $userPhone = input("post.userPhone");
-        if (!FIIsPhone($userPhone)) {
+        $user_phone = input("post.user_phone");
+        if (!FIIsPhone($user_phone)) {
             return FIReturn("手机号格式不正确!");
             exit();
         }
         $rs = array();
         $m  = new MUsers();
-        $rs = FICheckLoginKey($userPhone, (int) session('FI_USER.userId'));
+        $rs = FICheckLoginKey($user_phone, (int) session('FI_USER.user_id'));
         if ($rs["status"] != 1) {
             return FIReturn("手机号已存在!");
             exit();
@@ -455,13 +455,13 @@ class Users extends Base
         $phoneVerify = rand(100000, 999999);
         $msg         = "欢迎您" . FIConf("CONF.mallName") . "会员，正在操作绑定手机，您的校验码为:" . $phoneVerify . "，请在10分钟内输入。【" . FIConf("mallName") . "】";
         $m           = new LogSms();
-        $rv          = $m->sendSMS(0, $userPhone, $msg, 'getPhoneVerify', $phoneVerify);
+        $rv          = $m->sendSMS(0, $user_phone, $msg, 'getPhoneVerify', $phoneVerify);
         if ($rv['status'] == 1) {
             $USER                = '';
-            $USER['userPhone']   = $userPhone;
+            $USER['user_phone']   = $user_phone;
             $USER['phoneVerify'] = $phoneVerify;
             session('Verify_info', $USER);
-            session('Verify_userPhone_Time', time());
+            session('Verify_user_phone_Time', time());
             return FIReturn('短信发送成功!', 1);
         }
         return $rv;
@@ -473,14 +473,14 @@ class Users extends Base
     {
         $phoneVerify = input("post.Checkcode");
         $process     = input("post.process");
-        $timeVerify  = session('Verify_userPhone_Time');
+        $timeVerify  = session('Verify_user_phone_Time');
         if (!session('Verify_info.phoneVerify') || time() > floatval($timeVerify) + 10 * 60) {
             return FIReturn("校验码已失效，请重新发送！");
             exit();
         }
         if ($phoneVerify == session('Verify_info.phoneVerify')) {
             $m  = new MUsers();
-            $rs = $m->editPhone((int) session('FI_USER.userId'), session('Verify_info.userPhone'));
+            $rs = $m->editPhone((int) session('FI_USER.user_id'), session('Verify_info.user_phone'));
             if ($process == 'Two') {
                 $rs['process'] = $process;
             } else {
@@ -507,18 +507,18 @@ class Users extends Base
     public function getPhoneVerifyt()
     {
         $m           = new MUsers();
-        $data        = $m->getById(session('FI_USER.userId'));
-        $userPhone   = $data['userPhone'];
+        $data        = $m->getById(session('FI_USER.user_id'));
+        $user_phone   = $data['user_phone'];
         $phoneVerify = rand(100000, 999999);
         $msg         = "欢迎您" . FIConf("CONF.mallName") . "会员，正在操作修改手机，您的校验码为:" . $phoneVerify . "，请在10分钟内输入。【" . FIConf("mallName") . "】";
         $m           = new LogSms();
-        $rv          = $m->sendSMS(0, $userPhone, $msg, 'getPhoneVerify', $phoneVerify);
+        $rv          = $m->sendSMS(0, $user_phone, $msg, 'getPhoneVerify', $phoneVerify);
         if ($rv['status'] == 1) {
             $USER                = '';
-            $USER['userPhone']   = $userPhone;
+            $USER['user_phone']   = $user_phone;
             $USER['phoneVerify'] = $phoneVerify;
             session('Verify_info2', $USER);
-            session('Verify_userPhone_Time2', time());
+            session('Verify_user_phone_Time2', time());
             return FIReturn('短信发送成功!', 1);
         }
         return $rv;
@@ -529,7 +529,7 @@ class Users extends Base
     public function phoneEditt()
     {
         $phoneVerify = input("post.Checkcode");
-        $timeVerify  = session('Verify_userPhone_Time2');
+        $timeVerify  = session('Verify_user_phone_Time2');
         if (!session('Verify_info2.phoneVerify') || time() > floatval($timeVerify) + 10 * 60) {
             return FIReturn("校验码已失效，请重新发送！");
             exit();
@@ -579,15 +579,15 @@ class Users extends Base
     public function forgetPasst()
     {
         if (time() < floatval(session('findPass.findTime')) + 30 * 60) {
-            $userId = session('findPass.userId');
+            $user_id = session('findPass.user_id');
             $m      = new MUsers();
-            $info   = $m->getById($userId);
-            if ($info['userPhone'] != '') {
-                $info['userPhone'] = FIStrReplace($info['userPhone'], '*', 3);
+            $info   = $m->getById($user_id);
+            if ($info['user_phone'] != '') {
+                $info['user_phone'] = FIStrReplace($info['user_phone'], '*', 3);
             }
 
-            if ($info['userEmail'] != '') {
-                $info['userEmail'] = FIStrReplace($info['userEmail'], '*', 2, '@');
+            if ($info['user_email'] != '') {
+                $info['user_email'] = FIStrReplace($info['user_email'], '*', 2, '@');
             }
 
             $this->assign('forgetInfo', $info);
@@ -599,7 +599,7 @@ class Users extends Base
     public function forgetPasss()
     {
         $USER = session('findPass');
-        if (empty($USER) && $USER['userId'] != '') {
+        if (empty($USER) && $USER['user_id'] != '') {
             $this->error('请在同一浏览器操作！');
         }
         $key = input('param.');
@@ -609,7 +609,7 @@ class Users extends Base
 
         $key        = $key['key'];
         $keyFactory = new \org\Base64();
-        $key        = $keyFactory->decrypt($key, (int) session('findPass.loginSecret'));
+        $key        = $keyFactory->decrypt($key, (int) session('findPass.login_secret'));
         $key        = explode('_', $key);
         if (time() > floatval($key[2]) + 30 * 60) {
             $this->error('连接已失效！');
@@ -619,7 +619,7 @@ class Users extends Base
             $this->error('无效的用户！');
         }
 
-        session('REST_userId', $key[1]);
+        session('REST_user_id', $key[1]);
         session('REST_Time', $key[2]);
         session('REST_success', '1');
         return $this->fetch('default/forget_pass3');
@@ -643,16 +643,16 @@ class Users extends Base
                 if (!FIVerifyCheck($code)) {
                     return FIReturn('验证码错误!', -1);
                 }
-                $loginName = input("post.loginName");
-                $rs        = FICheckLoginKey($loginName);
+                $login_name = input("post.login_name");
+                $rs        = FICheckLoginKey($login_name);
                 if ($rs["status"] == 1) {
                     return FIReturn("用户名不存在!");
                     exit();
                 }
                 $m    = new MUsers();
-                $info = $m->checkAndGetLoginInfo($loginName);
+                $info = $m->checkAndGetLoginInfo($login_name);
                 if ($info != false) {
-                    session('findPass', array('userId' => $info['userId'], 'loginName' => $loginName, 'userPhone' => $info['userPhone'], 'userEmail' => $info['userEmail'], 'loginSecret' => $info['loginSecret'], 'findTime' => time()));
+                    session('findPass', array('user_id' => $info['user_id'], 'login_name' => $login_name, 'user_phone' => $info['user_phone'], 'user_email' => $info['user_email'], 'login_secret' => $info['login_secret'], 'findTime' => time()));
                     return FIReturn("操作成功", 1);
                 } else {
                     return FIReturn("用户名不存在!");
@@ -660,9 +660,9 @@ class Users extends Base
 
                 break;
             case 2: #第二步,验证方式
-                if (session('findPass.loginName') != null) {
+                if (session('findPass.login_name') != null) {
                     if (input("post.modes") == 1) {
-                        if (session('findPass.userPhone') == null) {
+                        if (session('findPass.user_phone') == null) {
                             return FIReturn('你没有预留手机号码，请通过邮箱方式找回密码！', -1);
                         }
                         $phoneVerify = input("post.Checkcode");
@@ -671,7 +671,7 @@ class Users extends Base
                         }
                         return $this->checkfindPhone($phoneVerify);
                     } else {
-                        if (session('findPass.userEmail') == null) {
+                        if (session('findPass.user_email') == null) {
                             return FIReturn('你没有预留邮箱，请通过手机号码找回密码！', -1);
                         }
                         if (!FIVerifyCheck($code)) {
@@ -690,9 +690,9 @@ class Users extends Base
                     $this->error("页面已失效!");
                 }
 
-                $loginPwd   = input("post.loginPwd");
+                $login_password   = input("post.login_password");
                 $repassword = input("post.repassword");
-                if ($loginPwd == $repassword) {
+                if ($login_password == $repassword) {
                     $m  = new MUsers();
                     $rs = $m->resetPass();
                     if ($rs['status'] == 1) {
@@ -716,15 +716,15 @@ class Users extends Base
     public function getfindPhone()
     {
         $smsVerfy = input("post.smsVerfy");
-        session('FI_USER', session('findPass.userId'));
-        if (session('findPass.userPhone') == '') {
+        session('FI_USER', session('findPass.user_id'));
+        if (session('findPass.user_phone') == '') {
             return FIReturn('你没有预留手机号码，请通过邮箱方式找回密码！', -1);
         }
         $phoneVerify = rand(100000, 999999);
         $msg         = "您正在重置登录密码，验证码为:" . $phoneVerify . "，请在10分钟内输入。【" . FIConf("mallName") . "】";
         $m           = new LogSms();
         session('FI_USER', null);
-        $rv = $m->sendSMS(0, session('findPass.userPhone'), $msg, 'getPhoneVerify', $phoneVerify);
+        $rv = $m->sendSMS(0, session('findPass.user_phone'), $msg, 'getPhoneVerify', $phoneVerify);
         if ($rv['status'] == 1) {
             $USER                = '';
             $USER['phoneVerify'] = $phoneVerify;
@@ -745,11 +745,11 @@ class Users extends Base
             exit();
         }
         if (session('findPhone.phoneVerify') == $phoneVerify) {
-            $fuserId = session('findPass.userId');
-            if (!empty($fuserId)) {
+            $fuser_id = session('findPass.user_id');
+            if (!empty($fuser_id)) {
                 $rs['status'] = 1;
                 $keyFactory   = new \org\Base64();
-                $key          = $keyFactory->encrypt("0_" . session('findPass.userId') . "_" . time(), (int) session('findPass.loginSecret'), 30 * 60);
+                $key          = $keyFactory->encrypt("0_" . session('findPass.user_id') . "_" . time(), (int) session('findPass.login_secret'), 30 * 60);
                 $rs['url']    = url('Home/Users/forgetPasss', array('key' => $key), true, true);
                 return $rs;
             }
@@ -763,15 +763,15 @@ class Users extends Base
     public function getfindEmail()
     {
         $base64 = new \org\Base64();
-        $key    = $base64->encrypt("0_" . session('findPass.userId') . "_" . time(), (int) session('findPass.loginSecret'), 30 * 60);
+        $key    = $base64->encrypt("0_" . session('findPass.user_id') . "_" . time(), (int) session('findPass.login_secret'), 30 * 60);
         $url    = url('Home/Users/forgetPasss', array('key' => $key), true, true);
-        $html   = "您好，会员 " . session('findPass.loginName') . "：<br>
+        $html   = "您好，会员 " . session('findPass.login_name') . "：<br>
         您在" . date('Y-m-d H:i:s') . "发出了重置密码的请求,请点击以下链接进行密码重置:<br>
         <a href='" . $url . "'>" . $url . "</a><br>
         <br>如果您的邮箱不支持链接点击，请将以上链接地址拷贝到你的浏览器地址栏中。<br>
         该验证邮件有效期为30分钟，超时请重新发送邮件。<br>
         <br><br>*此邮件为系统自动发出的，请勿直接回复。";
-        $sendRs = FISendMail(session('findPass.userEmail'), '密码重置', $html);
+        $sendRs = FISendMail(session('findPass.user_email'), '密码重置', $html);
         if ($sendRs['status'] == 1) {
             return FIReturn("操作成功", 1);
         } else {

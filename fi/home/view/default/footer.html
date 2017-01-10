@@ -11,9 +11,9 @@
         <div class="foot-container clearfix">
         	{volist name=":FIHelps(5,6)" id="vo1"}
         	<dl class="foot-con">
-        	    <dt data-monitor="home_foot_freshman">{$vo1["catName"]}</dt>
+        	    <dt data-monitor="home_foot_freshman">{$vo1["cat_name"]}</dt>
         	    {volist name="vo1['articlecats']" id="vo2"}
-        	    <dd><a target="_blank" href="{:Url('Home/Helpcenter/view',array('id'=>$vo2['articleId']))}" rel="nofollow">{:FIMSubstr($vo2['articleTitle'],0,8)}</a> </dd>
+        	    <dd><a target="_blank" href="{:Url('Home/Helpcenter/view',array('id'=>$vo2['article_id']))}" rel="nofollow">{:FIMSubstr($vo2['article_title'],0,8)}</a> </dd>
         	    {/volist}
         	    
         	</dl>

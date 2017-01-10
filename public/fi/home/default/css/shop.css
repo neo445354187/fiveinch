@@ -1108,7 +1108,7 @@ a.fi-lite-in:hover {
     text-align: left;
 }
 
-#goodsImgPicker {
+#goods_imgPicker {
     margin-left: 20px;
 }
 
@@ -1158,7 +1158,7 @@ a.fi-lite-in:hover {
     max-height: 60px;
 }
 
-.goodsName {
+.goods_name {
     height: 50px;
     line-height: 25px;
     overflow: hidden;
@@ -1298,7 +1298,7 @@ a.fi-lite-in:hover {
     max-height: 150px;
 }
 
-.appra-goodsName {
+.appra-goods_name {
     float: left;
     height: 150px;
     line-height: 25px;
@@ -1760,7 +1760,7 @@ a.fi-lite-in:hover {
     padding-right: 80px;
 }
 
-.order-box .orderScore {
+.order-box .order_score {
     margin-right: 5px;
 }
 

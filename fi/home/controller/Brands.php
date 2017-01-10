@@ -27,6 +27,6 @@ class Brands extends Base{
 	 */
     public function listQuery(){
         $m = new M();
-        return ['status'=>1,'list'=>$m->listQuery(input('post.catId/d'))];
+        return ['status'=>1,'list'=>$m->listQuery(input('post.cat_id/d'))];
     }
 }

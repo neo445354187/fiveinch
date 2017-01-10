@@ -6,16 +6,16 @@
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <div class="fi-toolbar">
 	<div id="query" >
-        会员账号:<input type="text" name="loginName1" placeholder='账号'  id="loginName1" class="query" />
+        会员账号:<input type="text" name="login_name1" placeholder='账号'  id="login_name1" class="query" />
         <p style="float:left;height:25px;line-height:25px;">会员类型:</p>
-        <select style="float:left;" name="userType" id="userType" class="query">
+        <select style="float:left;" name="user_type" id="user_type" class="query">
           <option value="">全部</option>
           <option value="0">普通会员</option>
           <option value="1">商家</option>
         </select>
 
 	   		<p style="float:left;height:25px;line-height:25px;">账号状态:</p>
-        <select style="float:left;" name="userStatus1" id="userStatus1" class="query">
+        <select style="float:left;" name="user_status1" id="user_status1" class="query">
           <option value="">全部</option>  
           <option value="1">启用</option>  
           <option value="0">停用</option>  
@@ -31,19 +31,19 @@
     <table class='fi-form fi-box-top'>
        <tr>
           <th width='100'>账号<font color='red'>*</font>：</th>
-          <td><input type='text' id='loginName' name="loginName"  class='ipt' maxLength='20'
+          <td><input type='text' id='login_name' name="login_name"  class='ipt' maxLength='20'
             data-rule="登录账号: required;length[6~20];remote(post:{:url('admin/users/checkLoginKey')})"
             /></td>
        </tr>
        <tr>
           <th>密码<font color='red'>*</font>：</th>
-          <td><input type='password' id='loginPwd' data-rule="length[6~20];" placeholder="为空则说明不修改密码" class='ipt' maxLength='20'/></td>
+          <td><input type='password' id='login_password' data-rule="length[6~20];" placeholder="为空则说明不修改密码" class='ipt' maxLength='20'/></td>
        </tr>
        <tr>
           <th>会员状态<font color='red'>*</font>：</th>
           <td>
-          		<label><input type='radio' id='userStatus' name="userStatus" class='ipt' value='1' >启用</label>
-          		<label><input type='radio' id='userStatus' name="userStatus" checked class='ipt' value='0' >停用</label>
+          		<label><input type='radio' id='user_status' name="user_status" class='ipt' value='1' >启用</label>
+          		<label><input type='radio' id='user_status' name="user_status" checked class='ipt' value='0' >停用</label>
           </td>
           
        </tr>

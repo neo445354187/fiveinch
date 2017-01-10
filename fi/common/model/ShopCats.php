@@ -10,23 +10,23 @@ class ShopCats extends Base{
 	 */
 	public function batchSaveCats(){
 		
-		$shopId = (int)session('FI_USER.shopId');
-		$createTime = date("Y-m-d H:i:s");
+		$shop_id = (int)session('FI_USER.shop_id');
+		$create_time = date("Y-m-d H:i:s");
 		//先保存了已经有父级的分类
 		$otherNo = input('post.otherNo/d');
 		for($i=0;$i<$otherNo;$i++){
 			
 			$data = array();
-			$data['catName'] = input('post.catName_o_'.$i);
-			if($data['catName']=='')continue;
-			$data['shopId'] = $shopId;
-			$data['parentId'] = input('post.catId_o_'.$i."/d");
-			$data['catSort'] = input('post.catSort_o_'.$i."/d");
-			$data['isShow'] = input('post.catShow_o_'.$i."/d");
-			$data['createTime'] = $createTime;
-			$rs = $this->where(["dataFlag"=>1,"shopId"=>$shopId,"catId"=>$data['parentId']])->find();
+			$data['cat_name'] = input('post.cat_name_o_'.$i);
+			if($data['cat_name']=='')continue;
+			$data['shop_id'] = $shop_id;
+			$data['parent_id'] = input('post.cat_id_o_'.$i."/d");
+			$data['cat_sort'] = input('post.cat_sort_o_'.$i."/d");
+			$data['is_show'] = input('post.catShow_o_'.$i."/d");
+			$data['create_time'] = $create_time;
+			$rs = $this->where(["status"=>1,"shop_id"=>$shop_id,"cat_id"=>$data['parent_id']])->find();
 			if(empty($rs))continue;
-			$this->isUpdate(false)->allowField(["catName","shopId","parentId","catSort","isShow"])->save($data);
+			$this->isUpdate(false)->allowField(["cat_name","shop_id","parent_id","cat_sort","is_show"])->save($data);
 		}
 		
 		//保存没有父级分类的
@@ -34,28 +34,28 @@ class ShopCats extends Base{
 	    for($i=0;$i<$fristNo;$i++){
 			$data = array();
 			
-			$data['catName'] = input('post.catName_'.$i);
-			if($data['catName']=='')continue;
-			$data['parentId'] = 0;
-			$data['shopId'] = $shopId;
-			$data['catSort'] = input('post.catSort_'.$i."/d");
-			$data['isShow'] = input('post.catShow_'.$i."/d");
-			$data['createTime'] = $createTime;
-			$parentId = $this->isUpdate(false)->allowField(["catName","shopId","parentId","catSort","isShow"])->save($data);
-			$parentId = $this->catId;
-			if(false !== $parentId){
+			$data['cat_name'] = input('post.cat_name_'.$i);
+			if($data['cat_name']=='')continue;
+			$data['parent_id'] = 0;
+			$data['shop_id'] = $shop_id;
+			$data['cat_sort'] = input('post.cat_sort_'.$i."/d");
+			$data['is_show'] = input('post.catShow_'.$i."/d");
+			$data['create_time'] = $create_time;
+			$parent_id = $this->isUpdate(false)->allowField(["cat_name","shop_id","parent_id","cat_sort","is_show"])->save($data);
+			$parent_id = $this->cat_id;
+			if(false !== $parent_id){
 				//新增子类
 				$catSecondNo = (int)input('post.catSecondNo_'.$i."/d");
 		        for($j=0;$j<$catSecondNo;$j++){
 					$data = array();
-					$data['catName'] = input('post.catName_'.$i."_".$j);
-					if($data['catName']=='')continue;
-					$data['shopId'] = $shopId;
-					$data['parentId'] = $parentId;
-					$data['catSort'] = input('post.catSort_'.$i."_".$j."/d");
-					$data['isShow'] = input('post.catShow_'.$i."_".$j."/d");
-					$data['createTime'] = $createTime;
-					$this->isUpdate(false)->allowField(["catName","shopId","parentId","catSort","isShow"])->save($data);
+					$data['cat_name'] = input('post.cat_name_'.$i."_".$j);
+					if($data['cat_name']=='')continue;
+					$data['shop_id'] = $shop_id;
+					$data['parent_id'] = $parent_id;
+					$data['cat_sort'] = input('post.cat_sort_'.$i."_".$j."/d");
+					$data['is_show'] = input('post.catShow_'.$i."_".$j."/d");
+					$data['create_time'] = $create_time;
+					$this->isUpdate(false)->allowField(["cat_name","shop_id","parent_id","cat_sort","is_show"])->save($data);
 			    }
 			}
 		}
@@ -69,10 +69,10 @@ class ShopCats extends Base{
 	 	$rd = array('status'=>-1);
 	 	$id = input("post.id/d");
 		$data = array();
-		$data["catName"] = input("catName");
-		$shopId = (int)session('FI_USER.shopId');
+		$data["cat_name"] = input("cat_name");
+		$shop_id = (int)session('FI_USER.shop_id');
 		
-		$rs = $this->validate("ShopCats.edit")->save($data,["catId"=>$id,"shopId"=>$shopId]);
+		$rs = $this->validate("ShopCats.edit")->save($data,["cat_id"=>$id,"shop_id"=>$shop_id]);
 		if(false !== $rs){
 			return FIReturn("",1);
 		}
@@ -85,9 +85,9 @@ class ShopCats extends Base{
 	 	$rd = array('status'=>-1);
 	 	$id = input("post.id/d");
 		$data = array();
-		$data["catSort"] = input("post.catSort/d");
-		$shopId = (int)session('FI_USER.shopId');
-		$rs = $this->save($data,["catId"=>$id,"shopId"=>$shopId]);
+		$data["cat_sort"] = input("post.cat_sort/d");
+		$shop_id = (int)session('FI_USER.shop_id');
+		$rs = $this->save($data,["cat_id"=>$id,"shop_id"=>$shop_id]);
 		if(false !== $rs){
 			return FIReturn("",1);
 		}
@@ -97,31 +97,31 @@ class ShopCats extends Base{
 	  * 获取指定对象
 	  */
      public function getById($id){
-		return $this->where(["catId"=>(int)$id])->find();
+		return $this->where(["cat_id"=>(int)$id])->find();
 	 }
 	 
 	 /**
 	  * 获取树形分类
 	  */
-	public function getCatAndChild($shopId){
+	public function getCatAndChild($shop_id){
 	 	 //获取第一级分类
-	 	 $rs1 = $this->where(['shopId'=>$shopId,'dataFlag'=>1,'parentId'=>0])->order('catSort asc')->select();
+	 	 $rs1 = $this->where(['shop_id'=>$shop_id,'status'=>1,'parent_id'=>0])->order('cat_sort asc')->select();
 	 	 if(count($rs1)>0){
 	 	 	$ids = array();
 	 	 	foreach ($rs1 as $key => $v){
-	 	 		$ids[] = $v['catId'];
+	 	 		$ids[] = $v['cat_id'];
 	 	 	}
-	 	 	$rs2 = $this->where(['shopId'=>$shopId,'dataFlag'=>1])
-	 	 				->where('parentId', 'in', implode(',',$ids))
-	 	 				->order('catSort asc,catId asc')->select();
+	 	 	$rs2 = $this->where(['shop_id'=>$shop_id,'status'=>1])
+	 	 				->where('parent_id', 'in', implode(',',$ids))
+	 	 				->order('cat_sort asc,cat_id asc')->select();
 	 	 	if(count($rs2)>0){
 	 	 		$tmpArr = array();
 	 	 		foreach ($rs2 as $key => $v){
-	 	 			$tmpArr[$v['parentId']][] = $v;
+	 	 			$tmpArr[$v['parent_id']][] = $v;
 	 	 		}
 	 	 		foreach ($rs1 as $key => $v){
-	 	 			$rs1[$key]['child'] = array_key_exists($v['catId'],$tmpArr)?$tmpArr[$v['catId']]:null;
-	 	 			$rs1[$key]['childNum'] = array_key_exists($v['catId'],$tmpArr)?count($tmpArr[$v['catId']]):0;;
+	 	 			$rs1[$key]['child'] = array_key_exists($v['cat_id'],$tmpArr)?$tmpArr[$v['cat_id']]:null;
+	 	 			$rs1[$key]['childNum'] = array_key_exists($v['cat_id'],$tmpArr)?count($tmpArr[$v['cat_id']]):0;;
 	 	 		}
 	 	 	}
 		}
@@ -131,9 +131,9 @@ class ShopCats extends Base{
 	/**
 	* 获取列表
 	*/
-	public function listQuery($shopId,$parentId){
-		$rs = $this->where(['shopId'=>$shopId,'dataFlag'=>1,'isShow'=>1,'parentId'=>$parentId,'shopId'=>$shopId])
-				   ->order('catSort asc')->select();
+	public function listQuery($shop_id,$parent_id){
+		$rs = $this->where(['shop_id'=>$shop_id,'status'=>1,'is_show'=>1,'parent_id'=>$parent_id,'shop_id'=>$shop_id])
+				   ->order('cat_sort asc')->select();
 		return $rs;
 	}
 	  
@@ -143,17 +143,17 @@ class ShopCats extends Base{
 	 public function del(){
 	 	$id = input("post.id/d");
 	 	if($id==0)return $rd;
-		$shopId = (int)session('FI_USER.shopId');
+		$shop_id = (int)session('FI_USER.shop_id');
 		//把相关的商品下架了
 		$data = array();
-		$data['isSale'] = 0;
+		$data['is_sale'] = 0;
 		$gm = new \fi\home\model\Goods();
-		$gm->save($data,['shopId'=>$shopId,"shopCatId1"=>$id]);
-		$gm->save($data,['shopId'=>$shopId,"shopCatId2"=>$id]);
+		$gm->save($data,['shop_id'=>$shop_id,"shop_cat_id1"=>$id]);
+		$gm->save($data,['shop_id'=>$shop_id,"shop_cat_id2"=>$id]);
 		//删除商品分类
 		$data = array();
-		$data["dataFlag"] = -1;
-	 	$rs = $this->where("catId|parentId",$id)->where(["shopId"=>$shopId])->update($data);
+		$data["status"] = -1;
+	 	$rs = $this->where("cat_id|parent_id",$id)->where(["shop_id"=>$shop_id])->update($data);
 	    if(false !== $rs){
 			return FIReturn("",1);
 		}else{
@@ -166,28 +166,28 @@ class ShopCats extends Base{
 	/**
 	  * 获取店铺商品分类列表
 	*/
-    public function getShopCats($shopId = 0){
+    public function getShopCats($shop_id = 0){
 		$data = [];
 		if(!$data){
-			$data = $this->field("catId,parentId,catName,shopId")->where(["shopId"=>$shopId,"parentId"=>0,"isShow"=>1 ,"dataFlag"=>1])->order("catSort asc")->select();
+			$data = $this->field("cat_id,parent_id,cat_name,shop_id")->where(["shop_id"=>$shop_id,"parent_id"=>0,"is_show"=>1 ,"status"=>1])->order("cat_sort asc")->select();
 			if(count($data)>0){
 				$ids = array();
 				foreach ($data as $v){
-					$ids[] = $v['catId'];
+					$ids[] = $v['cat_id'];
 				}
 				
-				$crs = $this->field("catId,parentId,catName,shopId")
-							->where(["shopId"=>$shopId,"isShow"=>1 ,"dataFlag"=>1])
-							->where("parentId","in",implode(',',$ids))
-							->order("catSort asc")->select();
+				$crs = $this->field("cat_id,parent_id,cat_name,shop_id")
+							->where(["shop_id"=>$shop_id,"is_show"=>1 ,"status"=>1])
+							->where("parent_id","in",implode(',',$ids))
+							->order("cat_sort asc")->select();
 				$ids = array();
 			    foreach ($crs as $v){
-			    	$ids[$v['parentId']][] = $v;
+			    	$ids[$v['parent_id']][] = $v;
 				}
 				foreach ($data as $key =>$v){
 					$data[$key]['children'] = '';
-					if(isset($ids[$v['catId']])){
-						$data[$key]['children'] = $ids[$v['catId']];
+					if(isset($ids[$v['cat_id']])){
+						$data[$key]['children'] = $ids[$v['cat_id']];
 					}
 				}
 			}
@@ -200,23 +200,23 @@ class ShopCats extends Base{
 	 */
 	public function changeCatStatus(){
 		$id = input("post.id/d");
-		$isShow = input("post.isShow/d");
-		$parentId = input("post.pid/d");
+		$is_show = input("post.is_show/d");
+		$parent_id = input("post.pid/d");
 		$data = array();
-		$data["isShow"] = $isShow;
-		$shopId = (int)session('FI_USER.shopId');
+		$data["is_show"] = $is_show;
+		$shop_id = (int)session('FI_USER.shop_id');
 
-		$this->save($data,["catId"=>$id,"shopId"=>$shopId]);
-		$this->save($data,["parentId"=>$id,"shopId"=>$shopId]);
-		if($parentId>0 && $isShow==1){
-			$this->save($data,["catId"=>$parentId,"shopId"=>$shopId]);
+		$this->save($data,["cat_id"=>$id,"shop_id"=>$shop_id]);
+		$this->save($data,["parent_id"=>$id,"shop_id"=>$shop_id]);
+		if($parent_id>0 && $is_show==1){
+			$this->save($data,["cat_id"=>$parent_id,"shop_id"=>$shop_id]);
 		}
 		//如果是隐藏的话还要下架的商品
-		if($isShow==0){
+		if($is_show==0){
 			$gm = new \fi\home\model\Goods();
 			$data = array();
-			$data["isSale"] = 0;
-			$gm->save($data,["shopId"=>$shopId,"shopCatId1|shopCatId2"=>['=',$id]]);
+			$data["is_sale"] = 0;
+			$gm->save($data,["shop_id"=>$shop_id,"shop_cat_id1|shop_cat_id2"=>['=',$id]]);
 		}
 		return FIReturn("",1);
 	}
@@ -225,22 +225,22 @@ class ShopCats extends Base{
      * 获取自营店铺首页楼层
      */
     public function getFloors(){
-    	$shopId = (int)input('shopId');
-	    $cats1 = $this->where(['dataFlag'=>1, 'isShow' => 1,'parentId'=>0,'shopId'=>$shopId])
-		             ->field("catName,catId")->order('catSort asc')->select();
+    	$shop_id = (int)input('shop_id');
+	    $cats1 = $this->where(['status'=>1, 'is_show' => 1,'parent_id'=>0,'shop_id'=>$shop_id])
+		             ->field("cat_name,cat_id")->order('cat_sort asc')->select();
 		if(!empty($cats1)){
 			$ids = [];
 			foreach ($cats1 as $key =>$v){
-				$ids[] = $v['catId'];
+				$ids[] = $v['cat_id'];
 			}
 			$cats2 = [];
-			$rs = $this->where(['dataFlag'=>1, 'isShow' => 1,'parentId'=>['in',$ids],'shopId'=>$shopId])
-				             ->field("parentId,catName,catId")->order('catSort asc')->select();
+			$rs = $this->where(['status'=>1, 'is_show' => 1,'parent_id'=>['in',$ids],'shop_id'=>$shop_id])
+				             ->field("parent_id,cat_name,cat_id")->order('cat_sort asc')->select();
 			foreach ($rs as $key => $v){
-				$cats2[$v['parentId']][] = $v;
+				$cats2[$v['parent_id']][] = $v;
 			}
 			foreach ($cats1 as $key =>$v){
-				$cats1[$key]['children'] = (isset($cats2[$v['catId']]))?$cats2[$v['catId']]:[];
+				$cats1[$key]['children'] = (isset($cats2[$v['cat_id']]))?$cats2[$v['cat_id']]:[];
 			}
 		}
 		return $cats1;

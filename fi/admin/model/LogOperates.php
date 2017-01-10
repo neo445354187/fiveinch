@@ -12,13 +12,13 @@ class LogOperates extends Base{
 		$startDate = input('get.startDate');
 		$endDate = input('get.endDate');
 		$where = [];
-		if($startDate!='')$where['l.loginTime'] = ['>=',$startDate." 00:00:00"];
-		if($endDate!='')$where[' l.loginTime'] = ['<=',$endDate." 23:59:59"];
-		return $mrs = Db::table('__LOG_OPERATES__')->alias('l')->join('__STAFFS__ s',' l.staffId=s.staffId','left')
-		    ->join('__MENUS__ m',' l.menuId=m.menuId','left')
+		if($startDate!='')$where['l.login_time'] = ['>=',$startDate." 00:00:00"];
+		if($endDate!='')$where[' l.login_time'] = ['<=',$endDate." 23:59:59"];
+		return $mrs = Db::table('__LOG_OPERATES__')->alias('l')->join('__STAFFS__ s',' l.staff_id=s.staff_id','left')
+		    ->join('__MENUS__ m',' l.menu_id=m.menu_id','left')
 			->where($where)
-			->field('l.*,s.staffName,m.menuName')
-			->order('l.operateId', 'desc')->paginate(input('pagesize/d'));
+			->field('l.*,s.staff_name,m.menu_name')
+			->order('l.operate_id', 'desc')->paginate(input('pagesize/d'));
 			
 	}
 	
@@ -27,13 +27,13 @@ class LogOperates extends Base{
 	 */
 	public function add($param){
 		$data = [];
-		$data['staffId'] = (int)session('FI_STAFF.staffId');
-		$data['operateTime'] = date('Y-m-d H:i:s');
-		$data['menuId'] = $param['menuId'];
-		$data['operateDesc'] = $param['operateDesc'];
+		$data['staff_id'] = (int)session('FI_STAFF.staff_id');
+		$data['operate_time'] = date('Y-m-d H:i:s');
+		$data['menu_id'] = $param['menu_id'];
+		$data['operate_desc'] = $param['operate_desc'];
 		$data['content'] = $param['content'];
-		$data['operateUrl'] = $param['operateUrl'];
-		$data['operateIP'] = $param['operateIP'];
+		$data['operate_url'] = $param['operate_url'];
+		$data['operate_ip'] = $param['operate_ip'];
 		$this->create($data);
 	}
 	

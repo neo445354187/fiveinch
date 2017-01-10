@@ -47,7 +47,7 @@ class Articles extends Base{
     		$object = $m->getById($id);
     	}else{
     		$object = $m->getEModel('articles');
-    		$object['catName'] = '';
+    		$object['cat_name'] = '';
     	}
     	$this->assign('object',$object);
     	$this->assign('articlecatList',model('Article_Cats')->listQuery(0));

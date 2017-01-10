@@ -10,19 +10,19 @@ function initGrid(){
         rowHeight:100,
         rownumbers:true,
         columns: [
-	        { display: '品牌名称', name: 'brandName',width: 200,align: 'left',isSort: false},
-            { display: '品牌介绍', name: 'brandDesc',isSort: false},
+	        { display: '品牌名称', name: 'brand_name',width: 200,align: 'left',isSort: false},
+            { display: '品牌介绍', name: 'brand_desc',isSort: false},
             { display: '品牌图标', name: 'img',width: 300,isSort: false,
 	        	render: function (imgs){
-		            var h = '<span><img style="max-height:100%;" src="'+FI.conf.ROOT+"/"+imgs["brandImg"]+'" /></span>';
+		            var h = '<span><img style="max-height:100%;" src="'+FI.conf.ROOT+"/"+imgs["brand_img"]+'" /></span>';
 		            return h;
 	        	}
 	        },
 	        { display: '操作', name: 'op',width: 200,isSort: false,
 	        	render: function (rowdata){
 		            var h = "";
-		            if(FI.GRANT.PPGL_02)h += "<a href='javascript:toEdit("+rowdata["brandId"]+")'>修改</a> ";
-		            if(FI.GRANT.PPGL_03)h += "<a href='javascript:toDel("+rowdata["brandId"]+")'>删除</a> "; 
+		            if(FI.GRANT.PPGL_02)h += "<a href='javascript:toEdit("+rowdata["brand_id"]+")'>修改</a> ";
+		            if(FI.GRANT.PPGL_03)h += "<a href='javascript:toDel("+rowdata["brand_id"]+")'>删除</a> "; 
 		            return h;
 	        	}
 	        }
@@ -31,7 +31,7 @@ function initGrid(){
 }
 
 function loadGrid(){
-	grid.set('url',FI.U('admin/brands/pageQuery','key='+$('#key').val())+'&id='+$('#catId').val());
+	grid.set('url',FI.U('admin/brands/pageQuery','key='+$('#key').val())+'&id='+$('#cat_id').val());
 }
 
 function toEdit(id){

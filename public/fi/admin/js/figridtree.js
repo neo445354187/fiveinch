@@ -7,7 +7,7 @@
  * rowHeight:28,
  * params:{xxx:xxx,xxx:xxx}
  * rownumbers:true,
- * columns:[{display:'分类名称',name:'catName',id:'catId',align:'left',width:'20%',render:function(item){}}]
+ * columns:[{display:'分类名称',name:'cat_name',id:'cat_id',align:'left',width:'20%',render:function(item){}}]
  *}
  */
 $.fn.FIGridTree = function(options){

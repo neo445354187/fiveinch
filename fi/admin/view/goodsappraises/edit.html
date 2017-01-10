@@ -18,17 +18,17 @@ var options = {
       cancelOff: '__STATIC__/plugins/raty/img/cancel-off-big.png',
         cancelOn: '__STATIC__/plugins/raty/img/cancel-on-big.png'
     }
-  options.target='#goodsScore_hint';
-  options.score='{$data['goodsScore']}';
-  $('.goodsScore').raty(options);
+  options.target='#goods_score_hint';
+  options.score='{$data['goods_score']}';
+  $('.goods_score').raty(options);
 
-  options.target='#timeScore_hint';
-  options.score='{$data['timeScore']}';
-  $('.timeScore').raty(options);
+  options.target='#time_score_hint';
+  options.score='{$data['time_score']}';
+  $('.time_score').raty(options);
 
-  options.target='#serviceScore_hint';
-  options.score='{$data['serviceScore']}';
-  $('.serviceScore').raty(options);
+  options.target='#service_score_hint';
+  options.score='{$data['service_score']}';
+  $('.service_score').raty(options);
 
   editInit();
       
@@ -40,20 +40,20 @@ var options = {
   <tr>
       <th width='150'>商品：</th>
           <td>
-            <img src='__ROOT__/{:str_replace(".","_thumb.",$data["goodsImg"])}' width='50' style="float:left;" />&nbsp;
-            <p style="float:left;height:50px;line-height:25px;width:245px;overflow:hidden;margin-left:5px;">{$data['goodsName']}</p>
+            <img src='__ROOT__/{:str_replace(".","_thumb.",$data["goods_img"])}' width='50' style="float:left;" />&nbsp;
+            <p style="float:left;height:50px;line-height:25px;width:245px;overflow:hidden;margin-left:5px;">{$data['goods_name']}</p>
           </td>
        </tr>
        <tr>
           <th>所属订单：</th>
           <td>
-              {$data['orderNo']}
+              {$data['order_no']}
           </td>
        </tr>
        <tr>
           <th>用户：</th>
           <td>
-              {$data['loginName']}
+              {$data['login_name']}
           </td>
        </tr>
        <tr>
@@ -62,8 +62,8 @@ var options = {
                 <div style='width:500px;'>
                   <div style='float:left;width:70px;'>商品评分：</div>
                   <div style='float:left;width:430px;'>
-                    <div class="goodsScore" class="ipt" style='float:left'></div>
-                    <div id="goodsScore_hint"  style='float:left'></div>
+                    <div class="goods_score" class="ipt" style='float:left'></div>
+                    <div id="goods_score_hint"  style='float:left'></div>
                   </div>
                 </div>
                 <div id="score_error"></div>
@@ -71,16 +71,16 @@ var options = {
                <div style='width:500px;'>
                     <div style='float:left;width:70px;'> 时效评分：</div>
                     <div style='float:left;width:430px;'>
-                      <div class="timeScore" class="ipt" style='float:left'></div>
-                      <div id="timeScore_hint" style='float:left'></div>
+                      <div class="time_score" class="ipt" style='float:left'></div>
+                      <div id="time_score_hint" style='float:left'></div>
                     </div>
                </div>
 
                <div style='width:500px;'>
                   <div style='float:left;width:70px;'>服务评分：</div>
                   <div style='float:left;width:430px;'>
-                      <div class="serviceScore" class="ipt" style='float:left'></div>
-                      <div id="serviceScore_hint"  style='float:left'></div>
+                      <div class="service_score" class="ipt" style='float:left'></div>
+                      <div id="service_score_hint"  style='float:left'></div>
                   </div>
                </div>
           </td>
@@ -89,8 +89,8 @@ var options = {
        <tr>
           <th>状态：</th>
           <td>
-            <label><input type="radio" class="ipt" id="isShow" name="isShow" value="1" <?=$data['isShow']==1?'checked':'';?>  />显示</label>
-            <label><input type="radio" class="ipt" id="isShow" name="isShow" value="0" <?=$data['isShow']==0?'checked':'';?>  />隐藏</label>
+            <label><input type="radio" class="ipt" id="is_show" name="is_show" value="1" <?=$data['is_show']==1?'checked':'';?>  />显示</label>
+            <label><input type="radio" class="ipt" id="is_show" name="is_show" value="0" <?=$data['is_show']==0?'checked':'';?>  />隐藏</label>
           </td>
        </tr>
        <tr>

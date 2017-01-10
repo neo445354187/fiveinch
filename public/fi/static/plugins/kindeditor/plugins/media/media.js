@@ -95,7 +95,7 @@ KindEditor.plugin('media', function(K) {
 			if (allowMediaUpload) {
 				var uploadbutton = K.uploadbutton({
 					button : K('.ke-upload-button', div)[0],
-					fieldName : filePostName,
+					field_name : filePostName,
 					extraParams : extraParams,
 					url : K.addParam(uploadJson, 'dir=media'),
 					afterUpload : function(data) {

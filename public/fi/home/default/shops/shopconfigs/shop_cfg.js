@@ -2,7 +2,7 @@ function save(){
 /* 表单验证 */
 $('#shopCfg').validator({
             fields: {
-                shopKeywords: {
+                shop_keywords: {
                   rule:"required",
                   msg:{required:"请输入关键字"},
                   tip:"请输入关键字",
@@ -13,17 +13,17 @@ $('#shopCfg').validator({
           valid: function(form){
             var params = FI.getParams('.ipt');
             // 图片路径
-            var shopAds = [];
+            var shop_ads = [];
             $('.j-gallery-img').each(function(){
-              shopAds.push($(this).attr('v'));
+              shop_ads.push($(this).attr('v'));
             });
-            params.shopAds = shopAds.join(',');
+            params.shop_ads = shop_ads.join(',');
             // 图片轮播广告路径
-            var shopAdsUrl = [];
+            var shop_ads_url = [];
             $('.cfg-img-url').each(function(){
-              shopAdsUrl.push($(this).val());
+              shop_ads_url.push($(this).val());
             });
-            params.shopAdsUrl = shopAdsUrl.join(',');
+            params.shop_ads_url = shop_ads_url.join(',');
 
             var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 
@@ -53,7 +53,7 @@ $('#shopCfg').validator({
 $(function(){
   //店铺顶部广告图上传
   FI.upload({
-      pick:'#shopBannerPicker',
+      pick:'#shop_bannerPicker',
       formData: {dir:'shopconfigs'},
       accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
       callback:function(f){
@@ -61,10 +61,10 @@ $(function(){
         if(json.status==1){
           $('#uploadMsg').empty().hide();
           var shopbanner = json.savePath+json.thumb; //保存到数据库的路径
-          $('#shopBanner').val(shopbanner);
-          $('#shopBannerPreview').parent().show();
+          $('#shop_banner').val(shopbanner);
+          $('#shop_bannerPreview').parent().show();
           $('.del-banner').show();
-          $('#shopBannerPreview').attr('src',FI.conf.ROOT+'/'+json.savePath+json.thumb);
+          $('#shop_bannerPreview').attr('src',FI.conf.ROOT+'/'+json.savePath+json.thumb);
         }else{
             FI.msg(json.msg,{icon:2});
         }

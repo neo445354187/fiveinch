@@ -9,18 +9,18 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '导航类型', name: 'navType', isSort: false,render :function(rowdata, rowindex, value){
+	        { display: '导航类型', name: 'nav_type', isSort: false,render :function(rowdata, rowindex, value){
 	        	return (value==0)?'顶部':'底部';
 	        }},
-	        { display: '导航名称', name: 'navTitle', isSort: false},
-	        { display: '导航链接', name: 'navUrl', isSort: false},
-	        { display: '是否显示', name: 'isShow', isSort: false,render :function(rowdata, rowindex, value){
-	        	return (value==1)?'<span style="cursor:pointer" onclick="isShowtoggle(\'isShow\','+rowdata['id']+', 0)">显示</span>':'<span style="cursor:pointer" onclick="isShowtoggle(\'isShow\','+rowdata['id']+', 1)">隐藏</span>';
+	        { display: '导航名称', name: 'nav_title', isSort: false},
+	        { display: '导航链接', name: 'nav_url', isSort: false},
+	        { display: '是否显示', name: 'is_show', isSort: false,render :function(rowdata, rowindex, value){
+	        	return (value==1)?'<span style="cursor:pointer" onclick="is_showtoggle(\'is_show\','+rowdata['id']+', 0)">显示</span>':'<span style="cursor:pointer" onclick="is_showtoggle(\'is_show\','+rowdata['id']+', 1)">隐藏</span>';
 	        }},
-	        { display: '打开方式', name: 'isOpen', isSort: false,render :function(rowdata, rowindex, value){
-	        	return (value==1)?'<span style="cursor:pointer" onclick="isShowtoggle(\'isOpen\','+rowdata['id']+', 0)">新窗口打开</span>':'<span style="cursor:pointer" onclick="isShowtoggle(\'isOpen\','+rowdata['id']+', 1)">页面跳转</span>';
+	        { display: '打开方式', name: 'is_open', isSort: false,render :function(rowdata, rowindex, value){
+	        	return (value==1)?'<span style="cursor:pointer" onclick="is_showtoggle(\'is_open\','+rowdata['id']+', 0)">新窗口打开</span>':'<span style="cursor:pointer" onclick="is_showtoggle(\'is_open\','+rowdata['id']+', 1)">页面跳转</span>';
 	        }},
-	        { display: '排序号', name: 'navSort', isSort: false},
+	        { display: '排序号', name: 'nav_sort', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
 	            if(FI.GRANT.DHGL_02)h += "<a href='"+FI.U('admin/Navs/toEdit','id='+rowdata['id'])+"'>修改</a> ";
@@ -62,7 +62,7 @@ function edit(id){
       }
     });
 }
-function isShowtoggle(field, id, val){
+function is_showtoggle(field, id, val){
 	if(!FI.GRANT.DHGL_02)return;
 	$.post(FI.U('admin/Navs/editiIsShow'), {'field':field, 'id':id, 'val':val}, function(data, textStatus){
 		var json = FI.toAdminJson(data);
@@ -77,8 +77,8 @@ function isShowtoggle(field, id, val){
 /*表单验证*/
 $('#navForm').validator({
     fields:{
-      navTitle:{rule:'required',msg:{required:"请输入导航名称"},tip:"请输入导航名称",ok:"",},
-      navUrl: {rule:"required;",msg:{required:"请输入导航链接"},tip:"请输入导航链接",ok:"",},
+      nav_title:{rule:'required',msg:{required:"请输入导航名称"},tip:"请输入导航名称",ok:"",},
+      nav_url: {rule:"required;",msg:{required:"请输入导航链接"},tip:"请输入导航链接",ok:"",},
     },
     valid:function(form){
       edit($('#id').val());
@@ -96,5 +96,5 @@ function changeFlink(obj){
 function changeArticles(obj){
      var url = $(obj).val();
     
-     $("#navUrl").val(url);
+     $("#nav_url").val(url);
 }

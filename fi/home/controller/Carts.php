@@ -43,8 +43,8 @@ class Carts extends Base {
     public function settlement() {
         $m = new M();
         //获取一个用户地址
-        $userAddress = model('UserAddress')->getDefaultAddress();
-        $this->assign('userAddress', $userAddress);
+        $user_address = model('UserAddress')->getDefaultAddress();
+        $this->assign('user_address', $user_address);
         //获取省份
         $areas = model('Areas')->listQuery();
         $this->assign('areaList', $areas);
@@ -61,16 +61,16 @@ class Carts extends Base {
      * 计算运费和总商品价格
      */
     public function getCartMoney() {
-        $areaId = input('post.areaId2/d', -1);
+        $area_id = input('post.area_id2/d', -1);
         //获取已选的购物车商品
         $m = new M();
         $carts = $m->getCarts(true);
         $shopFreight = 0;
         $data = ['shops' => [], 'total' => 0, 'status' => 1];
         foreach ($carts['carts'] as $key => $v) {
-            $shopFreight = FIOrderFreight($v['shopId'], $areaId);
-            $data['shops'][$v['shopId']] = $shopFreight;
-            $data['total'] = $v['goodsMoney'] + $shopFreight;
+            $shopFreight = FIOrderFreight($v['shop_id'], $area_id);
+            $data['shops'][$v['shop_id']] = $shopFreight;
+            $data['total'] = $v['goods_money'] + $shopFreight;
         }
         return $data;
     }

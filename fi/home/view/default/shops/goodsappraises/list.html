@@ -9,13 +9,13 @@
     <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
         <option value="">-请选择-</option>
       {volist name=":FIShopCats(0)" id="vo"}
-            <option value="{$vo['catId']}" >{$vo['catName']}</option>
+            <option value="{$vo['cat_id']}" >{$vo['cat_name']}</option>
       {/volist}
     </select>
     <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
   </label>
   <label>
-    商品名称：<input type="text" name="goodsName" id="goodsName" class="s-query" size="40" /><button class="s-btn" onclick="queryByPage()">查询</button>
+    商品名称：<input type="text" name="goods_name" id="goods_name" class="s-query" size="40" /><button class="s-btn" onclick="queryByPage()">查询</button>
   </label>
 </div>
 <div class="fi-shop-content"> 
@@ -40,36 +40,36 @@
       <td rowspan="2">{{i+1}}</td>
       <td rowspan="2">
           <div class="appra-img">
-          <a href="{{FI.U("home/goods/detail","id="+d[i]['goodsId'])}}">
-            <img class='gImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+          <a href="{{FI.U("home/goods/detail","id="+d[i]['goods_id'])}}">
+            <img class='gImg'  data-original='__ROOT__/{{d[i].goods_img}}'/>
           </a>
         </div>
-          <p class="appra-goodsName">
-            {{FI.cutStr(d[i]['goodsName'],43)}}
+          <p class="appra-goods_name">
+            {{FI.cutStr(d[i]['goods_name'],43)}}
           </p>
       </td>
 
 
       <td>
-      {{# for(var gs=0;gs<d[i]['goodsScore'];++gs){ }}
+      {{# for(var gs=0;gs<d[i]['goods_score'];++gs){ }}
           <img src="__STATIC__/plugins/raty/img/star-on.png">
       {{# } }}
       </td>
 
       <td>
-      {{# for(var gs=0;gs<d[i]['serviceScore'];++gs){ }}
+      {{# for(var gs=0;gs<d[i]['service_score'];++gs){ }}
           <img src="__STATIC__/plugins/raty/img/star-on.png">
       {{# } }}
       </td>
       
       <td>
-      {{# for(var gs=0;gs<d[i]['timeScore'];++gs){ }}
+      {{# for(var gs=0;gs<d[i]['time_score'];++gs){ }}
           <img src="__STATIC__/plugins/raty/img/star-on.png">
       {{# } }}
       </td>     
    </tr>
    <tr style="border-bottom:1px solid #ccc;">
-         <td colspan='3'>评价[{{d[i]['loginName']}}]：{{d[i]['content']}}
+         <td colspan='3'>评价[{{d[i]['login_name']}}]：{{d[i]['content']}}
              
             {{#  if(d[i]['images']!=''){ var img = d[i]['images'].split(','); var length = img.length;  }}
             <div id="img-file-{{i}}">
@@ -79,11 +79,11 @@
             </div>
             {{# }  }}
             <div class="reply-box">
-              {{# if(d[i]['shopReply']==null || d[i]['shopReply']=='') { }}
+              {{# if(d[i]['shop_reply']==null || d[i]['shop_reply']=='') { }}
               <textarea cols="65" rows="5" id="reply-{{d[i]['gaId']}}" ></textarea>
               <button class="reply-btn s-btn" onclick="reply(this,{{d[i]['gaId']}})">回复</button>
               {{# }else{ }}
-               <p class="reply-content">{{d[i]['shopReply']}}【{{d[i]['replyTime']}}】</p>
+               <p class="reply-content">{{d[i]['shop_reply']}}【{{d[i]['reply_time']}}】</p>
               {{# } }}
 
             </div>

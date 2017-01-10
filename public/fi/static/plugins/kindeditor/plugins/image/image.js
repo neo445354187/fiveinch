@@ -15,7 +15,7 @@ KindEditor.plugin('image', function(K) {
 		allowFileManager = K.undef(self.allowFileManager, false),
 		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
 		imageTabIndex = K.undef(self.imageTabIndex, 0),
-		imgPath = self.pluginsPath + 'image/images/',
+		img_path = self.pluginsPath + 'image/images/',
 		extraParams = K.undef(self.extraFileUploadParams, {}),
 		filePostName = K.undef(self.filePostName, 'imgFile'),
 		fillDescAfterUploadImage = K.undef(self.fillDescAfterUploadImage, false),
@@ -55,14 +55,14 @@ KindEditor.plugin('image', function(K) {
 			'<label for="remoteWidth" style="width:60px;">' + lang.size + '</label>',
 			lang.width + ' <input type="text" id="remoteWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> ',
 			lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> ',
-			'<img class="ke-refresh-btn" src="' + imgPath + 'refresh.png" width="16" height="16" alt="" style="cursor:pointer;" title="' + lang.resetSize + '" />',
+			'<img class="ke-refresh-btn" src="' + img_path + 'refresh.png" width="16" height="16" alt="" style="cursor:pointer;" title="' + lang.resetSize + '" />',
 			'</div>',
 			//align
 			'<div class="ke-dialog-row">',
 			'<label style="width:60px;">' + lang.align + '</label>',
-			'<input type="radio" name="align" class="ke-inline-block" value="" checked="checked" /> <img name="defaultImg" src="' + imgPath + 'align_top.gif" width="23" height="25" alt="" />',
-			' <input type="radio" name="align" class="ke-inline-block" value="left" /> <img name="leftImg" src="' + imgPath + 'align_left.gif" width="23" height="25" alt="" />',
-			' <input type="radio" name="align" class="ke-inline-block" value="right" /> <img name="rightImg" src="' + imgPath + 'align_right.gif" width="23" height="25" alt="" />',
+			'<input type="radio" name="align" class="ke-inline-block" value="" checked="checked" /> <img name="defaultImg" src="' + img_path + 'align_top.gif" width="23" height="25" alt="" />',
+			' <input type="radio" name="align" class="ke-inline-block" value="left" /> <img name="leftImg" src="' + img_path + 'align_left.gif" width="23" height="25" alt="" />',
+			' <input type="radio" name="align" class="ke-inline-block" value="right" /> <img name="rightImg" src="' + img_path + 'align_right.gif" width="23" height="25" alt="" />',
 			'</div>',
 			//title
 			'<div class="ke-dialog-row">',
@@ -184,7 +184,7 @@ KindEditor.plugin('image', function(K) {
 
 		var uploadbutton = K.uploadbutton({
 			button : K('.ke-upload-button', div)[0],
-			fieldName : filePostName,
+			field_name : filePostName,
 			form : K('.ke-form', div),
 			target : target,
 			width: 60,

@@ -5,36 +5,36 @@
 {/block}
 {block name="content"}
 	<div class="fi-sec-info">
-	<img class="fi-lfloat usersImg" data-original='__ROOT__/{$data['userPhoto']}' width='100' height='100' title="{$data['loginName']}"/>
+	<img class="fi-lfloat usersImg" data-original='__ROOT__/{$data['user_photo']}' width='100' height='100' title="{$data['login_name']}"/>
 	<div class="fi-sec-infor">
-	<span class="fi-sec-na fi-lfloat">{$data['loginName']}</span>
+	<span class="fi-sec-na fi-lfloat">{$data['login_name']}</span>
 	{if($data['ranks'])}
-	<span class="fi-sec-grade"><img class="fi-lfloat" src="__ROOT__/{$data['ranks']['userrankImg']}"/><span class="fi-lfloat">{$data['ranks']['rankName']}</span></span>
+	<span class="fi-sec-grade"><img class="fi-lfloat" src="__ROOT__/{$data['ranks']['userrank_img']}"/><span class="fi-lfloat">{$data['ranks']['rank_name']}</span></span>
 	{/if}
 	<div style='clear:both;'></div>
 	<div style="margin-top:6px;">
 	<span class="fi-sec-infoi" id="level"></span>
 	<div class="fi-sec-infoi" style="margin-top:5px;">
-		<span class="fi-sec-strip fi-lfloat">{if ($data['loginPwd'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}{if ($data['userEmail'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}{if ($data['userPhone'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}</span>
+		<span class="fi-sec-strip fi-lfloat">{if ($data['login_password'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}{if ($data['user_email'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}{if ($data['user_phone'])}<span class="fi-sec-strip2 fi-lfloat"></span>{/if}</span>
 	</div>
 	<div class="fi-sec-infoi" style="margin-top:5px;">
-		<span>上次登录时间：{php}echo date("Y年m月d日 H:i:s",strtotime($data['lastTime']));{/php}</span><br/>
-		<span>上次登录IP：{$data['lastIP']}</span>
+		<span>上次登录时间：{php}echo date("Y年m月d日 H:i:s",strtotime($data['last_time']));{/php}</span><br/>
+		<span>上次登录IP：{$data['last_ip']}</span>
 	</div>
 	</div>
 	</div>
 	<div style='clear:both;'></div>
 	</div>
 	<div class="fi-sec-s">
-		<div class="fi-sec-lists">{if ($data['loginPwd'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未设置</span>{/if}
-		<span class="fi-sec-w">&nbsp;登录密码</span>&nbsp;&nbsp;登陆密码用于会员的登陆以及进行登陆的一系列操作，{if ($data['loginPwd'])}建议您定期更改密码{else}您还没有设置密码{/if}
-		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editPass')">{if ($data['loginPwd'])}修改密码{else}立即设置{/if}</a></div>
-		<div class="fi-sec-lists">{if ($data['userEmail'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
-		<span class="fi-sec-w">&nbsp;邮箱验证</span>&nbsp;&nbsp;邮箱验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userEmail'])}您的绑定邮箱：{$data['userEmail']}{else}您还没有验证邮箱{/if}
-		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editEmail')">{if ($data['userEmail'])}修改邮箱{else}立即验证{/if}</a></div>
-		<div class="fi-sec-lists">{if ($data['userPhone'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
-		<span class="fi-sec-w">&nbsp;手机验证</span>&nbsp;&nbsp;手机验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['userPhone'])}您的绑定手机：{$data['userPhone']}{else}您还没有验证手机{/if}
-		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editPhone')">{if ($data['userPhone'])}修改手机{else}立即验证{/if}</a></div>
+		<div class="fi-sec-lists">{if ($data['login_password'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已设置</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未设置</span>{/if}
+		<span class="fi-sec-w">&nbsp;登录密码</span>&nbsp;&nbsp;登陆密码用于会员的登陆以及进行登陆的一系列操作，{if ($data['login_password'])}建议您定期更改密码{else}您还没有设置密码{/if}
+		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editPass')">{if ($data['login_password'])}修改密码{else}立即设置{/if}</a></div>
+		<div class="fi-sec-lists">{if ($data['user_email'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
+		<span class="fi-sec-w">&nbsp;邮箱验证</span>&nbsp;&nbsp;邮箱验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['user_email'])}您的绑定邮箱：{$data['user_email']}{else}您还没有验证邮箱{/if}
+		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editEmail')">{if ($data['user_email'])}修改邮箱{else}立即验证{/if}</a></div>
+		<div class="fi-sec-lists">{if ($data['user_phone'])}<span class="fi-sec-green"><img src="__HOME__/img/user_icon_yyz.png"/>已验证</span>{else}<span class="fi-sec-ash"><img src="__HOME__/img/icon_wyz.png"/>未验证</span>{/if}
+		<span class="fi-sec-w">&nbsp;手机验证</span>&nbsp;&nbsp;手机验证方便您及时接收优惠促销信息，以及积分、优惠卷和账户余额变动的提醒。{if ($data['user_phone'])}您的绑定手机：{$data['user_phone']}{else}您还没有验证手机{/if}
+		<a class="fi-user-buta fi-rfloat" onclick="location.href=FI.U('home/users/editPhone')">{if ($data['user_phone'])}修改手机{else}立即验证{/if}</a></div>
 		<div style='clear:both;'></div>
 	</div>
 {/block}

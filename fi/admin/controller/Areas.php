@@ -8,10 +8,10 @@ class Areas extends Base{
 	
     public function index(){
     	$m = new M();
-    	$pArea=array('areaId'=>0,'parentId'=>0);
-    	$parentId = Input("get.parentId/d",0);
-    	if($parentId>0){
-    		$pArea = $m->getFieldsById($parentId,['areaName,areaId,parentId']);
+    	$pArea=array('area_id'=>0,'parent_id'=>0);
+    	$parent_id = Input("get.parent_id/d",0);
+    	if($parent_id>0){
+    		$pArea = $m->getFieldsById($parent_id,['area_name,area_id,parent_id']);
     	}
     	$this->assign("pArea",$pArea);
     	return $this->fetch("list");
@@ -85,7 +85,7 @@ class Areas extends Base{
      */
     public function listQuery(){
     	$m = new M();
-    	$list = $m->listQuery(Input("post.parentId/d",0));
+    	$list = $m->listQuery(Input("post.parent_id/d",0));
     	return FIReturn("", 1,$list);
     }
 }

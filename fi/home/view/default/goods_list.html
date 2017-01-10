@@ -17,14 +17,14 @@
    		&nbsp;<span class="fi-hot-icon">热卖推荐</span>
    </div>
    <ul class='fi-sales-box'>
-     {fi:goods type='recom' cat='$catId' num='4'}
+     {fi:goods type='recom' cat='$cat_id' num='4'}
       <li class="item">
-     	<div class="img"><a target='_blank' href='{:Url("home/goods/detail","id=".$vo["goodsId"])}'><img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" title="{$vo['goodsName']}" alt="{$vo['goodsName']}" /></a></div>
+     	<div class="img"><a target='_blank' href='{:Url("home/goods/detail","id=".$vo["goods_id"])}'><img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" title="{$vo['goods_name']}" alt="{$vo['goods_name']}" /></a></div>
      	<div class="des">
-     		<div class="p-sale">已售{$vo['saleNum']}件</div>
-     		<div class="p-name"><a target='_blank' href='{:Url("home/goods/detail","id=".$vo["goodsId"])}'>{$vo['goodsName']}</a></div>
-     		<div class="p-price">￥{$vo['shopPrice']}</div>
-     		<div class="p-buy"><a href="javascript:FI.addCart({$vo['goodsId']})">加入购物车</a></div>
+     		<div class="p-sale">已售{$vo['sale_num']}件</div>
+     		<div class="p-name"><a target='_blank' href='{:Url("home/goods/detail","id=".$vo["goods_id"])}'>{$vo['goods_name']}</a></div>
+     		<div class="p-price">￥{$vo['shop_price']}</div>
+     		<div class="p-buy"><a href="javascript:FI.addCart({$vo['goods_id']})">加入购物车</a></div>
      	</div>
       </li>
      {/fi:goods}
@@ -32,31 +32,31 @@
 </div>
 
 {/* 已筛选的条件 */}
-<input type="hidden" id="cat" class="sipt" value='{$catId}'/>
-<input type="hidden" id="brand" class="sipt" value='{$brandId}'/>
+<input type="hidden" id="cat" class="sipt" value='{$cat_id}'/>
+<input type="hidden" id="brand" class="sipt" value='{$brand_id}'/>
 {volist name="$vs" id="v"}
 <input type="hidden" id="v_{$v}" class="sipt" value='{$attrs["v_".$v]}'/>
 {/volist}
 <input type="hidden" id="vs" class="sipt" value='{:implode(",",$vs)}'/>
 <input type="hidden" id="orderBy" class="sipt" value='{$orderBy}'/>
 <input type="hidden" id="order" class="sipt" value='{php}echo ($order=="0")?"1":"0";{/php}' autocomplete="off"/>
-<input type="hidden" id="areaId" class="sipt" value='{$areaId}' />
+<input type="hidden" id="area_id" class="sipt" value='{$area_id}' />
 <div class='fi-filters'>
    <div class='item' style="border-left:2px solid #df2003;padding-left: 8px;">
       <a class='link' href='__ROOT__'>首页</a>
       <i class="arrow">></i>
    </div>
-   {if($catId)}
-   {volist name=":FIPathGoodsCat($catId)" id='vo'}
+   {if($cat_id)}
+   {volist name=":FIPathGoodsCat($cat_id)" id='vo'}
    <div class='fi-lfloat'>
    	<div class='item dorpdown'>
      <div class='drop-down'>
-        <a class='link' href='__ROOT__'>{$vo['catName']}</a>
+        <a class='link' href='__ROOT__'>{$vo['cat_name']}</a>
         <i class="drop-down-arrow"></i>
      </div>
      <div class="dorp-down-layer">
-         {volist name=":FIGoodsCats($vo['parentId'])" id='vo2'}
-         <div class="{$vo['parentId']>0?'cat2':'cat1'}"><a href='{:Url("home/goods/lists","cat=".$vo2["catId"])}'>{$vo2['catName']}</a></div>
+         {volist name=":FIGoodsCats($vo['parent_id'])" id='vo2'}
+         <div class="{$vo['parent_id']>0?'cat2':'cat1'}"><a href='{:Url("home/goods/lists","cat=".$vo2["cat_id"])}'>{$vo2['cat_name']}</a></div>
          {/volist}
 	</div>
 	</div>
@@ -90,7 +90,7 @@
           <div class='label'>品牌：</div>
           <ul class='content'>
           {volist name="$brandFilter" id="bv"}
-          <li class='s-item' onclick='javascript:goodsFilter(this,1)' v="{$bv['brandId']}">{$bv['brandName']}</li>
+          <li class='s-item' onclick='javascript:goodsFilter(this,1)' v="{$bv['brand_id']}">{$bv['brand_name']}</li>
           {/volist}
           </ul>
           <div class='extra'>&nbsp;</div>
@@ -99,12 +99,12 @@
        {/if}
        {volist name="$goodsFilter" id="gv"}
        {php}$selectorNum++;{/php}
-       <input type="hidden" id="v_{$gv['attrId']}" class="sipt" value=''/>
+       <input type="hidden" id="v_{$gv['attr_id']}" class="sipt" value=''/>
        <div class='item <?=($selectorNum > 3)?"hideItem hide":"" ?>'>
-          <div class='label'>{$gv['attrName']}：</div>
+          <div class='label'>{$gv['attr_name']}：</div>
           <ul class='content'>
-             {volist name="$gv['attrVal']" id="gvi"}
-             <li class='s-item' onclick='javascript:goodsFilter(this,3)' d="{$gv['attrId']}" v="{$gvi}">{$gvi}</li>
+             {volist name="$gv['attr_val']" id="gvi"}
+             <li class='s-item' onclick='javascript:goodsFilter(this,3)' d="{$gv['attr_id']}" v="{$gvi}">{$gvi}</li>
              {/volist}
           </ul>
           <div class='extra'>&nbsp;</div>
@@ -138,21 +138,21 @@
 	<div class='goods-side'>
 		<div class="guess-like">
 			<div class="title">猜你喜欢</div>
-			{fi:goods type='best' cat="$catId" num='3'}
+			{fi:goods type='best' cat="$cat_id" num='3'}
 			<div class="item">
-				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" alt="{$vo['goodsName']}" title="{$vo['goodsName']}"/></a></div>
-				<div class="p-name"><a class="fi-hide fi-redlink">{$vo['goodsName']}</a></div>
-				<div class="p-price">￥{$vo['shopPrice']}<span class="v-price">￥{$vo['marketPrice']}</span></div>
+				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" alt="{$vo['goods_name']}" title="{$vo['goods_name']}"/></a></div>
+				<div class="p-name"><a class="fi-hide fi-redlink">{$vo['goods_name']}</a></div>
+				<div class="p-price">￥{$vo['shop_price']}<span class="v-price">￥{$vo['market_price']}</span></div>
 			</div>
 			{/fi:goods}
 		</div>
 		<div class="hot-goods">
 			<div class="title">热销商品</div>
-			{fi:goods type='hot' cat="$catId" num='3'}
+			{fi:goods type='hot' cat="$cat_id" num='3'}
 			<div class="item">
-				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" alt="{$vo['goodsName']}" title="{$vo['goodsName']}"/></a></div>
-				<div class="p-name"><a class="fi-hide fi-redlink">{$vo['goodsName']}</a></div>
-				<div class="p-price">￥{$vo['shopPrice']}<span class="v-price">￥{$vo['marketPrice']}</span></div>
+				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" alt="{$vo['goods_name']}" title="{$vo['goods_name']}"/></a></div>
+				<div class="p-name"><a class="fi-hide fi-redlink">{$vo['goods_name']}</a></div>
+				<div class="p-price">￥{$vo['shop_price']}<span class="v-price">￥{$vo['market_price']}</span></div>
 			</div>
 			{/fi:goods}
 		</div>
@@ -165,10 +165,10 @@
 		    <div class='item dorpdown'>
 		     <div class='drop-down'>
 		        <a class='link' href='__ROOT__'>
-		        	{if empty($areaInfo['areaName'])}
+		        	{if empty($areaInfo['area_name'])}
 		        	广东省广州市天河区
 		        	{else /}
-		        		{$areaInfo['areaName']}
+		        		{$areaInfo['area_name']}
 		        	{/if}
 		        </a>
 		        <i class="drop-down-arrow"></i>
@@ -180,7 +180,7 @@
      	 <ul class="tab">
      	 	<li class="tab-item1" id="fl_1_1" onclick="gpanelOver(this);" c="1" >
      	 		{if isset($areaInfo)}
-     	 		<a href='javascript:void(0)'>{$areaInfo[0]['areaName']}</a>
+     	 		<a href='javascript:void(0)'>{$areaInfo[0]['area_name']}</a>
      	 		{else /}
      	 		<a href='javascript:void(0)'>广东省</a>
      	 		{/if}
@@ -188,10 +188,10 @@
 
      	 	{if isset($areaInfo)}
      	 	<li class="tab-item1" id="fl_1_2" onclick="gpanelOver(this);" c="1" >
-				<a href="javascript:void(0)">{$areaInfo[1]['areaName']}</a>
+				<a href="javascript:void(0)">{$areaInfo[1]['area_name']}</a>
 			</li>
 			<li class="tab-item1 j-tab-selected1" id="fl_1_3" onclick="gpanelOver(this);" c="1" >
-				<a href="javascript:void(0)">{$areaInfo[2]['areaName']}</a>
+				<a href="javascript:void(0)">{$areaInfo[2]['area_name']}</a>
 			</li>
 			{else /}
 			<li class="tab-item1" id="fl_1_2" onclick="gpanelOver(this);" c="1" pid="440100" >
@@ -208,18 +208,18 @@
      	</div>
      	 <ul class="area-box" id="fl_1_1_pl" style="display:none;">
      	 	{volist name="$area1" id="area1"}
-			<li onclick="choiceArea(this,{$area1['areaId']})"><a href="javascript:void(0)">{$area1['areaName']}</a></li>
+			<li onclick="choiceArea(this,{$area1['area_id']})"><a href="javascript:void(0)">{$area1['area_name']}</a></li>
 			{/volist}
 		</ul>
 		<ul class="area-box" id="fl_1_2_pl" style="display:none;">
 			{volist name="$area2" id="area2"}
-			<li onclick="choiceArea(this,{$area2['areaId']})"><a href="javascript:void(0)">{$area2['areaName']}</a></li>
+			<li onclick="choiceArea(this,{$area2['area_id']})"><a href="javascript:void(0)">{$area2['area_name']}</a></li>
 			{/volist}
 		</ul>
 
 		<ul class="area-box" id="fl_1_3_pl">
 			{volist name="$area3" id="area3"}
-			<li onclick="choiceArea(this,{$area3['areaId']})"><a href="javascript:void(0)">{$area3['areaName']}</a></li>
+			<li onclick="choiceArea(this,{$area3['area_id']})"><a href="javascript:void(0)">{$area3['area_name']}</a></li>
 			{/volist}
 		</ul>
 
@@ -234,7 +234,7 @@
 	                  仅显示有货</div>
 	        <div class='chk'>
 	         <div class="checkbox-box-s">
-		     <input name='isNew' value='1' class="sipt fi-checkbox-s" onclick="goodsFilter(this,4)" type='checkbox' id="new" {if $isNew==1}checked{/if}/>
+		     <input name='is_new' value='1' class="sipt fi-checkbox-s" onclick="goodsFilter(this,4)" type='checkbox' id="new" {if $is_new==1}checked{/if}/>
 		     <label for="new"></label>
 		     </div>
 	                  新品</div>
@@ -264,22 +264,22 @@
 	   <div class="goods-list">
 	      {volist name='goodsPage["Rows"]' id='vo'}
 	      <div class="goods">
-	      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img title="{$vo['goodsName']}" alt="{$vo['goodsName']}" class='goodsImg2' data-original="__ROOT__/{$vo['goodsImg']}"/></a></div>
-	      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="fi-redlink" title="{$vo['goodsName']}">{$vo['goodsName']}</a></div>
+	      	<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img title="{$vo['goods_name']}" alt="{$vo['goods_name']}" class='goods_img2' data-original="__ROOT__/{$vo['goods_img']}"/></a></div>
+	      	<div class="p-name"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}" class="fi-redlink" title="{$vo['goods_name']}">{$vo['goods_name']}</a></div>
 	      	<div>
-	      		<div class="p-price">￥{$vo['shopPrice']}</div>
+	      		<div class="p-price">￥{$vo['shop_price']}</div>
 	      		<div class="p-hsale">
-	      			<div class="sale-num">成交数：<span class="fi-fred">{$vo['saleNum']}</span></div>
-		      		<a class="p-add-cart" style="display:none;" href="javascript:FI.addCart({$vo['goodsId']});">加入购物车</a>
+	      			<div class="sale-num">成交数：<span class="fi-fred">{$vo['sale_num']}</span></div>
+		      		<a class="p-add-cart" style="display:none;" href="javascript:FI.addCart({$vo['goods_id']});">加入购物车</a>
 	      		</div>
 	      		<div class='fi-clear'></div>
 	      	</div>
 	      	<div>
-	      		<div class="p-mprice">市场价<span>￥{$vo['marketPrice']}</span></div>
-	      		<div class="p-appraise">已有<span class="fi-fred">{$vo['appraiseNum']}</span>人评价</div>
+	      		<div class="p-mprice">市场价<span>￥{$vo['market_price']}</span></div>
+	      		<div class="p-appraise">已有<span class="fi-fred">{$vo['appraise_num']}</span>人评价</div>
 	      		<div class='fi-clear'></div>
 	      	</div>
-	      	<div class="p-shop"><a href="{:Url('home/shops/home','shopId='.$vo['shopId'])}" target='_blank' class="fi-redlink">{$vo['shopName']}</a></div>
+	      	<div class="p-shop"><a href="{:Url('home/shops/home','shop_id='.$vo['shop_id'])}" target='_blank' class="fi-redlink">{$vo['shop_name']}</a></div>
 	      </div>
 	      
 	      {/volist}
@@ -298,11 +298,11 @@
 	<div class="fi-gview">
 		<div class="title">您最近浏览的商品</div>
 		<div class="view-goods">
-	       {fi:goods type='history' cat="$catId" num='7'}
+	       {fi:goods type='history' cat="$cat_id" num='7'}
 			<div class="item">
-				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" alt="{$vo['goodsName']}" title="{$vo['goodsName']}"/></a></div>
-				<div class="p-name"><a class="fi-hide fi-redlink" href="{:Url('home/goods/detail','id='.$vo['goodsId'])}">{$vo['goodsName']}</a></div>
-				<div class="p-price">￥{$vo['shopPrice']}<span class="v-price">￥{$vo['marketPrice']}</span></div>
+				<div class="img"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" alt="{$vo['goods_name']}" title="{$vo['goods_name']}"/></a></div>
+				<div class="p-name"><a class="fi-hide fi-redlink" href="{:Url('home/goods/detail','id='.$vo['goods_id'])}">{$vo['goods_name']}</a></div>
+				<div class="p-price">￥{$vo['shop_price']}<span class="v-price">￥{$vo['market_price']}</span></div>
 			</div>
 	       {/fi:goods}
 	     	<div class='fi-clear'></div>

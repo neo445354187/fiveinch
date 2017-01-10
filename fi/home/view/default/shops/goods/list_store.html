@@ -8,13 +8,13 @@
   <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
       <option value="">-请选择-</option>
     {volist name=":FIShopCats(0)" id="vo"}
-          <option value="{$vo['catId']}" >{$vo['catName']}</option>
+          <option value="{$vo['cat_id']}" >{$vo['cat_name']}</option>
     {/volist}
   </select>
   <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
 </label>
 <label>
-  商品名称：<input type="text" name="goodsName" id="goodsName" class="s-query" size="40" /><button class="s-btn" id="store-query" onclick="storeByPage()">查询</button>
+  商品名称：<input type="text" name="goods_name" id="goods_name" class="s-query" size="40" /><button class="s-btn" id="store-query" onclick="storeByPage()">查询</button>
 </label>
 </div>
 <div class="fi-clear"></div>
@@ -22,10 +22,10 @@
 <div class="fi-body"> 
         <div class="s-menu">
             <a href='javascript:;' onclick="changeSale(1,'store')" class="s-sale-up"><span>上架</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isRecom','store')" class="s-rec"><span>推荐</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isNew','store')" class="s-new"><span>新品</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isBest','store')" class="s-best"><span>精品</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isHot','store')" class="s-hot"><span>热销</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_recom','store')" class="s-rec"><span>推荐</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_new','store')" class="s-new"><span>新品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_best','store')" class="s-best"><span>精品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_hot','store')" class="s-hot"><span>热销</span></a>
             <a href='javascript:void(0);' onclick="benchDel('store')" class="s-del"><span>删除</span></a>
             <a href='{:url("home/goods/add")}' class="s-add"><span>新增</span></a>
          </div>
@@ -60,48 +60,48 @@
            <tr>
              <td>
              <div class="checkbox-box-s">
-              <input type='checkbox'  class='chk fi-checkbox-s' id="chk-{{i}}" value='{{d[i]['goodsId']}}' /><label for="chk-{{i}}"></label>
+              <input type='checkbox'  class='chk fi-checkbox-s' id="chk-{{i}}" value='{{d[i]['goods_id']}}' /><label for="chk-{{i}}"></label>
              </div>
              </td>
              <td>
                 <div class="goods-img">
-                <a href="{{FI.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
-                  <img class='j-lazyGoodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+                <a href="{{FI.U("home/goods/detail","id="+d[i]['goods_id']+"&key="+d[i]['verfiycode'])}}">
+                  <img class='j-lazyGoodsImg'  data-original='__ROOT__/{{d[i].goods_img}}'/>
                 </a>
               </div>
-              <p class="goodsName">
-                {{FI.cutStr(d[i]['goodsName'],43)}}
+              <p class="goods_name">
+                {{FI.cutStr(d[i]['goods_name'],43)}}
               </p>
              </td>
-             <td>{{d[i]['goodsSn']}}</td>
+             <td>{{d[i]['goods_sn']}}</td>
 
-             {{# if(d[i]['isSpec']==1) { }}
-              <td>￥{{d[i]['shopPrice']}}</td>
+             {{# if(d[i]['is_spec']==1) { }}
+              <td>￥{{d[i]['shop_price']}}</td>
              {{# }else{ }}
-              <td width="40" ondblclick="javascript:toEditGoodsBase(2,{{d[i]['goodsId']}},'')">
-                  <input id="ipt_2_{{d[i]['goodsId']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberdoteKey(event)" onblur="javascript:editGoodsBase(2,{{d[i]['goodsId']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="10"/>
-                  <span id="span_2_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:green;">{{d[i]['shopPrice']}}</span>
+              <td width="40" ondblclick="javascript:toEditGoodsBase(2,{{d[i]['goods_id']}},'')">
+                  <input id="ipt_2_{{d[i]['goods_id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberdoteKey(event)" onblur="javascript:editGoodsBase(2,{{d[i]['goods_id']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="10"/>
+                  <span id="span_2_{{d[i]['goods_id']}}" style="display: inline;cursor:pointer;color:green;">{{d[i]['shop_price']}}</span>
               </td>
              {{# } }}
 
-             <td><div status="{{d[i]['isRecom']}}" title='双击可修改' ondblclick='changSaleStatus("r",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isRecom']==1)?'right':'wrong')}}"></div></td>
-              <td><div status="{{d[i]['isBest']}}" title='双击可修改' ondblclick='changSaleStatus("b",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isBest']==1)?'right':'wrong')}}"></div></td>
-              <td><div status="{{d[i]['isNew']}}" title='双击可修改' ondblclick='changSaleStatus("n",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isNew']==1)?'right':'wrong')}}"></div></td>
-              <td><div status="{{d[i]['isHot']}}" title='双击可修改' ondblclick='changSaleStatus("h",this,{{d[i]["goodsId"]}})' class="w-r {{((d[i]['isHot']==1)?'right':'wrong')}}"></div></td>
+             <td><div status="{{d[i]['is_recom']}}" title='双击可修改' ondblclick='changSaleStatus("r",this,{{d[i]["goods_id"]}})' class="w-r {{((d[i]['is_recom']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['is_best']}}" title='双击可修改' ondblclick='changSaleStatus("b",this,{{d[i]["goods_id"]}})' class="w-r {{((d[i]['is_best']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['is_new']}}" title='双击可修改' ondblclick='changSaleStatus("n",this,{{d[i]["goods_id"]}})' class="w-r {{((d[i]['is_new']==1)?'right':'wrong')}}"></div></td>
+              <td><div status="{{d[i]['is_hot']}}" title='双击可修改' ondblclick='changSaleStatus("h",this,{{d[i]["goods_id"]}})' class="w-r {{((d[i]['is_hot']==1)?'right':'wrong')}}"></div></td>
 
-             <td>{{d[i]['saleNum']}}</td>
-             {{# if(d[i]['isSpec']==1) { }}
-             <td>{{d[i]['goodsStock']}}</td>
+             <td>{{d[i]['sale_num']}}</td>
+             {{# if(d[i]['is_spec']==1) { }}
+             <td>{{d[i]['goods_stock']}}</td>
               {{# }else{ }}
-                <td width="40" ondblclick="javascript:toEditGoodsBase(3,{{d[i]['goodsId']}},'')">
-                <input id="ipt_3_{{d[i]['goodsId']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsBase(3,{{d[i]['goodsId']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="6"/>
-                <span id="span_3_{{d[i]['goodsId']}}" style="display: inline;">{{d[i]['goodsStock']}}</span>
+                <td width="40" ondblclick="javascript:toEditGoodsBase(3,{{d[i]['goods_id']}},'')">
+                <input id="ipt_3_{{d[i]['goods_id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsBase(3,{{d[i]['goods_id']}})" style="display:none;width:100%;border:1px solid red;width:40px;" maxlength="6"/>
+                <span id="span_3_{{d[i]['goods_id']}}" style="display: inline;">{{d[i]['goods_stock']}}</span>
              </td>
               {{# } }}
              <td>
-                <a class="g-handle" target='_blank' href='{{FI.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}'>[查看]</a>
-                <a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"store")'>[编辑]</a>
-                <a class="g-handle" href='javascript:del({{d[i]['goodsId']}},"store")'>[删除]</a>
+                <a class="g-handle" target='_blank' href='{{FI.U("home/goods/detail","id="+d[i]['goods_id']+"&key="+d[i]['verfiycode'])}}'>[查看]</a>
+                <a class="g-handle" href='javascript:toEdit({{d[i]['goods_id']}},"store")'>[编辑]</a>
+                <a class="g-handle" href='javascript:del({{d[i]['goods_id']}},"store")'>[删除]</a>
              </td>
           </tr>
           {{# } }}
@@ -109,10 +109,10 @@
 		</table>
 		    <div class="s-menu">
             <a href='javascript:;' onclick="changeSale(1,'store')" class="s-sale-up"><span>上架</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isRecom','store')" class="s-rec"><span>推荐</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isNew','store')" class="s-new"><span>新品</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isBest','store')" class="s-best"><span>精品</span></a>
-            <a href='javascript:void(0);' onclick="changeGoodsStatus('isHot','store')" class="s-hot"><span>热销</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_recom','store')" class="s-rec"><span>推荐</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_new','store')" class="s-new"><span>新品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_best','store')" class="s-best"><span>精品</span></a>
+            <a href='javascript:void(0);' onclick="changeGoodsStatus('is_hot','store')" class="s-hot"><span>热销</span></a>
             <a href='javascript:void(0);' onclick="benchDel('store')" class="s-del"><span>删除</span></a>
             <a href='{:url("home/goods/add")}' class="s-add"><span>新增</span></a>
          </div>

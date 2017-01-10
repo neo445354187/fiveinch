@@ -199,7 +199,7 @@ KindEditor.plugin('multiimage', function(K) {
 	var self = this, name = 'multiimage',
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
-		imgPath = self.pluginsPath + 'multiimage/images/',
+		img_path = self.pluginsPath + 'multiimage/images/',
 		imageSizeLimit = K.undef(self.imageSizeLimit, '1MB'),
 		imageFileTypes = K.undef(self.imageFileTypes, '*.jpg;*.gif;*.png'),
 		imageUploadLimit = K.undef(self.imageUploadLimit, 20),
@@ -244,14 +244,14 @@ KindEditor.plugin('multiimage', function(K) {
 
 		var swfupload = K.swfupload({
 			container : K('.swfupload', div),
-			buttonImageUrl : imgPath + (self.langType == 'zh-CN' ? 'select-files-zh-CN.png' : 'select-files-en.png'),
+			buttonImageUrl : img_path + (self.langType == 'zh-CN' ? 'select-files-zh-CN.png' : 'select-files-en.png'),
 			buttonWidth : self.langType == 'zh-CN' ? 72 : 88,
 			buttonHeight : 23,
-			fileIconUrl : imgPath + 'image.png',
+			fileIconUrl : img_path + 'image.png',
 			uploadDesc : uploadDesc,
 			startButtonValue : lang.startUpload,
 			uploadUrl : K.addParam(uploadJson, 'dir=image'),
-			flashUrl : imgPath + 'swfupload.swf',
+			flashUrl : img_path + 'swfupload.swf',
 			filePostName : filePostName,
 			fileTypes : '*.jpg;*.jpeg;*.gif;*.png;*.bmp',
 			fileTypesDesc : 'Image Files',
@@ -549,7 +549,7 @@ SWFUpload.prototype.getFlashVars = function () {
 
 	// Build the parameter string
 	return ["movieName=", encodeURIComponent(this.movieName),
-			"&amp;uploadURL=", encodeURIComponent(this.settings.upload_url),
+			"&amp;upload_url=", encodeURIComponent(this.settings.upload_url),
 			"&amp;useQueryString=", encodeURIComponent(this.settings.use_query_string),
 			"&amp;requeueOnError=", encodeURIComponent(this.settings.requeue_on_error),
 			"&amp;httpSuccess=", encodeURIComponent(httpSuccessString),
@@ -852,9 +852,9 @@ SWFUpload.prototype.removeFileParam = function (fileID, name) {
 };
 
 // Public: setUploadUrl changes the upload_url setting.
-SWFUpload.prototype.setUploadURL = function (url) {
+SWFUpload.prototype.setUpload_url = function (url) {
 	this.settings.upload_url = url.toString();
-	this.callFlash("SetUploadURL", [url]);
+	this.callFlash("SetUpload_url", [url]);
 };
 
 // Public: setPostParams changes the post_params setting

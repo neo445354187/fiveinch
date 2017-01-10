@@ -83,7 +83,7 @@ class Goods extends Base{
     public function toView(){
     	$m = new M();
     	$object = $m->getById(input('get.id'));
-    	if($object['goodsImg']=='')$object['goodsImg'] = FIConf('CONF.goodsLogo');
+    	if($object['goods_img']=='')$object['goods_img'] = FIConf('CONF.goodsLogo');
     	$data = ['object'=>$object];
     	return $this->fetch('default/shops/goods/edit',$data);
     }

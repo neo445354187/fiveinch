@@ -11,31 +11,31 @@ class Carts extends Base{
 	 * 加入购物车
 	 */
 	public function addCart(){
-		$userId = (int)session('FI_USER.userId');
-		$goodsId = (int)input('post.goodsId');
-		$goodsSpecId = (int)input('post.goodsSpecId');
-		$cartNum = (int)input('post.buyNum',1);
-		$cartNum = ($cartNum>0)?$cartNum:1;
+		$user_id = (int)session('FI_USER.user_id');
+		$goods_id = (int)input('post.goods_id');
+		$goods_spec_id = (int)input('post.goods_spec_id');
+		$cart_num = (int)input('post.buyNum',1);
+		$cart_num = ($cart_num>0)?$cart_num:1;
 		//验证传过来的商品是否合法
-		$chk = $this->checkGoodsSaleSpec($goodsId,$goodsSpecId);
+		$chk = $this->checkGoodsSaleSpec($goods_id,$goods_spec_id);
 		if($chk['status']==-1)return $chk;
 		//检测库存是否足够
-		if($chk['data']['stock']<$cartNum)return FIReturn("加入购物车失败，商品库存不足", -1);
-		$goodsSpecId = $chk['data']['goodsSpecId'];
-		$goods = $this->where(['userId'=>$userId,'goodsId'=>$goodsId,'goodsSpecId'=>$goodsSpecId])->select();
+		if($chk['data']['stock']<$cart_num)return FIReturn("加入购物车失败，商品库存不足", -1);
+		$goods_spec_id = $chk['data']['goods_spec_id'];
+		$goods = $this->where(['user_id'=>$user_id,'goods_id'=>$goods_id,'goods_spec_id'=>$goods_spec_id])->select();
 		if(empty($goods)){
 			$data = array();
-			$data['userId'] = $userId;
-			$data['goodsId'] = $goodsId;
-			$data['goodsSpecId'] = $goodsSpecId;
-			$data['isCheck'] = 1;
-			$data['cartNum'] = $cartNum;
+			$data['user_id'] = $user_id;
+			$data['goods_id'] = $goods_id;
+			$data['goods_spec_id'] = $goods_spec_id;
+			$data['is_check'] = 1;
+			$data['cart_num'] = $cart_num;
 			$rs = $this->save($data);
 			if(false !==$rs){
 				return FIReturn("添加成功", 1);
 			}
 		}else{
-			$rs = $this->where(['userId'=>$userId,'goodsId'=>$goodsId,'goodsSpecId'=>$goodsSpecId])->setInc('cartNum',$cartNum);
+			$rs = $this->where(['user_id'=>$user_id,'goods_id'=>$goods_id,'goods_spec_id'=>$goods_spec_id])->setInc('cart_num',$cart_num);
 		    if(false !==$rs){
 				return FIReturn("添加成功", 1);
 			}
@@ -45,13 +45,13 @@ class Carts extends Base{
 	/**
 	 * 验证商品是否合法
 	 */
-	public function checkGoodsSaleSpec($goodsId,$goodsSpecId){
-		$goods = model('Goods')->where(['goodsStatus'=>1,'dataFlag'=>1,'isSale'=>1,'goodsId'=>$goodsId])->field('goodsId,isSpec,goodsStock')->find();
+	public function checkGoodsSaleSpec($goods_id,$goods_spec_id){
+		$goods = model('Goods')->where(['goods_status'=>1,'status'=>1,'is_sale'=>1,'goods_id'=>$goods_id])->field('goods_id,is_spec,goods_stock')->find();
 		if(empty($goods))return FIReturn("添加失败，无效的商品信息", -1);
-		$goodsStock = (int)$goods['goodsStock'];
+		$goods_stock = (int)$goods['goods_stock'];
 		//有规格的话查询规格是否正确
-		if($goods['isSpec']==1){
-			$specs = Db::name('goods_specs')->where(['goodsId'=>$goodsId,'dataFlag'=>1])->field('id,isDefault,specStock')->select();
+		if($goods['is_spec']==1){
+			$specs = Db::name('goods_specs')->where(['goods_id'=>$goods_id,'status'=>1])->field('id,is_default,spec_stock')->select();
 			if(count($specs)==0){
 				return FIReturn("添加失败，无效的商品信息", -1);
 			}
@@ -59,104 +59,104 @@ class Carts extends Base{
 			$defaultGoodsSpecStock = 0;
 			$isFindSpecId = false;
 			foreach ($specs as $key => $v){
-				if($v['isDefault']==1){
+				if($v['is_default']==1){
 					$defaultGoodsSpecId = $v['id'];
-					$defaultGoodsSpecStock = (int)$v['specStock'];
+					$defaultGoodsSpecStock = (int)$v['spec_stock'];
 				}
-				if($v['id']==$goodsSpecId){
-					$goodsStock = (int)$v['specStock'];
+				if($v['id']==$goods_spec_id){
+					$goods_stock = (int)$v['spec_stock'];
 					$isFindSpecId = true;
 				}
 			}
 			
 			if($defaultGoodsSpecId==0)return FIReturn("添加失败，无效的商品信息", -1);//有规格却找不到规格的话就报错
-			if(!$isFindSpecId)return FIReturn("", 1,['goodsSpecId'=>$defaultGoodsSpecId,'stock'=>$defaultGoodsSpecStock]);//如果没有找到的话就取默认的规格
-			return FIReturn("", 1,['goodsSpecId'=>$goodsSpecId,'stock'=>$goodsStock]);
+			if(!$isFindSpecId)return FIReturn("", 1,['goods_spec_id'=>$defaultGoodsSpecId,'stock'=>$defaultGoodsSpecStock]);//如果没有找到的话就取默认的规格
+			return FIReturn("", 1,['goods_spec_id'=>$goods_spec_id,'stock'=>$goods_stock]);
 		}else{
-			return FIReturn("", 1,['goodsSpecId'=>0,'stock'=>$goodsStock]);
+			return FIReturn("", 1,['goods_spec_id'=>0,'stock'=>$goods_stock]);
 		}
 	}
 	/**
 	 * 删除购物车里的商品
 	 */
 	public function delCart(){
-		$userId = (int)session('FI_USER.userId');
+		$user_id = (int)session('FI_USER.user_id');
 		$id = (int)input('post.id');
-		$this->where(['userId'=>$userId,'cartId'=>$id])->delete();
+		$this->where(['user_id'=>$user_id,'cart_id'=>$id])->delete();
 		return FIReturn("删除成功", 1);
 	}
 	/**
 	 * 取消购物车商品选中状态
 	 */
-	public function disChkGoods($goodsId,$goodsSpecId,$userId){
-		$this->save(['isCheck'=>0],['userId'=>$userId,'goodsId'=>$goodsId,'goodsSpecId'=>$goodsSpecId]);
+	public function disChkGoods($goods_id,$goods_spec_id,$user_id){
+		$this->save(['is_check'=>0],['user_id'=>$user_id,'goods_id'=>$goods_id,'goods_spec_id'=>$goods_spec_id]);
 	}
 	
 	/**
 	 * 获取购物车列表
 	 */
 	public function getCarts($isSettlement = false){
-		$userId = (int)session('FI_USER.userId');
+		$user_id = (int)session('FI_USER.user_id');
 		$where = [];
-		$where['c.userId'] = $userId;
-		if($isSettlement)$where['c.isCheck'] = 1;
-		$rs = $this->alias('c')->join('__GOODS__ g','c.goodsId=g.goodsId','inner')
-		           ->join('__SHOPS__ s','s.shopId=g.shopId','left')
-		           ->join('__GOODS_SPECS__ gs','c.goodsSpecId=gs.id','left')
+		$where['c.user_id'] = $user_id;
+		if($isSettlement)$where['c.is_check'] = 1;
+		$rs = $this->alias('c')->join('__GOODS__ g','c.goods_id=g.goods_id','inner')
+		           ->join('__SHOPS__ s','s.shop_id=g.shop_id','left')
+		           ->join('__GOODS_SPECS__ gs','c.goods_spec_id=gs.id','left')
 		           ->where($where)
-		           ->field('c.goodsSpecId,c.cartId,s.userId,s.shopId,s.shopName,g.goodsId,s.shopQQ,shopWangWang,g.goodsName,g.shopPrice,g.goodsStock,g.isSpec,gs.specPrice,gs.specStock,g.goodsImg,c.isCheck,gs.specIds,c.cartNum')
+		           ->field('c.goods_spec_id,c.cart_id,s.user_id,s.shop_id,s.shop_name,g.goods_id,s.shop_qq,shop_wangwang,g.goods_name,g.shop_price,g.goods_stock,g.is_spec,gs.spec_price,gs.spec_stock,g.goods_img,c.is_check,gs.spec_ids,c.cart_num')
 		           ->select();
 		$carts = [];
-		$goodsIds = [];
+		$goods_ids = [];
 		$goodsTotalNum = 0;
 		$goodsTotalMoney = 0;
 		foreach ($rs as $key =>$v){
-			if(!isset($carts[$v['shopId']]['goodsMoney']))$carts[$v['shopId']]['goodsMoney'] = 0;
-			$carts[$v['shopId']]['shopId'] = $v['shopId'];
-			$carts[$v['shopId']]['shopName'] = $v['shopName'];
-			$carts[$v['shopId']]['shopQQ'] = $v['shopQQ'];
-			$carts[$v['shopId']]['userId'] = $v['userId'];
-			$carts[$v['shopId']]['shopWangWang'] = $v['shopWangWang'];
-			if($v['isSpec']==1){
-				$v['shopPrice'] = $v['specPrice'];
-				$v['goodsStock'] = $v['specStock'];
+			if(!isset($carts[$v['shop_id']]['goods_money']))$carts[$v['shop_id']]['goods_money'] = 0;
+			$carts[$v['shop_id']]['shop_id'] = $v['shop_id'];
+			$carts[$v['shop_id']]['shop_name'] = $v['shop_name'];
+			$carts[$v['shop_id']]['shop_qq'] = $v['shop_qq'];
+			$carts[$v['shop_id']]['user_id'] = $v['user_id'];
+			$carts[$v['shop_id']]['shop_wangwang'] = $v['shop_wangwang'];
+			if($v['is_spec']==1){
+				$v['shop_price'] = $v['spec_price'];
+				$v['goods_stock'] = $v['spec_stock'];
 			}
 			//判断能否购买，预设allowBuy值为10，为将来的各种情况预留10个情况值，从0到9
 			$v['allowBuy'] = 10;
-			if($v['goodsStock']<0){
+			if($v['goods_stock']<0){
 				$v['allowBuy'] = 0;//库存不足
-			}else if($v['goodsStock']<$v['cartNum']){
+			}else if($v['goods_stock']<$v['cart_num']){
 				$v['allowBuy'] = 1;//库存比购买数小
 			}
 			//如果是结算的话，则要过滤了不符合条件的商品
 			if($isSettlement && $v['allowBuy']!=10){
-				$this->disChkGoods($v['goodsId'],(int)$v['goodsSpecId'],(int)session('FI_USER.userId'));
+				$this->disChkGoods($v['goods_id'],(int)$v['goods_spec_id'],(int)session('FI_USER.user_id'));
 				continue;
 			}
-			if($v['isCheck']==1){
-				$carts[$v['shopId']]['goodsMoney'] = $carts[$v['shopId']]['goodsMoney'] + $v['shopPrice'] * $v['cartNum'];
-				$goodsTotalMoney = $goodsTotalMoney + $v['shopPrice'] * $v['cartNum'];
+			if($v['is_check']==1){
+				$carts[$v['shop_id']]['goods_money'] = $carts[$v['shop_id']]['goods_money'] + $v['shop_price'] * $v['cart_num'];
+				$goodsTotalMoney = $goodsTotalMoney + $v['shop_price'] * $v['cart_num'];
 				$goodsTotalNum++;
 			}
 			$v['specNames'] = [];
-			unset($v['shopName'],$v['isSpec']);
-			$carts[$v['shopId']]['list'][] = $v;
-			if(!in_array($v['goodsId'],$goodsIds))$goodsIds[] = $v['goodsId'];
+			unset($v['shop_name'],$v['is_spec']);
+			$carts[$v['shop_id']]['list'][] = $v;
+			if(!in_array($v['goods_id'],$goods_ids))$goods_ids[] = $v['goods_id'];
 		}
 		//加载规格值
-		if(count($goodsIds)>0){
-		    $specs = DB::table('__SPEC_ITEMS__')->alias('s')->join('__SPEC_CATS__ sc','s.catId=sc.catId','left')
-		        ->where(['s.goodsId'=>['in',$goodsIds],'s.dataFlag'=>1])->field('catName,itemId,itemName')->select();
+		if(count($goods_ids)>0){
+		    $specs = DB::table('__SPEC_ITEMS__')->alias('s')->join('__SPEC_CATS__ sc','s.cat_id=sc.cat_id','left')
+		        ->where(['s.goods_id'=>['in',$goods_ids],'s.status'=>1])->field('cat_name,item_id,item_name')->select();
 		    if(count($specs)>0){ 
 		    	$specMap = [];
 		    	foreach ($specs as $key =>$v){
-		    		$specMap[$v['itemId']] = $v;
+		    		$specMap[$v['item_id']] = $v;
 		    	}
 			    foreach ($carts as $key =>$shop){
 			    	foreach ($shop['list'] as $skey =>$v){
 			    		$strName = [];
-			    		if($v['specIds']!=''){
-			    			$str = explode(':',$v['specIds']);
+			    		if($v['spec_ids']!=''){
+			    			$str = explode(':',$v['spec_ids']);
 			    			foreach ($str as $vv){
 			    				if(isset($specMap[$vv]))$strName[] = $specMap[$vv];
 			    			}
@@ -173,38 +173,38 @@ class Carts extends Base{
 	 * 获取购物车商品列表
 	 */
 	public function getCartInfo($isSettlement = false){
-		$userId = (int)session('FI_USER.userId');
+		$user_id = (int)session('FI_USER.user_id');
 		$where = [];
-		$where['c.userId'] = $userId;
-		if($isSettlement)$where['c.isCheck'] = 1;
-		$rs = $this->alias('c')->join('__GOODS__ g','c.goodsId=g.goodsId','inner')
-		           ->join('__GOODS_SPECS__ gs','c.goodsSpecId=gs.id','left')
+		$where['c.user_id'] = $user_id;
+		if($isSettlement)$where['c.is_check'] = 1;
+		$rs = $this->alias('c')->join('__GOODS__ g','c.goods_id=g.goods_id','inner')
+		           ->join('__GOODS_SPECS__ gs','c.goods_spec_id=gs.id','left')
 		           ->where($where)
-		           ->field('c.goodsSpecId,c.cartId,g.goodsId,g.goodsName,g.shopPrice,g.goodsStock,g.isSpec,gs.specPrice,gs.specStock,g.goodsImg,c.isCheck,gs.specIds,c.cartNum')
+		           ->field('c.goods_spec_id,c.cart_id,g.goods_id,g.goods_name,g.shop_price,g.goods_stock,g.is_spec,gs.spec_price,gs.spec_stock,g.goods_img,c.is_check,gs.spec_ids,c.cart_num')
 		           ->select();
-		$goodsIds = []; 
+		$goods_ids = []; 
 		$goodsTotalMoney = 0;
 		$goodsTotalNum = 0;
 		foreach ($rs as $key =>$v){
-			if(!in_array($v['goodsId'],$goodsIds))$goodsIds[] = $v['goodsId'];
-			$goodsTotalMoney = $goodsTotalMoney + $v['shopPrice'] * $v['cartNum'];
-			$rs[$key]['goodsImg'] = FIImg($v['goodsImg']);
+			if(!in_array($v['goods_id'],$goods_ids))$goods_ids[] = $v['goods_id'];
+			$goodsTotalMoney = $goodsTotalMoney + $v['shop_price'] * $v['cart_num'];
+			$rs[$key]['goods_img'] = FIImg($v['goods_img']);
 		}
 	    //加载规格值
-		if(count($goodsIds)>0){
-		    $specs = DB::table('__SPEC_ITEMS__')->alias('s')->join('__SPEC_CATS__ sc','s.catId=sc.catId','left')
-		        ->where(['s.goodsId'=>['in',$goodsIds],'s.dataFlag'=>1])->field('itemId,itemName')->select();
+		if(count($goods_ids)>0){
+		    $specs = DB::table('__SPEC_ITEMS__')->alias('s')->join('__SPEC_CATS__ sc','s.cat_id=sc.cat_id','left')
+		        ->where(['s.goods_id'=>['in',$goods_ids],'s.status'=>1])->field('item_id,item_name')->select();
 		    if(count($specs)>0){ 
 		    	$specMap = [];
 		    	foreach ($specs as $key =>$v){
-		    		$specMap[$v['itemId']] = $v;
+		    		$specMap[$v['item_id']] = $v;
 		    	}
 			    foreach ($rs as $key =>$v){
 			    	$strName = [];
-			    	if($v['specIds']!=''){
-			    		$str = explode(':',$v['specIds']);
+			    	if($v['spec_ids']!=''){
+			    		$str = explode(':',$v['spec_ids']);
 			    		foreach ($str as $vv){
-			    			if(isset($specMap[$vv]))$strName[] = $specMap[$vv]['itemName'];
+			    			if(isset($specMap[$vv]))$strName[] = $specMap[$vv]['item_name'];
 			    		}
 			    	}
 			    	$rs[$key]['specNames'] = $strName;
@@ -219,15 +219,15 @@ class Carts extends Base{
 	 * 修改购物车商品状态
 	 */
 	public function changeCartGoods(){
-		$isCheck = Input('post.isCheck/d',-1);
+		$is_check = Input('post.is_check/d',-1);
 		$buyNum = Input('post.buyNum/d',1);
 		if($buyNum<1)$buyNum = 1;
 		$id = Input('post.id/d');
-		$userId = (int)session('FI_USER.userId');
+		$user_id = (int)session('FI_USER.user_id');
 		$data = [];
-		if($isCheck!=-1)$data['isCheck'] = $isCheck;
-		$data['cartNum'] = $buyNum;
-		$this->where(['userId'=>$userId,'cartId'=>$id])->update($data);
+		if($is_check!=-1)$data['is_check'] = $is_check;
+		$data['cart_num'] = $buyNum;
+		$this->where(['user_id'=>$user_id,'cart_id'=>$id])->update($data);
 		return FIReturn("操作成功", 1);
 	}
 }

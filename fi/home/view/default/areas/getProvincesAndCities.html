@@ -39,11 +39,11 @@
     <?php foreach($list as $key => $val): ?>
     <div class="line">
         <dt>
-            <?php echo $val['areaName']; ?>
+            <?php echo $val['area_name']; ?>
         </dt>
         <dd>
             <?php foreach($val['_child'] as $k => $v): ?>
-            <a href="javascript:void(0);" onclick="setLocation(this, '<?php echo $val['areaId'] ?>','<?php echo $v['areaId'] ?>')"><?php echo $v['areaName'] ?></a>
+            <a href="javascript:void(0);" onclick="setLocation(this, '<?php echo $val['area_id'] ?>','<?php echo $v['area_id'] ?>')"><?php echo $v['area_name'] ?></a>
             <?php endforeach; ?>
         </dd>
     </div>

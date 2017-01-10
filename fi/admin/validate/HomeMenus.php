@@ -6,15 +6,15 @@ use think\Validate;
  */
 class HomeMenus extends Validate{
 	protected $rule = [
-        ['menuName'  ,'require|max:30','请输入菜单名称|菜单名称不能超过10个字符'],
-		['parentId'  ,'number','无效的父级菜单'],
-		['menuType'  ,'require','请输入菜单类型'],
-		['menuUrl'   ,'require','请输入菜单Url'],
-		['isShow'    ,'require','请选择是否显示']
+        ['menu_name'  ,'require|max:30','请输入菜单名称|菜单名称不能超过10个字符'],
+		['parent_id'  ,'number','无效的父级菜单'],
+		['menu_type'  ,'require','请输入菜单类型'],
+		['menu_url'   ,'require','请输入菜单Url'],
+		['is_show'    ,'require','请选择是否显示']
     ];
 
     protected $scene = [
-        'add'   =>  ['menuName','parentId','menuType','menuUrl','isShow'],
-        'edit'  =>  ['menuName','menuType','menuUrl','isShow']
+        'add'   =>  ['menu_name','parent_id','menu_type','menu_url','is_show'],
+        'edit'  =>  ['menu_name','menu_type','menu_url','is_show']
     ]; 
 }

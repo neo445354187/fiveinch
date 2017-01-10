@@ -8,11 +8,11 @@
 <div class="fi-user-head"><span>设置密码</span></div>
 	<form method="post" id="myorm" autocomplete="off">
         <table class='fi-form'>
-        {if ($data['loginPwd'])}
+        {if ($data['login_password'])}
            <tr>
              <th align='right'> <font color='red'>*</font>原始密码：</th>
              <td>
-             <input type='password' class="ipt" id='oldPass' name='oldPass' {if ($data['loginPwd'])}data-rule="原始密码: required;" data-msg-required="请填写原始密码" data-tip="请输入原始密码"{/if} style='width:250px;' maxLength='16'/>
+             <input type='password' class="ipt" id='oldPass' name='oldPass' {if ($data['login_password'])}data-rule="原始密码: required;" data-msg-required="请填写原始密码" data-tip="请输入原始密码"{/if} style='width:250px;' maxLength='16'/>
              </td>
            </tr>
         {/if}

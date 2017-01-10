@@ -9,15 +9,15 @@ class Recommends extends Base{
 	 * 获取已推荐商品
 	 */
 	public function listQueryByGoods(){
-		$dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
-		$rs = $this->alias('r')->join('__GOODS__ g','r.dataId=g.goodsId','inner')
-		           ->join('__SHOPS__ s','s.shopId=g.shopId','inner')
-		           ->where(['dataSrc'=>0,'dataType'=>$dataType,'r.goodsCatId'=>$goodsCatId])
-		           ->field('dataId,goodsName,shopName,dataSort,isSale,g.dataFlag,goodsStatus')->order('dataSort asc')->select();
+		$data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
+		$rs = $this->alias('r')->join('__GOODS__ g','r.data_id=g.goods_id','inner')
+		           ->join('__SHOPS__ s','s.shop_id=g.shop_id','inner')
+		           ->where(['data_src'=>0,'data_type'=>$data_type,'r.goods_cat_id'=>$goods_cat_id])
+		           ->field('data_id,goods_name,shop_name,data_sort,is_sale,g.status,goods_status')->order('data_sort asc')->select();
 		$data = [];
 		foreach ($rs as $key => $v){
-			if($v['isSale']!=1 || $v['dataFlag']!=1 || $v['goodsStatus']!=1)$v['invalid'] = true;
+			if($v['is_sale']!=1 || $v['status']!=1 || $v['goods_status']!=1)$v['invalid'] = true;
 			$data[] = $v;
 		}   
 		return $data;        
@@ -27,24 +27,24 @@ class Recommends extends Base{
 	 */
     public function editGoods(){
 	    $ids = input('post.ids');
-	    $dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
+	    $data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
 	    if($ids=='')return FIReturn("请选择要推荐的商品");
 	    $ids = explode(',',$ids);
 	    //查看商品是否有效
-	    $rs = Db::table('__GOODS__')->where(['goodsStatus'=>1,'dataFlag'=>1,'goodsId'=>['in',$ids]])->field('goodsId')->select();
+	    $rs = Db::table('__GOODS__')->where(['goods_status'=>1,'status'=>1,'goods_id'=>['in',$ids]])->field('goods_id')->select();
 	    if(!$rs)return FIReturn("请选择要推荐的商品");
 	    Db::startTrans();
 	    try{
-		    $this->where(['dataSrc'=>0,'dataType'=>$dataType,'goodsCatId'=>$goodsCatId])->delete();
+		    $this->where(['data_src'=>0,'data_type'=>$data_type,'goods_cat_id'=>$goods_cat_id])->delete();
 		    $data = [];
 		    foreach ($rs as $key => $v){
 		    	$tmp = [];
-		    	$tmp['goodsCatId'] = $goodsCatId;
-		    	$tmp['dataSrc'] = 0;
-		    	$tmp['dataType'] = $dataType;
-		    	$tmp['dataId'] = $v['goodsId'];
-		    	$tmp['dataSort'] = (int)input('post.ipt'.$v['goodsId']);
+		    	$tmp['goods_cat_id'] = $goods_cat_id;
+		    	$tmp['data_src'] = 0;
+		    	$tmp['data_type'] = $data_type;
+		    	$tmp['data_id'] = $v['goods_id'];
+		    	$tmp['data_sort'] = (int)input('post.ipt'.$v['goods_id']);
 		    	$data[] = $tmp;
 		    }
 		    $this->saveAll($data);
@@ -61,14 +61,14 @@ class Recommends extends Base{
 	 * 获取已推荐店铺
 	 */
 	public function listQueryByShops(){
-		$dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
-		$rs = $this->alias('r')->join('__SHOPS__ s','r.dataId=s.shopId','inner')
-		           ->where(['dataSrc'=>1,'dataType'=>$dataType,'r.goodsCatId'=>$goodsCatId])
-		           ->field('dataId,shopSn,shopName,dataSort,shopStatus,dataFlag')->order('dataSort asc')->select();
+		$data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
+		$rs = $this->alias('r')->join('__SHOPS__ s','r.data_id=s.shop_id','inner')
+		           ->where(['data_src'=>1,'data_type'=>$data_type,'r.goods_cat_id'=>$goods_cat_id])
+		           ->field('data_id,shop_sn,shop_name,data_sort,shop_status,status')->order('data_sort asc')->select();
 		$data = [];
 		foreach ($rs as $key => $v){
-			if($v['dataFlag']!=1 || $v['shopStatus']!=1)$v['invalid'] = true;
+			if($v['status']!=1 || $v['shop_status']!=1)$v['invalid'] = true;
 			$data[] = $v;
 		}   
 		return $data;        
@@ -78,24 +78,24 @@ class Recommends extends Base{
 	 */
     public function editShops(){
 	    $ids = input('post.ids');
-	    $dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
+	    $data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
 	    if($ids=='')return FIReturn("请选择要推荐的店铺");
 	    $ids = explode(',',$ids);
 	    //查看商品是否有效
-	    $rs = Db::table('__SHOPS__')->where(['shopStatus'=>1,'dataFlag'=>1,'shopId'=>['in',$ids]])->field('shopId')->select();
+	    $rs = Db::table('__SHOPS__')->where(['shop_status'=>1,'status'=>1,'shop_id'=>['in',$ids]])->field('shop_id')->select();
 	    if(!$rs)return FIReturn("请选择要推荐的店铺");
 	    Db::startTrans();
 	    try{
-		    $this->where(['dataSrc'=>1,'dataType'=>$dataType,'goodsCatId'=>$goodsCatId])->delete();
+		    $this->where(['data_src'=>1,'data_type'=>$data_type,'goods_cat_id'=>$goods_cat_id])->delete();
 		    $data = [];
 		    foreach ($rs as $key => $v){
 		    	$tmp = [];
-		    	$tmp['goodsCatId'] = $goodsCatId;
-		    	$tmp['dataSrc'] = 1;
-		    	$tmp['dataType'] = $dataType;
-		    	$tmp['dataId'] = $v['shopId'];
-		    	$tmp['dataSort'] = (int)input('post.ipt'.$v['shopId']);
+		    	$tmp['goods_cat_id'] = $goods_cat_id;
+		    	$tmp['data_src'] = 1;
+		    	$tmp['data_type'] = $data_type;
+		    	$tmp['data_id'] = $v['shop_id'];
+		    	$tmp['data_sort'] = (int)input('post.ipt'.$v['shop_id']);
 		    	$data[] = $tmp;
 		    }
 		    $this->saveAll($data);
@@ -113,14 +113,14 @@ class Recommends extends Base{
 	 * 获取已推荐品牌
 	 */
 	public function listQueryByBrands(){
-		$dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
-		$rs = $this->alias('r')->join('__BRANDS__ s','r.dataId=s.brandId','inner')
-		           ->where(['dataSrc'=>2,'dataType'=>$dataType,'r.goodsCatId'=>$goodsCatId])
-		           ->field('dataId,brandName,dataSort,dataFlag')->order('dataSort asc')->select();
+		$data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
+		$rs = $this->alias('r')->join('__BRANDS__ s','r.data_id=s.brand_id','inner')
+		           ->where(['data_src'=>2,'data_type'=>$data_type,'r.goods_cat_id'=>$goods_cat_id])
+		           ->field('data_id,brand_name,data_sort,status')->order('data_sort asc')->select();
 		$data = [];
 		foreach ($rs as $key => $v){
-			if($v['dataFlag']!=1)$v['invalid'] = true;
+			if($v['status']!=1)$v['invalid'] = true;
 			$data[] = $v;
 		}   
 		return $data;        
@@ -130,24 +130,24 @@ class Recommends extends Base{
 	 */
     public function editBrands(){
 	    $ids = input('post.ids');
-	    $dataType = (int)input('post.dataType');
-	    $goodsCatId = (int)input('post.goodsCatId');
+	    $data_type = (int)input('post.data_type');
+	    $goods_cat_id = (int)input('post.goods_cat_id');
 	    if($ids=='')return FIReturn("请选择要推荐的品牌");
 	    $ids = explode(',',$ids);
 	    //查看商品是否有效
-	    $rs = Db::table('__BRANDS__')->where(['dataFlag'=>1,'brandId'=>['in',$ids]])->field('brandId')->select();
+	    $rs = Db::table('__BRANDS__')->where(['status'=>1,'brand_id'=>['in',$ids]])->field('brand_id')->select();
 	    if(!$rs)return FIReturn("请选择要推荐的品牌");
 	    Db::startTrans();
 	    try{
-		    $this->where(['dataSrc'=>2,'dataType'=>$dataType,'goodsCatId'=>$goodsCatId])->delete();
+		    $this->where(['data_src'=>2,'data_type'=>$data_type,'goods_cat_id'=>$goods_cat_id])->delete();
 		    $data = [];
 		    foreach ($rs as $key => $v){
 		    	$tmp = [];
-		    	$tmp['goodsCatId'] = $goodsCatId;
-		    	$tmp['dataSrc'] = 2;
-		    	$tmp['dataType'] = $dataType;
-		    	$tmp['dataId'] = $v['brandId'];
-		    	$tmp['dataSort'] = (int)input('post.ipt'.$v['brandId']);
+		    	$tmp['goods_cat_id'] = $goods_cat_id;
+		    	$tmp['data_src'] = 2;
+		    	$tmp['data_type'] = $data_type;
+		    	$tmp['data_id'] = $v['brand_id'];
+		    	$tmp['data_sort'] = (int)input('post.ipt'.$v['brand_id']);
 		    	$data[] = $tmp;
 		    }
 		    $this->saveAll($data);

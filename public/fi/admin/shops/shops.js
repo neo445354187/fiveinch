@@ -9,19 +9,19 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-            { display: '店铺编号', name: 'shopSn',isSort: false},
-	        { display: '店铺名称', name: 'shopName',isSort: false},
-	        { display: '店主姓名', name: 'shopkeeper',isSort: false},
+            { display: '店铺编号', name: 'shop_sn',isSort: false},
+	        { display: '店铺名称', name: 'shop_name',isSort: false},
+	        { display: '店主姓名', name: 'shop_keeper',isSort: false},
 	        { display: '店主联系电话', name: 'telephone',isSort: false},
-	        { display: '店主店铺地址', name: 'shopAddress',isSort: false},
-	        { display: '所属公司', name: 'shopCompany',isSort: false},
-	        { display: '营业状态', name: 'shopAtive',isSort: false,render: function (rowdata, rowindex, value){
-	        	return (rowdata['shopAtive']==1)?"营业中":"休息中";
+	        { display: '店主店铺地址', name: 'shop_address',isSort: false},
+	        { display: '所属公司', name: 'shop_company',isSort: false},
+	        { display: '营业状态', name: 'shop_ative',isSort: false,render: function (rowdata, rowindex, value){
+	        	return (rowdata['shop_ative']==1)?"营业中":"休息中";
 	        }},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.DPGL_02)h += "<a href='javascript:toEdit(" + rowdata['shopId'] + ")'>修改</a> ";
-	            if(FI.GRANT.DPGL_03)h += "<a href='javascript:toDel(" + rowdata['shopId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.DPGL_02)h += "<a href='javascript:toEdit(" + rowdata['shop_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.DPGL_03)h += "<a href='javascript:toDel(" + rowdata['shop_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -37,19 +37,19 @@ function initStopGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-            { display: '店铺编号', name: 'shopSn',isSort: false},
-	        { display: '店铺名称', name: 'shopName',isSort: false},
-	        { display: '店主姓名', name: 'shopkeeper',isSort: false},
+            { display: '店铺编号', name: 'shop_sn',isSort: false},
+	        { display: '店铺名称', name: 'shop_name',isSort: false},
+	        { display: '店主姓名', name: 'shop_keeper',isSort: false},
 	        { display: '店主联系电话', name: 'telephone',isSort: false},
-	        { display: '店主店铺地址', name: 'shopAddress',isSort: false},
-	        { display: '所属公司', name: 'shopCompany',isSort: false},
-	        { display: '营业状态', name: 'shopAtive',isSort: false,render: function (rowdata, rowindex, value){
-	        	return (rowdata['shopAtive']==1)?"营业中":"休息中";
+	        { display: '店主店铺地址', name: 'shop_address',isSort: false},
+	        { display: '所属公司', name: 'shop_company',isSort: false},
+	        { display: '营业状态', name: 'shop_ative',isSort: false,render: function (rowdata, rowindex, value){
+	        	return (rowdata['shop_ative']==1)?"营业中":"休息中";
 	        }},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            h += "<a href='javascript:toEdit(" + rowdata['shopId'] + ")'>修改</a> ";
-	            h += "<a href='javascript:toDel(" + rowdata['shopId'] + ")'>删除</a> "; 
+	            h += "<a href='javascript:toEdit(" + rowdata['shop_id'] + ")'>修改</a> ";
+	            h += "<a href='javascript:toDel(" + rowdata['shop_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -57,7 +57,7 @@ function initStopGrid(){
 }
 function initEdit(opts){
 	FI.upload({
-	  	  pick:'#shopImgPicker',
+	  	  pick:'#shop_imgPicker',
 	  	  formData: {dir:'shops'},
 	  	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
 	  	  callback:function(f){
@@ -65,20 +65,20 @@ function initEdit(opts){
 	  		  if(json.status==1){
 	  			$('#uploadMsg').empty().hide();
 	            $('#preview').attr('src',FI.conf.ROOT+"/"+json.savePath+json.thumb);
-	            $('#shopImg').val(json.savePath+json.name);
-	            $('#editFrom').validator('hideMsg', '#shopImg');
+	            $('#shop_img').val(json.savePath+json.name);
+	            $('#editFrom').validator('hideMsg', '#shop_img');
 	  		  }
 		  },
 		  progress:function(rate){
 		      $('#uploadMsg').show().html('已上传'+rate+"%");
 		  }
 	});
-	initTime('#serviceStartTime',opts.serviceStartTime);
-	initTime('#serviceEndTime',opts.serviceEndTime);
-	if($('#shopId').val()>0){
-		var areaIdPath = opts.areaIdPath.split("_");
-    	$('#area_0').val(areaIdPath[0]);
-    	var aopts = {id:'area_0',val:areaIdPath[0],childIds:areaIdPath,className:'j-areas',isRequire:true}
+	initTime('#service_start_time',opts.service_start_time);
+	initTime('#service_end_time',opts.service_end_time);
+	if($('#shop_id').val()>0){
+		var area_id_path = opts.area_id_path.split("_");
+    	$('#area_0').val(area_id_path[0]);
+    	var aopts = {id:'area_0',val:area_id_path[0],childIds:area_id_path,className:'j-areas',isRequire:true}
 		FI.ITSetAreas(aopts);
 	}
 	
@@ -104,7 +104,7 @@ function toDel(id){
 }
 function checkLoginKey(obj){
 	if($.trim(obj.value)=='')return;
-	var params = {key:obj.value,userId:0};
+	var params = {key:obj.value,user_id:0};
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/users/checkLoginKey'),params,function(data,textStatus){
     	layer.close(loading);
@@ -119,9 +119,9 @@ function save(){
 	$('#editFrom').isValid(function(v){
 		if(v){
 			var params = FI.getParams('.ipt');
-			params.areaId = FI.ITGetAreaVal('j-areas');
+			params.area_id = FI.ITGetAreaVal('j-areas');
 			var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
-		    $.post(FI.U('admin/shops/'+((params.shopId==0)?"add":"edit")),params,function(data,textStatus){
+		    $.post(FI.U('admin/shops/'+((params.shop_id==0)?"add":"edit")),params,function(data,textStatus){
 		    	layer.close(loading);
 		    	var json = FI.toAdminJson(data);
 		    	if(json.status=='1'){

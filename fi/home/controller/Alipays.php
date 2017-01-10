@@ -22,19 +22,19 @@ class Alipays extends Base {
      */
     function getAlipaysUrl() {
         $m = new M();
-        $obj["orderId"] = input("id/s");
+        $obj["order_id"] = input("id/s");
         $obj["isBatch"] = (int) input("isBatch/d");
         $data = model('Orders')->checkOrderPay($obj);
         if ($data["status"] == 1) {
-            $userId = (int) session('FI_USER.userId');
-            $obj["userId"] = $userId;
-            $obj["orderId"] = input("id");
+            $user_id = (int) session('FI_USER.user_id');
+            $obj["user_id"] = $user_id;
+            $obj["order_id"] = input("id");
             $obj["isBatch"] = (int) input("isBatch");
             $orderAmount = $m->getPayOrders($obj);
             $return_url = url("home/alipays/response", "", true, true);
             $notify_url = url("home/alipays/aliNotify", "", true, true);
             $parameter = array(
-                'extra_common_param' => $userId . "@" . $obj["isBatch"],
+                'extra_common_param' => $user_id . "@" . $obj["isBatch"],
                 'service' => 'create_direct_pay_by_user',
                 'partner' => $this->aliPayConfig['parterID'],
                 '_input_charset' => "utf-8",
@@ -43,7 +43,7 @@ class Alipays extends Base {
                 /* 业务参数 */
                 'subject' => '支付购买商品费用' . $orderAmount . '元',
                 'body' => '支付订单费用',
-                'out_trade_no' => $obj["orderId"],
+                'out_trade_no' => $obj["order_id"],
                 'total_fee' => $orderAmount,
                 'quantity' => 1,
                 'payment_type' => 1,
@@ -99,9 +99,9 @@ class Alipays extends Base {
             $obj["out_trade_no"] = $_POST['out_trade_no'];
             $obj["total_fee"] = $_POST['total_fee'];
             $extras = explode("@", $_POST['extra_common_param']);
-            $obj["userId"] = $extras[0];
+            $obj["user_id"] = $extras[0];
             $obj["isBatch"] = $extras[1];
-            $obj["payFrom"] = 1;
+            $obj["pay_from"] = 1;
 
             //支付成功业务逻辑
             $rs = $m->complatePay($obj);

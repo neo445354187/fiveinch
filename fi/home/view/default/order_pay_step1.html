@@ -17,7 +17,7 @@
 	    <div class="tips-box">
 	    	<input type="hidden" id="oId" value="{$id}"/>
 	    	<input type="hidden" id="isBatch" value="{$isBatch}"/>
-	    	请及时付款，以便快速处理您的订单，在线实付金额<span class="fi-fred">&nbsp;¥{$object['totalMoney']}&nbsp;</span><span id="fi-check-orders" class="fi-check-orders">查看订单详情</span>
+	    	请及时付款，以便快速处理您的订单，在线实付金额<span class="fi-fred">&nbsp;¥{$object['total_money']}&nbsp;</span><span id="fi-check-orders" class="fi-check-orders">查看订单详情</span>
 	    </div>
 	    <div>
 		    <div id="fi-orders-box" style="display:none;">
@@ -25,8 +25,8 @@
 				 	{volist name="$rs['list']" id="order"}
 				 	<thead>
 					 	<tr>
-					     	<td colspan="3" class="fi-left-noborder fi-align-left">订单号：{$order['orderNo']}</td>
-					        <td colspan="3" class="fi-right-noborder fi-align-right">订单金额：￥{$order['needPay']}【运费：￥{$order['deliverMoney']}】</td>
+					     	<td colspan="3" class="fi-left-noborder fi-align-left">订单号：{$order['order_no']}</td>
+					        <td colspan="3" class="fi-right-noborder fi-align-right">订单金额：￥{$order['need_pay']}【运费：￥{$order['deliver_money']}】</td>
 					 	</tr>
 					 	<tr class='head'>
 					         <td colspan="2" class="fi-left-noborder">商品</th>
@@ -36,29 +36,29 @@
 					   	</tr>
 				   </thead>
 				   <tbody class="otbody">
-				 	{volist name="$rs['goods'][$order['orderId']]" id="vo"}
+				 	{volist name="$rs['goods'][$order['order_id']]" id="vo"}
 				 	<tr>
 				     	<td class="fi-left-noborder" width="64">
 				     		<div class="goods-img">
-					     		<a href="{:url('home/goods/detail',array('id'=>$vo['goodsId']))}" target="_blank">
-					     			<img class='goodsImg' data-original="__ROOT__/{$vo['goodsImg']}"  title="{$vo['goodsName']}" width='60'/>
+					     		<a href="{:url('home/goods/detail',array('id'=>$vo['goods_id']))}" target="_blank">
+					     			<img class='goods_img' data-original="__ROOT__/{$vo['goods_img']}"  title="{$vo['goods_name']}" width='60'/>
 					     		</a>
 				     		</div>
 				     	</td>
 				        <td class="fi-align-left">
-				        	<div>{$vo['goodsName']}
-				        	{if condition="count($vo['goodsSpecNames']) gt 0"}
+				        	<div>{$vo['goods_name']}
+				        	{if condition="count($vo['goods_spec_names']) gt 0"}
 				        		【
-				        		{volist name="$vo['goodsSpecNames']" id="spec"}
+				        		{volist name="$vo['goods_spec_names']" id="spec"}
 				        		{$spec}&nbsp;
 				        		{/volist}
 				        		】
 				        	{/if}
 				        	</div>
 				        </td>
-				        <td>{$vo['goodsPrice']}</td>
-				        <td>{$vo['goodsNum']}</td>
-				        <td class="fi-right-noborder">{$vo['goodsPrice']*$vo['goodsNum']}</td>
+				        <td>{$vo['goods_price']}</td>
+				        <td>{$vo['goods_num']}</td>
+				        <td class="fi-right-noborder">{$vo['goods_price']*$vo['goods_num']}</td>
 				 	</tr>
 				 	{/volist}
 				 	{/volist}
@@ -67,10 +67,10 @@
 		    </div>
 		    <div class="pay-type">选择支付方式</div>
 		    <div class="pay-list">
-		    	<input type="hidden" id="payCode" name="payCode" />
+		    	<input type="hidden" id="pay_code" name="pay_code" />
 		    	{volist name="$rs['payments']" id="payment"}
-                 	{if condition="$payment['isOnline'] eq 1"}
-                    	<div class="fi-payCode-{$payment['payCode']}" data="{$payment['payCode']}"></div>
+                 	{if condition="$payment['is_online'] eq 1"}
+                    	<div class="fi-pay_code-{$payment['pay_code']}" data="{$payment['pay_code']}"></div>
                  	{/if}
                  {/volist}
 		         <div class="fi-clear"></div>
@@ -90,16 +90,16 @@ $(function(){
 	$("#fi-check-orders").click(function(){
 		$("#fi-orders-box").slideToggle(600);
 	});
-	$("div[class^=fi-payCode]").click(function(){
-		var payCode = $(this).attr("data");
-		$("div[class^=fi-payCode]").each(function(){
-			$(this).removeClass().addClass("fi-payCode-"+$(this).attr("data"));
+	$("div[class^=fi-pay_code]").click(function(){
+		var pay_code = $(this).attr("data");
+		$("div[class^=fi-pay_code]").each(function(){
+			$(this).removeClass().addClass("fi-pay_code-"+$(this).attr("data"));
 		});
-		$(this).removeClass().addClass("fi-payCode-"+payCode+"-curr");
-		$("#payCode").val(payCode);
+		$(this).removeClass().addClass("fi-pay_code-"+pay_code+"-curr");
+		$("#pay_code").val(pay_code);
 	});
-	if($("div[class^=fi-payCode]").length>0){
-		$("div[class^=fi-payCode]")[0].click();
+	if($("div[class^=fi-pay_code]").length>0){
+		$("div[class^=fi-pay_code]")[0].click();
 	}
 });
 

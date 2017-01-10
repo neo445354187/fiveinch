@@ -6,13 +6,13 @@ use think\Validate;
  */
 class Brands extends Validate{
 	protected $rule = [
-	    ['brandName'  ,'require|max:60','请输入品牌名称|品牌名称不能超过20个字符'],
-		['brandImg'  ,'require','请上传品牌图标'],
-		['brandDesc'  ,'require','请输入品牌介绍']
+	    ['brand_name'  ,'require|max:60','请输入品牌名称|品牌名称不能超过20个字符'],
+		['brand_img'  ,'require','请上传品牌图标'],
+		['brand_desc'  ,'require','请输入品牌介绍']
     ];
 
     protected $scene = [
-        'add'   =>  ['brandName','brandImg','brandDesc'],
-        'edit'  =>  ['brandName','brandImg','brandDesc']
+        'add'   =>  ['brand_name','brand_img','brand_desc'],
+        'edit'  =>  ['brand_name','brand_img','brand_desc']
     ]; 
 }

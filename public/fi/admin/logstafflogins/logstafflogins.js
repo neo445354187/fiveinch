@@ -11,9 +11,9 @@ $(function(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '职员', name: 'staffName'},
-	        { display: '登录时间', name: 'loginTime'},
-	        { display: '登录IP', name: 'loginIp'}
+	        { display: '职员', name: 'staff_name'},
+	        { display: '登录时间', name: 'login_time'},
+	        { display: '登录IP', name: 'login_ip'}
         ]
     });
 })

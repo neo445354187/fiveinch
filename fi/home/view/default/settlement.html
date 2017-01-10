@@ -22,24 +22,24 @@
     </div>
     <div class='fi-clear'></div>
     <div class='main-head'>填写并核对订单</div>
-    <input type='hidden' class='j-ipt' id='s_addressId' value='{if isset($userAddress["addressId"]) }{$userAddress["addressId"]}{/if}'/>
-    <input type='hidden' class='j-ipt' id='s_areaId' value='{if isset($userAddress["addressId"]) }{$userAddress["areaId2"]}{/if}'/>
+    <input type='hidden' class='j-ipt' id='s_address_id' value='{if isset($user_address["address_id"]) }{$user_address["address_id"]}{/if}'/>
+    <input type='hidden' class='j-ipt' id='s_area_id' value='{if isset($user_address["address_id"]) }{$user_address["area_id2"]}{/if}'/>
     <!-- 用户地址 -->
     <div class='address-box'>
         <div class='box-head'>收货人信息 <a class="add-addr" href="javascript:;" onclick="javascript:emptyAddress(this, 1)">新增收货地址</a></div>
         <!-- 选中地址 -->
-        <div class='j-show-box {if empty($userAddress)}hide{/if}' >
-            <div id="s_userName" class="fi-frame1 j-selected">{if isset($userAddress["addressId"]) }{$userAddress['userName']}{/if}<i></i></div>
+        <div class='j-show-box {if empty($user_address)}hide{/if}' >
+            <div id="s_user_name" class="fi-frame1 j-selected">{if isset($user_address["address_id"]) }{$user_address['user_name']}{/if}<i></i></div>
             <div class="address" onmouseover="addrBoxOver(this)" onmouseout="addrBoxOut(this)">
                 <span id='s_address'>
-                    {if isset($userAddress["addressId"]) }
-                    {$userAddress['userName']}&nbsp;&nbsp;&nbsp;{$userAddress['areaName']}&nbsp;&nbsp;{$userAddress['userAddress']}&nbsp;&nbsp;{$userAddress['userPhone']}
+                    {if isset($user_address["address_id"]) }
+                    {$user_address['user_name']}&nbsp;&nbsp;&nbsp;{$user_address['area_name']}&nbsp;&nbsp;{$user_address['user_address']}&nbsp;&nbsp;{$user_address['user_phone']}
                     {/if}
                 </span>
                 &nbsp;&nbsp;
-                <span id="isdefault" {if(isset($userAddress['isDefault'])&&($userAddress['isDefault']==1))} class="j-default">默认地址{else /} >{/if}</span>
+                <span id="isdefault" {if(isset($user_address['is_default'])&&($user_address['is_default']==1))} class="j-default">默认地址{else /} >{/if}</span>
                 <div class="operate-box">
-                    <a href="javascript:void(0)" onclick="javascript:toEditAddress({if isset($userAddress["addressId"]) }{$userAddress["addressId"]}{/if},this,1,1,1)">编辑</a>&nbsp;&nbsp;
+                    <a href="javascript:void(0)" onclick="javascript:toEditAddress({if isset($user_address["address_id"]) }{$user_address["address_id"]}{/if},this,1,1,1)">编辑</a>&nbsp;&nbsp;
                 </div>
             </div>
 
@@ -54,12 +54,12 @@
         <ul class='j-list-box hide' id='addressList'></ul>
 
         <!-- 新增编辑地址 -->
-        <div class='j-edit-box {if !empty($userAddress)}hide{/if}'>
+        <div class='j-edit-box {if !empty($user_address)}hide{/if}'>
             <form id='addressForm' autocomplete='off'>
-                <input type='hidden' class='j-eipt' id='addressId' value=''/>
+                <input type='hidden' class='j-eipt' id='address_id' value=''/>
                 <div class='rows'>
                     <div class='label'>收货人<font color='red'>*</font>：</div>
-                    <div class='field'><input type='text' class='j-eipt' id='userName' maxLength='25'/></div>
+                    <div class='field'><input type='text' class='j-eipt' id='user_name' maxLength='25'/></div>
                     <div class='fi-clear'></div>
                 </div>
                 <div class='rows'>
@@ -68,26 +68,26 @@
                         <select id="area_0" class='j-areas' level="0" onchange="FI.ITAreas({id:'area_0', val:this.value, isRequire:true, className:'j-areas'});">
                             <option value="">-请选择-</option>
                             {volist name="areaList" id="vo"}
-                            <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+                            <option value="{$vo['area_id']}">{$vo['area_name']}</option>
                             {/volist}
                         </select>
-                        <input type='text' class='j-eipt' id='userAddress' style='width:300px' maxLength='200'/>
+                        <input type='text' class='j-eipt' id='user_address' style='width:300px' maxLength='200'/>
                     </div>
                     <div class='fi-clear'></div>
                 </div>
                 <div class='rows'>
                     <div class='label'>联系电话<font color='red'>*</font>：</div>
-                    <div class='field'><input type='text' id='userPhone' class='j-eipt' name="addrUserPhone" maxLength='50'/>  </div>
+                    <div class='field'><input type='text' id='user_phone' class='j-eipt' name="addrUserPhone" maxLength='50'/>  </div>
                     <div class='fi-clear'></div>
                 </div>
                 <div class='rows'>
                     <div class='label'>是否默认地址<font color='red'>*</font>：</div>
                     <div class='radio-box'>
                         <label style='margin-right:36px;'>
-                            <input type='radio' name='isDefault' value='1' checked class='j-eipt fi-radio' id="isDefault1"/><label class="mt-1" for="isDefault1"></label>是
+                            <input type='radio' name='is_default' value='1' checked class='j-eipt fi-radio' id="is_default1"/><label class="mt-1" for="is_default1"></label>是
                         </label>
                         <label>
-                            <input type='radio' name='isDefault' value='0' class='j-eipt fi-radio' id="isDefault2"/><label class="mt-1" for="isDefault2"></label>否
+                            <input type='radio' name='is_default' value='0' class='j-eipt fi-radio' id="is_default2"/><label class="mt-1" for="is_default2"></label>否
                         </label>
                     </div>
                     <div class='fi-clear'></div>
@@ -103,12 +103,12 @@
         <div class='box-head'>支付方式</div>
         <div class="fi-list-box">
             {if !empty($payments['0'])} 
-            <div class="fi-frame2 j-selected" onclick="javascript:changeSelected(0, 'payType', this)">货到付款<i></i></div>
+            <div class="fi-frame2 j-selected" onclick="javascript:changeSelected(0, 'pay_type', this)">货到付款<i></i></div>
             {/if}
             {if !empty($payments['1'])}  
-            <div class="fi-frame2" onclick="javascript:changeSelected(1, 'payType', this)">在线支付<i></i></div>
+            <div class="fi-frame2" onclick="javascript:changeSelected(1, 'pay_type', this)">在线支付<i></i></div>
             {/if}
-            <input type='hidden' value='0' id='payType' class='j-ipt' />
+            <input type='hidden' value='0' id='pay_type' class='j-ipt' />
             <div class='fi-clear'></div>
         </div>
     </div>-->
@@ -124,17 +124,17 @@
         {php}$shopFreight = 0;{/php}
         {volist name='$carts["carts"]' id='vo'}
         {php}
-        if(!empty($userAddress)){
-        $freight = FIOrderFreight($vo['shopId'],$userAddress['areaId2']);
+        if(!empty($user_address)){
+        $freight = FIOrderFreight($vo['shop_id'],$user_address['area_id2']);
         $shopFreight = $shopFreight + $freight;
         }else{
-        $freight = FIOrderFreight($vo['shopId'],-1);
+        $freight = FIOrderFreight($vo['shop_id'],-1);
         $shopFreight = $shopFreight + $freight;
         }
         {/php}
         <div class='cart-item'>
             <div class='shop2'>
-                {$vo['shopName']}
+                {$vo['shop_name']}
 
             </div>
             <div class='goods-list'>
@@ -142,28 +142,28 @@
                 <div class='item selected'>
                     <div class='goods2'>
                         <div class='img2'>
-                            <a href='{:Url("home/goods/detail","id=".$vo2["goodsId"])}' target='_blank'>
-                                <img src='__ROOT__/{$vo2["goodsImg"]}' width='80' height='80' title='{$vo2["goodsName"]}'/>
+                            <a href='{:Url("home/goods/detail","id=".$vo2["goods_id"])}' target='_blank'>
+                                <img src='__ROOT__/{$vo2["goods_img"]}' width='80' height='80' title='{$vo2["goods_name"]}'/>
                             </a>
                         </div>
-                        <div class='name2'>{$vo2["goodsName"]}</div>
+                        <div class='name2'>{$vo2["goods_name"]}</div>
                         <div class='spec2'>
                             {volist name='vo2["specNames"]' id='specs'}
-                            <div>{$specs['catName']}：{$specs['itemName']}</div>
+                            <div>{$specs['cat_name']}：{$specs['item_name']}</div>
                             {/volist}
                         </div>
                     </div>
-                    <div class='price2 item_middle'>¥{$vo2['shopPrice']}</div>
-                    <div class='num2 item_middle'>{$vo2['cartNum']}</div>
-                    <div class='t-price2 item_middle'>¥{$vo2['shopPrice']*$vo2['cartNum']}</div>
+                    <div class='price2 item_middle'>¥{$vo2['shop_price']}</div>
+                    <div class='num2 item_middle'>{$vo2['cart_num']}</div>
+                    <div class='t-price2 item_middle'>¥{$vo2['shop_price']*$vo2['cart_num']}</div>
                     <div class='fi-clear'></div>
                 </div>
                 {/volist}
                 <div class='shop-remark selected2'>
-                    订单备注：<input type='text' id="remark_{$vo['shopId']}" class='j-ipt' style='width:700px;' maxLength='100' placeholder='给卖家留言'/>
+                    订单备注：<input type='text' id="remark_{$vo['shop_id']}" class='j-ipt' style='width:700px;' maxLength='100' placeholder='给卖家留言'/>
 
                     <div style="float: right;margin-top:-10px;">
-                        <span style='text-align:right;line-height:30px;padding-right:13px;'>店铺合计(含运费)：<span style='color: #E55356;font-size: 18px;'>￥{$freight+$vo['goodsMoney']}</span></span>
+                        <span style='text-align:right;line-height:30px;padding-right:13px;'>店铺合计(含运费)：<span style='color: #E55356;font-size: 18px;'>￥{$freight+$vo['goods_money']}</span></span>
                     </div>
 
                 </div>
@@ -174,9 +174,9 @@
         <div class='pay-boxs'>
             <div class='box-head'>送货方式</div>
             <div class="fi-list-box">
-                <div class="fi-frame2 j-selected" onclick="javascript:changeDeliverType(0, 'deliverType', this)">快递运输<i></i></div>
-                <div class="fi-frame2" onclick="javascript:changeDeliverType(1, 'deliverType', this)">自提<i></i></div>
-                <input type='hidden' value='0' id='deliverType' class='j-ipt' />
+                <div class="fi-frame2 j-selected" onclick="javascript:changeDeliverType(0, 'deliver_type', this)">快递运输<i></i></div>
+                <div class="fi-frame2" onclick="javascript:changeDeliverType(1, 'deliver_type', this)">自提<i></i></div>
+                <input type='hidden' value='0' id='deliver_type' class='j-ipt' />
                 <div class='fi-clear'></div>
             </div>
         </div>
@@ -187,25 +187,25 @@
                     <div class="pay-boxs">
                         <div class='box-head'>发票信息</div>
                         <div class="j-show-box">
-                            <div class="fi-frame2 j-selected" onclick='javascript:FI.showhide(0, "#invoiceClientDiv", this)'>不需要开发票<i></i></div>
-                            <div class="fi-frame2" onclick='javascript:FI.showhide(1, "#invoiceClientDiv", this)'>需要开发票<i></i></div><br/><br/><br/>
-                            <input type='hidden' value='0' id='isInvoice' class='j-ipt' />
-                            <div id='invoiceClientDiv' class='hide'>
-                                发票抬头： <input type='text' class='j-ipt' id='invoiceClient' style='width:400px;padding:2px' placeholder='发票抬头信息'/>
+                            <div class="fi-frame2 j-selected" onclick='javascript:FI.showhide(0, "#invoice_clientDiv", this)'>不需要开发票<i></i></div>
+                            <div class="fi-frame2" onclick='javascript:FI.showhide(1, "#invoice_clientDiv", this)'>需要开发票<i></i></div><br/><br/><br/>
+                            <input type='hidden' value='0' id='is_invoice' class='j-ipt' />
+                            <div id='invoice_clientDiv' class='hide'>
+                                发票抬头： <input type='text' class='j-ipt' id='invoice_client' style='width:400px;padding:2px' placeholder='发票抬头信息'/>
                             </div>
                         </div>
                         <div class='fi-clear'></div>
                     </div>
                 </div>
                 <div class="summarys3" style='text-align:right;padding-top:50px'>
-                    <div class='summary2'>应付总金额(含运费)：<span id='totalMoney' v='{$carts["goodsTotalMoney"]}'>¥
-                            {if empty($userAddress)}
+                    <div class='summary2'>应付总金额(含运费)：<span id='total_money' v='{$carts["goodsTotalMoney"]}'>¥
+                            {if empty($user_address)}
                             {$carts["goodsTotalMoney"]}
                             {else}
                             {$carts["goodsTotalMoney"]+$shopFreight}
                             {/if}
                         </span></div>
-                    <div {if FIConf('CONF.isOrderScore')!=1 }style='display:none'{/if}>可获得积分：<span id='orderScore'>{:round($carts["goodsTotalMoney"],0)}</span>个</div>
+                    <div {if FIConf('CONF.isOrderScore')!=1 }style='display:none'{/if}>可获得积分：<span id='order_score'>{:round($carts["goodsTotalMoney"],0)}</span>个</div>
                 </div>
                 <div class='fi-clear'></div>
             </div>         

@@ -13,11 +13,11 @@ class ListenOperate
         $visit   = strtolower($request->module() . "/" . $request->controller() . "/" . $request->action());
         if (array_key_exists($visit, $urls) && $urls[$visit]['isParent']) {
             $data                = [];
-            $data['menuId']      = $urls[$visit]['menuId'];
-            $data['operateUrl']  = $_SERVER['REQUEST_URI'];
-            $data['operateDesc'] = $urls[$visit]['name'];
+            $data['menu_id']      = $urls[$visit]['menu_id'];
+            $data['operate_url']  = $_SERVER['REQUEST_URI'];
+            $data['operate_desc'] = $urls[$visit]['name'];
             $data['content']     = !empty($_REQUEST) ? json_encode($_REQUEST) : '';
-            $data['operateIP']   = $request->ip();
+            $data['operate_ip']   = $request->ip();
             model('admin/LogOperates')->add($data);
         }
     }

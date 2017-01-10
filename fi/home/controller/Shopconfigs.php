@@ -13,7 +13,7 @@ class Shopconfigs extends Base
     {
         //获取商品信息
         $m = model('ShopConfigs');
-        $this->assign('object', $m->getShopCfg((int) session('FI_USER.shopId')));
+        $this->assign('object', $m->getShopCfg((int) session('FI_USER.shop_id')));
         return $this->fetch('default/shops/shopconfigs/shop_cfg');
     }
 
@@ -22,10 +22,10 @@ class Shopconfigs extends Base
      */
     public function editShopCfg()
     {
-        $shopId = (int) session('FI_USER.shopId');
+        $shop_id = (int) session('FI_USER.shop_id');
         $m      = model('ShopConfigs');
-        if ($shopId > 0) {
-            $rs = $m->editShopCfg($shopId);
+        if ($shop_id > 0) {
+            $rs = $m->editShopCfg($shop_id);
         }
         return $rs;
     }

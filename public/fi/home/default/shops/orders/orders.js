@@ -113,11 +113,11 @@ function editOrderMoney(id){
     	var json = FI.toJson(data);
 		if(json.status>0 && json.data){
 			var tmp = json.data;
-			$('#m_orderNo').html(tmp.orderId);
-			$('#m_goodsMoney').html(tmp.goodsMoney);
-			$('#m_deliverMoney').html(tmp.deliverMoney);
-			$('#m_totalMoney').html(tmp.totalMoney);
-			$('#m_realTotalMoney').html(tmp.realTotalMoney);
+			$('#m_order_no').html(tmp.order_id);
+			$('#m_goods_money').html(tmp.goods_money);
+			$('#m_deliver_money').html(tmp.deliver_money);
+			$('#m_total_money').html(tmp.total_money);
+			$('#m_real_total_money').html(tmp.real_total_money);
 			FI.open({type: 1,title:"修改订单价格",shade: [0.6, '#000'],border: [0],
 				content: $('#editMoneyBox'),area: ['550px', '320px'],btn: ['确定','取消'],
 				yes:function(index, layero){
@@ -360,7 +360,7 @@ function saveRespond(historyURL){
 /* 表单验证 */
 $('#respondForm').validator({
           fields: {
-              respondContent: {
+              respond_content: {
                 rule:"required",
                 msg:{required:"请输入应诉内容"},
                 tip:"请输入应诉内容",
@@ -375,7 +375,7 @@ $('#respondForm').validator({
               $('.respond_pic').each(function(){
                 img.push($(this).attr('v'));
               });
-              params.respondAnnex = img.join(',');
+              params.respond_annex = img.join(',');
               $.post(FI.U('home/orderComplains/saveRespond'),params,function(data,textStatus){
                 layer.close(loading);
                 var json = FI.toJson(data);

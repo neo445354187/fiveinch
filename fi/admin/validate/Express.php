@@ -6,11 +6,11 @@ use think\Validate;
  */
 class express extends Validate{
 	protected $rule = [
-        ['expressName'  ,'require|max:30','请输入快递名称|快递名称不能超过10个字符'],
+        ['express_name'  ,'require|max:30','请输入快递名称|快递名称不能超过10个字符'],
     ];
 
     protected $scene = [
-        'add'   =>  ['expressName'],
-        'edit'  =>  ['expressName'],
+        'add'   =>  ['express_name'],
+        'edit'  =>  ['express_name'],
     ]; 
 }

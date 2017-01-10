@@ -13,7 +13,7 @@
 </style>
   <div class="fi-shop-head"><span>查看投诉</span></div>
   <div class='fi-shop-tbar'>
-     订单号：<input type='text' class="s-query" id='orderNo' size="40" />
+     订单号：<input type='text' class="s-query" id='order_no' size="40" />
      <button class="s-btn" onclick="complainByPage()">查询</button>
   </div>
   <div class='fi-shop-content'>
@@ -32,19 +32,19 @@
        <script id="tblist" type="text/html">
        {{# for(var i = 0; i < d.length; i++){ }}
           <tr>
-          <td>{{d[i]['orderNo']}}</td>
+          <td>{{d[i]['order_no']}}</td>
 
-          <td>{{FI.blank(d[i]['userName'],d[i]['loginName'])}}</td>
+          <td>{{FI.blank(d[i]['user_name'],d[i]['login_name'])}}</td>
 
-          <td>{{d[i]['complainContent']}}</td>
+          <td>{{d[i]['complain_content']}}</td>
 
-          <td>{{d[i]['complainTime']}}</td>
+          <td>{{d[i]['complain_time']}}</td>
 
-          <td>{{d[i]['complainStatus']}}</td>
+          <td>{{d[i]['complain_status']}}</td>
 
           <td>
-            <a style="cursor:pointer;" onclick="toView({{d[i]['complainId']}})">查看</a>
-            {{# if(d[i]['needReply']==1){ }}<a style="cursor:pointer;" onclick="toRespond({{d[i]['complainId']}})">应诉</a>{{# } }}
+            <a style="cursor:pointer;" onclick="toView({{d[i]['complain_id']}})">查看</a>
+            {{# if(d[i]['needReply']==1){ }}<a style="cursor:pointer;" onclick="toRespond({{d[i]['complain_id']}})">应诉</a>{{# } }}
           </td>
           
          </tr>

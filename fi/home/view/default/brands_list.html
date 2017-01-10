@@ -16,13 +16,13 @@ function screenCat(id){
 	location.href=FI.U('home/brands/index','id='+id);
 }
 </script>
-<input type="hidden" id="catId" value="" autocomplete="off">
+<input type="hidden" id="cat_id" value="" autocomplete="off">
 <div class="fi-container">
 	<div class="fi-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__HOME__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/brands/index')}">品牌街</a></div>
 	<div class="fi-brand-cat">
 		<div class="fi-brand-catt">品牌行业</div>
 		{volist name="goodscats" id="ca" key="k"}
-		<span class="{if($selectedId==$ca['catId'])}js-selected{/if}" onclick="javascript:screenCat({$ca['catId']});">{$ca['catName']}</span>
+		<span class="{if($selectedId==$ca['cat_id'])}js-selected{/if}" onclick="javascript:screenCat({$ca['cat_id']});">{$ca['cat_name']}</span>
 		{/volist}
 		<div class="fi-clear"></div>
 	</div>
@@ -30,11 +30,11 @@ function screenCat(id){
 	<ul class="fi-brands-list">
 		{volist name="list.Rows" id="vo"}
 		<li class="fi-brands">
-			<div class="fi-brand-img"><a target='_blank' href="{:Url('home/goods/lists',['cat'=>$vo['catId'],'brand'=>$vo['brandId']])}"><img class="goodsImg" data-original="__ROOT__/{$vo['brandImg']}" title="{$vo['brandName']}"/></a></div>
-			<div class="fi-brand-name">{:FIMSubstr($vo['brandName'],0,15)}</div>
+			<div class="fi-brand-img"><a target='_blank' href="{:Url('home/goods/lists',['cat'=>$vo['cat_id'],'brand'=>$vo['brand_id']])}"><img class="goods_img" data-original="__ROOT__/{$vo['brand_img']}" title="{$vo['brand_name']}"/></a></div>
+			<div class="fi-brand-name">{:FIMSubstr($vo['brand_name'],0,15)}</div>
 			<div class='info'>
 				<span><img src="__HOME__/img/img_jrpp.png"/></span>
-		        <p>欢迎进入{$vo['brandName']}</p>
+		        <p>欢迎进入{$vo['brand_name']}</p>
 		    </div>
 		</li>
 		{/volist}

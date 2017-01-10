@@ -10,15 +10,15 @@ class SysConfigs extends Base{
 	 */
 	public function loadConfigs(){
 		
-		$rs = $this->field('fieldCode,fieldValue')->order("parentId asc,fieldSort asc")->select();
+		$rs = $this->field('field_code,field_value')->order("parent_id asc,fieldSort asc")->select();
 		$configs = array();
 		if(count($rs)>0){
 			foreach ($rs as $key=>$v){
-				if($v['fieldCode']=="hotSearchs"){
-					$fieldValue = str_replace("，",",",$v['fieldValue']);
-					$configs[$v['fieldCode']] = explode(",",$fieldValue);
+				if($v['field_code']=="hotSearchs"){
+					$field_value = str_replace("，",",",$v['field_value']);
+					$configs[$v['field_code']] = explode(",",$field_value);
 				}else{
-					$configs[$v['fieldCode']] = $v['fieldValue'];
+					$configs[$v['field_code']] = $v['field_value'];
 				}
 			}
 		}

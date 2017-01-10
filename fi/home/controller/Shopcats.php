@@ -14,7 +14,7 @@ class Shopcats extends Base {
      */
     public function index() {
         $m = new M();
-        $list = $m->getCatAndChild(session('FI_USER.shopId'), input('post.parentId/d'));
+        $list = $m->getCatAndChild(session('FI_USER.shop_id'), input('post.parent_id/d'));
         $this->assign('list', $list);
         return $this->fetch("default/shops/shopcats/list");
     }
@@ -66,7 +66,7 @@ class Shopcats extends Base {
      */
     public function listQuery() {
         $m = new M();
-        $list = $m->listQuery((int) session('FI_USER.shopId'), input('post.parentId/d'));
+        $list = $m->listQuery((int) session('FI_USER.shop_id'), input('post.parent_id/d'));
         $rs = array();
         $rs['status'] = 1;
         $rs['list'] = $list;

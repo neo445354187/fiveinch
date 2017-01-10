@@ -36,13 +36,13 @@
                </td>
                <td>
 
-               {{# if(d[i].msgStatus ==1) { }}
+               {{# if(d[i].msg_status ==1) { }}
                 <div class='readMsg'></div>
                {{# }else{ }}
                 <div class='newMsg'></div>
                {{# } }}
                </td>
-               <td>{{ d[i].msgContent }}</td>
+               <td>{{ d[i].msg_content }}</td>
                <td>
                <a class="s-handle" href="javascript:showMsg({{ d[i].id }})">[查看]</a>
                <a class="s-handle" href="javascript:delMsg(this,{{ d[i].id }})">[删除]</a>

@@ -57,6 +57,6 @@ class Adpositions extends Base{
     */
     public function getPositon(){
         $m = new M();
-        return $m->getPositon((int)input('post.positionType/d'));
+        return $m->getPositon((int)input('post.position_type/d'));
     }  
 }

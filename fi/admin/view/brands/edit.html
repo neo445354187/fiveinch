@@ -11,51 +11,51 @@
 <script src="__ADMIN__/brands/brands.js?v={$v}" type="text/javascript"></script>
 <script>
 $(function () {
-	   {if condition="$object['brandId'] !=0 "}
+	   {if condition="$object['brand_id'] !=0 "}
 		FI.setValues({$object});
 	   {/if}
 		$('#brandForm').validator({
 		    fields: {
-		    	brandName: {
+		    	brand_name: {
 		    		tip: "请输入品牌名称",
 		    		rule: '品牌名称:required;length[~16];'
 		    	},
-		    	catId: {
+		    	cat_id: {
 		    		tip: "请选择分类",
 		    		rule: 'checked(1~);length[~16];'
 		    	},
-		    	brandDesc: {
+		    	brand_desc: {
 		    		tip: "请输入品牌介绍",
 		    		rule: '品牌介绍:required;'
 		    	}
 		    },
 		    valid: function(form){
-		    	var brandId = $('#brandId').val();
-		    	toEdits(brandId);
+		    	var brand_id = $('#brand_id').val();
+		    	toEdits(brand_id);
 		    }
 		})
 });
 </script>
 {/block}
 {block name="main"}
-<input type='hidden' id='brandId' value='{$object["brandId"]}'/>
+<input type='hidden' id='brand_id' value='{$object["brand_id"]}'/>
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <form id="brandForm" autocomplete="off">
 <table class='fi-form fi-box-top'>
   <tr>
      <th width='150'>品牌名称<font color='red'>*</font>：</th>
-     <td><input type="text" id='brandName' name='brandName' maxLength='20' style='width:300px;' class='ipt'/></td>
+     <td><input type="text" id='brand_name' name='brand_name' maxLength='20' style='width:300px;' class='ipt'/></td>
   </tr>
    <tr>
      <th width='150' align='right'>所属分类<font color='red'>*</font>：</th>
      <td>
      {volist name="gcatList" id="vo"}
 	     <label class='goodsCat'>
-	     <input type='checkbox' id='catId' name='catId' class="ipt" value='{$vo["catId"]}'
-       {if condition="$object['brandId'] !=0 "}
-       {if in_array($vo["catId"],$object['catIds'])==1}checked{/if}
+	     <input type='checkbox' id='cat_id' name='cat_id' class="ipt" value='{$vo["cat_id"]}'
+       {if condition="$object['brand_id'] !=0 "}
+       {if in_array($vo["cat_id"],$object['cat_ids'])==1}checked{/if}
        {/if}
-       >&nbsp;{$vo["catName"]}&nbsp;
+       >&nbsp;{$vo["cat_name"]}&nbsp;
 	     </label>
 	 {/volist}
      </td>
@@ -66,7 +66,7 @@ $(function () {
      	<div>
     	<div id="filePicker" style='margin-left:0px;float:left; width: 100px'>上传图片</div>
      	    <div style='margin-left:5px;float:left'>图片大小:400 x 200 (px)，格式为 gif, jpg, jpeg,bmp, png</div>
-     	    <input id="brandImg" name="brandImg" class="text ipt" autocomplete="off" type="hidden" value="{$object.brandImg}"/>
+     	    <input id="brand_img" name="brand_img" class="text ipt" autocomplete="off" type="hidden" value="{$object.brand_img}"/>
      	    <div style="clear:both;"></div>
      	</div>
      </td>
@@ -75,8 +75,8 @@ $(function () {
      <th align='right' height='152'>预览图：</th>
      <td >
      	<div id="preview" >
-     	{if $object['brandId']!=0}
-       	<img src="__ROOT__/{$object['brandImg']}" class="ipt" height='152'/>
+     	{if $object['brand_id']!=0}
+       	<img src="__ROOT__/{$object['brand_img']}" class="ipt" height='152'/>
        	{/if}
        	</div>
      </td>
@@ -84,7 +84,7 @@ $(function () {
    <tr>
        <th width='150'>品牌介绍<font color='red'>*</font>：</th>
        <td>
-       	<textarea id='brandDesc' name='brandDesc' class="form-control ipt" style='width:80%;height:400px'></textarea>
+       	<textarea id='brand_desc' name='brand_desc' class="form-control ipt" style='width:80%;height:400px'></textarea>
        </td>
     </tr>
      <tr>
@@ -106,13 +106,13 @@ $(function(){
   		  var json = FI.toAdminJson(f);
   		  if(json.status==1){
         	$('#preview').html('<img src="'+FI.conf.ROOT+"/"+json.savePath+json.thumb+'" height="200" />');
-        	$('#brandImg').val(json.savePath+json.thumb);
+        	$('#brand_img').val(json.savePath+json.thumb);
   		  }
 	  }
     });
   //编辑器
     KindEditor.ready(function(K) {
-		editor1 = K.create('textarea[name="brandDesc"]', {
+		editor1 = K.create('textarea[name="brand_desc"]', {
 			height:'350px',
 			uploadJson : FI.conf.ROOT+'/admin/brands/editorUpload',
 			allowFileManager : false,

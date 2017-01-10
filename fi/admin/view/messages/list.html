@@ -24,7 +24,7 @@ body{overflow:hidden;}
        <tr id="user_query" style="display:none;">
           <th></th>
           <td>
-            <input type='text' id='loginName' name="loginName" value=''  style="width:200px;" maxLength='20' placeholder="请输入要发送消息的账号"/>
+            <input type='text' id='login_name' name="login_name" value=''  style="width:200px;" maxLength='20' placeholder="请输入要发送消息的账号"/>
             
           </td>
           <td><input type="button" class="btn btn-blue" value="查询" onclick="userQuery()"></td>
@@ -51,7 +51,7 @@ body{overflow:hidden;}
        <tr>
           <th>消息内容<font color='red'>  </font>：</th>
           <td colspan="10">
-            <textarea class='ipt' name="msgContent" id="msgContent" style="width:700px;height:150px;"></textarea>
+            <textarea class='ipt' name="msg_content" id="msg_content" style="width:700px;height:150px;"></textarea>
           </td>
        </tr>
 {if FIGrant('SCXX_01')} 
@@ -70,12 +70,12 @@ body{overflow:hidden;}
 
       <div id="query" style="float:left;">
         <p style="float:left;height:25px;line-height:25px;">消息类型:</p>
-        <select style="float:left;" name="msgType" id="msgType" class="query">
+        <select style="float:left;" name="msg_type" id="msg_type" class="query">
           <option value="-1">全部</option>
           <option value="0">手工</option>
           <option value="1">系统</option>
         </select>
-        系统内容:<input type="text" name="msgContent"  placeholder='系统内容' id="msgContent" class="query" />
+        系统内容:<input type="text" name="msg_content"  placeholder='系统内容' id="msg_content" class="query" />
         <input type="button" class="btn btn-blue" onclick="javascript:msgQuery()" value="查询">
       </div>
       <div style="clear:both"></div>

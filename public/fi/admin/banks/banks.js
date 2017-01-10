@@ -9,11 +9,11 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '银行名称', name: 'bankName', isSort: false},
+	        { display: '银行名称', name: 'bank_name', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.YHGL_02)h += "<a href='javascript:getForEdit(" + rowdata['bankId'] + ")'>修改</a> ";
-	            if(FI.GRANT.YHGL_03)h += "<a href='javascript:toDel(" + rowdata['bankId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.YHGL_02)h += "<a href='javascript:getForEdit(" + rowdata['bank_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.YHGL_03)h += "<a href='javascript:toDel(" + rowdata['bank_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -41,9 +41,9 @@ function getForEdit(id){
      $.post(FI.U('admin/banks/get'),{id:id},function(data,textStatus){
            layer.close(loading);
            var json = FI.toAdminJson(data);
-           if(json.bankId){
+           if(json.bank_id){
            		FI.setValues(json);
-           		toEdit(json.bankId);
+           		toEdit(json.bank_id);
            }else{
            		FI.msg(json.msg,{icon:2});
            }
@@ -57,7 +57,7 @@ function toEdit(id){
 	}});
 	$('#bankForm').validator({
         fields: {
-            bankName: {
+            bank_name: {
             	rule:"required;",
             	msg:{required:"银行名称不能为空"},
             	tip:"请输入银行名称",
@@ -67,7 +67,7 @@ function toEdit(id){
         },
        valid: function(form){
 		        var params = FI.getParams('.ipt');
-	                params.bankId = id;
+	                params.bank_id = id;
 	                var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 	           		$.post(FI.U('admin/banks/'+((id==0)?"add":"edit")),params,function(data,textStatus){
 	           			  layer.close(loading);

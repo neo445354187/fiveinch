@@ -10,13 +10,13 @@
 <script id="list" type="text/html">
 {{# for(var i = 0; i < d.length; i++){}}
 	<div class="fi-fav-goods">
-		<a href="javascript:getGoods({{ d[i].goodsId }})">
-		<div class="fi-fav-goimg"><img class="goodsImg2" data-original="__ROOT__/{{ d[i].goodsImg }}" title="{{ d[i].goodsName }}"></div>
-		<p class="fi-fav-gonam">{{FI.cutStr(d[i].goodsName,27, false)}}</p>
-		<p class="fi-fav-goodp1"><span class="fi-fav-goodpr">￥{{ d[i].shopPrice }}</span></p>
+		<a href="javascript:getGoods({{ d[i].goods_id }})">
+		<div class="fi-fav-goimg"><img class="goods_img2" data-original="__ROOT__/{{ d[i].goods_img }}" title="{{ d[i].goods_name }}"></div>
+		<p class="fi-fav-gonam">{{FI.cutStr(d[i].goods_name,27, false)}}</p>
+		<p class="fi-fav-goodp1"><span class="fi-fav-goodpr">￥{{ d[i].shop_price }}</span></p>
 		</a>
-		<span class="js-operate second_join_cart" onclick="javascript:FI.addCart({{ d[i].goodsId }})">加入购物车</span>
-		<span class="js-operate" onclick="javascript:cancelFavorite({{ d[i].favoriteId }},0)">取消</span>
+		<span class="js-operate second_join_cart" onclick="javascript:FI.addCart({{ d[i].goods_id }})">加入购物车</span>
+		<span class="js-operate" onclick="javascript:cancelFavorite({{ d[i].favorite_id }},0)">取消</span>
 		
 	</div>
 {{# } }}

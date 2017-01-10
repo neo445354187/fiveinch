@@ -14,13 +14,13 @@ class Redundancy extends Base
 
     /**
      * [del 删除商品触发的冗余表删除记录]
-     * @param  [int|array] $goodsId [商品goodsId， 可以执行批量操作]
+     * @param  [int|array] $goods_id [商品goods_id， 可以执行批量操作]
      * @return [type]     [description]
      */
-    public function del($goodsId)
+    public function del($goods_id)
     {
-        $goodsId = (array) $goodsId;
-        return $this->where(['goodsId' => ['IN', $goodsId]])
+        $goods_id = (array) $goods_id;
+        return $this->where(['goods_id' => ['IN', $goods_id]])
             ->update([
                 'update_time' => date('Y-m-d H:i:s'),
                 'is_delete'   => 1,
@@ -29,70 +29,70 @@ class Redundancy extends Base
 
     /**
      * [add 添加记录]
-     *  说明：商家可以操作多个，即$goodsId为数组，而后台只能操作一个，即$goodsId为int
-     * @param [int|array] $goodsId [description]
+     *  说明：商家可以操作多个，即$goods_id为数组，而后台只能操作一个，即$goods_id为int
+     * @param [int|array] $goods_id [description]
      * @param  [type] $is_manager [判断是否是管理员操作，这项决定地址从哪里取]
      */
-    public function add($goodsId, $is_manager = false)
+    public function add($goods_id, $is_manager = false)
     {
-        $goodsId = (array) $goodsId;
+        $goods_id = (array) $goods_id;
         $result  = Db::name('Goods')
-            ->field('goodsId, goodsName, shopId, goodsCatId, brandId, goodsImg, shopPrice, goodsStock, goodsTips, goodsUnit, goodsDesc, appraiseNum, saleNum')
-            ->where(['goodsId' => ['IN', $goodsId]])
-            ->limit(count($goodsId))
+            ->field('goods_id, goods_name, shop_id, goods_cat_id, brand_id, goods_img, shop_price, goods_stock, goods_tips, goods_unit, goods_desc, appraise_num, sale_num')
+            ->where(['goods_id' => ['IN', $goods_id]])
+            ->limit(count($goods_id))
             ->toArray()
             ->select();
         if ($result) {
             //放置商品多时，连接查询耗时
             foreach ($result as $key => $res) {
-                $shopIds[]     = $res['shopId'];
-                $goodsCatIds[] = $res['goodsCatId'];
-                $brandIds[]    = $res['brandId'];
+                $shop_ids[]     = $res['shop_id'];
+                $goods_cat_ids[] = $res['goods_cat_id'];
+                $brand_ids[]    = $res['brand_id'];
             }
             //分开获取店铺名
             $shops = Db::name('shops')
-                ->field('shopId, shopName, areaIdPath')
-                ->where(['shopId' => ['IN', $shopIds]])
-                ->limit(count($shopIds))
+                ->field('shop_id, shop_name, area_id_path')
+                ->where(['shop_id' => ['IN', $shop_ids]])
+                ->limit(count($shop_ids))
                 ->toArray()
                 ->select();
-            $data['shopName'] = Tree::setKey($shops, 'shopId');
+            $data['shop_name'] = Tree::setKey($shops, 'shop_id');
 
             //分开获取商品分类
-            $data['catName'] = Tree::setKey(
+            $data['cat_name'] = Tree::setKey(
                 Db::name('goods_cats')
-                    ->field('catId, catName')
-                    ->where(['catId' => ['IN', $goodsCatIds]])
-                    ->limit(count($goodsCatIds))
+                    ->field('cat_id, cat_name')
+                    ->where(['cat_id' => ['IN', $goods_cat_ids]])
+                    ->limit(count($goods_cat_ids))
                     ->toArray()
                     ->select(),
-                'catId'
+                'cat_id'
             );
             //分开获取商品品牌
-            $data['brandName'] = Tree::setKey(
+            $data['brand_name'] = Tree::setKey(
                 Db::name('brands')
-                    ->field('brandId, brandName')
-                    ->where(['brandId' => ['IN', $brandIds]])
-                    ->limit(count($brandIds))
+                    ->field('brand_id, brand_name')
+                    ->where(['brand_id' => ['IN', $brand_ids]])
+                    ->limit(count($brand_ids))
                     ->toArray()
                     ->select(),
-                'brandId'
+                'brand_id'
             );
 
             //获取商品分数
-            $data['avgScore'] = Tree::setKey(
+            $data['avg_score'] = Tree::setKey(
                 Db::name('goods_scores')
-                    ->field('goodsId, totalScore, totalUsers')
-                    ->where(['goodsId' => ['IN', $goodsId]])
-                    ->limit(count($goodsId))
+                    ->field('goods_id, total_score, total_users')
+                    ->where(['goods_id' => ['IN', $goods_id]])
+                    ->limit(count($goods_id))
                     ->toArray()
                     ->select(),
-                'goodsId'
+                'goods_id'
             );
 
             //根据$is_manager获取地址 从session中获取地址
             if ($is_manager) {
-                $userInfo = (new Areas)->getLocationByAreaIdPath($shops[0]['areaIdPath']);
+                $userInfo = (new Areas)->getLocationByAreaIdPath($shops[0]['area_id_path']);
             } else {
                 $userInfo = session('FI_USER');
             }
@@ -100,15 +100,15 @@ class Redundancy extends Base
 
             //组装最后的数据
             foreach ($result as $key => $res) {
-                @$res['shopName']   = $data['shopName'][$res['shopId']]['shopName'];
-                @$res['catName']    = $data['catName'][$res['goodsCatId']]['catName']; //因为可能没有分类
-                @$res['brandName']  = $data['brandName'][$res['brandId']]['brandName']; //因为可能没有品牌
-                @$res['avgScore']   = ($data['avgScore'][$res['goodsId']]['totalScore'] == 0) ? 5 : FIScore($data['avgScore'][$res['goodsId']]['totalScore'], $data['avgScore'][$res['goodsId']]['totalUsers'], 5, 0, 3);
+                @$res['shop_name']   = $data['shop_name'][$res['shop_id']]['shop_name'];
+                @$res['cat_name']    = $data['cat_name'][$res['goods_cat_id']]['cat_name']; //因为可能没有分类
+                @$res['brand_name']  = $data['brand_name'][$res['brand_id']]['brand_name']; //因为可能没有品牌
+                @$res['avg_score']   = ($data['avg_score'][$res['goods_id']]['total_score'] == 0) ? 5 : FIScore($data['avg_score'][$res['goods_id']]['total_score'], $data['avg_score'][$res['goods_id']]['total_users'], 5, 0, 3);
                 $res['province']    = $userInfo['province'];
                 $res['city']        = $userInfo['city'];
                 $res['district']    = $userInfo['district'];
                 $res['update_time'] = $timeStamp;
-                unset( $res['goodsCatId'], $res['brandId']);
+                unset( $res['goods_cat_id'], $res['brand_id']);
                 $result[$key] = $res;
             }
             // var_dump($result);die;//debug
@@ -118,14 +118,14 @@ class Redundancy extends Base
 
     /**
      * [edit 更改冗余记录，采用先删除后更改]
-     * @param  [type] $goodsId [description]
+     * @param  [type] $goods_id [description]
      * @param  [type] $is_manager [判断是否是管理员操作，这项决定地址从哪里取]
      * @return [type]          [description]
      */
-    public function edit($goodsId, $is_manager = false)
+    public function edit($goods_id, $is_manager = false)
     {
-        $this->del($goodsId);
-        $this->add($goodsId, $is_manager);
+        $this->del($goods_id);
+        $this->add($goods_id, $is_manager);
     }
 
     /**

@@ -9,10 +9,10 @@ class ShopApplys extends Base{
      * 查询手机是否存在
      */
     public function checkShopPhone(){
-    	$shopPhone = input("post.userPhone2");
+    	$shopPhone = input("post.user_phone2");
     	if($shopPhone=='')return FIReturn("请输入手机号码");
-    	$rs = $this->where("phoneNo",$shopPhone)
-    				->where(["dataFlag"=>1])
+    	$rs = $this->where("phone_no",$shopPhone)
+    				->where(["status"=>1])
     				->count();
     	if($rs==0){
     		return FIReturn("",1);
@@ -23,8 +23,8 @@ class ShopApplys extends Base{
 	 * 添加门店申请记录
 	 */
 	public function addApply(){	
-		$phoneNo = input("post.userPhone2");
-		$applyDesc = input("post.remark");
+		$phone_no = input("post.user_phone2");
+		$apply_desc = input("post.remark");
 		$crs = $this->checkShopPhone();
 		if($crs['status']!=1){
 			return FIReturn("该手机已存在");
@@ -41,12 +41,12 @@ class ShopApplys extends Base{
 			return FIReturn("验证码错误!");
 		}
 		$data = array();
-		$data['userId'] = (int)session('FI_USER.userId');
-		$data['phoneNo'] = $phoneNo;
-		$data['applyDesc'] = $applyDesc;
-		$data['applyStatus'] = 0;
-		$data['dataFlag'] = 1;
-		$data['createTime'] = date('Y-m-d H:i:s');
+		$data['user_id'] = (int)session('FI_USER.user_id');
+		$data['phone_no'] = $phone_no;
+		$data['apply_desc'] = $apply_desc;
+		$data['apply_status'] = 0;
+		$data['status'] = 1;
+		$data['create_time'] = date('Y-m-d H:i:s');
 		$rs = $this->data($data)->save();
 		if(false !== $rs){
 			return FIReturn("申请成功", 1);

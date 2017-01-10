@@ -16,14 +16,14 @@ class Shops extends Base {
      */
     public function login() {
         $USER = session('FI_USER');
-        if (!empty($USER) && isset($USER['shopId'])) {
+        if (!empty($USER) && isset($USER['shop_id'])) {
             $this->redirect("shops/index");
         }
-        $loginName = cookie("loginName");
-        if (!empty($loginName)) {
-            $this->assign('loginName', cookie("loginName"));
+        $login_name = cookie("login_name");
+        if (!empty($login_name)) {
+            $this->assign('login_name', cookie("login_name"));
         } else {
-            $this->assign('loginName', '');
+            $this->assign('login_name', '');
         }
         return $this->fetch('default/shop_login');
     }
@@ -35,7 +35,7 @@ class Shops extends Base {
         session('FI_MENID1', null);
         session('FI_MENUID31', null);
         $s = new M();
-        $data = $s->getShopSummary((int) session('FI_USER.shopId'));
+        $data = $s->getShopSummary((int) session('FI_USER.shop_id'));
         $this->assign('data', $data);
         return $this->fetch('default/shops/index');
     }
@@ -64,13 +64,13 @@ class Shops extends Base {
      */
     public function home() {
         $s = new M();
-        $shopId = (int) input("param.shopId/d");
-        $data['shop'] = $s->getShopInfo($shopId);
+        $shop_id = (int) input("param.shop_id/d");
+        $data['shop'] = $s->getShopInfo($shop_id);
 
         $ct1 = input("param.ct1/d", 0);
         $ct2 = input("param.ct2/d", 0);
-        $goodsName = input("param.goodsName");
-        if (($data['shop']['shopId'] == 1 || $shopId == 0) && $ct1 == 0 && !isset($goodsName)) {
+        $goods_name = input("param.goods_name");
+        if (($data['shop']['shop_id'] == 1 || $shop_id == 0) && $ct1 == 0 && !isset($goods_name)) {
             $this->redirect('home/shops/selfShop');
         }
 
@@ -78,16 +78,16 @@ class Shops extends Base {
             return $this->fetch('default/error_lost');
         }
 
-        $data['shopcats'] = $f = model('ShopCats', 'model')->getShopCats($shopId);
+        $data['shopcats'] = $f = model('ShopCats', 'model')->getShopCats($shop_id);
         $g = new Goods();
-        $data['list'] = $g->shopGoods($shopId);
+        $data['list'] = $g->shopGoods($shop_id);
         $this->assign('msort', input("param.msort/d", 0)); //筛选条件
         $this->assign('mdesc', input("param.mdesc/d", 1)); //升降序
         $this->assign('sprice', input("param.sprice")); //价格范围
         $this->assign('eprice', input("param.eprice"));
         $this->assign('ct1', $ct1); //一级分类
         $this->assign('ct2', $ct2); //二级分类
-        $this->assign('goodsName', urldecode($goodsName)); //搜索
+        $this->assign('goods_name', urldecode($goods_name)); //搜索
         $this->assign('data', $data);
         return $this->fetch('default/shop_home');
     }
@@ -97,7 +97,7 @@ class Shops extends Base {
      */
     public function info() {
         $s = new M();
-        $object = $s->getByView((int) session('FI_USER.shopId'));
+        $object = $s->getByView((int) session('FI_USER.shop_id'));
         $this->assign('object', $object);
         return $this->fetch('default/shops/shops/view');
     }
@@ -114,7 +114,7 @@ class Shops extends Base {
 
         $this->assign('selfShop', 1);
         $data['shopcats'] = model('ShopCats')->getShopCats(1);
-        $this->assign('goodsName', urldecode(input("param.goodsName"))); //搜索
+        $this->assign('goods_name', urldecode(input("param.goods_name"))); //搜索
         // 店长推荐
         $data['rec'] = $s->getRecGoods('rec');
         // 热销商品

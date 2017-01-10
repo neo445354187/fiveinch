@@ -9,25 +9,25 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '标题', name: 'adName', isSort: false},
-	        { display: '广告位置', name: 'adPositionId', isSort: false,render:function(rowdata, rowindex, value){
-	        	return rowdata['positionName'];
+	        { display: '标题', name: 'ad_name', isSort: false},
+	        { display: '广告位置', name: 'ad_position_id', isSort: false,render:function(rowdata, rowindex, value){
+	        	return rowdata['position_name'];
 	        }},
-	        { display: '广告网址', name: 'adURL', isSort: false},
-	        { display: '广告开始日期', name: 'adStartDate', isSort: false},
-	        { display: '广告结束日期', name: 'adEndDate', isSort: false},
-	        { display: '图标', name: 'adFile', height: '300', isSort: false,render:function(rowdata, rowindex, value){
-            var adFile = rowdata['adFile'].split(',');
-              return'<img src="'+FI.conf.ROOT+'/'+adFile[0]+'" height="28px" />';
+	        { display: '广告网址', name: 'ad_url', isSort: false},
+	        { display: '广告开始日期', name: 'ad_start_date', isSort: false},
+	        { display: '广告结束日期', name: 'ad_end_date', isSort: false},
+	        { display: '图标', name: 'ad_file', height: '300', isSort: false,render:function(rowdata, rowindex, value){
+            var ad_file = rowdata['ad_file'].split(',');
+              return'<img src="'+FI.conf.ROOT+'/'+ad_file[0]+'" height="28px" />';
 	        }},
-          { display: '点击数', name: 'adClickNum', isSort: false},
-	        { display: '排序号', name: 'adSort', isSort: false,render:function(rowdata, rowindex, value){
-              return '<span style="cursor:pointer;" ondblclick="changeSort(this,'+rowdata["adId"]+');">'+value+'</span>';
+          { display: '点击数', name: 'ad_click_num', isSort: false},
+	        { display: '排序号', name: 'ad_sort', isSort: false,render:function(rowdata, rowindex, value){
+              return '<span style="cursor:pointer;" ondblclick="changeSort(this,'+rowdata["ad_id"]+');">'+value+'</span>';
           }},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	        	var h = "";
-	            if(FI.GRANT.GGGL_02)h += "<a href='"+FI.U('admin/Ads/toEdit','id='+rowdata['adId'])+"'>修改</a> ";
-	            if(FI.GRANT.GGGL_03)h += "<a href='javascript:toDel(" + rowdata['adId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.GGGL_02)h += "<a href='"+FI.U('admin/Ads/toEdit','id='+rowdata['ad_id'])+"'>修改</a> ";
+	            if(FI.GRANT.GGGL_03)h += "<a href='javascript:toDel(" + rowdata['ad_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -66,7 +66,7 @@ function doneChange(t,id){
     $(t).parent().html(parseInt(sort));
     return;
   }
-  $.post(FI.U('admin/ads/changeSort'),{id:id,adSort:sort},function(data){
+  $.post(FI.U('admin/ads/changeSort'),{id:id,ad_sort:sort},function(data){
     var json = FI.toAdminJson(data);
     if(json.status==1){
         $(t).parent().attr('ondblclick','changeSort(this,'+id+')');
@@ -86,7 +86,7 @@ function adsQuery(){
 function editInit(){
   //文件上传
 	FI.upload({
-  	  pick:'#adFilePicker',
+  	  pick:'#ad_filePicker',
   	  formData: {dir:'adspic'},
       compress:false,//默认不对图片进行压缩
   	  accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
@@ -97,7 +97,7 @@ function editInit(){
         var html = '<img src="'+FI.conf.ROOT+'/'+json.savePath+json.thumb+'" />';
         $('#preview').html(html);
         // 图片路径
-        $('#adFile').val(json.savePath+json.thumb);
+        $('#ad_file').val(json.savePath+json.thumb);
   		  }
 	  },
 	  progress:function(rate){
@@ -109,31 +109,31 @@ function editInit(){
  /* 表单验证 */
     $('#adsForm').validator({
             fields: {
-                adPositionId: {
+                ad_position_id: {
                   rule:"required",
                   msg:{required:"请选择广告位置"},
                   tip:"请选择广告位置",
                   ok:"验证通过",
                 },
-                adName: {
+                ad_name: {
                   rule:"required;",
                   msg:{required:"广告标题不能为空"},
                   tip:"请输入广告标题",
                   ok:"验证通过",
                 },
-                adFile: {
+                ad_file: {
                   rule:"required;",
                   msg:{required:"请上传广告图片"},
                   tip:"请上传广告图片",
                   ok:"",
                 },
-                adStartDate: {
-                  rule:"required;match(lt, adEndDate, date)",
+                ad_start_date: {
+                  rule:"required;match(lt, ad_end_date, date)",
                   msg:{required:"请选择广告开始时间",match:"必须小于广告结束时间"},
                   ok:"验证通过",
                 },
-                adEndDate: {
-                  rule:"required;match(gt, adStartDate, date)",
+                ad_end_date: {
+                  rule:"required;match(gt, ad_start_date, date)",
                   msg:{required:"请选择广告结束时间",match:"必须大于广告开始时间"},
                   ok:"验证通过",
                 }
@@ -141,7 +141,7 @@ function editInit(){
           valid: function(form){
             var params = FI.getParams('.ipt');
             var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
-            $.post(FI.U('admin/Ads/'+((params.adId==0)?"add":"edit")),params,function(data,textStatus){
+            $.post(FI.U('admin/Ads/'+((params.ad_id==0)?"add":"edit")),params,function(data,textStatus){
               layer.close(loading);
               var json = FI.toAdminJson(data);
               if(json.status=='1'){
@@ -160,27 +160,27 @@ var positionInfo;
 /*获取地址*/
 function addPosition(pType, val, getSize)
 {
-    $.post(FI.U('admin/Adpositions/getPositon'),{'positionType':pType},function(data,textStatus){
+    $.post(FI.U('admin/Adpositions/getPositon'),{'position_type':pType},function(data,textStatus){
         positionInfo = data;
         var html='<option value="">请选择</option>';
         $(data).each(function(k,v){
 			var selected;
-            if(v.positionId==val){
+            if(v.position_id==val){
               selected = 'selected="selected"';
-              getPhotoSize(v.positionId);
+              getPhotoSize(v.position_id);
             }
-            html +='<option '+selected+' value="'+v.positionId+'">'+v.positionName+'</option>';
+            html +='<option '+selected+' value="'+v.position_id+'">'+v.position_name+'</option>';
         });
-        $('#adPositionId').html(html);
+        $('#ad_position_id').html(html);
     })
 }
 /*获取图片尺寸 以及设置图片显示方式*/
 function getPhotoSize(pType)
 {
   $(positionInfo).each(function(k,v){
-      if(v.positionId==pType){
-        $('#img_size').html(v.positionWidth+'x'+v.positionHeight);
-        if(v.positionWidth>v.positionHeight){
+      if(v.position_id==pType){
+        $('#img_size').html(v.position_width+'x'+v.position_height);
+        if(v.position_width>v.position_height){
              $('.ads-h-list').removeClass('ads-h-list').addClass('ads-w-list');
          }
       }

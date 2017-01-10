@@ -15,8 +15,8 @@ class Shopapplys extends Base {
      */
     public function checkShopPhone() {
         $m = new M();
-        $userId = (int) session('FI_USER.userId');
-        $rs = $m->checkShopPhone($userId);
+        $user_id = (int) session('FI_USER.user_id');
+        $rs = $m->checkShopPhone($user_id);
         if ($rs["status"] == 1) {
             return array("ok" => "");
         } else {
@@ -28,14 +28,14 @@ class Shopapplys extends Base {
      * 获取验证码
      */
     public function getPhoneVerifyCode() {
-        $userPhone = input("post.userPhone2");
+        $user_phone = input("post.user_phone2");
         $rs = array();
-        if (!FIIsPhone($userPhone)) {
+        if (!FIIsPhone($user_phone)) {
             return FIReturn("手机号格式不正确!");
             exit();
         }
         $m = new M();
-        $rs = $m->checkShopPhone($userPhone, (int) session('FI_USER.userId'));
+        $rs = $m->checkShopPhone($user_phone, (int) session('FI_USER.user_id'));
         if ($rs["status"] != 1) {
             return FIReturn("对不起，该手机号已提交过开店申请，如有疑问请与商城管理员联系!");
             exit();
@@ -44,7 +44,7 @@ class Shopapplys extends Base {
         $phoneVerify = rand(100000, 999999);
         $msg = "欢迎您申请成为" . FIConf("CONF.mallName") . "商家，您的注册验证码为:" . $phoneVerify . "，请在10分钟内输入。【" . FIConf("CONF.mallName") . "】";
         $m = new LogSms();
-        $rv = $m->sendSMS(0, $userPhone, $msg, 'getPhoneVerifyCode', $phoneVerify);
+        $rv = $m->sendSMS(0, $user_phone, $msg, 'getPhoneVerifyCode', $phoneVerify);
 
         if ($rv['status'] == 1) {
             session('VerifyCode_shopPhone', $phoneVerify);

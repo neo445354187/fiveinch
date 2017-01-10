@@ -304,7 +304,7 @@ input[type="text"].buy-num {
 	color:#E55356;
 	font-size: 18px;
 }
-#totalMoney {
+#total_money {
     color: #E55356;;
     font-size: 18px;
     margin-left: 5px;
@@ -488,13 +488,13 @@ input[type="text"].buy-num {
     margin-left: 5px;
 }
 
-#deliverMoney {
+#deliver_money {
     color: #FE0000;
     font-size: 16px;
     margin-left: 5px;
 }
 
-#orderScore {
+#order_score {
     margin-right: 5px;
 }
 
@@ -748,7 +748,7 @@ input[type="text"].buy-num {
     padding: 50px;
 }
 
-.fi-payCode-weixinpays {
+.fi-pay_code-weixinpays {
     height: 69px;
     width: 167px;
     text-align: center;
@@ -760,7 +760,7 @@ input[type="text"].buy-num {
     cursor: pointer;
 }
 
-.fi-payCode-weixinpays-curr {
+.fi-pay_code-weixinpays-curr {
     height: 69px;
     width: 167px;
     text-align: center;
@@ -772,7 +772,7 @@ input[type="text"].buy-num {
     cursor: pointer;
 }
 
-.fi-payCode-alipays {
+.fi-pay_code-alipays {
     height: 69px;
     width: 167px;
     text-align: center;
@@ -784,7 +784,7 @@ input[type="text"].buy-num {
     cursor: pointer;
 }
 
-.fi-payCode-alipays-curr {
+.fi-pay_code-alipays-curr {
     height: 69px;
     width: 167px;
     text-align: center;

@@ -9,10 +9,10 @@ $(function(){initGrid();})
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <div class="fi-toolbar">
    所属分类：
-     <select id='catId'>
+     <select id='cat_id'>
        <option value='0'>所有分类</option>
        {volist name="gcatList" id="vo"}
-       <option value='{$vo['catId']}'>{$vo['catName']}</option>
+       <option value='{$vo['cat_id']}'>{$vo['cat_name']}</option>
        {/volist}
      </select> 
    品牌名称：<input type='text' id='key' placeholder='品牌名称'/>  

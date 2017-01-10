@@ -14,95 +14,95 @@ class Goods extends Base
     public function saleByPage()
     {
         $where                  = [];
-        $where['g.goodsStatus'] = 1;
-        $where['g.dataFlag']    = 1;
-        $where['g.isSale']      = 1;
-        $areaIdPath             = input('areaIdPath');
-        $goodsCatIdPath         = input('goodsCatIdPath');
-        $goodsName              = input('goodsName');
-        $shopName               = input('shopName');
-        if ($areaIdPath != '') {
-            $where['areaIdPath'] = ['like', $areaIdPath . "%"];
+        $where['g.goods_status'] = 1;
+        $where['g.status']    = 1;
+        $where['g.is_sale']      = 1;
+        $area_id_path             = input('area_id_path');
+        $goods_cat_id_path         = input('goods_cat_id_path');
+        $goods_name              = input('goods_name');
+        $shop_name               = input('shop_name');
+        if ($area_id_path != '') {
+            $where['area_id_path'] = ['like', $area_id_path . "%"];
         }
 
-        if ($goodsCatIdPath != '') {
-            $where['goodsCatIdPath'] = ['like', $goodsCatIdPath . "%"];
+        if ($goods_cat_id_path != '') {
+            $where['goods_cat_id_path'] = ['like', $goods_cat_id_path . "%"];
         }
 
-        if ($goodsName != '') {
-            $where['goodsName|goodsSn'] = ['like', "%$goodsName%"];
+        if ($goods_name != '') {
+            $where['goods_name|goods_sn'] = ['like', "%$goods_name%"];
         }
 
-        if ($shopName != '') {
-            $where['shopName|shopSn'] = ['like', "%$shopName%"];
+        if ($shop_name != '') {
+            $where['shop_name|shop_sn'] = ['like', "%$shop_name%"];
         }
 
         $keyCats = model('GoodsCats')->listKeyAll();
-        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'left')
+        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'left')
             ->where($where)
-            ->field('goodsId,goodsName,goodsSn,saleNum,shopPrice,g.shopId,goodsImg,s.shopName,goodsCatIdPath')
-            ->order('saleTime', 'desc')
+            ->field('goods_id,goods_name,goods_sn,sale_num,shop_price,g.shop_id,goods_img,s.shop_name,goods_cat_id_path')
+            ->order('sale_time', 'desc')
             ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
-            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shopId']);
-            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goodsCatIdPath'], $keyCats);
+            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shop_id']);
+            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goods_cat_id_path'], $keyCats);
         }
         return $rs;
     }
 
-    public function getGoodsCatNames($goodsCatPath, $keyCats)
+    public function getGoodsCatNames($goods_cat_path, $keyCats)
     {
-        $catIds   = explode("_", $goodsCatPath);
-        $catNames = array();
-        for ($i = 0, $k = count($catIds); $i < $k; $i++) {
-            if ($catIds[$i] == '') {
+        $cat_ids   = explode("_", $goods_cat_path);
+        $cat_names = array();
+        for ($i = 0, $k = count($cat_ids); $i < $k; $i++) {
+            if ($cat_ids[$i] == '') {
                 continue;
             }
 
-            if (isset($keyCats[$catIds[$i]])) {
-                $catNames[] = $keyCats[$catIds[$i]];
+            if (isset($keyCats[$cat_ids[$i]])) {
+                $cat_names[] = $keyCats[$cat_ids[$i]];
             }
 
         }
-        return implode("→", $catNames);
+        return implode("→", $cat_names);
     }
     /**
      * 审核中的商品
      */
     public function auditByPage()
     {
-        $where['goodsStatus'] = 0;
-        $where['g.dataFlag']  = 1;
-        $where['isSale']      = 1;
-        $areaIdPath           = input('areaIdPath');
-        $goodsCatIdPath       = input('goodsCatIdPath');
-        $goodsName            = input('goodsName');
-        $shopName             = input('shopName');
-        if ($areaIdPath != '') {
-            $where['areaIdPath'] = ['like', $areaIdPath . "%"];
+        $where['goods_status'] = 0;
+        $where['g.status']  = 1;
+        $where['is_sale']      = 1;
+        $area_id_path           = input('area_id_path');
+        $goods_cat_id_path       = input('goods_cat_id_path');
+        $goods_name            = input('goods_name');
+        $shop_name             = input('shop_name');
+        if ($area_id_path != '') {
+            $where['area_id_path'] = ['like', $area_id_path . "%"];
         }
 
-        if ($goodsCatIdPath != '') {
-            $where['goodsCatIdPath'] = ['like', $goodsCatIdPath . "%"];
+        if ($goods_cat_id_path != '') {
+            $where['goods_cat_id_path'] = ['like', $goods_cat_id_path . "%"];
         }
 
-        if ($goodsName != '') {
-            $where['goodsName|goodsSn'] = ['like', "%$goodsName%"];
+        if ($goods_name != '') {
+            $where['goods_name|goods_sn'] = ['like', "%$goods_name%"];
         }
 
-        if ($shopName != '') {
-            $where['shopName|shopSn'] = ['like', "%$shopName%"];
+        if ($shop_name != '') {
+            $where['shop_name|shop_sn'] = ['like', "%$shop_name%"];
         }
 
         $keyCats = model('GoodsCats')->listKeyAll();
-        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'left')
+        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'left')
             ->where($where)
-            ->field('goodsId,goodsName,goodsSn,saleNum,shopPrice,goodsImg,s.shopName,s.shopId,goodsCatIdPath')
-            ->order('saleTime', 'desc')
+            ->field('goods_id,goods_name,goods_sn,sale_num,shop_price,goods_img,s.shop_name,s.shop_id,goods_cat_id_path')
+            ->order('sale_time', 'desc')
             ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
-            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shopId']);
-            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goodsCatIdPath'], $keyCats);
+            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shop_id']);
+            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goods_cat_id_path'], $keyCats);
         }
         return $rs;
     }
@@ -111,38 +111,38 @@ class Goods extends Base
      */
     public function illegalByPage()
     {
-        $where['goodsStatus'] = -1;
-        $where['g.dataFlag']  = 1;
-        $where['isSale']      = 1;
-        $areaIdPath           = input('areaIdPath');
-        $goodsCatIdPath       = input('goodsCatIdPath');
-        $goodsName            = input('goodsName');
-        $shopName             = input('shopName');
-        if ($areaIdPath != '') {
-            $where['areaIdPath'] = ['like', $areaIdPath . "%"];
+        $where['goods_status'] = -1;
+        $where['g.status']  = 1;
+        $where['is_sale']      = 1;
+        $area_id_path           = input('area_id_path');
+        $goods_cat_id_path       = input('goods_cat_id_path');
+        $goods_name            = input('goods_name');
+        $shop_name             = input('shop_name');
+        if ($area_id_path != '') {
+            $where['area_id_path'] = ['like', $area_id_path . "%"];
         }
 
-        if ($goodsCatIdPath != '') {
-            $where['goodsCatIdPath'] = ['like', $goodsCatIdPath . "%"];
+        if ($goods_cat_id_path != '') {
+            $where['goods_cat_id_path'] = ['like', $goods_cat_id_path . "%"];
         }
 
-        if ($goodsName != '') {
-            $where['goodsName|goodsSn'] = ['like', "%$goodsName%"];
+        if ($goods_name != '') {
+            $where['goods_name|goods_sn'] = ['like', "%$goods_name%"];
         }
 
-        if ($shopName != '') {
-            $where['shopName|shopSn'] = ['like', "%$shopName%"];
+        if ($shop_name != '') {
+            $where['shop_name|shop_sn'] = ['like', "%$shop_name%"];
         }
 
         $keyCats = model('GoodsCats')->listKeyAll();
-        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'left')
+        $rs      = $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'left')
             ->where($where)
-            ->field('goodsId,goodsName,goodsSn,goodsImg,s.shopName,s.shopId,illegalRemarks,goodsCatIdPath')
-            ->order('saleTime', 'desc')
+            ->field('goods_id,goods_name,goods_sn,goods_img,s.shop_name,s.shop_id,illegal_remarks,goods_cat_id_path')
+            ->order('sale_time', 'desc')
             ->paginate(input('pagesize/d'))->toArray();
         foreach ($rs['Rows'] as $key => $v) {
-            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shopId']);
-            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goodsCatIdPath'], $keyCats);
+            $rs['Rows'][$key]['verfiycode']   = FIShopEncrypt($v['shop_id']);
+            $rs['Rows'][$key]['goodsCatName'] = self::getGoodsCatNames($v['goods_cat_id_path'], $keyCats);
         }
         return $rs;
     }
@@ -150,23 +150,23 @@ class Goods extends Base
     /**
      * 获取商品资料方便编辑
      */
-    public function getById($goodsId)
+    public function getById($goods_id)
     {
-        $rs = $this->where(['shopId' => (int) session('FI_USER.shopId'), 'goodsId' => $goodsId])->find();
+        $rs = $this->where(['shop_id' => (int) session('FI_USER.shop_id'), 'goods_id' => $goods_id])->find();
         if (!empty($rs)) {
             if ($rs['gallery'] != '') {
                 $rs['gallery'] = explode(',', $rs['gallery']);
             }
 
             //获取规格值
-            $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.catId=sit.catId', 'inner')
-                ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
-                ->field('gc.isAllowImg,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
-                ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
+            $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.cat_id=sit.cat_id', 'inner')
+                ->where(['sit.goods_id' => $goods_id, 'gc.is_show' => 1, 'sit.status' => 1])
+                ->field('gc.is_allow_img,sit.cat_id,sit.item_id,sit.item_name,sit.item_img')
+                ->order('gc.is_allow_img desc,gc.cat_sort asc,gc.cat_id asc')->select();
             $spec0 = [];
             $spec1 = [];
             foreach ($specs as $key => $v) {
-                if ($v['isAllowImg'] == 1) {
+                if ($v['is_allow_img'] == 1) {
                     $spec0[] = $v;
                 } else {
                     $spec1[] = $v;
@@ -175,9 +175,9 @@ class Goods extends Base
             $rs['spec0'] = $spec0;
             $rs['spec1'] = $spec1;
             //获取销售规格
-            $rs['saleSpec'] = model('goodsSpecs')->where('goodsId', $goodsId)->field('id,isDefault,productNo,specIds,marketPrice,specPrice,specStock,warnStock,saleNum')->select();
+            $rs['saleSpec'] = model('goodsSpecs')->where('goods_id', $goods_id)->field('id,is_default,product_no,spec_ids,market_price,spec_price,spec_stock,warn_stock,sale_num')->select();
             //获取属性值
-            $rs['attrs'] = model('goodsAttributes')->where('goodsId', $goodsId)->field('attrId,attrVal')->select();
+            $rs['attrs'] = model('goodsAttributes')->where('goods_id', $goods_id)->field('attr_id,attr_val')->select();
         }
         return $rs;
     }
@@ -185,15 +185,15 @@ class Goods extends Base
     /**
      * 获取商品资料在前台展示
      */
-    public function getBySale($goodsId)
+    public function getBySale($goods_id)
     {
         $key = input('key');
-        $rs  = $this->where(['goodsId' => $goodsId, 'dataFlag' => 1])->find()->toArray();
+        $rs  = $this->where(['goods_id' => $goods_id, 'status' => 1])->find()->toArray();
         if (!empty($rs)) {
             $rs['read'] = false;
             //判断是否可以公开查看
-            $viKey = FIShopEncrypt($rs['shopId']);
-            if (($rs['isSale'] == 0 || $rs['goodsStatus'] == 0) && $viKey != $key) {
+            $viKey = FIShopEncrypt($rs['shop_id']);
+            if (($rs['is_sale'] == 0 || $rs['goods_status'] == 0) && $viKey != $key) {
                 return [];
             }
 
@@ -202,41 +202,41 @@ class Goods extends Base
             }
 
             //获取店铺信息
-            $rs['shop'] = model('shops')->getBriefShop((int) $rs['shopId']);
+            $rs['shop'] = model('shops')->getBriefShop((int) $rs['shop_id']);
             if (empty($rs['shop'])) {
                 return [];
             }
 
             $gallery   = [];
-            $gallery[] = $rs['goodsImg'];
+            $gallery[] = $rs['goods_img'];
             if ($rs['gallery'] != '') {
                 $tmp     = explode(',', $rs['gallery']);
                 $gallery = array_merge($gallery, $tmp);
             }
             $rs['gallery'] = $gallery;
             //获取规格值
-            $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.catId=sit.catId', 'inner')
-                ->where(['sit.goodsId' => $goodsId, 'gc.isShow' => 1, 'sit.dataFlag' => 1])
-                ->field('gc.isAllowImg,gc.catName,sit.catId,sit.itemId,sit.itemName,sit.itemImg')
-                ->order('gc.isAllowImg desc,gc.catSort asc,gc.catId asc')->select();
+            $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.cat_id=sit.cat_id', 'inner')
+                ->where(['sit.goods_id' => $goods_id, 'gc.is_show' => 1, 'sit.status' => 1])
+                ->field('gc.is_allow_img,gc.cat_name,sit.cat_id,sit.item_id,sit.item_name,sit.item_img')
+                ->order('gc.is_allow_img desc,gc.cat_sort asc,gc.cat_id asc')->select();
             foreach ($specs as $key => $v) {
-                $rs['spec'][$v['catId']]['name']   = $v['catName'];
-                $rs['spec'][$v['catId']]['list'][] = $v;
+                $rs['spec'][$v['cat_id']]['name']   = $v['cat_name'];
+                $rs['spec'][$v['cat_id']]['list'][] = $v;
             }
             //获取销售规格
-            $sales = model('goodsSpecs')->where('goodsId', $goodsId)->field('id,isDefault,productNo,specIds,marketPrice,specPrice,specStock')->select();
+            $sales = model('goodsSpecs')->where('goods_id', $goods_id)->field('id,is_default,product_no,spec_ids,market_price,spec_price,spec_stock')->select();
             if (!empty($sales)) {
                 foreach ($sales as $key => $v) {
-                    $str = explode(':', $v['specIds']);
+                    $str = explode(':', $v['spec_ids']);
                     sort($str);
-                    unset($v['specIds']);
+                    unset($v['spec_ids']);
                     $rs['saleSpec'][implode(':', $str)] = $v;
                 }
             }
             //获取商品属性
-            $rs['attrs'] = Db::table('__ATTRIBUTES__')->alias('a')->join('__GOODS_ATTRIBUTES__ ga', 'a.attrId=ga.attrId', 'inner')
-                ->where(['a.isShow' => 1, 'dataFlag' => 1, 'goodsId' => $goodsId])->field('a.attrName,ga.attrVal')
-                ->order('attrSort asc')->select();
+            $rs['attrs'] = Db::table('__ATTRIBUTES__')->alias('a')->join('__GOODS_ATTRIBUTES__ ga', 'a.attr_id=ga.attr_id', 'inner')
+                ->where(['a.is_show' => 1, 'status' => 1, 'goods_id' => $goods_id])->field('a.attr_name,ga.attr_val')
+                ->order('attr_sort asc')->select();
         }
         return $rs;
     }
@@ -248,13 +248,13 @@ class Goods extends Base
     {
         $id               = input('post.id/d');
         $data             = [];
-        $data['dataFlag'] = -1;
+        $data['status'] = -1;
         Db::startTrans();
         try {
-            $result = $this->update($data, ['goodsId' => $id]);
+            $result = $this->update($data, ['goods_id' => $id]);
             if (false !== $result) {
-                Db::table('__CARTS__')->where('goodsId', $id)->delete();
-                FIUnuseImage('goods', 'goodsImg', $id);
+                Db::table('__CARTS__')->where('goods_id', $id)->delete();
+                FIUnuseImage('goods', 'goods_img', $id);
                 FIUnuseImage('goods', 'gallery', $id);
                 //删除冗余数据
                 (new Redundancy())->del($id);
@@ -273,17 +273,17 @@ class Goods extends Base
      */
     public function batchDel()
     {
-        $shopId = (int) session('FI_USER.shopId');
+        $shop_id = (int) session('FI_USER.shop_id');
         $ids    = input('post.ids/a');
         Db::startTrans();
         try {
-            $rs = $this->where(['goodsId' => ['in', $ids],
-                'shopId'                      => $shopId])->setField('dataFlag', -1);
+            $rs = $this->where(['goods_id' => ['in', $ids],
+                'shop_id'                      => $shop_id])->setField('status', -1);
             if (false !== $rs) {
-                Db::table('__CARTS__')->where(['goodsId' => ['in', $ids]])->delete();
+                Db::table('__CARTS__')->where(['goods_id' => ['in', $ids]])->delete();
                 //标记删除购物车
                 foreach ($ids as $v) {
-                    FIUnuseImage('goods', 'goodsImg', (int) $v);
+                    FIUnuseImage('goods', 'goods_img', (int) $v);
                     FIUnuseImage('goods', 'gallery', (int) $v);
                 }
                 //删除冗余数据
@@ -303,31 +303,31 @@ class Goods extends Base
      */
     public function illegal()
     {
-        $illegalRemarks = input('post.illegalRemarks');
+        $illegal_remarks = input('post.illegal_remarks');
         $id             = (int) input('post.id');
-        if ($illegalRemarks == '') {
+        if ($illegal_remarks == '') {
             return FIReturn("请输入违规原因");
         }
 
         //判断商品状态
-        $rs = $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'left')->where('goodsId', $id)
-            ->field('s.userId,g.goodsName,g.goodsSn,g.goodsStatus,g.goodsId')->find();
+        $rs = $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'left')->where('goods_id', $id)
+            ->field('s.user_id,g.goods_name,g.goods_sn,g.goods_status,g.goods_id')->find();
 
-        if ((int) $rs['goodsId'] == 0) {
+        if ((int) $rs['goods_id'] == 0) {
             return FIReturn("无效的商品");
         }
 
-        if ((int) $rs['goodsStatus'] != 1) {
+        if ((int) $rs['goods_status'] != 1) {
             return FIReturn("操作失败，商品状态已发生改变，请刷新后再尝试");
         }
 
         Db::startTrans();
         try {
-            $res = $this->setField(['goodsId' => $id, 'goodsStatus' => -1, 'illegalRemarks' => $illegalRemarks]);
+            $res = $this->setField(['goods_id' => $id, 'goods_status' => -1, 'illegal_remarks' => $illegal_remarks]);
             if ($res !== false) {
-                Db::table('__CARTS__')->where(['goodsId' => $id])->delete();
+                Db::table('__CARTS__')->where(['goods_id' => $id])->delete();
                 //发送一条商家信息
-                FISendMsg($rs['userId'], "您的商品" . $rs['goodsName'] . "【" . $rs['goodsSn'] . "】因【" . $illegalRemarks . "】被下架处理。", ['from' => 2, 'dataId' => $id]);
+                FISendMsg($rs['user_id'], "您的商品" . $rs['goods_name'] . "【" . $rs['goods_sn'] . "】因【" . $illegal_remarks . "】被下架处理。", ['from' => 2, 'data_id' => $id]);
                 //删除冗余数据
                 (new Redundancy())->del($id);
 
@@ -346,22 +346,22 @@ class Goods extends Base
     {
         $id = (int) input('post.id');
         //判断商品状态
-        $rs = $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'left')->where('goodsId', $id)
-            ->field('s.userId,g.goodsName,g.goodsSn,g.goodsStatus,g.goodsId')->find();
+        $rs = $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'left')->where('goods_id', $id)
+            ->field('s.user_id,g.goods_name,g.goods_sn,g.goods_status,g.goods_id')->find();
 
-        if ((int) $rs['goodsId'] == 0) {
+        if ((int) $rs['goods_id'] == 0) {
             return FIReturn("无效的商品");
         }
 
-        if ((int) $rs['goodsStatus'] == 1) {
+        if ((int) $rs['goods_status'] == 1) {
             return FIReturn("操作失败，商品状态已发生改变，请刷新后再尝试");
         }
         Db::startTrans();
         try {
-            $res = $this->setField(['goodsId' => $id, 'goodsStatus' => 1]);
+            $res = $this->setField(['goods_id' => $id, 'goods_status' => 1]);
             if ($res !== false) {
                 //发送一条商家信息
-                FISendMsg($rs['userId'], "您的商品" . $rs['goodsName'] . "【" . $rs['goodsSn'] . "】已审核通过。", ['from' => 2, 'dataId' => $id]);
+                FISendMsg($rs['user_id'], "您的商品" . $rs['goods_name'] . "【" . $rs['goods_sn'] . "】已审核通过。", ['from' => 2, 'data_id' => $id]);
                 //删除冗余数据
                 (new Redundancy())->add($id, true);
 
@@ -379,23 +379,23 @@ class Goods extends Base
      */
     public function searchQuery()
     {
-        $goodsCatatId = (int) input('post.goodsCatId');
+        $goodsCatatId = (int) input('post.goods_cat_id');
         if ($goodsCatatId <= 0) {
             return [];
         }
 
-        $goodsCatIds             = FIGoodsCatPath($goodsCatatId);
+        $goods_cat_ids             = FIGoodsCatPath($goodsCatatId);
         $key                     = input('post.key');
         $where                   = [];
-        $where['g.dataFlag']     = 1;
-        $where['g.isSale']       = 1;
-        $where['g.goodsStatus']  = 1;
-        $where['goodsCatIdPath'] = ['like', implode('_', $goodsCatIds) . '_%'];
+        $where['g.status']     = 1;
+        $where['g.is_sale']       = 1;
+        $where['g.goods_status']  = 1;
+        $where['goods_cat_id_path'] = ['like', implode('_', $goods_cat_ids) . '_%'];
         if ($key != '') {
-            $where['goodsName|shopName'] = ['like', '%' . $key . '%'];
+            $where['goods_name|shop_name'] = ['like', '%' . $key . '%'];
         }
 
-        return $this->alias('g')->join('__SHOPS__ s', 'g.shopId=s.shopId', 'inner')
-            ->where($where)->field('g.goodsName,s.shopName,g.goodsId')->limit(50)->select();
+        return $this->alias('g')->join('__SHOPS__ s', 'g.shop_id=s.shop_id', 'inner')
+            ->where($where)->field('g.goods_name,s.shop_name,g.goods_id')->limit(50)->select();
     }
 }

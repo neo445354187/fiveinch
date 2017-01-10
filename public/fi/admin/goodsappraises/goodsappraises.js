@@ -9,15 +9,15 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '订单号', name: 'orderNo', isSort: false},
-	        { display: '商品', name: 'goodsName', isSort: false},
-	        { display: '商品主图', name: 'goodsImg', isSort: false,render:function(rowdata, rowindex, value){
-	        	var thumb = rowdata['goodsImg'];
+	        { display: '订单号', name: 'order_no', isSort: false},
+	        { display: '商品', name: 'goods_name', isSort: false},
+	        { display: '商品主图', name: 'goods_img', isSort: false,render:function(rowdata, rowindex, value){
+	        	var thumb = rowdata['goods_img'];
 	        		thumb = thumb.replace('.','_thumb.');
 	        	return "<img src='"+FI.conf.ROOT+"/"+thumb+"' height='28' width='28'/>";
 	        	
 	        }},
-	        { display: '商品评分', name: 'goodsScore', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '商品评分', name: 'goods_score', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
 	        		s +="<img src='"+FI.conf.ROOT+"/fi/admin/goodsappraises/icon_score_yes.png'>";
@@ -25,7 +25,7 @@ function initGrid(){
 	        	s += "</div>";
 	        	return s;
 	        }},
-	        { display: '时效评分', name: 'timeScore', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '时效评分', name: 'time_score', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
 	        		s +="<img src='"+FI.conf.ROOT+"/fi/admin/goodsappraises/icon_score_yes.png'>";
@@ -33,7 +33,7 @@ function initGrid(){
 	        	s +="</div>";
 	        	return s;
 	        }},
-	        { display: '服务评分', name: 'serviceScore', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '服务评分', name: 'service_score', isSort: false,render:function(rowdata, rowindex, value){
 	        	var s="<div style='line-height:28px;'>";
 	        	for(var i=0;i<value;++i){
 	        		s +="<img src='"+FI.conf.ROOT+"/fi/admin/goodsappraises/icon_score_yes.png'>";
@@ -42,7 +42,7 @@ function initGrid(){
 	        	return s;
 	        }},
 	        { display: '评价内容', name: 'content', isSort: false},
-	        { display: '状态', name: 'isShow', isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '状态', name: 'is_show', isSort: false,render:function(rowdata, rowindex, value){
 	        	return (value==0)?'隐藏':'显示';
 	        }}
 	        ,
@@ -103,9 +103,9 @@ function editInit(){
           valid: function(form){
             var params = FI.getParams('.ipt');
                 //获取修改的评分
-                params.goodsScore = $('.goodsScore').find('[name=score]').val();
-                params.timeScore = $('.timeScore').find('[name=score]').val();
-                params.serviceScore = $('.serviceScore').find('[name=score]').val();
+                params.goods_score = $('.goods_score').find('[name=score]').val();
+                params.time_score = $('.time_score').find('[name=score]').val();
+                params.service_score = $('.service_score').find('[name=score]').val();
             var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
             $.post(FI.U('admin/goodsappraises/'+((params.id==0)?"add":"edit")),params,function(data,textStatus){
               layer.close(loading);

@@ -10,7 +10,7 @@
 					</h3>
 					<div class="tbar-panel-main">
 						<div class="tbar-panel-content j-panel-content">
-						    {if condition="session('FI_USER.userId') == 0"}
+						    {if condition="session('FI_USER.user_id') == 0"}
 							<div id="j-cart-tips" class="tbar-tipbox hide">
 								<div class="tip-inner">
 									<span class="tip-text">还没有登录，登录后商品将被保存</span>
@@ -27,32 +27,32 @@
                                         shop = d[key];
 					                    for(var i=0;i<shop.list.length;i++){
                                            goods = shop.list[i];
-						                   goods.goodsImg = FI.conf.ROOT+"/"+goods.goodsImg.replace('.','_thumb.');
+						                   goods.goods_img = FI.conf.ROOT+"/"+goods.goods_img.replace('.','_thumb.');
 						                   specs = '';
 						                   if(goods.specNames && goods.specNames.length>0){
 							                  for(var j=0;j<goods.specNames.length;j++){
-								                 specs += goods.specNames[j].itemName+ " ";
+								                 specs += goods.specNames[j].item_name+ " ";
 							                  }
 						                   }
                                    }}
-								   <div class="tbar-cart-item" id="shop-cart-{{shop.shopId}}">
+								   <div class="tbar-cart-item" id="shop-cart-{{shop.shop_id}}">
 							          <div class="jtc-item-promo">
-							            <div class="promo-text">{{shop.shopName}}</div>
+							            <div class="promo-text">{{shop.shop_name}}</div>
 							          </div>
-								      <div class="jtc-item-goods j-goods-item-{{goods.cartId}}" dataval="{{goods.cartId}}">
-									      <span class="p-img"><a target="_blank" href="{{FI.U('home/goods/detail','id='+goods.goodsId)}}" target="_blank"><img src="{{goods.goodsImg}}" title="{{goods.goodsName}}" height="50" width="50"></a></span>
+								      <div class="jtc-item-goods j-goods-item-{{goods.cart_id}}" dataval="{{goods.cart_id}}">
+									      <span class="p-img"><a target="_blank" href="{{FI.U('home/goods/detail','id='+goods.goods_id)}}" target="_blank"><img src="{{goods.goods_img}}" title="{{goods.goods_name}}" height="50" width="50"></a></span>
 									      <div class="p-name">
-									          <a target="_blank" title="{{(goods.goodsName+((specs!='')?"【"+specs+"】":""))}}" href="{{FI.U('home/goods/detail','id='+goods.goodsId)}}">{{FI.cutStr(goods.goodsName,25)}}<br/>{{specs}}</a>
+									          <a target="_blank" title="{{(goods.goods_name+((specs!='')?"【"+specs+"】":""))}}" href="{{FI.U('home/goods/detail','id='+goods.goods_id)}}">{{FI.cutStr(goods.goods_name,25)}}<br/>{{specs}}</a>
 									      </div>
 									      <div class="p-price">
-									          <strong>¥<span id='gprice_{{goods.cartId}}'>{{goods.shopPrice}}</span></strong> 
+									          <strong>¥<span id='gprice_{{goods.cart_id}}'>{{goods.shop_price}}</span></strong> 
 									          <div class="fi-rfloat">
-									             <a href="#none" class="buy-btn" id="buy-reduce_{{goods.cartId}}" onclick="javascript:FI.changeIptNum(-1,'#buyNum','#buy-reduce,#buy-add','{{goods.cartId}}','statRightCartMoney')">-</a>
-									             <input type="text" id="buyNum_{{goods.cartId}}" class="right-cart-buy-num" value="{{goods.cartNum}}" data-max="{{goods.goodsStock}}" data-min="1" onkeyup="FI.changeIptNum(0,'#buyNum','#buy-reduce,#buy-add',{{goods.cartId}},'statRightCartMoney')" autocomplete="off"  onkeypress="return FI.isNumberKey(event);" maxlength="6"/>
-									             <a href="#none" class="buy-btn" id="buy-add_{{goods.cartId}}" onclick="javascript:FI.changeIptNum(1,'#buyNum','#buy-reduce,#buy-add','{{goods.cartId}}','statRightCartMoney')">+</a>
+									             <a href="#none" class="buy-btn" id="buy-reduce_{{goods.cart_id}}" onclick="javascript:FI.changeIptNum(-1,'#buyNum','#buy-reduce,#buy-add','{{goods.cart_id}}','statRightCartMoney')">-</a>
+									             <input type="text" id="buyNum_{{goods.cart_id}}" class="right-cart-buy-num" value="{{goods.cart_num}}" data-max="{{goods.goods_stock}}" data-min="1" onkeyup="FI.changeIptNum(0,'#buyNum','#buy-reduce,#buy-add',{{goods.cart_id}},'statRightCartMoney')" autocomplete="off"  onkeypress="return FI.isNumberKey(event);" maxlength="6"/>
+									             <a href="#none" class="buy-btn" id="buy-add_{{goods.cart_id}}" onclick="javascript:FI.changeIptNum(1,'#buyNum','#buy-reduce,#buy-add','{{goods.cart_id}}','statRightCartMoney')">+</a>
 									          </div>
 									     </div>
-									      <span onclick="javascript:delRightCart(this,{{goods.cartId}});" dataid="{{shop.shopId}}|{{goods.cartId}}" class="goods-remove" title="删除"></span>
+									      <span onclick="javascript:delRightCart(this,{{goods.cart_id}});" dataid="{{shop.shop_id}}|{{goods.cart_id}}" class="goods-remove" title="删除"></span>
 									 </div>
 								 </div>    
 								 {{# } } }} 
@@ -96,11 +96,11 @@
 								<script id="list-history-goods" type="text/html">
 								{{# 
                                  for(var i = 0; i < d.length; i++){ 
-                                  d[i].goodsImg = FI.conf.ROOT+"/"+d[i].goodsImg.replace('.','_thumb.');
+                                  d[i].goods_img = FI.conf.ROOT+"/"+d[i].goods_img.replace('.','_thumb.');
                                  }}
 								   <li class="jth-item">
-										<a target='_blank' href="{{FI.U('home/goods/detail','id='+d[i].goodsId)}}" class="img-wrap"><img src="{{d[i].goodsImg}}" height="100" width="100"> </a>
-										<a class="add-cart-button" href="javascript:FI.addCart({{d[i].goodsId}});">加入购物车</a>
+										<a target='_blank' href="{{FI.U('home/goods/detail','id='+d[i].goods_id)}}" class="img-wrap"><img src="{{d[i].goods_img}}" height="100" width="100"> </a>
+										<a class="add-cart-button" href="javascript:FI.addCart({{d[i].goods_id}});">加入购物车</a>
 										<a href="#none" class="price">￥498.00</a>
 									</li>
 								{{# } }}

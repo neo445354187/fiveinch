@@ -9,7 +9,7 @@ define('CODE_SUCCESS', 1);
 define('CODE_NORMAL', 0);
 define('CODE_FAIL', -1);
 
-//针对于数据库的dataFlag字段状态
+//针对于数据库的status字段状态
 define('FLAG_ENABLE', 1);
 define('FLAG_HIDE', 0);
 define('FLAG_DELETE', -1);

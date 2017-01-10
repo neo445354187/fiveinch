@@ -32,14 +32,14 @@ class Fi extends TagLib
     public function tagGoods($tag, $content)
     {
         $type  = $tag['type'];
-        $catId = isset($tag['cat']) ? $tag['cat'] : 0;
-        $flag  = substr($catId, 0, 1);
+        $cat_id = isset($tag['cat']) ? $tag['cat'] : 0;
+        $flag  = substr($cat_id, 0, 1);
         if (':' == $flag) {
-            $catId = $this->autoBuildVar($catId);
-            $parseStr .= '$_result=' . $catId . ';';
-            $catId = '$_result';
+            $cat_id = $this->autoBuildVar($cat_id);
+            $parseStr .= '$_result=' . $cat_id . ';';
+            $cat_id = '$_result';
         } else {
-            $catId = $this->autoBuildVar($catId);
+            $cat_id = $this->autoBuildVar($cat_id);
         }
 
         $id    = isset($tag['id']) ? $tag['id'] : 'vo';
@@ -47,7 +47,7 @@ class Fi extends TagLib
         $cache = isset($tag['cache']) ? $tag['cache'] : 0;
         $key   = isset($tag['key']) ? $tag['key'] : 'key';
         $parse = '<?php ';
-        $parse .= '$fiTagGoods =  model("Tags")->listGoods("' . $type . '",' . $catId . ',' . $num . ',' . $cache . '); ';
+        $parse .= '$fiTagGoods =  model("Tags")->listGoods("' . $type . '",' . $cat_id . ',' . $num . ',' . $cache . '); ';
         $parse .= 'foreach($fiTagGoods as $' . $key . '=>$' . $id . '){';
         $parse .= '?>';
         $parse .= $content;
@@ -140,14 +140,14 @@ class Fi extends TagLib
     public function tagShopGoods($tag, $content)
     {
         $type   = $tag['type'];
-        $shopId = isset($tag['shop']) ? $tag['shop'] : 0;
-        $flag   = substr($shopId, 0, 1);
+        $shop_id = isset($tag['shop']) ? $tag['shop'] : 0;
+        $flag   = substr($shop_id, 0, 1);
         if (':' == $flag) {
-            $shopId = $this->autoBuildVar($shopId);
-            $parseStr .= '$_result=' . $shopId . ';';
-            $shopId = '$_result';
+            $shop_id = $this->autoBuildVar($shop_id);
+            $parseStr .= '$_result=' . $shop_id . ';';
+            $shop_id = '$_result';
         } else {
-            $shopId = $this->autoBuildVar($shopId);
+            $shop_id = $this->autoBuildVar($shop_id);
         }
 
         $id    = isset($tag['id']) ? $tag['id'] : 'vo';
@@ -155,7 +155,7 @@ class Fi extends TagLib
         $cache = isset($tag['cache']) ? $tag['cache'] : 0;
         $key   = isset($tag['key']) ? $tag['key'] : 'key';
         $parse = '<?php ';
-        $parse .= '$fiTagShopGoods =  model("Tags")->listShopGoods("' . $type . '",' . $shopId . ',' . $num . ',' . $cache . '); ';
+        $parse .= '$fiTagShopGoods =  model("Tags")->listShopGoods("' . $type . '",' . $shop_id . ',' . $num . ',' . $cache . '); ';
         $parse .= 'foreach($fiTagShopGoods as $' . $key . '=>$' . $id . '){';
         $parse .= '?>';
         $parse .= $content;
@@ -175,24 +175,24 @@ class Fi extends TagLib
      */
     public function tagShopFloorGoods($tag, $content)
     {
-        $catId = isset($tag['cat']) ? $tag['cat'] : 0;
-        $flag  = substr($catId, 0, 1);
+        $cat_id = isset($tag['cat']) ? $tag['cat'] : 0;
+        $flag  = substr($cat_id, 0, 1);
         if (':' == $flag) {
-            $catId = $this->autoBuildVar($catId);
-            $parseStr .= '$_result=' . $catId . ';';
-            $catId = '$_result';
+            $cat_id = $this->autoBuildVar($cat_id);
+            $parseStr .= '$_result=' . $cat_id . ';';
+            $cat_id = '$_result';
         } else {
-            $catId = $this->autoBuildVar($catId);
+            $cat_id = $this->autoBuildVar($cat_id);
         }
 
-        $shopId = isset($tag['shop']) ? $tag['shop'] : 0;
-        $flag   = substr($shopId, 0, 1);
+        $shop_id = isset($tag['shop']) ? $tag['shop'] : 0;
+        $flag   = substr($shop_id, 0, 1);
         if (':' == $flag) {
-            $shopId = $this->autoBuildVar($shopId);
-            $parseStr .= '$_result=' . $shopId . ';';
-            $shopId = '$_result';
+            $shop_id = $this->autoBuildVar($shop_id);
+            $parseStr .= '$_result=' . $shop_id . ';';
+            $shop_id = '$_result';
         } else {
-            $shopId = $this->autoBuildVar($shopId);
+            $shop_id = $this->autoBuildVar($shop_id);
         }
 
         $id    = isset($tag['id']) ? $tag['id'] : 'vo';
@@ -200,7 +200,7 @@ class Fi extends TagLib
         $cache = isset($tag['cache']) ? $tag['cache'] : 0;
         $key   = isset($tag['key']) ? $tag['key'] : 'key';
         $parse = '<?php ';
-        $parse .= '$fiTagShopFloorGoods =  model("Tags")->listShopFloorGoods(' . $catId . ',' . $shopId . ',' . $num . ',' . $cache . '); ';
+        $parse .= '$fiTagShopFloorGoods =  model("Tags")->listShopFloorGoods(' . $cat_id . ',' . $shop_id . ',' . $num . ',' . $cache . '); ';
         $parse .= 'foreach($fiTagShopFloorGoods as $' . $key . '=>$' . $id . '){';
         $parse .= '?>';
         $parse .= $content;

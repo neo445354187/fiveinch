@@ -9,10 +9,10 @@ class SysConfigs extends Base{
 	 * 获取商城配置
 	 */
 	public function getSysConfigs(){
-		$rs = $this->field('fieldCode,fieldValue')->select();
+		$rs = $this->field('field_code,field_value')->select();
 		$rv = [];
 		foreach ($rs as $v){
-			$rv[$v['fieldCode']] = $v['fieldValue'];
+			$rv[$v['field_code']] = $v['field_value'];
 		}
 		return $rv;
 	}
@@ -22,17 +22,17 @@ class SysConfigs extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$list = $this->field('configId,fieldCode,fieldValue')->select();
+		$list = $this->field('config_id,field_code,field_value')->select();
 		Db::startTrans();
         try{
 			foreach ($list as $key =>$v){
-				$code = trim($v['fieldCode']);
-				$val = Input('post.'.trim($v['fieldCode']));
+				$code = trim($v['field_code']);
+				$val = Input('post.'.trim($v['field_code']));
 			    //启用图片
 				if(substr($val,0,7)=='upload/' && strpos($val,'.')!==false){
-					FIUseImages(1, $v['configId'],$val, 'sys_configs','fieldValue');
+					FIUseImages(1, $v['config_id'],$val, 'sys_configs','field_value');
 				}
-				$this->update(['fieldValue'=>$val],['fieldCode'=>$code]);
+				$this->update(['field_value'=>$val],['field_code'=>$code]);
 			}
 			Db::commit(); 
 			cache('FI_CONF',null);

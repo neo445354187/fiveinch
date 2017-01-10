@@ -13,7 +13,7 @@
       <tr>
       <th width='150'>会员等级名称<font color='red'>*</font>：</th>
           <td>
-            <input type="text" class="ipt" id="rankName" name="rankName" value="{$data['rankName']}" />
+            <input type="text" class="ipt" id="rank_name" name="rank_name" value="{$data['rank_name']}" />
           </td>
        </tr>
        <tr>
@@ -24,11 +24,11 @@
           <th width='100'>预览图：</th>
           <td>
             <div style="min-height:30px;" id="preview">
-              {if (isset($data['userrankImg']))}
-                <img src="__ROOT__/{$data['userrankImg']}" height="25" />
+              {if (isset($data['userrank_img']))}
+                <img src="__ROOT__/{$data['userrank_img']}" height="25" />
               {/if}
             </div>
-            <input type="hidden" name="userrankImg" id="userrankImg" value="{$data['userrankImg']}" class="ipt" />
+            <input type="hidden" name="userrank_img" id="userrank_img" value="{$data['userrank_img']}" class="ipt" />
 
           </td>
        </tr>
@@ -36,13 +36,13 @@
        <tr>
           <th>积分下限(大于或等于)<font color='red'>*</font>：</th>
           <td>
-              <input type="text" class="ipt" id="startScore" name="startScore" value="{$data['startScore']}" />
+              <input type="text" class="ipt" id="start_score" name="start_score" value="{$data['start_score']}" />
           </td>
        </tr>
        <tr>
           <th>积分上限(小于)<font color='red'>*</font>：</th>
           <td>
-              <input type="text" class="ipt" id="endScore" name="endScore" value="{$data['endScore']}" />
+              <input type="text" class="ipt" id="end_score" name="end_score" value="{$data['end_score']}" />
           </td>
        </tr>
        <tr>
@@ -52,7 +52,7 @@
   
   <tr>
      <td colspan='2' align='center'>
-       <input type="hidden" name="id" id="rankId" class="ipt" value="{$data['rankId']+0}" />
+       <input type="hidden" name="id" id="rank_id" class="ipt" value="{$data['rank_id']+0}" />
        <input type="submit" value="提交" class='btn btn-blue' />
        <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
      </td>

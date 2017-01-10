@@ -11,27 +11,27 @@ function FIVisitPrivilege()
         $list      = model('admin/Privileges')->getAllPrivileges();
         $listenUrl = [];
         foreach ($list as $v) {
-            if ($v['privilegeUrl'] == '') {
+            if ($v['privilege_url'] == '') {
                 continue;
             }
 
-            $listenUrl[strtolower($v['privilegeUrl'])] = [
-                'code'     => $v['privilegeCode'],
-                'url'      => $v['privilegeUrl'],
-                'name'     => $v['privilegeName'],
+            $listenUrl[strtolower($v['privilege_url'])] = [
+                'code'     => $v['privilege_code'],
+                'url'      => $v['privilege_url'],
+                'name'     => $v['privilege_name'],
                 'isParent' => true,
-                'menuId'   => $v['menuId'],
+                'menu_id'   => $v['menu_id'],
             ];
-            if (strpos($v['otherPrivilegeUrl'], '/') !== false) {
-                $t = explode(',', $v['otherPrivilegeUrl']);
+            if (strpos($v['other_privilege_url'], '/') !== false) {
+                $t = explode(',', $v['other_privilege_url']);
                 foreach ($t as $vv) {
                     if (strpos($vv, '/') !== false) {
                         $listenUrl[strtolower($vv)] = [
-                            'code'     => $v['privilegeCode'],
+                            'code'     => $v['privilege_code'],
                             'url'      => $vv,
-                            'name'     => $v['privilegeName'],
+                            'name'     => $v['privilege_name'],
                             'isParent' => false,
-                            'menuId'   => $v['menuId'],
+                            'menu_id'   => $v['menu_id'],
                         ];
                     }
                 }

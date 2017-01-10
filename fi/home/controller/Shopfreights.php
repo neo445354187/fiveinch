@@ -16,8 +16,8 @@ class Shopfreights extends Base {
      */
     public function index() {
         $shops = new Shops();
-        $shopId = session('FI_USER.shopId');
-        $shFreight = $shops->getShopsFreight($shopId);
+        $shop_id = session('FI_USER.shop_id');
+        $shFreight = $shops->getShopsFreight($shop_id);
         $this->assign('shFreight', $shFreight); //默认运费
         return $this->fetch('default/shops/freights/list');
     }

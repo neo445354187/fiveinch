@@ -36,41 +36,41 @@
 	       {volist name='$carts["carts"]' id='vo'}
 	       <div class='cart-item'>
 	          <div class='shop'>
-	          <input type='checkbox' class='j-chk' onclick='checkChks(this,".j-s{$vo['shopId']}")'>{$vo['shopName']}
+	          <input type='checkbox' class='j-chk' onclick='checkChks(this,".j-s{$vo['shop_id']}")'>{$vo['shop_name']}
 	          
-	          {if $vo['shopWangWang'] !=''}
-	          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$vo['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
-				  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$vo['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
+	          {if $vo['shop_wangwang'] !=''}
+	          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$vo['shop_wangwang']}&siteid=cntaobao&status=1&charset=utf-8">
+				  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$vo['shop_wangwang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
 			  </a>
 	          {/if}
 	          </div>
 	          <div class='goods-list'>
 	             {volist name='vo["list"]' id='vo2'}
-	             <div class='item j-chk {if $vo2["isCheck"]==1}selected{/if} j-s{$vo['shopId']} j-g{$vo2["cartId"]}'>
-	                <div class='chk'><input id='gchk_{$vo2["cartId"]}' type='checkbox' {if $vo2["isCheck"]==1}checked{/if} mval="{$vo2['shopPrice']}" value="{$vo2['cartId']}" sval="{$vo2['goodsStock']}" allowbuy="{$vo2['allowBuy']}" class='j-chk j-s{$vo['shopId']} j-gchk' onclick='checkChks(this,".j-g{$vo2["cartId"]}")'></div>
+	             <div class='item j-chk {if $vo2["is_check"]==1}selected{/if} j-s{$vo['shop_id']} j-g{$vo2["cart_id"]}'>
+	                <div class='chk'><input id='gchk_{$vo2["cart_id"]}' type='checkbox' {if $vo2["is_check"]==1}checked{/if} mval="{$vo2['shop_price']}" value="{$vo2['cart_id']}" sval="{$vo2['goods_stock']}" allowbuy="{$vo2['allowBuy']}" class='j-chk j-s{$vo['shop_id']} j-gchk' onclick='checkChks(this,".j-g{$vo2["cart_id"]}")'></div>
 			        <div class='goods'>
 			            <div class='img'>
-				            <a href='{:Url("home/goods/detail","id=".$vo2["goodsId"])}' target='_blank'>
-				            <img src='__ROOT__/{$vo2["goodsImg"]}' width='80' height='80' title='{$vo2["goodsName"]}'/>
+				            <a href='{:Url("home/goods/detail","id=".$vo2["goods_id"])}' target='_blank'>
+				            <img src='__ROOT__/{$vo2["goods_img"]}' width='80' height='80' title='{$vo2["goods_name"]}'/>
 				            </a>
 			            </div>
-			            <div class='name'>{:FIMSubstr($vo2["goodsName"],0,25)}</div>
+			            <div class='name'>{:FIMSubstr($vo2["goods_name"],0,25)}</div>
 			            <div class='spec'>
 			            {volist name='vo2["specNames"]' id='specs'}
-			            <div>{$specs['catName']}：{$specs['itemName']}</div>
+			            <div>{$specs['cat_name']}：{$specs['item_name']}</div>
 			            {/volist}
 			            </div>
 			        </div>
-			        <div class='price item_middle'>¥{$vo2['shopPrice']}</div>
-			        <div class='stock item_middle'>{$vo2['goodsStock']}</div>
+			        <div class='price item_middle'>¥{$vo2['shop_price']}</div>
+			        <div class='stock item_middle'>{$vo2['goods_stock']}</div>
 			        <div class='num item_middle'>
-				        <a href='#none' class='buy-btn' id='buy-reduce_{$vo2['cartId']}' onclick='javascript:FI.changeIptNum(-1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")'>-</a>
-			            <input type='text' id='buyNum_{$vo2['cartId']}' class='buy-num' value="{$vo2['cartNum']}" data-max="{$vo2['goodsStock']}" data-min='1' onkeyup='FI.changeIptNum(0,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")' autocomplete="off"  onkeypress="return FI.isNumberKey(event);" maxlength="6"/>
-			            <a href='#none' class='buy-btn' id='buy-add_{$vo2['cartId']}' onclick='javascript:FI.changeIptNum(1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cartId']},"statCartMoney")'>+</a>
-			            <div id='err_{$vo2['cartId']}' class='fi-clear'></div>
+				        <a href='#none' class='buy-btn' id='buy-reduce_{$vo2['cart_id']}' onclick='javascript:FI.changeIptNum(-1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cart_id']},"statCartMoney")'>-</a>
+			            <input type='text' id='buyNum_{$vo2['cart_id']}' class='buy-num' value="{$vo2['cart_num']}" data-max="{$vo2['goods_stock']}" data-min='1' onkeyup='FI.changeIptNum(0,"#buyNum","#buy-reduce,#buy-add",{$vo2['cart_id']},"statCartMoney")' autocomplete="off"  onkeypress="return FI.isNumberKey(event);" maxlength="6"/>
+			            <a href='#none' class='buy-btn' id='buy-add_{$vo2['cart_id']}' onclick='javascript:FI.changeIptNum(1,"#buyNum","#buy-reduce,#buy-add",{$vo2['cart_id']},"statCartMoney")'>+</a>
+			            <div id='err_{$vo2['cart_id']}' class='fi-clear'></div>
 			        </div>
-			        <div class='t-price item_middle'>¥<span id="tprice_{$vo2['cartId']}" >{$vo2['shopPrice']*$vo2['cartNum']}</span></div>
-			        <div class='action item_middle'><a href='javascript:FI.delCart({$vo2["cartId"]})'>删除</a></div>
+			        <div class='t-price item_middle'>¥<span id="tprice_{$vo2['cart_id']}" >{$vo2['shop_price']*$vo2['cart_num']}</span></div>
+			        <div class='action item_middle'><a href='javascript:FI.delCart({$vo2["cart_id"]})'>删除</a></div>
 			        <div class='fi-clear'></div>
 	             </div>
 	             {/volist}
@@ -79,7 +79,7 @@
 	       {/volist}
 	       <div class='cart-footer selected2'>
 	          <div class='cart-summary'>
-	             <div class='summary'>应付总金额(不含运费)：<span>¥</span><span id='totalMoney'>{$carts["goodsTotalMoney"]}</span></div>
+	             <div class='summary'>应付总金额(不含运费)：<span>¥</span><span id='total_money'>{$carts["goodsTotalMoney"]}</span></div>
 	             <div class='fi-clear'></div>
 	          </div>
 	       </div>

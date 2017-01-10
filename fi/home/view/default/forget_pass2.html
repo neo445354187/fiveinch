@@ -46,13 +46,13 @@
 					</tr>
 				    <tr class="fi-login-tr">
                          <td class="fi-forget-td">用户名</td>
-                         <td colspan='2'><span class="fi-forget-te">{$forgetInfo['loginName']}</span></td>
+                         <td colspan='2'><span class="fi-forget-te">{$forgetInfo['login_name']}</span></td>
                     </tr>
                  	  <tr class="phone-verify fi-login-tr">
                           <td class="fi-forget-td">手机</td>
-                          <td colspan='2'><span class="fi-forget-te">{php} echo $forgetInfo['userPhone'] == '' ? "没有预留手机号码，请尝试用邮箱找回！" : $forgetInfo['userPhone'] ; {/php}</span></td>
+                          <td colspan='2'><span class="fi-forget-te">{php} echo $forgetInfo['user_phone'] == '' ? "没有预留手机号码，请尝试用邮箱找回！" : $forgetInfo['user_phone'] ; {/php}</span></td>
                       </tr>
-                      {if($forgetInfo['userPhone'] != '')}
+                      {if($forgetInfo['user_phone'] != '')}
                       <tr class="phone-verify fi-login-tr">
                           <td class="fi-forget-td">手机校验码</td>
                           <td>
@@ -68,9 +68,9 @@
                        {/if}
                        <tr class="email-verify fi-login-tr">
                            <td class="fi-forget-td">邮箱地址</td>
-                           <td colspan='2'><span class="fi-forget-te">{php} echo $forgetInfo['userEmail'] == '' ? "没有预留邮箱，请尝试用手机号码找回！" : $forgetInfo['userEmail'] ; {/php}</span></td>
+                           <td colspan='2'><span class="fi-forget-te">{php} echo $forgetInfo['user_email'] == '' ? "没有预留邮箱，请尝试用手机号码找回！" : $forgetInfo['user_email'] ; {/php}</span></td>
                        </tr>
-                      {if($forgetInfo['userEmail'] != '')}
+                      {if($forgetInfo['user_email'] != '')}
                     <tr class="email-verify fi-login-tr">
 						<td class="fi-regist-td">验证码</td>
 						<td>

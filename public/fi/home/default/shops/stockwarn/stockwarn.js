@@ -12,7 +12,7 @@ function stockByPage(p){
 	       	var gettpl = document.getElementById('tblist').innerHTML;
 	       	laytpl(gettpl).render(json.Rows, function(html){
 	       		$('#list').html(html);
-	       		$('.j-goodsImg').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
+	       		$('.j-goods_img').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
 	       	});
 	       	if(json.Total>1){
 	       		laypage({
@@ -48,7 +48,7 @@ function endEditGoodsStock(type,id){
 	$('#span_'+type+'_'+id).show();
     $('#ipt_'+type+'_'+id).hide();
 }
-function editGoodsStock(id,type,goodsId){
+function editGoodsStock(id,type,goods_id){
 	var number = $('#ipt_'+type+'_'+id).val();
 	if($.trim(number)==''){
 		FI.msg('库存不能为空', {icon: 5});
@@ -57,9 +57,9 @@ function editGoodsStock(id,type,goodsId){
 	var params = {};
 	params.id = id;
 	params.type = type;
-	params.goodsId = goodsId;
+	params.goods_id = goods_id;
 	params.number = number;
-	$.post(FI.U('Home/Goods/editwarnStock'),params,function(data,textStatus){
+	$.post(FI.U('Home/Goods/editwarn_stock'),params,function(data,textStatus){
 		var json = FI.toJson(data);
 		if(json.status>0){
 			$('#img_'+type+'_'+id).fadeTo("fast",100);
@@ -76,7 +76,7 @@ function getCat(val){
   	$('#cat2').html("<option value='' >-请选择-</option>");
   	return;
   }
-  $.post(FI.U('home/shopcats/listQuery'),{parentId:val},function(data,textStatus){
+  $.post(FI.U('home/shopcats/listQuery'),{parent_id:val},function(data,textStatus){
        var json = FI.toJson(data);
        var html = [],cat;
        html.push("<option value='' >-请选择-</option>");
@@ -84,7 +84,7 @@ function getCat(val){
          json = json.list;
        for(var i=0;i<json.length;i++){
            cat = json[i];
-           html.push("<option value='"+cat.catId+"'>"+cat.catName+"</option>");
+           html.push("<option value='"+cat.cat_id+"'>"+cat.cat_name+"</option>");
         }
        }
        $('#cat2').html(html.join(''));

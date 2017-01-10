@@ -50,12 +50,12 @@ function veemailForm(){
 	emailForm = $('#emailForm').validator({
     	rules: {
             remote: function(element){
-            	return $.post(FI.U('home/users/checkEmail'),{"loginName":element.value},function(data,textStatus){
+            	return $.post(FI.U('home/users/checkEmail'),{"login_name":element.value},function(data,textStatus){
             	});
             }	
     	},
         fields: {
-        	userEmail: {
+        	user_email: {
 		        rule:"required;email;remote;",
 		        msg:{required:"请输入邮箱",email:"请输入有效的邮箱"},
 		        tip:"请输入邮箱",
@@ -78,7 +78,7 @@ function veemailForm(){
   			FI.msg('邮箱已发送，请注册查收');
   	        setTimeout(function(){ 
   	          $('#emailForm').hide();
-  	          $('#inemail').html($('#userEmail').val());
+  	          $('#inemail').html($('#user_email').val());
   	          $('#prompt').show();
   	        },1000);
           }else{
@@ -166,7 +166,7 @@ function vegetphoneForm(){
 }
 //发送手机验证码
 function getPhoneVerify(n){
-	if(!$('#userPhone').isValid())return;
+	if(!$('#user_phone').isValid())return;
 	$('#VerifyId').val(n);
 	if(window.conf.SMS_VERFY==1){
 		FI.open({type: 1,title:"请输入验证码",shade: [0.6, '#000'],border: [0],content: $('#phoneVerify'),area: ['600px', '180px']});

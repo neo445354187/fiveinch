@@ -1,7 +1,7 @@
 {extend name="default/base" /}
-{block name="title"}{$data['shop']['shopName']} - {:FIConf('CONF.mallName')}{__block__}{/block}
-<meta name="description" content="{$data['shop']['shopDesc']},{:FIConf('CONF.mallName')}">
-<meta name="Keywords" content="{$data['shop']['shopKeywords']},{:FIConf('CONF.mallName')}">
+{block name="title"}{$data['shop']['shop_name']} - {:FIConf('CONF.mallName')}{__block__}{/block}
+<meta name="description" content="{$data['shop']['shop_desc']},{:FIConf('CONF.mallName')}">
+<meta name="Keywords" content="{$data['shop']['shop_keywords']},{:FIConf('CONF.mallName')}">
 {block name="css"}
 <link href="__STATIC__/plugins/lazyload/skin/laypage.css?v={$v}" rel="stylesheet">
 <link href="__STATIC__/plugins/slide/css/slide.css?v={$v}" rel="stylesheet">
@@ -12,57 +12,57 @@
 	{include file="default/header_top" /}
 	<div class="fi-container">
 		<div class="fi-shop-h">
-		<div class="fi-shop-img"><a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}"><img class="shopsImg" data-original="__ROOT__/{$data['shop']['shopImg']}" title="{$data['shop']['shopName']}"></a></div>
+		<div class="fi-shop-img"><a href="{:url('home/shops/home',array('shop_id'=>$data['shop']['shop_id']))}"><img class="shopsImg" data-original="__ROOT__/{$data['shop']['shop_img']}" title="{$data['shop']['shop_name']}"></a></div>
 		<div class="fi-shop-info">
-			<p>{$data['shop']['shopName']}</p>
+			<p>{$data['shop']['shop_name']}</p>
 			<div class="fi-shop-info2">
 			{volist name="$data['shop']['accreds']" id="ac"}
-			<img src="__ROOT__/{$ac['accredImg']}"><span>{$ac['accredName']}</span>
+			<img src="__ROOT__/{$ac['accred_img']}"><span>{$ac['accred_name']}</span>
 			{/volist}
-			{if($data['shop']['shopQQ'])}
-			<a href="tencent://message/?uin={$data['shop']['shopQQ']}&Site=QQ交谈&Menu=yes">
-		        <img border="0" style="width:65px;height:24px;" src="http://wpa.qq.com/pa?p=1:{$data['shop']['shopQQ']}:7">
+			{if($data['shop']['shop_qq'])}
+			<a href="tencent://message/?uin={$data['shop']['shop_qq']}&Site=QQ交谈&Menu=yes">
+		        <img border="0" style="width:65px;height:24px;" src="http://wpa.qq.com/pa?p=1:{$data['shop']['shop_qq']}:7">
 		    </a>
 			{/if}
-			{if($data['shop']['shopWangWang'])}
-			<a href="http://www.taobao.com/webww/ww.php?ver=3&touid={$data['shop']['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8" target="_blank">
+			{if($data['shop']['shop_wangwang'])}
+			<a href="http://www.taobao.com/webww/ww.php?ver=3&touid={$data['shop']['shop_wangwang']}&siteid=cntaobao&status=1&charset=utf-8" target="_blank">
 			<img style="margin:-1px 0px 0px 6px;" src="__HOME__/img/icon_dianpujie_04.png">
 			</a>
 			{/if}
 			</div>
 			<div class="fi-shop-info3">
-				<span class="fi-shop-eva">商品评价：<span class="fi-shop-red">{$data['shop']['scores']['goodsScore']}</span></span>
-				<span class="fi-shop-eva">时效评价：<span class="fi-shop-red">{$data['shop']['scores']['timeScore']}</span></span>
-				<span class="fi-shop-eva">服务评价：<span class="fi-shop-red">{$data['shop']['scores']['serviceScore']}</span></span>
+				<span class="fi-shop-eva">商品评价：<span class="fi-shop-red">{$data['shop']['scores']['goods_score']}</span></span>
+				<span class="fi-shop-eva">时效评价：<span class="fi-shop-red">{$data['shop']['scores']['time_score']}</span></span>
+				<span class="fi-shop-eva">服务评价：<span class="fi-shop-red">{$data['shop']['scores']['service_score']}</span></span>
 				{if($data['shop']['favShop']>0)}
 				<a href='javascript:void(0);' onclick='FI.cancelFavorite(this,1,{$data['shop']['favShop']})' class="fi-shop-evaa j-fav">已关注</a>
 				{else}
-				<a href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$data['shop']['shopId']})' class="fi-shop-evaa j-fav2">关注店铺</a>
+				<a href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$data['shop']['shop_id']})' class="fi-shop-evaa j-fav2">关注店铺</a>
 				{/if}
 				<span class="fi-shop-eva">用手机逛本店  &nbsp;&nbsp;|</span>
 				<a class="fi-shop-code"><span class="fi-shop-codes hide"><div id='qrcode' style='width:142px;height:142px;'></div></span></a>
 			</div>
 		</div>
 		<div class="fi-shop-sea">
-			<input type="text" id="goodsName" value="{$goodsName}" placeholder="输入商品名称">
-			<a class="search" href="javascript:void(0);" onclick="javascript:FI.goodsSearch($('#goodsName').val());">搜全站</a>
+			<input type="text" id="goods_name" value="{$goods_name}" placeholder="输入商品名称">
+			<a class="search" href="javascript:void(0);" onclick="javascript:FI.goodsSearch($('#goods_name').val());">搜全站</a>
 			<a class="search" href="javascript:void(0);" onclick="javascript:searchShopsGoods(0);">搜本店</a>
 			<div class="fi-shop-word">
-			{volist name="data['shop']['shopHotWords']" id="shw"}
-			<a href='{:Url("home/shops/home",array('shopId'=>$data['shop']['shopId'],'goodsName'=>$shw))}'>{$shw}</a>{if $i< count($data['shop']['shopHotWords'])}&nbsp;|&nbsp;{/if}
+			{volist name="data['shop']['shop_hot_words']" id="shw"}
+			<a href='{:Url("home/shops/home",array('shop_id'=>$data['shop']['shop_id'],'goods_name'=>$shw))}'>{$shw}</a>{if $i< count($data['shop']['shop_hot_words'])}&nbsp;|&nbsp;{/if}
 			{/volist}
 			</div>
 		</div>
 		<div class="fi-clear"></div>
 		</div>
 	</div>
-	{if($data['shop']['shopBanner'])}<div class="fi-shop-tu" style="background: url(__ROOT__/{$data['shop']['shopBanner']}) no-repeat  scroll center top;background-size:cover;"></div>{/if}
+	{if($data['shop']['shop_banner'])}<div class="fi-shop-tu" style="background: url(__ROOT__/{$data['shop']['shop_banner']}) no-repeat  scroll center top;background-size:cover;"></div>{/if}
 	 <div class='fi-header'>
 		<div class="fi-shop-nav">
 			<div class="fi-nav-box">
-				<a href="{:url('home/shops/home',array('shopId'=>$data['shop']['shopId']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq 0"}fi-nav-boxa{/if}">本店全部商品</li></a>
+				<a href="{:url('home/shops/home',array('shop_id'=>$data['shop']['shop_id']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq 0"}fi-nav-boxa{/if}">本店全部商品</li></a>
 				{volist name="$data['shopcats']" id="sc" offset="0" length='8'}
-					<a href="{:url('home/shops/home',array('shopId'=>$sc['shopId'],'ct1'=>$sc['catId']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq $sc['catId']"}fi-nav-boxa{/if}">{$sc['catName']}</li></a>
+					<a href="{:url('home/shops/home',array('shop_id'=>$sc['shop_id'],'ct1'=>$sc['cat_id']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq $sc['cat_id']"}fi-nav-boxa{/if}">{$sc['cat_name']}</li></a>
 				{/volist}
 				<a class="homepage" href='{$Request.root.true}'>返回商城首页</a>
 				<div class="fi-clear"></div>
@@ -70,12 +70,12 @@
 		</div>
 		<div class="fi-clear"></div>
 	</div>
-	{if($data['shop']['shopAds'])}
+	{if($data['shop']['shop_ads'])}
 	<div class="ck-slide">
 		<ul class="ck-slide-wrapper">
-			{volist name="$data['shop']['shopAds']" id="ads"}
+			{volist name="$data['shop']['shop_ads']" id="ads"}
 			<li>
-				<a href="{$ads['adUrl']}" ><img class='goodsImg' data-original="__ROOT__/{$ads['adImg']}" width="100%" height="400"/></a>
+				<a href="{$ads['adUrl']}" ><img class='goods_img' data-original="__ROOT__/{$ads['adImg']}" width="100%" height="400"/></a>
 			</li>
 			{/volist}
 		</ul>
@@ -84,7 +84,7 @@
 		<div class="ck-slidebox">
 			<div class="slideWrap">
 				<ul class="dot-wrap">
-				{volist name="$data['shop']['shopAds']" id="ads" key="i"}
+				{volist name="$data['shop']['shop_ads']" id="ads" key="i"}
 					{if condition="$i eq 1"}
 						<li class="current"><em>{$i}</em></li>
 					{else}
@@ -100,7 +100,7 @@
 {block name="main"}
 <input type="hidden" id="msort" value="{$msort}" autocomplete="off"/>
 <input type="hidden" id="mdesc" value="{$mdesc}" autocomplete="off"/>
-<input type="hidden" id="shopId" value="{$data['shop']['shopId']}" autocomplete="off"/>
+<input type="hidden" id="shop_id" value="{$data['shop']['shop_id']}" autocomplete="off"/>
 <input type="hidden" id="ct1" value="{$ct1}" autocomplete="off"/>
 <input type="hidden" id="ct2" value="{$ct2}" autocomplete="off"/>
 <div class="fi-container">
@@ -109,11 +109,11 @@
 			<p class="fi-shop-conlp">店铺分类</p>
 			<div class="fi-shop-catt">
 			{volist name="$data['shopcats']" id="sc1"}
-				<li onclick="javascript:dropDown(this,{$sc1['catId']});" class="js-shop-plus">{:FIMSubstr($sc1['catName'],0,15)}</li>
+				<li onclick="javascript:dropDown(this,{$sc1['cat_id']});" class="js-shop-plus">{:FIMSubstr($sc1['cat_name'],0,15)}</li>
 				{if($sc1['children'])}
-				<div class="fi-shop-catts tree_{$sc1['catId']}">
+				<div class="fi-shop-catts tree_{$sc1['cat_id']}">
 				{volist name="sc1['children']" id="sc2"}
-					<a href="{:url('home/shops/home',array('shopId'=>$sc1['shopId'],'ct1'=>$sc1['catId'],'ct2'=>$sc2['catId']))}"><li>{:FIMSubstr($sc2['catName'],0,15)}</li></a>
+					<a href="{:url('home/shops/home',array('shop_id'=>$sc1['shop_id'],'ct1'=>$sc1['cat_id'],'ct2'=>$sc2['cat_id']))}"><li>{:FIMSubstr($sc2['cat_name'],0,15)}</li></a>
 				{/volist}
 				</div>
 				{/if}
@@ -122,13 +122,13 @@
 		</div>
 		  <div class="fi-shop-best">
 			<p class="fi-shop-conlp">热卖商品</p>
-			{fi:shopgoods type='hot' num='5' id='ho' shop="$data['shop']['shopId']"}
-			<a href="{:url('home/goods/detail',array('id'=>$ho['goodsId']))}" target="_blank">
+			{fi:shopgoods type='hot' num='5' id='ho' shop="$data['shop']['shop_id']"}
+			<a href="{:url('home/goods/detail',array('id'=>$ho['goods_id']))}" target="_blank">
 			<div class="fi-shop-bestg">
-				<div class="fi-shop-besti"><img class="goodsImg" data-original="__ROOT__/{$ho['goodsImg']}" title="{$ho['goodsName']}" alt="{$ho['goodsName']}"></div>
-				<a href="{:url('home/goods/detail',array('id'=>$ho['goodsId']))}"><p class="fi-shop-bestgp1">{:FIMSubstr($ho['goodsName'],0,20)}</p></a>
-				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$ho['saleNum']}</span>件</p>
-				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$ho['shopPrice']}</span><span class="fi-shop-bestpr2">￥{$ho['marketPrice']}</span></p>
+				<div class="fi-shop-besti"><img class="goods_img" data-original="__ROOT__/{$ho['goods_img']}" title="{$ho['goods_name']}" alt="{$ho['goods_name']}"></div>
+				<a href="{:url('home/goods/detail',array('id'=>$ho['goods_id']))}"><p class="fi-shop-bestgp1">{:FIMSubstr($ho['goods_name'],0,20)}</p></a>
+				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$ho['sale_num']}</span>件</p>
+				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$ho['shop_price']}</span><span class="fi-shop-bestpr2">￥{$ho['market_price']}</span></p>
 			</div>
 			</a>
 			{/fi:shopgoods}
@@ -139,10 +139,10 @@
 			<p class="fi-shop-conlp">最近浏览</p>
 			{fi:goods type='history' num='4'}
 			<div class="fi-shop-bestg">
-				<div class="fi-shop-besti"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goodsId'])}"><img class="goodsImg" data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" title="{$vo['goodsName']}" alt="{$vo['goodsName']}" ></div>
-				<a href="{:url('home/goods/detail','id='.$vo['goodsId'])}" target='_blank'><p class="fi-shop-bestgp1">{$vo['goodsName']}</p></a>
-				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$vo['saleNum']}</span>件</p>
-				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$vo['shopPrice']}</span><span class="fi-shop-bestpr2">￥{$vo['marketPrice']}</span></p>
+				<div class="fi-shop-besti"><a target='_blank' href="{:Url('home/goods/detail','id='.$vo['goods_id'])}"><img class="goods_img" data-original="__ROOT__/{:FIImg($vo['goods_img'])}" title="{$vo['goods_name']}" alt="{$vo['goods_name']}" ></div>
+				<a href="{:url('home/goods/detail','id='.$vo['goods_id'])}" target='_blank'><p class="fi-shop-bestgp1">{$vo['goods_name']}</p></a>
+				<p class="fi-shop-bestgp2">已售出<span class="fi-shop-bestpi">{$vo['sale_num']}</span>件</p>
+				<p class="fi-shop-bestgp2"><span class="fi-shop-bestpr">￥{$vo['shop_price']}</span><span class="fi-shop-bestpr2">￥{$vo['market_price']}</span></p>
 			</div>
 			{/fi:goods}
 			<div class="fi-clear"></div>
@@ -153,14 +153,14 @@
 		<div class="fi-shop-rec">
 			<p class="fi-shop-conrp">店长推荐</p>
 			<div class="fi-shop-recb">
-			    {fi:shopgoods type='recom' num='4' id='re' shop="$data['shop']['shopId']"}
+			    {fi:shopgoods type='recom' num='4' id='re' shop="$data['shop']['shop_id']"}
 				<div class="fi-shop-rgoods">
-					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$re['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$re['goodsImg']}" title="{$re['goodsName']}"></a></div>
-					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$re['goodsId']))}" target="_blank">{:FIMSubstr($re['goodsName'],0,28)}</a></p>
+					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$re['goods_id']))}" target="_blank"><img class="goods_img" data-original="__ROOT__/{$re['goods_img']}" title="{$re['goods_name']}"></a></div>
+					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$re['goods_id']))}" target="_blank">{:FIMSubstr($re['goods_name'],0,28)}</a></p>
 					<div class="fi-shop-rect">
-					<span>￥{$re['shopPrice']}</span>
-					{if($re['goodsStock'])}
-					<a class="fi-shop-recta" href="javascript:FI.addCart({$re['goodsId']})">加入购物车</a>
+					<span>￥{$re['shop_price']}</span>
+					{if($re['goods_stock'])}
+					<a class="fi-shop-recta" href="javascript:FI.addCart({$re['goods_id']})">加入购物车</a>
 					{else}
 					<a class="fi-shop-recta2" href="javascript:void(0);">暂无商品</a>
 					{/if}
@@ -189,10 +189,10 @@
 			<div class="fi-shop-listg">
 				{volist name="$data['list']['Rows']" id="li"}
 				<div class="fi-shop-goods">
-					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$li['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$li['goodsImg']}" title="{$li['goodsName']}"></a><a href="javascript:FI.addCart({$li['goodsId']});"><span class="js-cart">加入购物车</span></a></div>
-					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$li['goodsId']))}" target="_blank">{:FIMSubstr($li['goodsName'],0,15)}</a></p>
-					<p class="fi-shop-goodp1"><span class="fi-shop-goodpr">￥{$li['shopPrice']}</span><span class="fi-rfloat">成交数：<span class="fi-shop-goodpr2">{$li['saleNum']}</span></span></p>
-					<p class="fi-shop-goodp2"><span class="fi-shop-goodpr3">市场价：￥{$li['marketPrice']}</span><span class="fi-rfloat">已有<span class="fi-shop-goodpr4">{$li['appraiseNum']}</span>人评价</span></p>
+					<div class="fi-shop-goimg"><a href="{:url('home/goods/detail',array('id'=>$li['goods_id']))}" target="_blank"><img class="goods_img" data-original="__ROOT__/{$li['goods_img']}" title="{$li['goods_name']}"></a><a href="javascript:FI.addCart({$li['goods_id']});"><span class="js-cart">加入购物车</span></a></div>
+					<p class="fi-shop-gonam"><a href="{:url('home/goods/detail',array('id'=>$li['goods_id']))}" target="_blank">{:FIMSubstr($li['goods_name'],0,15)}</a></p>
+					<p class="fi-shop-goodp1"><span class="fi-shop-goodpr">￥{$li['shop_price']}</span><span class="fi-rfloat">成交数：<span class="fi-shop-goodpr2">{$li['sale_num']}</span></span></p>
+					<p class="fi-shop-goodp2"><span class="fi-shop-goodpr3">市场价：￥{$li['market_price']}</span><span class="fi-rfloat">已有<span class="fi-shop-goodpr4">{$li['appraise_num']}</span>人评价</span></p>
 				</div>
 				{/volist}
 				<div class="fi-clear"></div>

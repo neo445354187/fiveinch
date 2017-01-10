@@ -17,26 +17,26 @@ $(function(){initGrid();})
 <div id="maingrid"></div>
 <div id='articlecatBox' style='display:none'>
   <form id='articlecatForm' autocomplete="off">
-  <input type='hidden' id='parentId' name="parentId" class='ipt' />
+  <input type='hidden' id='parent_id' name="parent_id" class='ipt' />
   <table class='fi-form fi-box-top'>
      <tr>
         <th width='100'>分类名称<font color='red'>*</font>：</th>
-        <td><input type='text' id='catName' name="catName" class='ipt' maxLength='20' style='width:200px;'/></td>
+        <td><input type='text' id='cat_name' name="cat_name" class='ipt' maxLength='20' style='width:200px;'/></td>
      </tr>
      <tr>
         <th width='100'>是否显示<font color='red'>*</font>：</th>
         <td height='24'>
            <label>
-              <input type="radio" id="isShow1" name="isShow" class="ipt" value="1" checked>显示
+              <input type="radio" id="is_show1" name="is_show" class="ipt" value="1" checked>显示
            </label>
            <label>
-              <input type="radio" id="isShow1" name="isShow" class="ipt" value="0">隐藏
+              <input type="radio" id="is_show1" name="is_show" class="ipt" value="0">隐藏
            </label>
         </td>
      </tr>
      <tr>
         <th width='100'>排序号<font color='red'>*</font>：</th>
-        <td><input type='text' id='catSort' name='catSort' class='ipt' style='width:60px;' onkeypress='return FI.isNumberKey(event);' onkeyup="javascript:FI.isChinese(this,1)" maxLength='10' value='0'/></td>
+        <td><input type='text' id='cat_sort' name='cat_sort' class='ipt' style='width:60px;' onkeypress='return FI.isNumberKey(event);' onkeyup="javascript:FI.isChinese(this,1)" maxLength='10' value='0'/></td>
      </tr>
   </table>
   </form>

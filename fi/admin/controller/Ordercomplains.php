@@ -19,7 +19,7 @@ class OrderComplains extends Base{
         if((int)Input('cid')>0){
             $data = $m->getDetail();
             $this->assign('order',$data);
-            $rs = model('orders')->getByView($data['orderId']);
+            $rs = model('orders')->getByView($data['order_id']);
             $this->assign('object',$rs);
         }
         return $this->fetch('view');
@@ -32,7 +32,7 @@ class OrderComplains extends Base{
         if(Input('cid')>0){
             $data = $m->getDetail();
             $this->assign('order',$data);
-            $rs = model('orders')->getByView($data['orderId']);
+            $rs = model('orders')->getByView($data['order_id']);
             $this->assign('object',$rs);
         }
         return $this->fetch("handle");

@@ -9,19 +9,19 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '名称', name: 'payName', isSort: false},
-	        { display: '描述', name: 'payDesc', isSort: false},
+	        { display: '名称', name: 'pay_name', isSort: false},
+	        { display: '描述', name: 'pay_desc', isSort: false},
 	        { display: '状态', name: 'enabled', isSort: false,render: function (rowdata, rowindex, value){
 	            return value==1?"是":"否";}},
-	        { display: '排序号', name: 'payOrder', isSort: false},
+	        { display: '排序号', name: 'pay_order', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
 	            if(rowdata['enabled']==1){
-		            if(FI.GRANT.ZFGL_02)h += "<a href='"+FI.U('admin/payments/toEdit','id='+rowdata['id']+'&payCode='+rowdata['payCode'])+"'>编辑</a> ";
+		            if(FI.GRANT.ZFGL_02)h += "<a href='"+FI.U('admin/payments/toEdit','id='+rowdata['id']+'&pay_code='+rowdata['pay_code'])+"'>编辑</a> ";
 		            if(FI.GRANT.ZFGL_03)h += "<a href='javascript:toDel(" + rowdata['id'] + ")'>卸载</a> "; 
 	            }
 	            else{
-	            	if(FI.GRANT.ZFGL_02)h += "<a href='"+FI.U('admin/payments/toEdit','id='+rowdata['id']+'&payCode='+rowdata['payCode'])+"'>安装</a> ";
+	            	if(FI.GRANT.ZFGL_02)h += "<a href='"+FI.U('admin/payments/toEdit','id='+rowdata['id']+'&pay_code='+rowdata['pay_code'])+"'>安装</a> ";
 	            }
 	            return h;
 	        }}
@@ -53,7 +53,7 @@ function edit(id){
 	//接收配置信息并转成JSON
 	var configs = JSON.stringify(FI.getParams('.cfg'));
 	//保存配置信息
-	params.payConfig = configs;
+	params.pay_config = configs;
 	params.id = id;
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 	$.post(FI.U('admin/payments/'+((id==0)?"add":"edit")),params,function(data,textStatus){
@@ -72,9 +72,9 @@ $(function(){
 	$('#payForm').validator({
       fields: {
       		/*默认验证*/
-            payName: {rule:"required;",msg:{required:"请输入支付名称"},tip:"请输入支付名称",ok:"",},
-            payDesc: {rule:"required;",msg:{required:"请输入支付描述"},tip:"请输入支付描述",ok:"",},
-            payOrder: {rule:"required;",msg:{required:"请输入排序号"},tip:"请输入排序号",ok:"",},
+            pay_name: {rule:"required;",msg:{required:"请输入支付名称"},tip:"请输入支付名称",ok:"",},
+            pay_desc: {rule:"required;",msg:{required:"请输入支付描述"},tip:"请输入支付描述",ok:"",},
+            pay_order: {rule:"required;",msg:{required:"请输入排序号"},tip:"请输入排序号",ok:"",},
             /*微信验证*/
             appId: {rule:"required;",msg:{required:"请输入APPID"},tip:"请输入APPID",ok:"",},
             mchId: {rule:"required;",msg:{required:"请输入微信支付商户号(mch_id)"},tip:"请输入微信支付商户号(mch_id)",ok:"",},

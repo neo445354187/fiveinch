@@ -1,5 +1,5 @@
 {extend name="default/shops/base" /}
-{block name="title"}<?=($object['goodsId']>0)?"编辑":"新增";?>商品-卖家中心{__block__}{/block}
+{block name="title"}<?=($object['goods_id']>0)?"编辑":"新增";?>商品-卖家中心{__block__}{/block}
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/batchupload.css?v={$v}" />
@@ -40,7 +40,7 @@ label{margin-right:10px;}
 <script type='text/javascript' src='__HOME__/shops/goods/goods.js?v={$v}'></script>
 <script>
 var initBatchUpload = false,editor1 = null,specNum = 0,src='{$src}';
-{php}unset($object['goodsDesc']);{/php}
+{php}unset($object['goods_desc']);{/php}
 var OBJ = <?=json_encode($object)?>;
 $(function(){initEdit()});
 </script>

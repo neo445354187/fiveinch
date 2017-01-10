@@ -27,14 +27,14 @@ function searchShopsGoods(obj){
 	if($('#msort').val() != obj)mdesc = 0;
 	var msort = obj;
 	var params = new Array();
-	params.push("shopId=" + $("#shopId").val());
+	params.push("shop_id=" + $("#shop_id").val());
 	params.push("msort=" + obj);
 	params.push("mdesc=" + ((mdesc=="0")?"1":"0"));
 	params.push("sprice=" + $("#sprice").val());
 	params.push("eprice=" + $("#eprice").val());
 	params.push("ct1=" + $("#ct1").val());
 	params.push("ct2=" + $("#ct2").val());
-	params.push("goodsName=" + $("#goodsName").val());
+	params.push("goods_name=" + $("#goods_name").val());
 	
 	document.location.href = FI.U('home/shops/home',params.join('&'));
 }

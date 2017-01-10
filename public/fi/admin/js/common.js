@@ -71,7 +71,7 @@ FI.upload = function(opts){
 }
 FI.getAreas = function(obj,id,val,fval,callback){
 	var params = {};
-	params.parentId = id;
+	params.parent_id = id;
 	$("#"+obj).empty();
 	$("#"+obj).html("<option value=''>请选择</option>");
 	var s = [];
@@ -97,7 +97,7 @@ FI.getAreas = function(obj,id,val,fval,callback){
 			html.push("<option value=''>请选择</option>");
 			for(var i=0;i<json.data.length;i++){
 				opts = json.data[i];
-				html.push('<option value="'+opts.areaId+'" '+((val==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
+				html.push('<option value="'+opts.area_id+'" '+((val==opts.area_id)?'selected':'')+'>'+opts.area_name+'</option>');
 			}
 			$("#"+obj).html(html.join(''));
 			if(typeof(callback)=='function')callback();
@@ -151,7 +151,7 @@ FI.ITSetGoodsCats = function(opts){
 			   fn({id:opts.id,val:opts.val});
 			}
 		}
-		$.post(FI.U('admin/goodscats/listQuery'),{parentId:opts.val},function(data,textStatus){
+		$.post(FI.U('admin/goodscats/listQuery'),{parent_id:opts.val},function(data,textStatus){
 		     var json = FI.toAdminJson(data);
 		     if(json.data && json.data.length>0){
 			     json = json.data;
@@ -161,7 +161,7 @@ FI.ITSetGoodsCats = function(opts){
 			     html.push("<option value=''>-请选择-</option>");
 			     for(var i=0;i<json.length;i++){
 			       	 var cat = json[i];
-			       	 html.push("<option value='"+cat.catId+"' "+((opts.childIds[0]==cat.catId)?"selected":"")+">"+cat.catName+"</option>");
+			       	 html.push("<option value='"+cat.cat_id+"' "+((opts.childIds[0]==cat.cat_id)?"selected":"")+">"+cat.cat_name+"</option>");
 			     }
 			     html.push('</select>');
 			     $(html.join('')).insertAfter(obj);
@@ -245,7 +245,7 @@ FI.ITGoodsCats = function(opts){
 	    }
 		return;
 	}
-	$.post(FI.U('admin/goodscats/listQuery'),{parentId:opts.val},function(data,textStatus){
+	$.post(FI.U('admin/goodscats/listQuery'),{parent_id:opts.val},function(data,textStatus){
 	     var json = FI.toAdminJson(data);
 	     if(json.data && json.data.length>0){
 	    	json = json.data;
@@ -255,7 +255,7 @@ FI.ITGoodsCats = function(opts){
 		    html.push("<option value='' >-请选择-</option>");
 		    for(var i=0;i<json.length;i++){
 		       	 var cat = json[i];
-		       	 html.push("<option value='"+cat.catId+"'>"+cat.catName+"</option>");
+		       	 html.push("<option value='"+cat.cat_id+"'>"+cat.cat_name+"</option>");
 		    }
 		    html.push('</select>');
 		    $(html.join('')).insertAfter(obj);
@@ -285,22 +285,22 @@ FI.ITGoodsCats = function(opts){
  * 获取最后已选分类的id
  */
 FI.ITGetAllGoodsCatVals = function(srcObj,className){
-	var goodsCatId = '';
+	var goods_cat_id = '';
 	$('.'+className).each(function(){
-		if($(this).attr('lastgoodscat')=='1')goodsCatId = $(this).attr('id')+'_'+$(this).val();
+		if($(this).attr('lastgoodscat')=='1')goods_cat_id = $(this).attr('id')+'_'+$(this).val();
 	});
-	goodsCatId = goodsCatId.replace(srcObj+'_','');
-	return goodsCatId.split('_');
+	goods_cat_id = goods_cat_id.replace(srcObj+'_','');
+	return goods_cat_id.split('_');
 }
 /**
  * 获取最后分类值
  */
 FI.ITGetGoodsCatVal = function(className){
-	var goodsCatId = '';
+	var goods_cat_id = '';
 	$('.'+className).each(function(){
-		if($(this).attr('lastgoodscat')=='1')goodsCatId = $(this).val();
+		if($(this).attr('lastgoodscat')=='1')goods_cat_id = $(this).val();
 	});
-	return goodsCatId;
+	return goods_cat_id;
 }
 /**
  * 循环创建地区
@@ -353,7 +353,7 @@ FI.ITAreas = function(opts){
 	    }
 		return;
 	}
-	$.post(FI.U('admin/areas/listQuery'),{parentId:opts.val},function(data,textStatus){
+	$.post(FI.U('admin/areas/listQuery'),{parent_id:opts.val},function(data,textStatus){
 	     var json = FI.toAdminJson(data);
 	     if(json.data && json.data.length>0){
 	    	 json = json.data;
@@ -363,7 +363,7 @@ FI.ITAreas = function(opts){
 		     html.push("<option value='' >-请选择-</option>");
 		     for(var i=0;i<json.length;i++){
 		    	 tmp = json[i];
-		       	 html.push("<option value='"+tmp.areaId+"'>"+tmp.areaName+"</option>");
+		       	 html.push("<option value='"+tmp.area_id+"'>"+tmp.area_name+"</option>");
 		     }
 		     html.push('</select>');
 		     $(html.join('')).insertAfter(obj);
@@ -413,7 +413,7 @@ FI.ITSetAreas = function(opts){
 			   fn({id:opts.id,val:opts.val});
 			}
 		}
-		$.post(FI.U('admin/areas/listQuery'),{parentId:opts.val},function(data,textStatus){
+		$.post(FI.U('admin/areas/listQuery'),{parent_id:opts.val},function(data,textStatus){
 		     var json = FI.toAdminJson(data);
 		     if(json.data && json.data.length>0){
 		    	 json = json.data;
@@ -423,7 +423,7 @@ FI.ITSetAreas = function(opts){
 			     html.push("<option value=''>-请选择-</option>");
 			     for(var i=0;i<json.length;i++){
 			    	 tmp = json[i];
-			       	 html.push("<option value='"+tmp.areaId+"' "+((opts.childIds[0]==tmp.areaId)?"selected":"")+">"+tmp.areaName+"</option>");
+			       	 html.push("<option value='"+tmp.area_id+"' "+((opts.childIds[0]==tmp.area_id)?"selected":"")+">"+tmp.area_name+"</option>");
 			     }
 			     html.push('</select>');
 			     $(html.join('')).insertAfter(obj);
@@ -459,20 +459,20 @@ FI.ITSetAreas = function(opts){
  * 获取最后地区的值
  */
 FI.ITGetAreaVal = function(className){
-	var areaId = '';
+	var area_id = '';
 	$('.'+className).each(function(){
-		if($(this).attr('lastarea')=='1')areaId = $(this).val();
+		if($(this).attr('lastarea')=='1')area_id = $(this).val();
 	});
-	return areaId;
+	return area_id;
 }
 /**
  * 获取最后已选分类的id
  */
 FI.ITGetAllAreaVals = function(srcObj,className){
-	var areaId = '';
+	var area_id = '';
 	$('.'+className).each(function(){
-		if($(this).attr('lastarea')=='1')areaId = $(this).attr('id')+'_'+$(this).val();
+		if($(this).attr('lastarea')=='1')area_id = $(this).attr('id')+'_'+$(this).val();
 	});
-	areaId = areaId.replace(srcObj+'_','');
-	return areaId.split('_');
+	area_id = area_id.replace(srcObj+'_','');
+	return area_id.split('_');
 }

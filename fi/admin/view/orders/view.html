@@ -3,37 +3,37 @@
 <div style='margin:10px;'>
   <div class='order-box'>
     <div class='box-head'>日志信息</div>
-    {if in_array($object['orderStatus'],[-2,0,1,2])}
+    {if in_array($object['order_status'],[-2,0,1,2])}
 	<div class='log-box'>
 <div class="state">
-{if $object['payType']==1}
+{if $object['pay_type']==1}
 <div class="icon">
-	<span class="icons {if condition="($object['orderStatus']==-2)OR($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon12 {else}icon11 {/if}{if condition="($object['orderStatus']==-2)"}icon13 {/if}"></span>
+	<span class="icons {if condition="($object['order_status']==-2)OR($object['order_status']==0)OR($object['order_status']==1)OR($object['order_status']==2)"}icon12 {else}icon11 {/if}{if condition="($object['order_status']==-2)"}icon13 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==0) OR ($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">··················></div>
-	<div class="icon"><span class="icons {if condition="($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon22 {else}icon21{/if}{if condition="($object['orderStatus']==0)"}icon23 {/if}"></span></div>
-	<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">··················></div>
+<div class="arrow {if condition="($object['order_status']==0) OR ($object['order_status']==1) OR ($object['order_status']==2)"}arrow2{/if}">··················></div>
+	<div class="icon"><span class="icons {if condition="($object['order_status']==0)OR($object['order_status']==1)OR($object['order_status']==2)"}icon22 {else}icon21{/if}{if condition="($object['order_status']==0)"}icon23 {/if}"></span></div>
+	<div class="arrow {if condition="($object['order_status']==1) OR ($object['order_status']==2)"}arrow2{/if}">··················></div>
 {else}
 <div class="icon">
-	<span class="icons {if condition="($object['orderStatus']==-2)OR($object['orderStatus']==0)OR($object['orderStatus']==1)OR($object['orderStatus']==2)"}icon12 {else}icon11 {/if}{if condition="($object['orderStatus']==0)"}icon13 {/if}"></span>
+	<span class="icons {if condition="($object['order_status']==-2)OR($object['order_status']==0)OR($object['order_status']==1)OR($object['order_status']==2)"}icon12 {else}icon11 {/if}{if condition="($object['order_status']==0)"}icon13 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==1) OR ($object['orderStatus']==2)"}arrow2{/if}">··················></div>
+<div class="arrow {if condition="($object['order_status']==1) OR ($object['order_status']==2)"}arrow2{/if}">··················></div>
 {/if}
 <div class="icon">
-	<span class="icons {if condition="($object['orderStatus']==1)OR($object['orderStatus']==2)OR($object['orderStatus']==1)"}icon32 {else}icon31 {/if}{if condition="($object['orderStatus']==1)"}icon33 {/if}"></span>
+	<span class="icons {if condition="($object['order_status']==1)OR($object['order_status']==2)OR($object['order_status']==1)"}icon32 {else}icon31 {/if}{if condition="($object['order_status']==1)"}icon33 {/if}"></span>
 </div>
-<div class="arrow {if condition="($object['orderStatus']==2)"}arrow2{/if}">··················></div>
-<div class="icon"><span class="icons  {if condition="($object['orderStatus']==2)AND($object['isAppraise']==1)"}icon42 {else}icon41 {/if}{if condition="($object['orderStatus']==2)AND($object['isAppraise']==0)"}icon43 {/if}"></span></div>
-<div class="arrow {if condition="($object['isAppraise']==1)"}arrow2{/if}">··················></div>
-<div class="icon"><span class="icons {if condition="($object['isAppraise']==1)"}icon53 {else}icon51 {/if}"></span></div>
+<div class="arrow {if condition="($object['order_status']==2)"}arrow2{/if}">··················></div>
+<div class="icon"><span class="icons  {if condition="($object['order_status']==2)AND($object['is_appraise']==1)"}icon42 {else}icon41 {/if}{if condition="($object['order_status']==2)AND($object['is_appraise']==0)"}icon43 {/if}"></span></div>
+<div class="arrow {if condition="($object['is_appraise']==1)"}arrow2{/if}">··················></div>
+<div class="icon"><span class="icons {if condition="($object['is_appraise']==1)"}icon53 {else}icon51 {/if}"></span></div>
 </div>
    <div class="state2">
    <div class="path">
    {volist name="$object['log']" id="lo"}
-   	<span>{$lo['logContent']}<br/>{$lo['logTime']}</span>
+   	<span>{$lo['log_content']}<br/>{$lo['log_time']}</span>
    {/volist}
    </div>
-   <p>下单</p>{if $object['payType']==1}<p>支付</p>{/if}<p>商家发货</p><p>确认收货</p><p>订单结束<br/>双方互评</p>
+   <p>下单</p>{if $object['pay_type']==1}<p>支付</p>{/if}<p>商家发货</p><p>确认收货</p><p>订单结束<br/>双方互评</p>
    </div>
    <div class="fi-clear"></div>
    </div>
@@ -42,8 +42,8 @@
           <table class='log'>
             {volist name='$object["log"]' id='vo'}
              <tr>
-               <td>{$vo['logTime']}</td>
-               <td>{$vo['logContent']}</td>
+               <td>{$vo['log_time']}</td>
+               <td>{$vo['log_content']}</td>
              </tr>
             {/volist}
           </table>
@@ -56,50 +56,50 @@
       <table class='fi-form'>
          <tr>
            <th width='100'>订单编号：</th>
-           <td>{$object['orderNo']}</td>
+           <td>{$object['order_no']}</td>
          </tr>
          <tr>
            <th>支付方式：</th>
-           <td>{:FILangPayType($object['payType'])}</td>
+           <td>{:FILangPayType($object['pay_type'])}</td>
          </tr>
-         {if($object['payType']==1)}
+         {if($object['pay_type']==1)}
          <tr>
            <th>交易流水：</th>
-           <td>【{:FILangPayFrom($object['payFrom'])}】{$object['tradeNo']}</td>
+           <td>【{:FILangPayFrom($object['pay_from'])}】{$object['trade_no']}</td>
          </tr>
          {/if}
          <tr>
             <th>配送方式：</th>
-            <td>{:FILangDeliverType($object['deliverType'])}</td>
+            <td>{:FILangDeliverType($object['deliver_type'])}</td>
          </tr>
-         {if $object['expressNo']!=''}
+         {if $object['express_no']!=''}
          <tr>
             <th>快递公司：</th>
-            <td>{$object['expressName']}</td>
+            <td>{$object['express_name']}</td>
          </tr>
          <tr>
             <th>快递号：</th>
-            <td>{$object['expressNo']}</td>
+            <td>{$object['express_no']}</td>
          </tr>
          {/if}
          <tr>
             <th>买家留言：</th>
-            <td>{$object['orderRemarks']}</td>
+            <td>{$object['order_remarks']}</td>
          </tr>
       </table>
    </div>
-   {if $object['isRefund']==1}
+   {if $object['is_refund']==1}
    <!-- 退款信息 -->
    <div class='order-box'>
       <div class='box-head'>退款信息</div>
       <table class='fi-form'>
          <tr>
             <th width='100'>退款备注：</th>
-            <td>{$object['refundRemark']}</td>
+            <td>{$object['refund_remark']}</td>
          </tr>
          <tr>
             <th>退款时间：</th>
-            <td>{$object['refundTime']}</td>
+            <td>{$object['refund_time']}</td>
          </tr>
       </table>
    </div>
@@ -110,11 +110,11 @@
       <table class='fi-form'>
          <tr>
            <th width='100'>是否需要发票：</th>
-           <td>{if $object['isInvoice']==1}需要{else}不需要{/if}</td>
+           <td>{if $object['is_invoice']==1}需要{else}不需要{/if}</td>
          </tr>
          <tr>
            <th>发票抬头：</th>
-           <td>{$object['invoiceClient']}</td>
+           <td>{$object['invoice_client']}</td>
          </tr>
       </table>
    </div>
@@ -124,15 +124,15 @@
       <table class='fi-form'>
          <tr>
            <th width='100'>收货人：</th>
-           <td>{$object['userName']}</td>
+           <td>{$object['user_name']}</td>
          </tr>
          <tr>
            <th>收货地址：</th>
-           <td>{$object['userAddress']}</td>
+           <td>{$object['user_address']}</td>
          </tr>
          <tr>
             <th>联系方式：</th>
-            <td>{$object['userPhone']}</td>
+            <td>{$object['user_phone']}</td>
          </tr>
       </table>
    </div>
@@ -147,15 +147,15 @@
        </div>
        <div class='goods-item'>
           <div class='shop'>
-          {$object['shopName']}
-          {if $object['shopQQ'] !=''}
-          <a href="tencent://message/?uin={$object['shopQQ']}&Site=QQ交谈&Menu=yes">
-			  <img border="0" src="http://wpa.qq.com/pa?p=1:{$object['shopQQ']}:7" alt="QQ交谈" width="71" height="24" />
+          {$object['shop_name']}
+          {if $object['shop_qq'] !=''}
+          <a href="tencent://message/?uin={$object['shop_qq']}&Site=QQ交谈&Menu=yes">
+			  <img border="0" src="http://wpa.qq.com/pa?p=1:{$object['shop_qq']}:7" alt="QQ交谈" width="71" height="24" />
 		  </a>
           {/if}
-          {if $object['shopWangWang'] !=''}
-          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$object['shopWangWang']}&siteid=cntaobao&status=1&charset=utf-8">
-			  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$object['shopWangWang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
+          {if $object['shop_wangwang'] !=''}
+          <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid={$object['shop_wangwang']}&siteid=cntaobao&status=1&charset=utf-8">
+			  <img border="0" src="http://amos.alicdn.com/realonline.aw?v=2&uid={$object['shop_wangwang']}&site=cntaobao&s=1&charset=utf-8" alt="和我联系" />
 		  </a>
           {/if}
           </div>
@@ -164,16 +164,16 @@
              <div class='item'>
 		        <div class='goods'>
 		            <div class='img'>
-		                <a href='{:Url("home/goods/detail","id=".$vo2["goodsId"])}' target='_blank'>
-			            <img src='__ROOT__/{$vo2["goodsImg"]}' width='80' height='80' title='{$vo2["goodsName"]}'/>
+		                <a href='{:Url("home/goods/detail","id=".$vo2["goods_id"])}' target='_blank'>
+			            <img src='__ROOT__/{$vo2["goods_img"]}' width='80' height='80' title='{$vo2["goods_name"]}'/>
 			            </a>
 		            </div>
-		            <div class='name'>{$vo2["goodsName"]}</div>
-		            <div class='spec'>{:str_replace('@@_@@','<br/>',$vo2["goodsSpecNames"])}</div>
+		            <div class='name'>{$vo2["goods_name"]}</div>
+		            <div class='spec'>{:str_replace('@@_@@','<br/>',$vo2["goods_spec_names"])}</div>
 		        </div>
-		        <div class='price'>¥{$vo2['goodsPrice']}</div>
-		        <div class='num'>{$vo2['goodsNum']}</div>
-		        <div class='t-price'>¥{$vo2['goodsPrice']*$vo2['goodsNum']}</div>
+		        <div class='price'>¥{$vo2['goods_price']}</div>
+		        <div class='num'>{$vo2['goods_num']}</div>
+		        <div class='t-price'>¥{$vo2['goods_price']*$vo2['goods_num']}</div>
 		        <div class='f-clear'></div>
              </div>
              {/volist}
@@ -181,11 +181,11 @@
        </div>
        <div class='goods-footer'>
           <div class='goods-summary' style='text-align:right'>
-             <div class='summary'>商品总金额：¥<span>{$object['goodsMoney']}</span></div>
-             <div class='summary'>运费：¥<span>{$object['deliverMoney']}</span></div>
-             <div class='summary line'>应付总金额：¥<span>{$object['totalMoney']}</span></div>
-             <div class='summary'>实付总金额：¥<span>{$object['realTotalMoney']}</span></div>
-             <div>可获得积分：<span class='orderScore'>{$object["orderScore"]}</span>个</div>
+             <div class='summary'>商品总金额：¥<span>{$object['goods_money']}</span></div>
+             <div class='summary'>运费：¥<span>{$object['deliver_money']}</span></div>
+             <div class='summary line'>应付总金额：¥<span>{$object['total_money']}</span></div>
+             <div class='summary'>实付总金额：¥<span>{$object['real_total_money']}</span></div>
+             <div>可获得积分：<span class='order_score'>{$object["order_score"]}</span>个</div>
           </div>
        </div>
    </div>

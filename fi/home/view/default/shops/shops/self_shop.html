@@ -4,8 +4,8 @@
 <link href="__HOME__/css/self_shop.css" rel="stylesheet">
 {/block}
 {block name="main"}
-<input type="hidden" id="shopId" value="{$data['shop']['shopId']}">
-<input type="hidden" id="goodsName" value="{$goodsName}">
+<input type="hidden" id="shop_id" value="{$data['shop']['shop_id']}">
+<input type="hidden" id="goods_name" value="{$goods_name}">
 
 <div class="s-banner">
 	{/*  本店分类  */}
@@ -16,20 +16,20 @@
 		  	<div class="shop-cat1-title">
 		  	<em class="em{$key+1}"></em>
 		  	<h3>
-	  		 <a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">{:FIMSubstr($cat1['catName'],0,4)}</a>
+	  		 <a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id']])}">{:FIMSubstr($cat1['cat_name'],0,4)}</a>
 	  		</h3>
 	  		</div>
 
 	  		<p class="shop-ct1-ct2">
 	  			<?php foreach($cat1['children'] as $k1=>$v1){?>
-	  			<a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$v1['catId']])}">{$v1['catName']}</a> 
+	  			<a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id'],'ct2'=>$v1['cat_id']])}">{$v1['cat_name']}</a> 
 	  			<?php }?>
 	  		</p>
 		 </div>
 
 	      <ul class="shop-cat2 cid{$key}" cid="{$key}">
 	      	{volist name="$cat1['children']" id="cat2" length="20"}
-	      		<li><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$cat2['catId']])}">{$cat2['catName']}</a></li>
+	      		<li><a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id'],'ct2'=>$cat2['cat_id']])}">{$cat2['cat_name']}</a></li>
 	      	{/volist}
 	      </ul>
 	     {/volist}
@@ -37,15 +37,15 @@
 
 		{/* 横栏广告  */}
 		<div class="s-fi-slide" id="s-fi-slide" style="width:100%;float:right;height:400px;overflow:hidden;">
-			{if($data['shop']['shopAds'])}
+			{if($data['shop']['shop_ads'])}
 			<ul class="s-fi-slide-items">
-				{volist name="$data['shop']['shopAds']" id="vo"}
-					<a href="{$vo.adUrl}" {if ($vo['adUrl']!='')}onclick="FI.recordClick({$vo['adId']})"{/if}><li style="background: url(__ROOT__/{$vo.adImg}) no-repeat  scroll center center;background-size:1200px 400px;" ></li></a>
+				{volist name="$data['shop']['shop_ads']" id="vo"}
+					<a href="{$vo.adUrl}" {if ($vo['adUrl']!='')}onclick="FI.recordClick({$vo['ad_id']})"{/if}><li style="background: url(__ROOT__/{$vo.adImg}) no-repeat  scroll center center;background-size:1200px 400px;" ></li></a>
 				{/volist}
 			</ul>
 			<div class="s-fi-slide-numbox">
 				<div class="s-fi-slide-controls">
-				  	{volist name="$data['shop']['shopAds']" id="vo" key="k"}
+				  	{volist name="$data['shop']['shop_ads']" id="vo" key="k"}
 					  	{if condition="$k+1 eq 1"}
 					  		 <span class="curr"> </span>
 					  	{else/}
@@ -69,13 +69,13 @@
 			<ul class="s-rec-goods-list">
 			    {volist name="$data['rec']" id="vo" }
 				<li>
-				    <a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>
-					  <img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}"  title="{$vo['goodsName']}"/>
+				    <a href='{:Url("home/goods/detail","id=".$vo["goods_id"])}' target='_blank'>
+					  <img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}"  title="{$vo['goods_name']}"/>
 					</a>
-					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goodsId"])}' target='_blank'>{$vo['goodsName']}</a></p>
+					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$vo["goods_id"])}' target='_blank'>{$vo['goods_name']}</a></p>
 					<div class="s-rec-goods-bottom">
-					   <p class="s-rec-goods-price">价格:<span>￥{$vo['shopPrice']}</span></p>
-					   <a href="javascript:FI.addCart({$vo['goodsId']});">加入购物车</a>
+					   <p class="s-rec-goods-price">价格:<span>￥{$vo['shop_price']}</span></p>
+					   <a href="javascript:FI.addCart({$vo['goods_id']});">加入购物车</a>
 					</div>
 				</li>
 				{/volist}
@@ -87,13 +87,13 @@
 			<ul class="s-rec-goods-list">
 			    {volist name="$data['hot']" id="hot"}
 				<li>
-				    <a href='{:Url("home/goods/detail","id=".$hot["goodsId"])}' target='_blank'>
-					  <img class='goodsImg' data-original="__ROOT__/{:FIImg($hot['goodsImg'])}"  title="{$hot['goodsName']}"/>
+				    <a href='{:Url("home/goods/detail","id=".$hot["goods_id"])}' target='_blank'>
+					  <img class='goods_img' data-original="__ROOT__/{:FIImg($hot['goods_img'])}"  title="{$hot['goods_name']}"/>
 					</a>
-					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$hot["goodsId"])}' target='_blank'>{$hot['goodsName']}</a></p>
+					<p class="s-rec-goods-desc"><a href='{:Url("home/goods/detail","id=".$hot["goods_id"])}' target='_blank'>{$hot['goods_name']}</a></p>
 					<div class="s-rec-goods-bottom">
-					   <p class="s-rec-goods-price">价格:<span>￥{$hot['shopPrice']}</span></p>
-					   <a href="javascript:FI.addCart({$hot['goodsId']});">加入购物车</a>
+					   <p class="s-rec-goods-price">价格:<span>￥{$hot['shop_price']}</span></p>
+					   <a href="javascript:FI.addCart({$hot['goods_id']});">加入购物车</a>
 					</div>
 				</li>
 				{/volist}
@@ -107,17 +107,17 @@
 	<div class="s-floor-box" >
 		<div class="s-floor-header c{$l}">
 			<div class="s-floor-header-f{$l}">
-				<p class="s-floor-right-title"><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">{$cat1['catName']}</a></p>
+				<p class="s-floor-right-title"><a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id']])}">{$cat1['cat_name']}</a></p>
 			</div>
 
 			<ul class="tab">
 				{/* 楼层二级分类 */}
 				{volist name="$cat1['children']" id="cat2" key="l2" length="8"}
 				<li class="tab-item{$l}" id="fl_{$l}_{$l2}" onmouseover="gpanelOver(this);" c="{$l}">
-					<a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId'],'ct2'=>$cat2['catId']])}">{$cat2['catName']}</a>
+					<a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id'],'ct2'=>$cat2['cat_id']])}">{$cat2['cat_name']}</a>
 				</li>
 				{/volist}
-				<li class="more"><a href="{:url('home/shops/home',['shopId'=>$data['shop']['shopId'],'ct1'=>$cat1['catId']])}">>></a></li>
+				<li class="more"><a href="{:url('home/shops/home',['shop_id'=>$data['shop']['shop_id'],'ct1'=>$cat1['cat_id']])}">>></a></li>
 			</ul>
 			
 		</div>
@@ -130,25 +130,25 @@
 			<div class="s-goods-list">
 
 				{/* 楼层分类下的商品 */}
-			 	{fi:shopfloorgoods shop="data['shop']['shopId']"  cat="cat2['catId']" cache="86400" num='10' id='sgf'}
+			 	{fi:shopfloorgoods shop="data['shop']['shop_id']"  cat="cat2['cat_id']" cache="86400" num='10' id='sgf'}
 
 			 	<div class="s-goods s-goods-f{$l}">
 		      	<div class="img">
-		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goodsId'])}" title="{$sgf['goodsName']}">
-		      		<img class='goodsImg' data-original="__ROOT__/{:FIImg($sgf['goodsImg'])}" alt="{$sgf['goodsName']}" title="{$sgf['goodsName']}"/></a>
-		      		<span class="s-add-cart" onclick="FI.addCart({$sgf['goodsId']})">加入购物车</span>
+		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goods_id'])}" title="{$sgf['goods_name']}">
+		      		<img class='goods_img' data-original="__ROOT__/{:FIImg($sgf['goods_img'])}" alt="{$sgf['goods_name']}" title="{$sgf['goods_name']}"/></a>
+		      		<span class="s-add-cart" onclick="FI.addCart({$sgf['goods_id']})">加入购物车</span>
 		      	</div>
-		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goodsId'])}" class="fi-redlink" title="{$sgf['goodsName']}">
-		      		{:FIMSubstr($sgf['goodsName'],0,13)}</a></div>
+		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$sgf['goods_id'])}" class="fi-redlink" title="{$sgf['goods_name']}">
+		      		{:FIMSubstr($sgf['goods_name'],0,13)}</a></div>
 		      	<div>
-		      		<div class="p-price">￥{:sprintf('%.1f',$sgf['shopPrice'])}</div>
+		      		<div class="p-price">￥{:sprintf('%.1f',$sgf['shop_price'])}</div>
 		      		<div class="p-hsale">
-		      			<div class="sale-num" style="display: block;">成交数：<span class="fi-fred">{$sgf['saleNum']}</span></div>
+		      			<div class="sale-num" style="display: block;">成交数：<span class="fi-fred">{$sgf['sale_num']}</span></div>
 		      		</div>
 
-		      		<div class="p-market">市场价￥{:sprintf('%.1f',$sgf['marketPrice'])}</div>
+		      		<div class="p-market">市场价￥{:sprintf('%.1f',$sgf['market_price'])}</div>
 		      		<div class="p-appraise">
-		      			<div class="sale-num" style="display: block;">已有<span class="fi-fred">{$sgf['appraiseNum']}</span>人评价</div>
+		      			<div class="sale-num" style="display: block;">已有<span class="fi-fred">{$sgf['appraise_num']}</span>人评价</div>
 		      		</div>
 		      		<div class="fi-clear"></div>
 		      	</div>
@@ -177,20 +177,20 @@
 			{fi:goods type='history'  num='5'}
 		      <div class="s-goods s-goods-h">
 		      	<div class="img">
-		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" title="{$vo['goodsName']}"><img class='goodsImg' data-original="__ROOT__/{:FIImg($vo['goodsImg'])}" alt="{$vo['goodsName']}" title="{$vo['goodsName']}"/></a>
-		      		<span class="s-add-cart" onclick="FI.addCart({$vo['goodsId']})">加入购物车</a>
+		      		<a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goods_id'])}" title="{$vo['goods_name']}"><img class='goods_img' data-original="__ROOT__/{:FIImg($vo['goods_img'])}" alt="{$vo['goods_name']}" title="{$vo['goods_name']}"/></a>
+		      		<span class="s-add-cart" onclick="FI.addCart({$vo['goods_id']})">加入购物车</a>
 		      	</div>
-		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goodsId'])}" class="fi-redlink" title="{$vo['goodsName']}">
-		      		{:FIMSubstr($vo['goodsName'],0,13)}</a></div>
+		      	<div class="p-name"><a target="_blank" href="{:Url('home/goods/detail','id='.$vo['goods_id'])}" class="fi-redlink" title="{$vo['goods_name']}">
+		      		{:FIMSubstr($vo['goods_name'],0,13)}</a></div>
 		      	<div>
-		      		<div class="p-price">￥{:sprintf('%.1f',$vo['shopPrice'])}</div>
+		      		<div class="p-price">￥{:sprintf('%.1f',$vo['shop_price'])}</div>
 		      		<div class="p-hsale">
-		      			<div class="sale-num" style="display: block;">成交数：<span class="fi-fred">{$vo['saleNum']}</span></div>
+		      			<div class="sale-num" style="display: block;">成交数：<span class="fi-fred">{$vo['sale_num']}</span></div>
 		      		</div>
 
-		      		<div class="p-market">市场价￥{:sprintf('%.1f',$vo['marketPrice'])}</div>
+		      		<div class="p-market">市场价￥{:sprintf('%.1f',$vo['market_price'])}</div>
 		      		<div class="p-appraise">
-		      			<div class="sale-num" style="display: block;">已有<span class="fi-fred">{$vo['appraiseNum']}</span>人评价</div>
+		      			<div class="sale-num" style="display: block;">已有<span class="fi-fred">{$vo['appraise_num']}</span>人评价</div>
 		      		</div>
 		      		<div class="fi-clear"></div>
 		      	</div>

@@ -34,21 +34,21 @@
 {{# for(var i = 0; i < d.length; i++){ }}
    <tr isLoad='1' class="fi-fre-hov">
      <td class="fi-fre-td">
-     <span class='fi-tree-open active' onclick='javascript:treeOpen(this,"{{ d[i].areaId }}")'><img class="fi-lfloat" style="margin-top:-3px;" src="__HOME__/img/seller_icon_sq.png"></span>
-     <span style='width:400px;height:22px;'>{{ d[i].areaName }}</span>
+     <span class='fi-tree-open active' onclick='javascript:treeOpen(this,"{{ d[i].area_id }}")'><img class="fi-lfloat" style="margin-top:-3px;" src="__HOME__/img/seller_icon_sq.png"></span>
+     <span style='width:400px;height:22px;'>{{ d[i].area_name }}</span>
      </td>
-     <td><input class='possort text_{{ d[i].areaId }}' type='text' style='width:80px;display:none;' value="" onblur='javascript:freightOnblur(this,"{{ d[i].areaId }}",2)' onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+     <td><input class='possort text_{{ d[i].area_id }}' type='text' style='width:80px;display:none;' value="" onblur='javascript:freightOnblur(this,"{{ d[i].area_id }}",2)' onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
    </tr>
 {{# for(var j = 0; j < d[i].listProvince.length; j++){ }}
-	  <tr class="tree_{{ d[i].listProvince[j].parentId }} hide fi-fre-hov">
+	  <tr class="tree_{{ d[i].listProvince[j].parent_id }} hide fi-fre-hov">
 	     <td class="fi-fre-td">
 	     <span class="fi-tree-second"></span>
-	     <span style='width:400px;height:22px;'>{{ d[i].listProvince[j].areaName }}</span>
+	     <span style='width:400px;height:22px;'>{{ d[i].listProvince[j].area_name }}</span>
 	     </td>
 {{# if(FI.blank(d[i].listProvince[j].freight)!=''){}}
-  	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{$shFreight['freight']}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+  	<td><input class='price_{{ d[i].listProvince[j].parent_id }} possort ipt' id="{{ d[i].listProvince[j].area_id }}" type='text' style='width:80px;' value="{$shFreight['freight']}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
 {{# }else{ }}
-	<td><input class='price_{{ d[i].listProvince[j].parentId }} possort ipt' id="{{ d[i].listProvince[j].areaId }}" type='text' style='width:80px;' value="{{FI.blank(d[i].listProvince[j].freight)}}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
+	<td><input class='price_{{ d[i].listProvince[j].parent_id }} possort ipt' id="{{ d[i].listProvince[j].area_id }}" type='text' style='width:80px;' value="{{FI.blank(d[i].listProvince[j].freight)}}"  onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)"/></td>
 {{# } }}
 	  </tr>
 {{# } }}

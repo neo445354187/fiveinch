@@ -16,7 +16,7 @@ class Staffs extends Base
      * 判断用户登录帐号密码
      * 说明：这里有权限判断，下面对表进行说明
      * 表
-     * staffs：储存后台用户表，字段staffRoleId表示该用户的角色id
+     * staffs：储存后台用户表，字段staff_role_id表示该用户的角色id
      * roles： 存储用户的角色表，字段privileges存储角色的权限code
      * privileges：存储着权限代码和url的映射
      * menus：菜单表，储存菜单
@@ -24,48 +24,48 @@ class Staffs extends Base
      */
     public function checkLogin()
     {
-        $loginName = input("post.loginName");
-        $loginPwd  = input("post.loginPwd");
+        $login_name = input("post.login_name");
+        $login_password  = input("post.login_password");
         $code      = input("post.verifyCode");
 
         if (!FIVerifyCheck($code)) {
             return FIReturn('验证码错误!');
         }
-        $staff = $this->where(['loginName' => $loginName, 'staffStatus' => 1, 'dataFlag' => 1])->find();
+        $staff = $this->where(['login_name' => $login_name, 'staff_status' => 1, 'status' => 1])->find();
         if (empty($staff)) {
             return FIReturn('账号或密码错误!');
         }
 
-        if ($staff['loginPwd'] == md5($loginPwd . $staff['secretKey'])) {
-            $staff->lastTime = date('Y-m-d H:i:s');
-            $staff->lastIP   = request()->ip();
+        if ($staff['login_password'] == md5($login_password . $staff['secret_key'])) {
+            $staff->last_time = date('Y-m-d H:i:s');
+            $staff->last_ip   = request()->ip();
             $staff->save();
             //记录登录日志
             LogStaffLogins::create([
-                'staffId'   => $staff['staffId'],
-                'loginTime' => date('Y-m-d H:i:s'),
-                'loginIp'   => request()->ip(),
+                'staff_id'   => $staff['staff_id'],
+                'login_time' => date('Y-m-d H:i:s'),
+                'login_ip'   => request()->ip(),
             ]);
             //获取角色权限
-            $role              = Roles::get(['dataFlag' => 1, 'roleId' => $staff['staffRoleId']]);
-            $staff['roleName'] = $role['roleName'];
+            $role              = Roles::get(['status' => 1, 'role_id' => $staff['staff_role_id']]);
+            $staff['role_name'] = $role['role_name'];
             //判断是否是最高管理员
-            if ($staff['staffId'] == 1) {
-                $staff['privileges'] = Db::table('__PRIVILEGES__')->where(['dataFlag' => 1])->column('privilegeCode');
-                $staff['menuIds']    = Db::table('__MENUS__')->where('dataFlag', 1)->column('menuId');
+            if ($staff['staff_id'] == 1) {
+                $staff['privileges'] = Db::table('__PRIVILEGES__')->where(['status' => 1])->column('privilege_code');
+                $staff['menu_ids']    = Db::table('__MENUS__')->where('status', 1)->column('menu_id');
             } else {
                 $staff['privileges'] = explode(',', $role['privileges']);
-                $staff['menuIds']    = [];
+                $staff['menu_ids']    = [];
                 //获取管理员拥有的菜单
                 if (!empty($staff['privileges'])) {
-                    $menus = Db::table('__MENUS__')->alias('m')->join('__PRIVILEGES__ p', 'm.menuId=p.menuId and p.dataFlag=1', 'inner')
-                        ->where(['p.privilegeCode' => ['in', $staff['privileges']]])->field('m.menuId')->select();
-                    $menuIds = [];
+                    $menus = Db::table('__MENUS__')->alias('m')->join('__PRIVILEGES__ p', 'm.menu_id=p.menu_id and p.status=1', 'inner')
+                        ->where(['p.privilege_code' => ['in', $staff['privileges']]])->field('m.menu_id')->select();
+                    $menu_ids = [];
                     if (!empty($menus)) {
                         foreach ($menus as $key => $v) {
-                            $menuIds[] = $v['menuId'];
+                            $menu_ids[] = $v['menu_id'];
                         }
-                        $staff['menuIds'] = $menuIds;
+                        $staff['menu_ids'] = $menu_ids;
                     }
                 }
             }
@@ -83,14 +83,14 @@ class Staffs extends Base
     {
         $key                 = input('get.key');
         $where               = [];
-        $where['s.dataFlag'] = 1;
+        $where['s.status'] = 1;
         if ($key != '') {
-            $where['loginName|staffName|staffNo'] = ['like', '%' . $key . '%'];
+            $where['login_name|staff_name|staff_no'] = ['like', '%' . $key . '%'];
         }
 
-        return Db::table('__STAFFS__')->alias('s')->join('__ROLES__ r', 's.staffRoleId=r.roleId and r.dataFlag=1', 'left')
-            ->where($where)->field('staffId,staffName,loginName,workStatus,staffNo,lastTime,lastIP,roleName')
-            ->order('staffId', 'desc')->paginate(input('pagesize/d'));
+        return Db::table('__STAFFS__')->alias('s')->join('__ROLES__ r', 's.staff_role_id=r.role_id and r.status=1', 'left')
+            ->where($where)->field('staff_id,staff_name,login_name,work_itatus,staff_no,last_time,last_ip,role_name')
+            ->order('staff_id', 'desc')->paginate(input('pagesize/d'));
     }
 
     /**
@@ -100,12 +100,12 @@ class Staffs extends Base
     {
         $id               = input('post.id/d');
         $data             = [];
-        $data['dataFlag'] = -1;
+        $data['status'] = -1;
         Db::startTrans();
         try {
-            $result = $this->update($data, ['staffId' => $id]);
+            $result = $this->update($data, ['staff_id' => $id]);
             if (false !== $result) {
-                FIUnuseImage('staffs', 'staffPhoto', $id);
+                FIUnuseImage('staffs', 'staff_photo', $id);
                 Db::commit();
                 return FIReturn("删除成功", 1);
             }
@@ -120,7 +120,7 @@ class Staffs extends Base
      */
     public function getById($id)
     {
-        return $this->get(['dataFlag' => 1, 'staffId' => $id]);
+        return $this->get(['status' => 1, 'staff_id' => $id]);
     }
 
     /**
@@ -129,15 +129,15 @@ class Staffs extends Base
     public function add()
     {
         $data               = input('post.');
-        $data['secretKey']  = rand(1000, 9999);
-        $data["loginPwd"]   = md5(input("post.loginPwd") . $data["secretKey"]);
+        $data['secret_key']  = rand(1000, 9999);
+        $data["login_password"]   = md5(input("post.login_password") . $data["secret_key"]);
         $data["staffFlag"]  = 1;
-        $data["createTime"] = date('Y-m-d H:i:s');
+        $data["create_time"] = date('Y-m-d H:i:s');
         Db::startTrans();
         try {
             $result = $this->validate('Staffs.add')->allowField(true)->save($data);
             if (false !== $result) {
-                FIUseImages(1, $this->staffId, $data['staffPhoto']);
+                FIUseImages(1, $this->staff_id, $data['staff_photo']);
                 Db::commit();
                 return FIReturn("新增成功", 1);
             }
@@ -152,13 +152,13 @@ class Staffs extends Base
      */
     public function edit()
     {
-        $id   = input('post.staffId/d');
+        $id   = input('post.staff_id/d');
         $data = input('post.');
-        FIUnset($data, 'staffId,loginPwd,secretKey,dataFlag,createTime,lastTime,lastIP');
+        FIUnset($data, 'staff_id,login_password,secret_key,status,create_time,last_time,last_ip');
         Db::startTrans();
         try {
-            FIUseImages(1, $id, $data['staffPhoto'], 'staffs', 'staffPhoto');
-            $result = $this->validate('Staffs.edit')->allowField(true)->save($data, ['staffId' => $id]);
+            FIUseImages(1, $id, $data['staff_photo'], 'staffs', 'staff_photo');
+            $result = $this->validate('Staffs.edit')->allowField(true)->save($data, ['staff_id' => $id]);
             if (false !== $result) {
                 Db::commit();
                 return FIReturn("编辑成功", 1);
@@ -175,30 +175,30 @@ class Staffs extends Base
      */
     public function checkLoginKey($key)
     {
-        $rs = $this->where(['loginName' => $key, 'dataFlag' => 1])->count();
+        $rs = $this->where(['login_name' => $key, 'status' => 1])->count();
         return ($rs == 0) ? FIReturn('该账号可用', 1) : FIReturn("对不起，该账号已存在");
     }
 
     /**
      * 修改自己密码
      */
-    public function editMyPass($staffId)
+    public function editMyPass($staff_id)
     {
         if (input("post.newPass") == '') {
             FIReturn("密码不能为空");
         }
 
-        $staff = $this->where('staffId', $staffId)->field('secretKey,loginPwd')->find();
+        $staff = $this->where('staff_id', $staff_id)->field('secret_key,login_password')->find();
         if (empty($staff)) {
             return FIReturn("修改失败");
         }
 
-        $srcPass = md5(input("post.srcPass") . $staff["secretKey"]);
-        if ($srcPass != $staff['loginPwd']) {
+        $srcPass = md5(input("post.srcPass") . $staff["secret_key"]);
+        if ($srcPass != $staff['login_password']) {
             return FIReturn("原密码错误");
         }
 
-        $staff->loginPwd = md5(input("post.newPass") . $staff["secretKey"]);
+        $staff->login_password = md5(input("post.newPass") . $staff["secret_key"]);
         $result          = $staff->save();
         if (false !== $result) {
             return FIReturn("修改成功", 1);
@@ -210,18 +210,18 @@ class Staffs extends Base
     /**
      * 修改职员密码
      */
-    public function editPass($staffId)
+    public function editPass($staff_id)
     {
         if (input("post.newPass") == '') {
             FIReturn("密码不能为空");
         }
 
-        $staff = $this->where('staffId', $staffId)->field('secretKey')->find();
+        $staff = $this->where('staff_id', $staff_id)->field('secret_key')->find();
         if (empty($staff)) {
             return FIReturn("修改失败");
         }
 
-        $staff->loginPwd = md5(input("post.newPass") . $staff["secretKey"]);
+        $staff->login_password = md5(input("post.newPass") . $staff["secret_key"]);
         $result          = $staff->save();
         if (false !== $result) {
             return FIReturn("修改成功", 1);

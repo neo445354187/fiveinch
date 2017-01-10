@@ -8,25 +8,25 @@
 <table class='fi-form'>
    <tr>
       <th width='100'>订单编号：</th>
-      <td>{$object['orderNo']}</td>
+      <td>{$object['order_no']}</td>
    </tr>
    <tr>
       <th>支付方式：</th>
-      <td>{:FILangPayType($object['payType'])}</td>
+      <td>{:FILangPayType($object['pay_type'])}</td>
   </tr>
-  {if($object['payType']==1)}
+  {if($object['pay_type']==1)}
   <tr>
       <th>交易流水：</th>
-      <td>【{:FILangPayFrom($object['payFrom'])}】{$object['tradeNo']}</td>
+      <td>【{:FILangPayFrom($object['pay_from'])}】{$object['trade_no']}</td>
   </tr>
   {/if}
   <tr>
      <th>订单总金额：</th>
-     <td>¥{$object['totalMoney']}&nbsp;&nbsp;&nbsp;&nbsp;【商品总金额：¥{$object['goodsMoney']}&nbsp;&nbsp;&nbsp;&nbsp;运费：¥{$object['deliverMoney']}】</td>
+     <td>¥{$object['total_money']}&nbsp;&nbsp;&nbsp;&nbsp;【商品总金额：¥{$object['goods_money']}&nbsp;&nbsp;&nbsp;&nbsp;运费：¥{$object['deliver_money']}】</td>
   </tr>
   <tr>
      <th>实收总金额：</th>
-     <td>¥{$object['realTotalMoney']}</td>
+     <td>¥{$object['real_total_money']}</td>
   </tr>
   <tr>
      <th>退款备注<font color='red'>*</font>：</th>
@@ -37,7 +37,7 @@
   </tr>
   <tr>
      <td colspan='2' style='text-align:center;padding-top:30px;'>
-        <input type='button' value='确&nbsp;&nbsp;定' class='btn btn-blue' onclick="javascript:orderRefund({$object['orderId']})"">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type='button' value='确&nbsp;&nbsp;定' class='btn btn-blue' onclick="javascript:orderRefund({$object['order_id']})"">&nbsp;&nbsp;&nbsp;&nbsp;
         <input type='button' value='取&nbsp;&nbsp;消' class='btn' onclick='javascript:closeIframe()'>
      </td>
   </tr>

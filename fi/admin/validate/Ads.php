@@ -6,15 +6,15 @@ use think\Validate;
  */
 class Ads extends Validate{
 	protected $rule = [
-        ['adName'  ,'require|max:30','请输入广告标题|广告标题不能超过10个字符'],
-        ['adFile'   ,'require','请上传广告图片'],
-        ['adStartDate' , 'require|date', '请输入广告开始时间|广告时间格式错误' ],
-        ['adEndDate'   , 'require|lt:adStartDate|date|checkDate:1', '请输入广告结束时间|广告结束时间必须大于开始时间|广告时间格式错误'],
+        ['ad_name'  ,'require|max:30','请输入广告标题|广告标题不能超过10个字符'],
+        ['ad_file'   ,'require','请上传广告图片'],
+        ['ad_start_date' , 'require|date', '请输入广告开始时间|广告时间格式错误' ],
+        ['ad_end_date'   , 'require|lt:ad_start_date|date|checkDate:1', '请输入广告结束时间|广告结束时间必须大于开始时间|广告时间格式错误'],
     ];
 
     protected $scene = [
-        'add'   =>  ['adName','adURL','adStartDate','adEndDate'],
-        'edit'  =>  ['adName','adURL','adStartDate','adEndDate'],
+        'add'   =>  ['ad_name','ad_url','ad_start_date','ad_end_date'],
+        'edit'  =>  ['ad_name','ad_url','ad_start_date','ad_end_date'],
     ]; 
 
     // 自定义验证规则
@@ -25,6 +25,6 @@ class Ads extends Validate{
     */
     protected function checkDate($value,$rule,$data)
     {
-        return (strtotime($value)>strtotime($data['adStartDate']))? true : '广告开始时间不能大于结束时间';
+        return (strtotime($value)>strtotime($data['ad_start_date']))? true : '广告开始时间不能大于结束时间';
     }
 }

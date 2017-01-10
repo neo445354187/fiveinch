@@ -27,7 +27,7 @@
         <table class='fi-form'>
            <tr>
              <th align='right'><font color='red'>*</font>已验证的手机：</th>
-             <td>{$data['userPhone']}</td>
+             <td>{$data['user_phone']}</td>
            </tr>
        <tr>
 	        <th align='right'><font color='red'>*</font>输入短信校验码：</th>
@@ -52,7 +52,7 @@
        <tr>
          <th align='right'><font color='red'>*</font>绑定手机号码：</th>
          <td>
-         <input type='text' class="ipt" id='userPhone' name='userPhone' style='width:250px;' maxLength='30' data-rule="手机号 required;mobile;remote(post:{:url('home/users/checkLoginKey')})" data-msg-mobile="请输入有效的手机号" data-msg-required="请输入手机号" data-tip="请输入手机号" data-target="#verifyPhone"/>
+         <input type='text' class="ipt" id='user_phone' name='user_phone' style='width:250px;' maxLength='30' data-rule="手机号 required;mobile;remote(post:{:url('home/users/checkLoginKey')})" data-msg-mobile="请输入有效的手机号" data-msg-required="请输入手机号" data-tip="请输入手机号" data-target="#verifyPhone"/>
          <button id="timeObtain" class="fi-sec-obtain" type="button" onclick="javascript:getPhoneVerify('o');">获取手机验证码</button>
          <span id="verifyPhone"></span>
          </td>

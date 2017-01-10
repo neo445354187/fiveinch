@@ -1343,7 +1343,7 @@
         config: {
             Grid: {
                 //动态
-                dynamics: 'data,isChecked,detail,rowDraggingRender,toolbar,columns',
+                dynamics: 'data,is_checked,detail,rowDraggingRender,toolbar,columns',
                 //数组
                 arrays: 'columns',
                 //复杂属性columns
@@ -2246,7 +2246,7 @@
                 url: url,
                 data: parms,
                 cache: false,
-                dataType: 'json',
+                data_type: 'json',
                 contentType: p.ajaxContentType,
                 success: function (data) { 
                     g.setData(data);
@@ -2394,7 +2394,7 @@
     $.ligerDefaults.ComboBox = {
         resize: true,           //是否调整大小
         isMultiSelect: false,   //是否多选
-        isShowCheckBox: false,  //是否选择复选框
+        is_showCheckBox: false,  //是否选择复选框
         columns: null,       //表格状态
         width : null,
         selectBoxWidth: null, //宽度
@@ -2500,11 +2500,11 @@
             var p = this.options;
             if (p.columns)
             {
-                p.isShowCheckBox = true;
+                p.is_showCheckBox = true;
             }
             if (p.isMultiSelect)
             {
-                p.isShowCheckBox = true;
+                p.is_showCheckBox = true;
             }
             if (p.triggerToLoad)
             {
@@ -2551,7 +2551,7 @@
                 $(this.element).hide();
                 g.select = $(this.element);
                 p.isMultiSelect = false;
-                p.isShowCheckBox = false;
+                p.is_showCheckBox = false;
                 p.cancelable = false;
                 g.textFieldID = p.textFieldID || (this.element.id + "_txt");
                 g.inputText = $('<input type="text" readonly="true"/>');
@@ -2621,12 +2621,12 @@
 
             g.textwrapper.append(g.valueField);
             g.inputText.addClass("l-text-field");
-            if (p.isShowCheckBox && !g.select)
+            if (p.is_showCheckBox && !g.select)
             {
                 $("table", g.selectBox).addClass("l-table-checkbox");
             } else
             {
-                p.isShowCheckBox = false;
+                p.is_showCheckBox = false;
                 $("table", g.selectBox).addClass("l-table-nocheckbox");
             }
             //开关 事件
@@ -3162,7 +3162,7 @@
                 url: url,
                 data: parms,
                 cache: false,
-                dataType: 'json',
+                data_type: 'json',
                 beforeSend: p.ajaxBeforeSend,
                 complete: p.ajaxComplete,
                 success: function (result)
@@ -3357,7 +3357,7 @@
                         out.push("'");
                     }
                     out.push(">");
-                    if (p.isShowCheckBox)
+                    if (p.is_showCheckBox)
                     {
                         out.push("<td style='width:18px;'  index='" + i + "' value='" + val + "' text='" + txt + "' ><input type='checkbox' /></td>");
                     }
@@ -3394,7 +3394,7 @@
             }
             if (!p.columns)
             {
-                if (p.isShowCheckBox)
+                if (p.is_showCheckBox)
                 {
                     $("table.l-table-checkbox", g.selectBox).append(out.join(''));
                 } else
@@ -3413,7 +3413,7 @@
             }
             g.set('selectBoxHeight', p.selectBoxHeight);
             //自定义复选框支持
-            if (p.isShowCheckBox && $.fn.ligerCheckBox)
+            if (p.is_showCheckBox && $.fn.ligerCheckBox)
             {
                 $("table input:checkbox", g.selectBox).ligerCheckBox();
             }
@@ -3590,7 +3590,7 @@
                 height: g.getGridHeight(),
                 inWindow: false,
                 parms: p.parms,
-                isChecked: function (rowdata)
+                is_checked: function (rowdata)
                 {
                     var value = g.getValue();
                     if (!value) return false;
@@ -3899,7 +3899,7 @@
                     g._changeValue(value, text);
                 }
             }
-            if (!p.isShowCheckBox)
+            if (!p.is_showCheckBox)
             {
                 $("table tr", g.selectBox).find("td:first").each(function ()
                 {
@@ -4028,7 +4028,7 @@
                 url: p.detailUrl,
                 data: parms,
                 cache: true,
-                dataType: 'json',
+                data_type: 'json',
                 beforeSend: p.ajaxBeforeSend,
                 complete: p.ajaxComplete,
                 success: function (result)
@@ -4199,7 +4199,7 @@
                     g.selectBox.slideToggle('fast', function ()
                     {
                         g.boxToggling = false;
-                        if (!p.isShowCheckBox && $('td.l-selected', g.selectBox).length > 0)
+                        if (!p.is_showCheckBox && $('td.l-selected', g.selectBox).length > 0)
                         {
                             var offSet = ($('td.l-selected', g.selectBox).offset().top - g.selectBox.offset().top);
                             $(".l-box-select-inner", g.selectBox).animate({ scrollTop: offSet });
@@ -4210,14 +4210,14 @@
                 {
                     g._selectBoxShow();
                     g.boxToggling = false;
-                    if (!g.tree && !g.grid && !p.isShowCheckBox && $('td.l-selected', g.selectBox).length > 0)
+                    if (!g.tree && !g.grid && !p.is_showCheckBox && $('td.l-selected', g.selectBox).length > 0)
                     {
                         var offSet = ($('td.l-selected', g.selectBox).offset().top - g.selectBox.offset().top);
                         $(".l-box-select-inner", g.selectBox).animate({ scrollTop: offSet });
                     }
                 }
             }
-            g.isShowed = g.selectBox.is(":visible");
+            g.is_showed = g.selectBox.is(":visible");
             g.trigger('toggle', [isHide]);
             g.trigger(isHide ? 'hide' : 'show');
         },
@@ -7311,13 +7311,13 @@
                 $(group.rules).each(function ()
                 {
                     var rulerow = g.addRule(jgroup); 
-                    var fieldName = this.field;
+                    var field_name = this.field;
 
                     var field = (function ()
                     {
                         for (var i = 0; i < p.fields.length; i++)
                         {
-                            if (p.fields[i].name == fieldName)
+                            if (p.fields[i].name == field_name)
                             {
                                 return p.fields[i];
                             } 
@@ -7376,9 +7376,9 @@
             $("select.fieldsel", rulerow).bind('change', function ()
             {
                 var jopsel = $(this).parent().next().find("select:first");
-                var fieldName = $(this).val();
-                if (!fieldName) return;
-                var field = g.getField(fieldName);
+                var field_name = $(this).val();
+                if (!field_name) return;
+                var field = g.getField(field_name);
                 //字段类型处理
                 var fieldType = field.type || "string";
                 var oldFieldtype = rulerow.attr("fieldtype");
@@ -7466,8 +7466,8 @@
                 }
                 else
                 {
-                    var fieldName = $("select.fieldsel:first", row).val();
-                    var field = g.getField(fieldName);
+                    var field_name = $("select.fieldsel:first", row).val();
+                    var field = g.getField(field_name);
                     var op = $(".opsel:first", row).val();
                     var value = g._getRuleValue(row, field);
                     var type = $(row).attr("fieldtype") || "string";
@@ -7475,7 +7475,7 @@
                     if (value != null)
                     {
                         groupData.rules.push({
-                            field: fieldName, op: op, value: value, type: type
+                            field: field_name, op: op, value: value, type: type
                         });
                     }
                 }
@@ -7509,7 +7509,7 @@
             return (field.editor.type in p.editors);
         },
 
-        //根据fieldName 获取 字段
+        //根据field_name 获取 字段
         getField: function (fieldname)
         {
             var g = this, p = this.options;
@@ -8515,9 +8515,9 @@
         },
         setEnabled: function (arg, isEnabled)
         {
-            var fieldNames = [];
-            if ($.isArray(arg)) fieldNames = arg;
-            if (typeof (arg) == "string") fieldNames.push(arg);
+            var field_names = [];
+            if ($.isArray(arg)) field_names = arg;
+            if (typeof (arg) == "string") field_names.push(arg);
             var g = this, p = this.options;
             setEnabledInFields(p.fields);
             if (p.tab && p.tab.items)
@@ -8538,16 +8538,16 @@
                         editor = g.editors[editPrev + fieldIndex];
                     if (!editor || !name) return;
                     if (!editor.editor || !editor.editor.setEnabled) return;
-                    if ($.inArray(name, fieldNames) == -1) return;
+                    if ($.inArray(name, field_names) == -1) return;
                     editor.editor.setEnabled(editor.control, isEnabled);
                 });
             }
         },
         setVisible: function (arg, isVisible)
         {
-            var fieldNames = [];
-            if ($.isArray(arg)) fieldNames = arg;
-            if (typeof (arg) == "string") fieldNames.push(arg);
+            var field_names = [];
+            if ($.isArray(arg)) field_names = arg;
+            if (typeof (arg) == "string") field_names.push(arg);
             var g = this, p = this.options; 
             setVisibleInFields(p.fields);
             if (p.tab && p.tab.items)
@@ -8563,7 +8563,7 @@
                 $(fields).each(function (fieldIndex, field)
                 {
                     var name = field.name;
-                    if ($.inArray(name, fieldNames) == -1) return;
+                    if ($.inArray(name, field_names) == -1) return;
                     g._setFieldPanelVisible(tabIndex, fieldIndex, isVisible);
                 });
             }
@@ -9162,7 +9162,7 @@
         parms: [],                         //提交到服务器的参数 
         columns: [],                          //数据源
         minColToggle: 1,                        //最小显示的列
-        dataType: 'server',                     //数据源：本地(local)或(server),本地是将读取p.data。不需要配置，取决于设置了data或是url
+        data_type: 'server',                     //数据源：本地(local)或(server),本地是将读取p.data。不需要配置，取决于设置了data或是url
         dataAction: 'server',                    //提交数据的方式：本地(local)或(server),选择本地方式时将在客服端分页、排序。 
         showTableToggleBtn: false,              //是否显示'显示隐藏Grid'按钮 
         switchPageSizeApplyComboBox: false,     //切换每页记录数是否应用ligerComboBox
@@ -9209,14 +9209,14 @@
         onEndEdit: null,
         minColumnWidth: 80,
         tree: null,                            //treeGrid模式
-        isChecked: null,                       //复选框 初始化函数
+        is_checked: null,                       //复选框 初始化函数
         isSelected: null,                       //选择 初始化函数
         frozen: true,                          //是否固定列
         frozenDetail: false,                    //明细按钮是否在固定列中
         frozenCheckbox: true,                  //复选框按钮是否在固定列中
         detail: null,
         detailHeight: 260,
-        isShowDetailToggle: null,                  //是否显示展开/收缩明细的判断函数
+        is_showDetailToggle: null,                  //是否显示展开/收缩明细的判断函数
         rownumbers: false,                         //是否显示行序号
         frozenRownumbers: true,                  //行序号是否在固定列中
         rownumbersColWidth: 26,
@@ -9428,8 +9428,8 @@
         {
             $.ligerui.controls.Grid.base._init.call(this);
             var g = this, p = this.options;
-            p.dataType = p.url ? "server" : "local";
-            if (p.dataType == "local")
+            p.data_type = p.url ? "server" : "local";
+            if (p.data_type == "local")
             {
                 p.data = p.data || [];
                 p.dataAction = "local";
@@ -9794,12 +9794,12 @@
             this.options.url = value;
             if (value)
             {
-                this.options.dataType = "server";
+                this.options.data_type = "server";
                 this.loadData(true);
             }
             else
             {
-                this.options.dataType = "local";
+                this.options.data_type = "local";
             }
         },
         removeParm: function (name)
@@ -9866,7 +9866,7 @@
             else if (typeof (loadDataParm) == "object" && loadDataParm)
             {
                 loadServer = false;
-                p.dataType = "local";
+                p.data_type = "local";
                 p.data = loadDataParm;
             }
             else if (typeof (loadDataParm) == "number")
@@ -9917,7 +9917,7 @@
                 }
             };
             $(".l-bar-btnload span", g.toolbar).addClass("l-disabled");
-            if (p.dataType == "local")
+            if (p.data_type == "local")
             {
                 //原语句: g.filteredData = p.data || g.currentData;
                 //该语句修改了p.data, 导致过滤数据后, 丢失了初始数据.
@@ -9980,7 +9980,7 @@
                 url: url,
                 data: param,
                 async: p.async,
-                dataType: 'json',
+                data_type: 'json',
                 beforeSend: function ()
                 {
                     if (g.hasBind('loading'))
@@ -12513,7 +12513,7 @@
                 gridhtmlarr.push('<tr');
                 gridhtmlarr.push(' id="' + g._getRowDomId(item, frozen) + '"');
                 gridhtmlarr.push(' class="l-grid-row'); //class start 
-                if (!frozen && g.enabledCheckbox() && p.isChecked && p.isChecked(item))
+                if (!frozen && g.enabledCheckbox() && p.is_checked && p.is_checked(item))
                 {
                     g.select(item);
                     gridhtmlarr.push(' l-selected');
@@ -12604,7 +12604,7 @@
                         else
                             gridhtmlarr.push(' style = "min-height:' + p.rowHeight + 'px;" ');
                         gridhtmlarr.push('>');
-                        if (!p.isShowDetailToggle || p.isShowDetailToggle(item))
+                        if (!p.is_showDetailToggle || p.is_showDetailToggle(item))
                         {
                             gridhtmlarr.push('<span class="l-grid-row-cell-detailbtn"></span>');
                         }
@@ -14199,7 +14199,7 @@
             function loadData()
             {
                 var data = filter.getData();
-                if (g.options.dataType == "server")
+                if (g.options.data_type == "server")
                 {
                     //服务器过滤数据
                     loadServerData(data);
@@ -15113,7 +15113,7 @@
 
     $.ligerDefaults.ListBox = {
         isMultiSelect: false,   //是否多选
-        isShowCheckBox: false,  //是否选择复选框
+        is_showCheckBox: false,  //是否选择复选框
         columns: null,          //表格状态
         width: 150,            //宽度
         height: 100,           //高度
@@ -15399,7 +15399,7 @@
                 url: url,
                 data: parms,
                 cache: false,
-                dataType: 'json',
+                data_type: 'json',
                 success: function (data)
                 {
                     g.setData(data);
@@ -16313,10 +16313,10 @@
                 {
                    
 
-                    var isShowed = !g.panel.find(".l-panel-header .l-panel-header-toggle:first").hasClass("l-panel-header-toggle-hide");
+                    var is_showed = !g.panel.find(".l-panel-header .l-panel-header-toggle:first").hasClass("l-panel-header-toggle-hide");
 
                     g.toggle();
-                    g.trigger('toggle', [isShowed]);
+                    g.trigger('toggle', [is_showed]);
 
 
                 } else if (jobj.hasClass("l-panel-header-close"))
@@ -16890,7 +16890,7 @@
                 url: param,
                 async: p.async,
                 //data: [],
-                dataType: 'json',
+                data_type: 'json',
                 success: function (data)
                 {
                     //g.trigger('success', [data, g]);
@@ -17106,7 +17106,7 @@
             }, p.grid, {
                 width: "100%",
                 height: getGridHeight(),
-                isChecked: p.selectInit,
+                is_checked: p.selectInit,
                 isSelected: p.selectInit,
                 inWindow: false
             });
@@ -17773,7 +17773,7 @@
             var g = this, p = this.options;
             if (!url) return;
             $.ajax({
-                url: url, data: p.parms, type: p.method, dataType: 'json',
+                url: url, data: p.parms, type: p.method, data_type: 'json',
                 success: function (rows)
                 {
                     g.set('rows', rows);
@@ -18192,7 +18192,7 @@
                 url: url,
                 data: parms,
                 cache: false,
-                dataType: 'json',
+                data_type: 'json',
                 contentType: p.ajaxContentType,
                 success: function (data)
                 {
@@ -21129,7 +21129,7 @@
                 type: ajaxtype,
                 url: url,
                 data: param,
-                dataType: 'json', 
+                data_type: 'json', 
                 beforeSend: function ()
                 {
                     e.showLoading();
@@ -21629,11 +21629,11 @@
             var g = this, p = this.options;
             return 'l-tree-icon-' + p.childIcon;
         },
-        _getParentNodeClassName: function (isOpen)
+        _getParentNodeClassName: function (is_open)
         {
             var g = this, p = this.options;
             var nodeclassname = 'l-tree-icon-' + p.parentIcon;
-            if (isOpen) nodeclassname += '-open';
+            if (is_open) nodeclassname += '-open';
             return nodeclassname;
         },
         //判断节点是否展开状态,返回true/false
@@ -22275,11 +22275,11 @@
         {
             var g = this, p = this.options;
             //当前同级别或低级别的节点是否都选中了
-            var isCheckedComplete = $(".l-checkbox-unchecked", treeitem.parent()).length == 0;
+            var is_checkedComplete = $(".l-checkbox-unchecked", treeitem.parent()).length == 0;
             //当前同级别或低级别的节点是否都没有选中
-            var isCheckedNull = $(".l-checkbox-checked", treeitem.parent()).length == 0;
+            var is_checkedNull = $(".l-checkbox-checked", treeitem.parent()).length == 0;
              
-            if (isCheckedNull)
+            if (is_checkedNull)
             {
                 treeitem.parent().prev().find("> .l-checkbox")
                                     .removeClass("l-checkbox-checked l-checkbox-incomplete")
@@ -22287,7 +22287,7 @@
             }
             else
             {
-                if (isCheckedComplete || !p.enabledCompleteCheckbox)
+                if (is_checkedComplete || !p.enabledCompleteCheckbox)
                 {
                     treeitem.parent().prev().find(".l-checkbox")
                                         .removeClass("l-checkbox-unchecked l-checkbox-incomplete")

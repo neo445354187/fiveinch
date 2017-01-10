@@ -13,46 +13,46 @@
   <tr>
       <th width='150'>位置类型<font color='red'>*</font>：</th>
           <td>
-            <select id="positionType" name="positionType" class='ipt' maxLength='20'>
+            <select id="position_type" name="position_type" class='ipt' maxLength='20'>
               <option value="">-请选择-</option>
-              <option <?=($data['positionType']===1)?'selected':'';?> value="1">PC版</option>
+              <option <?=($data['position_type']===1)?'selected':'';?> value="1">PC版</option>
             </select>
           </td>
        </tr>
        <tr>
           <th>位置名称<font color='red'>*</font>：</th>
           <td>
-            <input type="text" id="positionName" name="positionName" value='{$data['positionName']}' class="ipt" />
+            <input type="text" id="position_name" name="position_name" value='{$data['position_name']}' class="ipt" />
           </td>
        </tr>
        <tr>
           <th>位置代码<font color='red'>*</font>：</th>
           <td>
-            <input type="text" id="positionCode" name="positionCode" value='{$data['positionCode']}' class="ipt" />
+            <input type="text" id="position_code" name="position_code" value='{$data['position_code']}' class="ipt" />
           </td>
        </tr>
        <tr>
           <th>建议宽度<font color='red'>*</font>：</th>
           <td>
-            <input type="text" id="positionWidth" name="positionWidth" value='{$data['positionWidth']}' class="ipt" maxLength='4' />
+            <input type="text" id="position_width" name="position_width" value='{$data['position_width']}' class="ipt" maxLength='4' />
           </td>
        </tr>
        <tr>
           <th>建议高度<font color='red'>*</font>：</th>
           <td>
-            <input type='text' id='positionHeight' name="positionHeight" value='{$data['positionHeight']}' class='ipt' maxLength='4'/>
+            <input type='text' id='position_height' name="position_height" value='{$data['position_height']}' class='ipt' maxLength='4'/>
           </td>
        </tr>
        <tr>
           <th>排序号<font color='red'> </font>：</th>
           <td>
-            <input type='text' id='apSort' name="apSort" value='{$data['apSort']}' class='ipt' maxLength='10'/>
+            <input type='text' id='ap_sort' name="ap_sort" value='{$data['ap_sort']}' class='ipt' maxLength='10'/>
           </td>
        </tr>
   
   <tr>
      <td colspan='2' align='center'>
-       <input type="hidden" name="id" id="positionId" class="ipt" value="{$data['positionId']+0}" />
+       <input type="hidden" name="id" id="position_id" class="ipt" value="{$data['position_id']+0}" />
        <input type="submit" value="提交" class='btn btn-blue' />
        <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
      </td>

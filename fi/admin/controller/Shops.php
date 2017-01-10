@@ -40,14 +40,14 @@ class Shops extends Base{
     	$id = (int)Input("get.id");
     	if($id>0){
     	    $object = $m->getById((int)Input("get.id"));
-    	    $object['applyId'] = 0;
+    	    $object['apply_id'] = 0;
     	    $data['object']=$object;
     	}else{
     		$object = $m->getEModel('shops');
     		$object['catshops'] = [];
     		$object['accreds'] = [];
-    		$object['applyId'] = 0;
-    		$object['loginName'] = '';
+    		$object['apply_id'] = 0;
+    		$object['login_name'] = '';
     		$data['object']=$object;
     	}
     	$data['goodsCatList'] = model('goodsCats')->listQuery(0);
@@ -61,14 +61,14 @@ class Shops extends Base{
      */
     public function toAddByApply(){
     	$apply = model('ShopApplys')->checkOpenShop((int)Input("get.id"));
-    	if($apply['shopId']!=''){
+    	if($apply['shop_id']!=''){
     		$this->assign("msg",'对不起，该开店申请已处理！');
     		return $this->fetch("./message");
     	}else{
     		$object = model('ShopApplys')->getEModel('shops');
-    		$object['userId'] = (int)$apply['userId'];
-    		$object['applyId'] = (int)Input("get.id");
-    		$object['loginName'] = '';
+    		$object['user_id'] = (int)$apply['user_id'];
+    		$object['apply_id'] = (int)Input("get.id");
+    		$object['login_name'] = '';
     		$object['catshops'] = [];
     		$object['accreds'] = [];
     		$data = [
@@ -108,7 +108,7 @@ class Shops extends Base{
      */
     public function checkShopSn(){
     	$m = new M();
-    	$isChk = $m->checkShopSn(input('post.shopSn'),input('shopId/d'));
+    	$isChk = $m->checkShopSn(input('post.shop_sn'),input('shop_id/d'));
         if(!$isChk){
     		return ['ok'=>'该店铺编号可用'];
     	}else{
@@ -120,8 +120,8 @@ class Shops extends Base{
      * 自营店铺后台
      */
     public function inself(){
-    	$staffId=session("FI_STAFF");
-    	if(!empty($staffId)){
+    	$staff_id=session("FI_STAFF");
+    	if(!empty($staff_id)){
     		$id=1;
     		$s = new M();
     		$r = $s->selfLogin($id);

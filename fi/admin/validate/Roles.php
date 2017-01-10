@@ -6,11 +6,11 @@ use think\Validate;
  */
 class Roles extends Validate{
 	protected $rule = [
-        ['roleName'  ,'require|max:30','请输入角色名称|角色名称不能超过10个字符']
+        ['role_name'  ,'require|max:30','请输入角色名称|角色名称不能超过10个字符']
     ];
 
     protected $scene = [
-        'add'   =>  ['menuName'],
-        'edit'  =>  ['menuName']
+        'add'   =>  ['menu_name'],
+        'edit'  =>  ['menu_name']
     ]; 
 }

@@ -1,8 +1,8 @@
 {extend name="default/base" /}
-{block name="title"}{$goods['goodsName']} - {:FIConf('CONF.mallName')}{__block__}{/block}
+{block name="title"}{$goods['goods_name']} - {:FIConf('CONF.mallName')}{__block__}{/block}
 {block name="meta"}
-<meta name="description" content="{$goods['goodsName']}">
-<meta name="Keywords" content="{$goods['goodsSeoKeywords']}">
+<meta name="description" content="{$goods['goods_name']}">
+<meta name="Keywords" content="{$goods['goods_seo_keywords']}">
 {/block}
 {block name="css"}
 <link href="__HOME__/css/goods.css?v={$v}" rel="stylesheet">
@@ -17,16 +17,16 @@
       <a class='link' href='__ROOT__' style="font-size: 16px;">首页</a>
       <i class="arrow"> ></i>
    </div>
-   {volist name=":FIPathGoodsCat($goods['goodsCatId'])" id='vo'}
+   {volist name=":FIPathGoodsCat($goods['goods_cat_id'])" id='vo'}
    <div class='fi-lfloat'>
    	<div class='item dorpdown'>
      <div class='drop-down'>
-        <a class='link' href='{:Url("home/goods/lists",["cat"=>$vo["catId"]])}'>{$vo['catName']}</a>
+        <a class='link' href='{:Url("home/goods/lists",["cat"=>$vo["cat_id"]])}'>{$vo['cat_name']}</a>
         <!-- <i class="drop-down-arrow"></i> -->
      </div>
      <!-- <div class="dorp-down-layer">
-         {volist name=":FIGoodsCats($vo['parentId'])" id='vo2'}
-         <div class="{$vo['parentId']>0?'cat2':'cat1'}"><a href='{:Url("home/goods/lists","cat=".$vo2["catId"])}'>{$vo2['catName']}</a></div>
+         {volist name=":FIGoodsCats($vo['parent_id'])" id='vo2'}
+         <div class="{$vo['parent_id']>0?'cat2':'cat1'}"><a href='{:Url("home/goods/lists","cat=".$vo2["cat_id"])}'>{$vo2['cat_name']}</a></div>
          {/volist}
        </div> -->
 	</div>
@@ -40,7 +40,7 @@
    <div class='fi-container'>
       <div class='goods-img-box'>
           <div class="goods-img spec-preview" id="preview">
-          	<img  alt="{$goods['goodsName']}" src="__ROOT__/{:FIImg($goods['goodsImg'])}" class="cloudzoom" data-cloudzoom="zoomImage:'__ROOT__/{$goods['goodsImg']}',animationTime:250,zoomPosition: 'inside',autoInside: true " height="350" width="350">
+          	<img  alt="{$goods['goods_name']}" src="__ROOT__/{:FIImg($goods['goods_img'])}" class="cloudzoom" data-cloudzoom="zoomImage:'__ROOT__/{$goods['goods_img']}',animationTime:250,zoomPosition: 'inside',autoInside: true " height="350" width="350">
           </div>
           <div class="goods-pics">
             <a class="prev">&lt;</a>
@@ -48,40 +48,40 @@
             <div class="items">
                <ul>
                {volist name="$goods['gallery']" id='vo'}
-                   <li><img  alt="{$goods['goodsName']}" class='cloudzoom-gallery' src="__ROOT__/{:FIImg($vo)}" data-cloudzoom="useZoom: '.cloudzoom', image:'__ROOT__/{:FIImg($vo)}', zoomImage:'__ROOT__/{$vo}' " width="60" height="60"></li>
+                   <li><img  alt="{$goods['goods_name']}" class='cloudzoom-gallery' src="__ROOT__/{:FIImg($vo)}" data-cloudzoom="useZoom: '.cloudzoom', image:'__ROOT__/{:FIImg($vo)}', zoomImage:'__ROOT__/{$vo}' " width="60" height="60"></li>
                {/volist}
 			   </ul>	
 			</div>
          </div>
       </div>
       <div class='intro'>
-          <h2>{$goods['goodsName']}</h2>
-          <span class='tips'>{$goods['goodsTips']}</span>
+          <h2>{$goods['goods_name']}</h2>
+          <span class='tips'>{$goods['goods_tips']}</span>
           <div class='summary'>
           	<div class="infol">
              <!-- <div class='item'>
                <div class='dt'>市场价：</div>
-               <div class='dd market-price' id='j-market-price'>￥{$goods['marketPrice']}</div>
+               <div class='dd market-price' id='j-market-price'>￥{$goods['market_price']}</div>
              </div> -->
              <div class='item'>
                <div class='dt'>价格：</div>
-               <div class='dd price' id='j-shop-price'>￥{$goods['shopPrice']}</div>
+               <div class='dd price' id='j-shop-price'>￥{$goods['shop_price']}</div>
              </div>
              <div class='item'>
                <div class='dt'>评分：</div>
                <div class='dd'>
-		        {for start="0" end="$goods['scores']['totalScores']"}
+		        {for start="0" end="$goods['scores']['total_scores']"}
 					<img src="__STATIC__/plugins/raty/img/star-on.png">
 				{/for}
-				{for start="1" end="6-$goods['scores']['totalScores']"}
+				{for start="1" end="6-$goods['scores']['total_scores']"}
 					<img src="__STATIC__/plugins/raty/img/star-off.png">
 				{/for}
-				<div class='appraise'>累计评价：<span class='appraise-num'>{$goods['appraiseNum']}</span></div>
+				<div class='appraise'>累计评价：<span class='appraise-num'>{$goods['appraise_num']}</span></div>
 				</div>
              </div>
              <div class='item'>
                <div class='dt'>编号：</div>
-               <div class='dd'>{$goods['goodsSn']}</div>
+               <div class='dd'>{$goods['goods_sn']}</div>
              </div>
              </div>
              <!-- <div class="infor">
@@ -97,10 +97,10 @@
                <div class='dt'>{$vo['name']}：</div>
                <div class='dd'>
                {volist name="$vo['list']" id='vo2'}
-                  {if $vo2['itemImg']!=''}
-                  <div class='j-option img' data-val="{$vo2['itemId']}" style='height:28px;padding:0px;'><img class="cloudzoom-gallery" width="28" height="28" src="__ROOT__/{:FIImg($vo2['itemImg'])}" data-cloudzoom="useZoom: '.cloudzoom', image:'__ROOT__/{:FIImg($vo2['itemImg'])}', zoomImage:'__ROOT__/{$vo2['itemImg']}' "  title="{$vo2['itemName']}" alt="{$vo2['itemName']}"/><i></i></div>
+                  {if $vo2['item_img']!=''}
+                  <div class='j-option img' data-val="{$vo2['item_id']}" style='height:28px;padding:0px;'><img class="cloudzoom-gallery" width="28" height="28" src="__ROOT__/{:FIImg($vo2['item_img'])}" data-cloudzoom="useZoom: '.cloudzoom', image:'__ROOT__/{:FIImg($vo2['item_img'])}', zoomImage:'__ROOT__/{$vo2['item_img']}' "  title="{$vo2['item_name']}" alt="{$vo2['item_name']}"/><i></i></div>
                   {else}
-                  <div class='j-option' data-val="{$vo2['itemId']}">{$vo2['itemName']}<i></i></div>
+                  <div class='j-option' data-val="{$vo2['item_id']}">{$vo2['item_name']}<i></i></div>
                   {/if}
                {/volist}
                </div>
@@ -116,12 +116,12 @@
 	                <a href='#none' class='buy-btn' id='buy-reduce' style='color:#ccc;' onclick='javascript:FI.changeIptNum(-1,"#buyNum","#buy-reduce,#buy-add")'>-</a>
 	                <input type='text' id='buyNum' class='buy-num' value='1' data-min='1' autocomplete="off" onkeyup='FI.changeIptNum(0,"#buyNum","#buy-reduce,#buy-add")' onkeypress="return FI.isNumberKey(event);" maxlength="3"/>
 	                <a href='#none' class='buy-btn' id='buy-add' onclick='javascript:FI.changeIptNum(1,"#buyNum","#buy-reduce,#buy-add")'>+</a>
-                    &nbsp; &nbsp;（库存：<span id='goods-stock'>0</span>&nbsp;{$goods['goodsUnit']}）
+                    &nbsp; &nbsp;（库存：<span id='goods-stock'>0</span>&nbsp;{$goods['goods_unit']}）
                 </div>
              </div>
              <div class='item'>
                 <div class='dt'>服务：</div>
-                <div class='dd'>服务由  <a href='{:Url("home/shops/home","shopId=".$shop["shopId"])}' target='_blank'>{$shop['shopName']}</a> 发货并提供 售后服务。</div>
+                <div class='dd'>服务由  <a href='{:Url("home/shops/home","shop_id=".$shop["shop_id"])}' target='_blank'>{$shop['shop_name']}</a> 发货并提供 售后服务。</div>
              </div>
              <div class='item' style='padding-left:75px;margin-top:20px;'>
                {if $goods['read']}
@@ -135,7 +135,7 @@
                {if ($goods['favGood']>0)}
                  <a href='javascript:void(0);' onclick='FI.cancelFavorite(this,0,{$goods['favGood']})' class='favorite j-fav'>已关注</a>
                {else}
-                 <a href='javascript:void(0);' onclick='FI.addFavorite(this,0,{$goods["goodsId"]})' class='favorite j-fav2 j-fav3'>关注商品</a>
+                 <a href='javascript:void(0);' onclick='FI.addFavorite(this,0,{$goods["goods_id"]})' class='favorite j-fav2 j-fav3'>关注商品</a>
                {/if}
                </div>
              </div>
@@ -143,19 +143,19 @@
       </div>
 
       <div class='shop-intro'>
-           <div class='title'>{$shop['shopName']}</div>
+           <div class='title'>{$shop['shop_name']}</div>
            <div class='body'>
-               <div class='totalScore'><img class="shopsImg" data-original="__ROOT__/{$shop['shopImg']}" title="{$shop['shopName']}" style="width:75px;height:75px;"></div>
-               <div class='itemScore'>商品评价：{if ($shop['goodsScore']!=0)}{$shop['goodsScore']}{else /}5{/if}</div>
-               <div class='itemScore'>服务评分：{if ($shop['serviceScore']!=0)}{$shop['goodsScore']}{else /}5{/if}</div>
-               <div class='itemScore'>物流速度：{if ($shop['timeScore']!=0)}{$shop['goodsScore']}{else /}5{/if}</div>
+               <div class='total_score'><img class="shopsImg" data-original="__ROOT__/{$shop['shop_img']}" title="{$shop['shop_name']}" style="width:75px;height:75px;"></div>
+               <div class='itemScore'>商品评价：{if ($shop['goods_score']!=0)}{$shop['goods_score']}{else /}5{/if}</div>
+               <div class='itemScore'>服务评分：{if ($shop['service_score']!=0)}{$shop['goods_score']}{else /}5{/if}</div>
+               <div class='itemScore'>物流速度：{if ($shop['time_score']!=0)}{$shop['goods_score']}{else /}5{/if}</div>
            </div>
            <div class='footer'>
-              <a class="home" href='{:Url("home/shops/home","shopId=".$shop["shopId"])}' target='_blank'>进店逛逛</a>
+              <a class="home" href='{:Url("home/shops/home","shop_id=".$shop["shop_id"])}' target='_blank'>进店逛逛</a>
               {if ($goods['favShop']>0)}
               <a class="j-fav" href='javascript:void(0);' onclick='FI.cancelFavorite(this,1,{$goods['favShop']})'>已关注</a>
               {else}
-              <a class="j-fav2" href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$shop["shopId"]})'>关注店铺</a>
+              <a class="j-fav2" href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$shop["shop_id"]})'>关注店铺</a>
               {/if}
               <div class='fi-clear'></div>
            </div>
@@ -180,15 +180,15 @@
 				</ul>
 			    <div class="fi-tab-content" >
 			       <div class="fi-tab-item" style="position: relative;">
-			       {$goods['goodsDesc']}
+			       {$goods['goods_desc']}
 			       </div>
 			       <div class="fi-tab-item" style="position: relative;display:none">
 			          <table class='fi-attrs-list'>
                     <tr style="height:30px;"><td colspan="2"></td></tr>
 			             {volist name="$goods['attrs']" id="vo"}
 			             <tr>
-			                <th nowrap>{$vo['attrName']}</th>
-			                <td>{$vo['attrVal']}</td>
+			                <th nowrap>{$vo['attr_name']}</th>
+			                <td>{$vo['attr_val']}</td>
 			             </tr>
 			             {/volist}
 			          </table>
@@ -207,20 +207,20 @@
                   {{#  } }}
                   </div>
                   {{# }  }}
-                  {{# if(d[i]['shopReply']!='' && d[i]['shopReply']!=null){ }}
+                  {{# if(d[i]['shop_reply']!='' && d[i]['shop_reply']!=null){ }}
                   <div class="reply-box">
-                     <p class="reply-content"><a href="javascript:void(0)" onclick="goShop({{d[i]['shopId']}})">{{d[i]['shopName']}}</a>：{{d[i]['shopReply']}}</p>
-                     <p class="reply-time">{{d[i]['replyTime']}}</p>
+                     <p class="reply-content"><a href="javascript:void(0)" onclick="goShop({{d[i]['shop_id']}})">{{d[i]['shop_name']}}</a>：{{d[i]['shop_reply']}}</p>
+                     <p class="reply-time">{{d[i]['reply_time']}}</p>
                  </div>
                  {{# } }}
 
                </div>
                <div class="fi-appraises-right">
                 <div class="goods-spec-box">
-                    {{d[i]['goodsSpecNames']}}
+                    {{d[i]['goods_spec_names']}}
                 </div>
                 <div class="appraiser">
-                    【{{d[i]['loginName']}}】
+                    【{{d[i]['login_name']}}】
                 </div>
                </div>
              <div class="fi-clear"></div>
@@ -240,11 +240,11 @@
 {block name="js"}
 <script>
 var goodsInfo = {
-	id:{$goods['goodsId']},	
-	isSpec:{$goods['isSpec']},
-	goodsStock:{$goods['goodsStock']},
-	marketPrice:{$goods['marketPrice']},
-	goodsPrice:{$goods['shopPrice']}
+	id:{$goods['goods_id']},	
+	is_spec:{$goods['is_spec']},
+	goods_stock:{$goods['goods_stock']},
+	market_price:{$goods['market_price']},
+	goods_price:{$goods['shop_price']}
 	{if isset($goods['saleSpec'])}
 	,sku:{:json_encode($goods['saleSpec'])}
 	{/if}
@@ -263,7 +263,7 @@ $(function(){
 	$('#qrcode').html(qr.createImgTag());
 });
 function goShop(id){
-  location.href=FI.U('home/shops/home','shopId='+id);
+  location.href=FI.U('home/shops/home','shop_id='+id);
 }
 </script>
 {/block}

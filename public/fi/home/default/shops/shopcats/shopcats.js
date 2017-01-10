@@ -58,21 +58,21 @@ function batchSaveCats(){
 	$(".tbody_new").each(function(){
 		secondNo = 0;
 		var pobj = $(this).find(".tr_new");
-		params['catName_'+fristNo] = $.trim(pobj.find(".catname").val());
-		if(params['catName_'+fristNo]==''){
+		params['cat_name_'+fristNo] = $.trim(pobj.find(".catname").val());
+		if(params['cat_name_'+fristNo]==''){
 			FI.msg('请输入商品分类名称!', {icon: 5});
 			return;
 		}
-		params['catSort_'+fristNo] = pobj.find(".catsort").val();
+		params['cat_sort_'+fristNo] = pobj.find(".catsort").val();
 		params['catShow_'+fristNo] = pobj.find(".catshow").prop("checked")?1:0
 		$(this).find(".tr_c_new").each(function(){
-			params['catId_'+fristNo+'_'+secondNo] = fristNo;
-			params['catName_'+fristNo+'_'+secondNo] = $.trim($(this).find(".catname").val());
-			if(params['catName_'+fristNo+'_'+secondNo]==''){
+			params['cat_id_'+fristNo+'_'+secondNo] = fristNo;
+			params['cat_name_'+fristNo+'_'+secondNo] = $.trim($(this).find(".catname").val());
+			if(params['cat_name_'+fristNo+'_'+secondNo]==''){
 				FI.msg('请输入商品分类名称!', {icon: 5});
 				return;
 			}
-			params['catSort_'+fristNo+'_'+secondNo] = $(this).find(".catsort").val();
+			params['cat_sort_'+fristNo+'_'+secondNo] = $(this).find(".catsort").val();
 			params['catShow_'+fristNo+'_'+secondNo] = $(this).find(".catshow").prop("checked")?1:0
 			params['catSecondNo_'+fristNo] = ++secondNo;		
 		});
@@ -80,13 +80,13 @@ function batchSaveCats(){
 	});
 	var otherNo = 0;
 	$(".tr_0").each(function(){
-		params['catId_o_'+otherNo] = $(this).attr('catId');
-		params['catName_o_'+otherNo] = $.trim($(this).find(".catname").val());
-		if(params['catName_o_'+otherNo]==''){
+		params['cat_id_o_'+otherNo] = $(this).attr('cat_id');
+		params['cat_name_o_'+otherNo] = $.trim($(this).find(".catname").val());
+		if(params['cat_name_o_'+otherNo]==''){
 			FI.msg('请输入商品分类名称!', {icon: 5});
 			return;
 		}
-		params['catSort_o_'+otherNo] = $(this).find(".catsort").val();
+		params['cat_sort_o_'+otherNo] = $(this).find(".catsort").val();
 		params['catShow_o_'+otherNo] = $(this).find(".catshow").prop("checked")?1:0;
 		params['otherNo'] = ++otherNo;
 	});
@@ -104,7 +104,7 @@ function batchSaveCats(){
 
 
 function editCatName(obj){
-	$.post(FI.U('home/shopcats/editName'),{"id":$(obj).attr('dataId'),"catName":obj.value},function(data,textStatus){
+	$.post(FI.U('home/shopcats/editName'),{"id":$(obj).attr('data_id'),"cat_name":obj.value},function(data,textStatus){
 		var json = FI.toJson(data);
 		if(json.status=='1'){
 			FI.msg('操作成功!',{icon: 1,time:500});
@@ -114,7 +114,7 @@ function editCatName(obj){
 	});
 }
 function editCatSort(obj){
-	$.post(FI.U('home/shopcats/editSort'),{"id":$(obj).attr('dataId'),"catSort":obj.value},function(data,textStatus){
+	$.post(FI.U('home/shopcats/editSort'),{"id":$(obj).attr('data_id'),"cat_sort":obj.value},function(data,textStatus){
 		var json = FI.toJson(data);
 		if(json.status=='1'){
 			FI.msg('操作成功!',{icon: 1,time:500});
@@ -124,10 +124,10 @@ function editCatSort(obj){
 	});
 }
 
-function changeCatStatus(isShow,id,pid){
+function changeCatStatus(is_show,id,pid){
 	var params = {};
 		params.id = id;
-		params.isShow = isShow;
+		params.is_show = is_show;
 		params.pid = pid;
 	$.post(FI.U('home/shopcats/changeCatStatus'),params,function(data,textStatus){
 		location.reload();  

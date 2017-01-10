@@ -8,36 +8,36 @@
             {{# for(var i = 0, len = d.length; i < len; i++){ }}
             <table class='fi-addr' >
                <tr>
-                 <td>&nbsp;<b>{{d[i].userName}}</b></td>
+                 <td>&nbsp;<b>{{d[i].user_name}}</b></td>
                  <td>
                  &nbsp;&nbsp;&nbsp;&nbsp;
-                 {{# if(d[i].isDefault==1) { }}
+                 {{# if(d[i].is_default==1) { }}
                   <p class="default">默认地址</p>
                  {{# } }}
-                  <a href="javascript:delAddress({{ d[i].addressId }},this)" class='del'>X</a>
+                  <a href="javascript:delAddress({{ d[i].address_id }},this)" class='del'>X</a>
                  </td>
                </tr>
 
 
                <tr><td class="addr-title">收货人：</td>
-                 <td>{{d[i].userName}}</td>
+                 <td>{{d[i].user_name}}</td>
                </tr>
                <tr><td class="addr-title">所在地区：</td>
-                 <td>{{d[i].areaName}}</td>
+                 <td>{{d[i].area_name}}</td>
                </tr>
                <tr><td class="addr-title">地址：</td>
-                 <td>{{d[i].userAddress}}</td>
+                 <td>{{d[i].user_address}}</td>
                </tr>
                <tr><td class="addr-title">联系电话：</td>
-                 <td>{{d[i].userPhone}}</td>
+                 <td>{{d[i].user_phone}}</td>
                </tr>
 
                <tr>
                  <td>&nbsp;</td>
                  <td class='edit'>
-                   <a href="javascript:editAddress({{ d[i].addressId }})">编辑</a>
-                   {{# if(d[i].isDefault!=1) { }}
-                    <a href="javascript:setDefault({{ d[i].addressId }})">设为默认</a>
+                   <a href="javascript:editAddress({{ d[i].address_id }})">编辑</a>
+                   {{# if(d[i].is_default!=1) { }}
+                    <a href="javascript:setDefault({{ d[i].address_id }})">设为默认</a>
                    {{# } }}
                    <div class="fi-clear"></div>
                  </td>

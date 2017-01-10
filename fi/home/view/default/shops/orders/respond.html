@@ -16,13 +16,13 @@
   <div class='fi-shop-content'>
   <form id="respondForm" method="post" >
     <div style='width:990px;overflow:hidden;'>
-            <input type='hidden' id='complainId' class='ipt' value="{$data['complainId']}"/>
+            <input type='hidden' id='complain_id' class='ipt' value="{$data['complain_id']}"/>
           <div class='fi-complain-left'>
              <div class='fi-complain-order-head'>订单商品</div>
              <div class='fi-complain-order-goods'>
              {volist name="$data['goodsList']" id="goods" key='key2'}
-              <a target='_blank' href="{:Url('Home/Goods/Detail',array('id'=>$goods['goodsId']))}" title="{$goods['goodsName']}">
-              <img data-original="__ROOT__/{$goods['goodsImg']}" height="55" width="55" class='gImg'/>
+              <a target='_blank' href="{:Url('Home/Goods/Detail',array('id'=>$goods['goods_id']))}" title="{$goods['goods_name']}">
+              <img data-original="__ROOT__/{$goods['goods_img']}" height="55" width="55" class='gImg'/>
               </a>
              {/volist}
              </div>
@@ -30,15 +30,15 @@
              <div class='fi-complain-order-info'>
                <dl>
                    <dt>订单编号：</dt>
-                   <dd>{$data['orderNo']}</dd>
+                   <dd>{$data['order_no']}</dd>
                    <dt>订单金额：</dt>
-                   <dd>{$data['realTotalMoney']}</dd>
+                   <dd>{$data['real_total_money']}</dd>
                    <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
-                   <dd>{$data['deliverMoney']}</dd>
+                   <dd>{$data['deliver_money']}</dd>
                    <dt>下单时间：</dt>
-                   <dd>{$data['createTime']}</dd>
+                   <dd>{$data['create_time']}</dd>
                    <dt>商&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</dt>
-                   <dd>{$data['shopName']}</dd>
+                   <dd>{$data['shop_name']}</dd>
                 </dl>
               </div>
           </div>
@@ -49,27 +49,27 @@
                  <tr>
                    <td width='70' align='right'>投诉类型：</td>
                    <td>
-                    {if condition="$data['complainType'] eq 1"}
+                    {if condition="$data['complain_type'] eq 1"}
                                               承诺的没有做到
-                    {elseif condition="$data['complainType'] eq 2"/}
+                    {elseif condition="$data['complain_type'] eq 2"/}
                                                   未按约定时间发货
-                    {elseif condition="$data['complainType'] eq 3"/}
+                    {elseif condition="$data['complain_type'] eq 3"/}
                                                   未按成交价格进行交易
-                    {elseif condition="$data['complainType'] eq 4"/}
+                    {elseif condition="$data['complain_type'] eq 4"/}
                                                   恶意骚扰                           
                     {/if}
                    </td>
                  </tr>
                  <tr>
                    <td align='right'>详情：</td>
-                   <td>{$data['complainContent']}</td>
+                   <td>{$data['complain_content']}</td>
                  </tr>
                  <tr>
                    <td align='right'>附件：</td>
                    <td>
                    <div id="photos-complain">
-                   {if !empty($data['complainAnnex'])}
-                   {volist name="$data['complainAnnex']" id="annex"}
+                   {if !empty($data['complain_annex'])}
+                   {volist name="$data['complain_annex']" id="annex"}
                     <img class='lazyImg' layer-src="__ROOT__/{$annex}" data-original="__ROOT__/$annex}" src="__ROOT__/{:str_replace('.','_thumb.',$annex)}" height="100" width="100"/>
                    {/volist}
                    {/if}
@@ -83,7 +83,7 @@
               <table width='100%'>
                  <tr>
                    <td>
-                   <textarea id='respondContent' name="respondContent" class='ipt' autocomplete="off" style='width:700px;height:162px;' placeholder='请输入应诉内容'></textarea>
+                   <textarea id='respond_content' name="respond_content" class='ipt' autocomplete="off" style='width:700px;height:162px;' placeholder='请输入应诉内容'></textarea>
                    </td>
                  </tr>
                  <tr>

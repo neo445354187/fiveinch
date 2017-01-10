@@ -48,22 +48,22 @@ class Images extends Base
      */
     public function checkImages()
     {
-        $imgPath       = input('get.imgPath');
+        $img_path       = input('get.img_path');
         $m             = FIConf('CONF.fiMobileImgSuffix');
-        $imgPath       = str_replace($m . '.', '.', $imgPath);
-        $imgPath       = str_replace($m . '_thumb.', '.', $imgPath);
-        $imgPath       = str_replace('_thumb.', '.', $imgPath);
-        $imgPath_thumb = str_replace('.', '_thumb.', $imgPath);
+        $img_path       = str_replace($m . '.', '.', $img_path);
+        $img_path       = str_replace($m . '_thumb.', '.', $img_path);
+        $img_path       = str_replace('_thumb.', '.', $img_path);
+        $img_path_thumb = str_replace('.', '_thumb.', $img_path);
         $mimg          = '';
         $mimg_thumb    = '';
         if ($m != '') {
-            $mimg       = str_replace('.', $m . '.', $imgPath);
-            $mimg_thumb = str_replace('.', $m . '_thumb.', $imgPath);
+            $mimg       = str_replace('.', $m . '.', $img_path);
+            $mimg_thumb = str_replace('.', $m . '_thumb.', $img_path);
         }
-        $data['imgpath']    = $imgPath;
-        $data['img']        = file_exists(FIRootPath() . "/" . $imgPath) ? true : false;
-        $data['thumb']      = file_exists(FIRootPath() . "/" . $imgPath_thumb) ? true : false;
-        $data['thumbpath']  = $imgPath_thumb;
+        $data['imgpath']    = $img_path;
+        $data['img']        = file_exists(FIRootPath() . "/" . $img_path) ? true : false;
+        $data['thumb']      = file_exists(FIRootPath() . "/" . $img_path_thumb) ? true : false;
+        $data['thumbpath']  = $img_path_thumb;
         $data['mimg']       = file_exists(FIRootPath() . "/" . $mimg) ? true : false;
         $data['mimgpath']   = $mimg;
         $data['mthumb']     = file_exists(FIRootPath() . "/" . $mimg_thumb) ? true : false;

@@ -14,70 +14,70 @@ class Users extends Base
      */
     public function checkLogin()
     {
-        $loginName   = input("post.loginName");
-        $loginPwd    = input("post.loginPwd");
+        $login_name   = input("post.login_name");
+        $login_password    = input("post.login_password");
         $code        = input("post.verifyCode");
         // $rememberPwd = input("post.rememberPwd", 1);//second 不允许记住密码
         if (!FIVerifyCheck($code) && strpos(FIConf("CONF.captcha_model"), "4") >= 0) {
             return FIReturn('验证码错误!');
         }
-        $rs = $this->where("loginName|userEmail|userPhone", $loginName)
-            ->where(["dataFlag" => 1, "userStatus" => 1])
+        $rs = $this->where("login_name|user_email|user_phone", $login_name)
+            ->where(["status" => 1, "user_status" => 1])
             ->find();
         if (!empty($rs)) {
-            $userId = $rs['userId'];
+            $user_id = $rs['user_id'];
             //获取用户等级
-            $rrs               = Db::name('user_ranks')->where('startScore', '<=', $rs['userTotalScore'])->where('endScore', '>=', $rs['userTotalScore'])->field('rankId,rankName,rebate,userrankImg')->find();
-            $rs['rankId']      = $rrs['rankId'];
-            $rs['rankName']    = $rrs['rankName'];
-            $rs['userrankImg'] = $rrs['userrankImg'];
+            $rrs               = Db::name('user_ranks')->where('start_score', '<=', $rs['user_total_score'])->where('end_score', '>=', $rs['user_total_score'])->field('rank_id,rank_name,rebate,userrank_img')->find();
+            $rs['rank_id']      = $rrs['rank_id'];
+            $rs['rank_name']    = $rrs['rank_name'];
+            $rs['userrank_img'] = $rrs['userrank_img'];
             //判断是否为商家登陆
             if (input("post.typ") == 2) {
-                $shoprs = $this->where(["dataFlag" => 1, "userStatus" => 1, "userType" => 1, "userId" => $userId])->find();
+                $shoprs = $this->where(["status" => 1, "user_status" => 1, "user_type" => 1, "user_id" => $user_id])->find();
                 if (empty($shoprs)) {
                     return FIReturn('您还没申请店铺!');
                 }
             }
             
-            if ($rs['loginPwd'] != md5($loginPwd . $rs['loginSecret'])) {
+            if ($rs['login_password'] != md5($login_password . $rs['login_secret'])) {
                 return FIReturn("密码错误");
             }
 
             $ip = request()->ip();
-            $this->where(["userId" => $userId])->update(["lastTime" => date('Y-m-d H:i:s'), "lastIP" => $ip]);
+            $this->where(["user_id" => $user_id])->update(["last_time" => date('Y-m-d H:i:s'), "last_ip" => $ip]);
             //如果是店铺则加载店铺信息
-            if ($rs['userType'] >= 1) {
-                $shop = (new Shops())->getShopInfoAndAddress($userId);
-                // $shop  = $shops->where(["userId" => $userId, "dataFlag" => 1])->find();
+            if ($rs['user_type'] >= 1) {
+                $shop = (new Shops())->getShopInfoAndAddress($user_id);
+                // $shop  = $shops->where(["user_id" => $user_id, "status" => 1])->find();
                 if (!empty($shop)) {
                     $rs = array_merge($shop, $rs->toArray());
                 }
 
             }
             //second 居然把登陆密码、secret以及用户的账户金额都放在session中，删除掉
-            FIUnset($rs, 'bankNo,bankUserName,loginSecret,loginPwd,userMoney,lockMoney');
+            FIUnset($rs, 'bank_no,bank_username,login_secret,login_password,user_money,lock_money');
 
             //记录登录日志
             $data              = array();
-            $data["userId"]    = $userId;
-            $data["loginTime"] = date('Y-m-d H:i:s');
-            $data["loginIp"]   = $ip;
+            $data["user_id"]    = $user_id;
+            $data["login_time"] = date('Y-m-d H:i:s');
+            $data["login_ip"]   = $ip;
             Db::name('log_user_logins')->insert($data);
 
             // $rd = $rs;
             //记住密码;second 不能记录密码，不然商家浏览器关闭后，其他人将可以使用
-            // cookie("loginName", $loginName, time() + 3600 * 24 * 90);
-            cookie("loginName", $loginName);
+            // cookie("login_name", $login_name, time() + 3600 * 24 * 90);
+            cookie("login_name", $login_name);
             //second 不允许记住密码
             // if ($rememberPwd == "on") {
-            //     $datakey = md5($rs['loginName']) . "_" . md5($rs['loginPwd']);
-            //     $key     = $rs['loginSecret'];
+            //     $datakey = md5($rs['login_name']) . "_" . md5($rs['login_password']);
+            //     $key     = $rs['login_secret'];
             //     //加密
             //     $base64   = new \org\Base64();
             //     $loginKey = $base64->encrypt($datakey, $key);
-            //     cookie("loginPwd", $loginKey, time() + 3600 * 24 * 90);
+            //     cookie("login_password", $loginKey, time() + 3600 * 24 * 90);
             // } else {
-            //     cookie("loginPwd", null);
+            //     cookie("login_password", null);
             // }
             session('FI_USER', $rs);
             return FIReturn("", "1");
@@ -92,17 +92,17 @@ class Users extends Base
     {
 
         $data              = array();
-        $data['loginName'] = input("post.loginName");
-        $data['loginPwd']  = input("post.loginPwd");
+        $data['login_name'] = input("post.login_name");
+        $data['login_password']  = input("post.login_password");
         $data['reUserPwd'] = input("post.reUserPwd");
-        $loginName         = $data['loginName'];
+        $login_name         = $data['login_name'];
         //检测账号是否存在
-        $crs = FICheckLoginKey($loginName);
+        $crs = FICheckLoginKey($login_name);
         if ($crs['status'] != 1) {
             return $crs;
         }
 
-        if ($data['loginPwd'] != $data['reUserPwd']) {
+        if ($data['login_password'] != $data['reUserPwd']) {
             return FIReturn("两次输入密码不一致!");
         }
         foreach ($data as $v) {
@@ -118,56 +118,56 @@ class Users extends Base
         }
         if ($nameType == 3 && FIConf("CONF.phoneVerfy") == 1) {
 //手机号码
-            $data['userPhone'] = $loginName;
-            $verify            = session('VerifyCode_userPhone');
-            $startTime         = (int) session('VerifyCode_userPhone_Time');
+            $data['user_phone'] = $login_name;
+            $verify            = session('VerifyCode_user_phone');
+            $startTime         = (int) session('VerifyCode_user_phone_Time');
             if ((time() - $startTime) > 120) {
                 return FIReturn("验证码已超过有效期!");
             }
             if ($mobileCode == "" || $verify != $mobileCode) {
                 return FIReturn("验证码错误!");
             }
-            $loginName = FIRandomLoginName($loginName);
+            $login_name = FIRandomLoginName($login_name);
         } else if ($nameType == 1) {
 //邮箱注册
-            $data['userEmail'] = $loginName;
-            $unames            = explode("@", $loginName);
-            $loginName         = FIRandomLoginName($unames[0]);
+            $data['user_email'] = $login_name;
+            $unames            = explode("@", $login_name);
+            $login_name         = FIRandomLoginName($unames[0]);
 
         }
-        if ($loginName == '') {
+        if ($login_name == '') {
             return FIReturn("注册失败!");
         }
 //分派不了登录名
-        $data['loginName'] = $loginName;
+        $data['login_name'] = $login_name;
         unset($data['reUserPwd']);
         unset($data['protocol']);
         //检测账号，邮箱，手机是否存在
-        $data["loginSecret"] = rand(1000, 9999);
-        $data['loginPwd']    = md5($data['loginPwd'] . $data['loginSecret']);
-        $data['userType']    = 0;
-        $data['userName']    = input("post.userName");
-        $data['userQQ']      = "";
-        $data['userScore']   = 0;
-        $data['createTime']  = date('Y-m-d H:i:s');
-        $data['dataFlag']    = 1;
+        $data["login_secret"] = rand(1000, 9999);
+        $data['login_password']    = md5($data['login_password'] . $data['login_secret']);
+        $data['user_type']    = 0;
+        $data['user_name']    = input("post.user_name");
+        $data['user_qq']      = "";
+        $data['user_score']   = 0;
+        $data['create_time']  = date('Y-m-d H:i:s');
+        $data['status']    = 1;
         Db::startTrans();
         try {
-            $userId = $this->data($data)->save();
-            if (false !== $userId) {
+            $user_id = $this->data($data)->save();
+            if (false !== $user_id) {
                 $data             = array();
                 $ip               = request()->ip();
-                $data['lastTime'] = date('Y-m-d H:i:s');
-                $data['lastIP']   = $ip;
-                $userId           = $this->userId;
-                $this->where(["userId" => $userId])->update($data);
+                $data['last_time'] = date('Y-m-d H:i:s');
+                $data['last_ip']   = $ip;
+                $user_id           = $this->user_id;
+                $this->where(["user_id" => $user_id])->update($data);
                 //记录登录日志
                 $data              = array();
-                $data["userId"]    = $userId;
-                $data["loginTime"] = date('Y-m-d H:i:s');
-                $data["loginIp"]   = $ip;
+                $data["user_id"]    = $user_id;
+                $data["login_time"] = date('Y-m-d H:i:s');
+                $data["login_ip"]   = $ip;
                 Db::name('log_user_logins')->insert($data);
-                $user = $this->get($userId);
+                $user = $this->get($user_id);
                 session('FI_USER', $user);
                 Db::commit();
                 return FIReturn("", 1);
@@ -182,11 +182,11 @@ class Users extends Base
      * 查询用户手机是否存在
      *
      */
-    public function checkUserPhone($userPhone, $userId = 0)
+    public function checkUserPhone($user_phone, $user_id = 0)
     {
-        $dbo = $this->where(["dataFlag" => 1, "userPhone" => $userPhone]);
-        if ($userId > 0) {
-            $dbo->where("userId", "<>", $userId);
+        $dbo = $this->where(["status" => 1, "user_phone" => $user_phone]);
+        if ($user_id > 0) {
+            $dbo->where("user_id", "<>", $user_id);
         }
         $rs = $dbo->count();
         if ($rs > 0) {
@@ -202,16 +202,16 @@ class Users extends Base
     public function editPass($id)
     {
         $data             = array();
-        $data["loginPwd"] = input("post.newPass");
-        if (!$data["loginPwd"]) {
+        $data["login_password"] = input("post.newPass");
+        if (!$data["login_password"]) {
             return FIReturn('密码不能为空', -1);
         }
-        $rs = $this->where('userId=' . $id)->find();
+        $rs = $this->where('user_id=' . $id)->find();
         //核对密码
-        if ($rs['loginPwd']) {
-            if ($rs['loginPwd'] == md5(input("post.oldPass") . $rs['loginSecret'])) {
-                $data["loginPwd"] = md5(input("post.newPass") . $rs['loginSecret']);
-                $rs               = $this->update($data, ['userId' => $id]);
+        if ($rs['login_password']) {
+            if ($rs['login_password'] == md5(input("post.oldPass") . $rs['login_secret'])) {
+                $data["login_password"] = md5(input("post.newPass") . $rs['login_secret']);
+                $rs               = $this->update($data, ['user_id' => $id]);
                 if (false !== $rs) {
                     return FIReturn("密码修改成功", 1);
                 } else {
@@ -221,8 +221,8 @@ class Users extends Base
                 return FIReturn('原始密码错误', -1);
             }
         } else {
-            $data["loginPwd"] = md5(input("post.newPass") . $rs['loginSecret']);
-            $rs               = $this->update($data, ['userId' => $id]);
+            $data["login_password"] = md5(input("post.newPass") . $rs['login_secret']);
+            $rs               = $this->update($data, ['user_id' => $id]);
             if (false !== $rs) {
                 return FIReturn("密码修改成功", 1);
             } else {
@@ -235,8 +235,8 @@ class Users extends Base
      */
     public function getById($id)
     {
-        $rs          = $this->get(['userId' => (int) $id]);
-        $rs['ranks'] = Db::name('user_ranks')->where('startScore', '<=', $rs['userTotalScore'])->where('endScore', '>=', $rs['userTotalScore'])->field('rankId,rankName,rebate,userrankImg')->find();
+        $rs          = $this->get(['user_id' => (int) $id]);
+        $rs['ranks'] = Db::name('user_ranks')->where('start_score', '<=', $rs['user_total_score'])->where('end_score', '>=', $rs['user_total_score'])->field('rank_id,rank_name,rebate,userrank_img')->find();
         return $rs;
     }
     /**
@@ -244,13 +244,13 @@ class Users extends Base
      */
     public function edit()
     {
-        $Id   = (int) input('post.userId/d');
+        $Id   = (int) input('post.user_id/d');
         $data = input('post.');
-        FIAllow($data, 'brithday,trueName,userName,userId,userPhoto,userQQ,userSex');
+        FIAllow($data, 'brithday,true_name,user_name,user_id,user_photo,user_qq,user_sex');
         Db::startTrans();
         try {
-            FIUseImages(0, $Id, $data['userPhoto'], 'users', 'userPhoto');
-            $result = $this->allowField(true)->save($data, ['userId' => $Id]);
+            FIUseImages(0, $Id, $data['user_photo'], 'users', 'user_photo');
+            $result = $this->allowField(true)->save($data, ['user_id' => $Id]);
             if (false !== $result) {
                 Db::commit();
                 return FIReturn("编辑成功", 1);
@@ -263,11 +263,11 @@ class Users extends Base
     /**
      * 绑定邮箱
      */
-    public function editEmail($userId, $userEmail)
+    public function editEmail($user_id, $user_email)
     {
         $data              = array();
-        $data["userEmail"] = $userEmail;
-        $rs                = $this->update($data, ['userId' => $userId]);
+        $data["user_email"] = $user_email;
+        $rs                = $this->update($data, ['user_id' => $user_id]);
         if (false !== $rs) {
             return FIReturn("", 1);
         } else {
@@ -277,11 +277,11 @@ class Users extends Base
     /**
      * 绑定手机
      */
-    public function editPhone($userId, $userPhone)
+    public function editPhone($user_id, $user_phone)
     {
         $data              = array();
-        $data["userPhone"] = $userPhone;
-        $rs                = $this->update($data, ['userId' => $userId]);
+        $data["user_phone"] = $user_phone;
+        $rs                = $this->update($data, ['user_id' => $user_id]);
         if (false !== $rs) {
             return FIReturn("绑定成功", 1);
         } else {
@@ -297,7 +297,7 @@ class Users extends Base
             return array();
         }
 
-        $rs = $this->where(["loginName|userEmail|userPhone" => ['=', $key], 'dataFlag' => 1])->find();
+        $rs = $this->where(["login_name|user_email|user_phone" => ['=', $key], 'status' => 1])->find();
         return $rs;
     }
     /**
@@ -308,24 +308,24 @@ class Users extends Base
         if (time() > floatval(session('REST_Time')) + 30 * 60) {
             return FIReturn("连接已失效！", -1);
         }
-        $reset_userId = (int) session('REST_userId');
-        if ($reset_userId == 0) {
+        $reset_user_id = (int) session('REST_user_id');
+        if ($reset_user_id == 0) {
             return FIReturn("无效的用户！", -1);
         }
-        $user = $this->where(["dataFlag" => 1, "userStatus" => 1, "userId" => $reset_userId])->find();
+        $user = $this->where(["status" => 1, "user_status" => 1, "user_id" => $reset_user_id])->find();
         if (empty($user)) {
             return FIReturn("无效的用户！", -1);
         }
-        $loginPwd = input("post.loginPwd");
-        if (trim($loginPwd) == '') {
+        $login_password = input("post.login_password");
+        if (trim($login_password) == '') {
             return FIReturn("无效的密码！", -1);
         }
-        $data['loginPwd'] = md5($loginPwd . $user["loginSecret"]);
-        $rc               = $this->update($data, ['userId' => $reset_userId]);
+        $data['login_password'] = md5($login_password . $user["login_secret"]);
+        $rc               = $this->update($data, ['user_id' => $reset_user_id]);
         if (false !== $rc) {
             return FIReturn("修改成功", 1);
         }
-        session('REST_userId', null);
+        session('REST_user_id', null);
         session('REST_Time', null);
         session('REST_success', null);
         session('findPass', null);
@@ -335,8 +335,8 @@ class Users extends Base
     /**
      * 获取用户可用积分
      */
-    public function getFieldsById($userId, $fields)
+    public function getFieldsById($user_id, $fields)
     {
-        return $this->where(['userId' => $userId, 'dataFlag' => 1])->field($fields)->find();
+        return $this->where(['user_id' => $user_id, 'status' => 1])->field($fields)->find();
     }
 }

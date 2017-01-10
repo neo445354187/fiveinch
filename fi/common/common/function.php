@@ -280,13 +280,13 @@ function FIConfig()
 {
     $rs = cache('FI_CONF');
     if (!$rs) {
-        $rv = Db::table('__SYS_CONFIGS__')->field('fieldCode,fieldValue')->select();
+        $rv = Db::table('__SYS_CONFIGS__')->field('field_code,field_value')->select();
         $rs = [];
         foreach ($rv as $v) {
-            $rs[$v['fieldCode']] = $v['fieldValue'];
+            $rs[$v['field_code']] = $v['field_value'];
         }
         //获取上传文件目录配置，待定：又来特征码
-        $data = Db::table('__DATAS__')->where('catId', 3)->column('dataVal');
+        $data = Db::table('__DATAS__')->where('cat_id', 3)->column('data_val');
         foreach ($data as $key => $v) {
             $data[$key] = str_replace('_', '', $v);
         }
@@ -297,16 +297,17 @@ function FIConfig()
 
         cache('FI_CONF', $rs, 31536000);
     }
+
     return $rs;
 }
 
 /**
  * 判断手机号格式是否正确
  */
-function FIIsPhone($phoneNo)
+function FIIsPhone($phone_no)
 {
     $reg = "/^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$/";
-    $rs  = \think\Validate::regex($phoneNo, $reg);
+    $rs  = \think\Validate::regex($phone_no, $reg);
     return $rs;
 }
 
@@ -318,9 +319,9 @@ function FIIsPhone($phoneNo)
 /**
  * [FICheckLoginKey 检测登录账号是否可用]
  * @param [type]  $val    [要检测的内容]
- * @param integer $userId [需要检查的userId，有userId就将其传入检查，没有就检查登录名、邮箱和电话]
+ * @param integer $user_id [需要检查的user_id，有user_id就将其传入检查，没有就检查登录名、邮箱和电话]
  */
-function FICheckLoginKey($val, $userId = 0)
+function FICheckLoginKey($val, $user_id = 0)
 {
     if ($val == '') {
         return FIReturn("登录账号不能为空");
@@ -329,9 +330,9 @@ function FICheckLoginKey($val, $userId = 0)
     if (!FICheckFilterWords($val, FIConf("CONF.registerLimitWords"))) {
         return FIReturn("登录账号包含非法字符");
     }
-    $dbo = Db::table('__USERS__')->where(["loginName|userEmail|userPhone" => ['=', $val], 'dataFlag' => 1]);
-    if ($userId > 0) {
-        $dbo->where("userId", "<>", $userId);
+    $dbo = Db::table('__USERS__')->where(["login_name|user_email|user_phone" => ['=', $val], 'status' => 1]);
+    if ($user_id > 0) {
+        $dbo->where("user_id", "<>", $user_id);
     }
     $rs = $dbo->count();
     if ($rs == 0) {
@@ -343,21 +344,21 @@ function FICheckLoginKey($val, $userId = 0)
 /**
  * 生成随机数账号
  */
-function FIRandomLoginName($loginName)
+function FIRandomLoginName($login_name)
 {
     $chars = array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
     //简单的派字母
     foreach ($chars as $key => $c) {
-        $crs = FICheckLoginKey($loginName . "_" . $c);
+        $crs = FICheckLoginKey($login_name . "_" . $c);
         if ($crs['status'] == 1) {
-            return $loginName . "_" . $c;
+            return $login_name . "_" . $c;
         }
     }
     //随机派三位数值
     for ($i = 0; $i < 1000; $i++) {
-        $crs = $this->FICheckLoginKey($loginName . "_" . $i);
+        $crs = $this->FICheckLoginKey($login_name . "_" . $i);
         if ($crs['status'] == 1) {
-            return $loginName . "_" . $i;
+            return $login_name . "_" . $i;
         }
     }
     return '';
@@ -422,14 +423,14 @@ function FIStrReplace($str, $repStr, $start, $splilt = '')
 /**
  * 获取指定商品分类的子分类列表
  */
-function FIGoodsCats($parentId = 0, $isFloor = -1)
+function FIGoodsCats($parent_id = 0, $is_floor = -1)
 {
-    $dbo = Db::table('__GOODS_CATS__')->where(['dataFlag' => 1, 'isShow' => 1, 'parentId' => $parentId]);
-    if ($isFloor != -1) {
-        $dbo->where('isFloor', $isFloor);
+    $dbo = Db::table('__GOODS_CATS__')->where(['status' => 1, 'is_show' => 1, 'parent_id' => $parent_id]);
+    if ($is_floor != -1) {
+        $dbo->where('is_floor', $is_floor);
     }
 
-    return $dbo->field("catName,catId")->order('catSort asc')->select();
+    return $dbo->field("cat_name,cat_id")->order('cat_sort asc')->select();
 }
 
 /**
@@ -439,9 +440,9 @@ function FIGoodsCats($parentId = 0, $isFloor = -1)
  * pc版缩略图： width height
  * 手机版原图：mWidth mHeight
  * 缩略图：mTWidth mTHeight
- * 判断图片来源：fromType 0：商家/用户   1：平台管理员
+ * 判断图片来源：from_type 0：商家/用户   1：平台管理员
  */
-function FIUploadPic($fromType = 0)
+function FIUploadPic($from_type = 0)
 {
     $fileKey = key($_FILES);
     $dir     = Input('post.dir');
@@ -485,7 +486,7 @@ function FIUploadPic($fromType = 0)
         //原图路径
         $imageSrc = trim($filePath . $name, '/');
         //图片记录
-        FIRecordImages($imageSrc, (int) $fromType);
+        FIRecordImages($imageSrc, (int) $from_type);
         //打开原图
         $image = \image\Image::open($imageSrc);
         //缩略图路径 手机版原图路径 手机版缩略图路径
@@ -586,7 +587,7 @@ function FIUploadPic($fromType = 0)
 /**
  * 上传文件
  */
-function FIUploadFile()
+function FIUpload_file()
 {
     $fileKey = key($_FILES);
     $dir     = Input('post.dir');
@@ -634,7 +635,7 @@ function FIGoodsNo($pref = '')
 }
 
 /**
- * 获取订单统一流水号，orders表中的orderunique字段值
+ * 获取订单统一流水号，orders表中的order_unique字段值
  */
 function FIOrderQnique()
 {
@@ -643,25 +644,25 @@ function FIOrderQnique()
 
 /**
  * 图片管理，加入表进行统一管理
- * @param $imgPath    图片路径
- * @param $fromType   0：用户/商家 1：平台管理员
+ * @param $img_path    图片路径
+ * @param $from_type   0：用户/商家 1：平台管理员
  *
  */
-function FIRecordImages($imgPath, $fromType)
+function FIRecordImages($img_path, $from_type)
 {
     $data            = [];
-    $data['imgPath'] = $imgPath;
-    if (file_exists($imgPath)) {
-        $data['imgSize'] = filesize($imgPath); //返回字节数 imgsize/1024 k      imgsize/1024/1024 m
+    $data['img_path'] = $img_path;
+    if (file_exists($img_path)) {
+        $data['img_size'] = filesize($img_path); //返回字节数 imgsize/1024 k      imgsize/1024/1024 m
     }
     //获取表名
-    $table             = explode('/', $imgPath);
-    $data['fromTable'] = $table[1];
-    $data['fromType']  = (int) $fromType;
+    $table             = explode('/', $img_path);
+    $data['from_table'] = $table[1];
+    $data['from_type']  = (int) $from_type;
     //根据类型判断所有者
-    $data['ownId']      = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
-    $data['isUse']      = 0; //默认不使用
-    $data['createTime'] = date('Y-m-d H:i:s');
+    $data['own_id']      = ((int) $from_type == 0) ? (int) session('FI_USER.user_id') : (int) session('FI_STAFF.staff_id');
+    $data['is_use']      = 0; //默认不使用
+    $data['create_time'] = date('Y-m-d H:i:s');
 
     //保存记录
     Db::table('__IMAGES__')->insert($data);
@@ -669,72 +670,71 @@ function FIRecordImages($imgPath, $fromType)
 
 /**
  * 启用图片，说明：在前台Goods模型中有调用
- * @param $fromType 0：  用户/商家 1：平台管理员
- * @param $dataId        来源记录id
- * @param $imgPath       图片路径,要处理多张图片时请传入一位数组,或用","连接图片路径
- * @param $fromTable     该记录来自哪张表
+ * @param $from_type 0：  用户/商家 1：平台管理员
+ * @param $data_id        来源记录id
+ * @param $img_path       图片路径,要处理多张图片时请传入一位数组,或用","连接图片路径
+ * @param $from_table     该记录来自哪张表
  * @param $imgFieldName  表中的图片字段名称
  */
-function FIUseImages($fromType, $dataId, $imgPath, $fromTable = '', $imgFieldName = '')
+function FIUseImages($from_type, $data_id, $img_path, $from_table = '', $imgFieldName = '')
 {
-    if (empty($imgPath)) {
+    if (empty($img_path)) {
         return;
     }
 
-    $image['fromType'] = (int) $fromType;
+    $image['from_type'] = (int) $from_type;
     //根据类型判断所有者
-    $image['ownId']  = ((int) $fromType == 0) ? (int) session('FI_USER.userId') : (int) session('FI_STAFF.staffId');
-    $image['dataId'] = (int) $dataId;
+    $image['own_id']  = ((int) $from_type == 0) ? (int) session('FI_USER.user_id') : (int) session('FI_STAFF.staff_id');
+    $image['data_id'] = (int) $data_id;
 
-    $image['isUse'] = 1; //标记为启用
-    if ($fromTable != '') {
+    $image['is_use'] = 1; //标记为启用
+    if ($from_table != '') {
         $tmp = ['', ''];
-        if (strpos($fromTable, '-') !== false) {
-            $tmp       = explode('-', $fromTable);
-            $fromTable = str_replace('-' . $tmp[1], '', $fromTable);
+        if (strpos($from_table, '-') !== false) {
+            $tmp       = explode('-', $from_table);
+            $from_table = str_replace('-' . $tmp[1], '', $from_table);
         }
-        $image['fromTable'] = str_replace('_', '', $fromTable . $tmp[1]);
+        $image['from_table'] = str_replace('_', '', $from_table . $tmp[1]);
     }
-
-    $imgPath = is_array($imgPath) ? $imgPath : explode(',', $imgPath); //转数组
+    $img_path = is_array($img_path) ? $img_path : explode(',', $img_path); //转数组
     //用于与旧图比较
-    $newImage = $imgPath;
+    $newImage = $img_path;
 
     // 不为空说明执行修改
     if ($imgFieldName != '') {
-        //要操作的表名  $fromTable;
-        // 获取`$fromTable`表的主键
+        //要操作的表名  $from_table;
+        // 获取`$from_table`表的主键
         $prefix    = config('database.prefix');
-        $tableName = $prefix . $fromTable;
+        $tableName = $prefix . $from_table;
         $pk        = Db::getTableInfo("$tableName", 'pk');
         // 取出旧图
-        $oldImgPath = model("$fromTable")->where("$pk", $dataId)->value("$imgFieldName");
+        $oldImgPath = model("$from_table")->where("$pk", $data_id)->value("$imgFieldName");
         // 转数组
         $oldImgPath = explode(',', $oldImgPath);
 
         // 1.要设置为启用的文件
-        $newImage = array_diff($imgPath, $oldImgPath);
+        $newImage = array_diff($img_path, $oldImgPath);
         // 2.要标记为删除的文件
-        $oldImgPath = array_diff($oldImgPath, $imgPath);
+        $oldImgPath = array_diff($oldImgPath, $img_path);
         //旧图数组跟新图数组相同则不需要继续执行
         if ($newImage != $oldImgPath) {
             FIUnuseImage($oldImgPath);
         }
     }
     if (!empty($newImage)) {
-        Db::table('__IMAGES__')->where(['imgPath' => ['in', $newImage]])->update($image);
+        Db::table('__IMAGES__')->where(['img_path' => ['in', $newImage]])->update($image);
     }
 }
 
 /**
  * 编辑器图片记录，说明：在前台Goods模型中有调用
- * @param $fromType 0：  用户/商家 1：平台管理员
- * @param $dataId        来源记录id
+ * @param $from_type 0：  用户/商家 1：平台管理员
+ * @param $data_id        来源记录id
  * @param $oldDesc       旧商品描述
  * @param $newDesc       新商品描述
- * @param $fromTable     该记录来自哪张表
+ * @param $from_table     该记录来自哪张表
  */
-function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
+function FIEditorImageRocord($from_table, $data_id, $oldDesc, $newDesc)
 {
     //编辑器里的图片
     $rule = '/src="\/(upload.*?)"/';
@@ -744,15 +744,15 @@ function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
 
     preg_match_all($rule, $newDesc, $images);
     // 获取新的src数组
-    $imgPath = $images[1];
+    $img_path = $images[1];
     // 1.要设置为启用的文件
-    $newImage = array_diff($imgPath, $oldImgPath);
+    $newImage = array_diff($img_path, $oldImgPath);
     // 2.要标记为删除的文件
-    $oldImgPath = array_diff($oldImgPath, $imgPath);
+    $oldImgPath = array_diff($oldImgPath, $img_path);
     //旧图数组跟新图数组相同则不需要继续执行
     if ($newImage != $oldImgPath) {
         //标记新图启用
-        FIUseImages($fromTable, $dataId, $newImage);
+        FIUseImages($from_table, $data_id, $newImage);
         //标记旧图删除
         FIUnuseImage($oldImgPath);
     }
@@ -761,23 +761,23 @@ function FIEditorImageRocord($fromTable, $dataId, $oldDesc, $newDesc)
 /**
  * 标记删除图片，并没有实际删除图片
  */
-function FIUnuseImage($fromTable, $field = '', $dataId = 0)
+function FIUnuseImage($from_table, $field = '', $data_id = 0)
 {
-    if ($fromTable == '') {
+    if ($from_table == '') {
         return;
     }
 
-    $imgPath = $fromTable;
+    $img_path = $from_table;
     if ($field != '') {
         $prefix    = config('database.prefix');
-        $tableName = $prefix . $fromTable;
+        $tableName = $prefix . $from_table;
         $pk        = Db::getTableInfo("$tableName", 'pk');
         // 取出旧图
-        $imgPath = model("$fromTable")->where("$pk", $dataId)->value("$field");
+        $img_path = model("$from_table")->where("$pk", $data_id)->value("$field");
     }
-    if (!empty($imgPath)) {
-        $imgPath = is_array($imgPath) ? $imgPath : explode(',', $imgPath); //转数组
-        Db::table('__IMAGES__')->where(['imgPath' => ['in', $imgPath]])->setField('isUse', 0);
+    if (!empty($img_path)) {
+        $img_path = is_array($img_path) ? $img_path : explode(',', $img_path); //转数组
+        Db::table('__IMAGES__')->where(['img_path' => ['in', $img_path]])->setField('is_use', 0);
     }
 }
 
@@ -822,17 +822,17 @@ function FIImg($imgurl, $imgType = 1)
 /**
  * 根据送货城市获取运费
  * @param $cityId 送货城市Id
- * @param @shopIds 店铺ID
+ * @param @shop_ids 店铺ID
  */
-function FIOrderFreight($shopId, $cityId)
+function FIOrderFreight($shop_id, $cityId)
 {
     $goodsFreight = ['total' => 0, 'shops' => []];
     $rs           = Db::table('__SHOPS__')->alias('s')
-        ->join('__SHOP_FREIGHTS__ sf', 's.shopId=sf.shopId', 'left')
-        ->where('s.shopId', $shopId)
-        ->field('s.freight,sf.freightId,sf.freight freight2')
+        ->join('__SHOP_FREIGHTS__ sf', 's.shop_id=sf.shop_id', 'left')
+        ->where('s.shop_id', $shop_id)
+        ->field('s.freight,sf.freight_id,sf.freight freight2')
         ->find();
-    return ((int) $rs['freightId'] > 0) ? $rs['freight2'] : $rs['freight'];
+    return ((int) $rs['freight_id'] > 0) ? $rs['freight2'] : $rs['freight'];
 }
 
 /**
@@ -840,8 +840,8 @@ function FIOrderFreight($shopId, $cityId)
  */
 function FIOrderNo()
 {
-    $orderId = Db::table('__ORDERIDS__')->insertGetId(['rnd' => time()]);
-    return $orderId . (fmod($orderId, 7));
+    $order_id = Db::table('__ORDERIDS__')->insertGetId(['rnd' => time()]);
+    return $order_id . (fmod($order_id, 7));
 }
 
 /**
@@ -927,19 +927,19 @@ function FILangPayFrom($v)
 /**
  * 获取业务数据内容
  */
-function FIDatas($catId, $id = 0)
+function FIDatas($cat_id, $id = 0)
 {
-    $rs   = Db::table('__DATAS__')->order('catId asc,dataSort asc,id asc')->select();
+    $rs   = Db::table('__DATAS__')->order('cat_id asc,data_sort asc,id asc')->select();
     $data = [];
     foreach ($rs as $key => $v) {
-        $data[$v['catId']][$v['dataVal']] = $v;
+        $data[$v['cat_id']][$v['data_val']] = $v;
     }
-    if (isset($data[$catId])) {
+    if (isset($data[$cat_id])) {
         if ($id == 0) {
-            return $data[$catId];
+            return $data[$cat_id];
         }
 
-        return isset($data[$catId][$id]) ? $data[$catId][$id] : '';
+        return isset($data[$cat_id][$id]) ? $data[$cat_id][$id] : '';
     }
     return [];
 }
@@ -990,27 +990,27 @@ function FIScore($score, $users, $type = 5, $len = 0, $total = 1)
     }
 }
 
-function FIShopEncrypt($shopId)
+function FIShopEncrypt($shop_id)
 {
-    return md5(base64_encode("fi" . date("Y-m-d") . $shopId));
+    return md5(base64_encode("fi" . date("Y-m-d") . $shop_id));
 }
 
 /**
  * 根据子分类循环获取其父级分类
  */
-function FIGoodsCatPath($catId, $data = [])
+function FIGoodsCatPath($cat_id, $data = [])
 {
-    if ($catId == 0) {
+    if ($cat_id == 0) {
         return $data;
     }
 
-    $data[]   = $catId;
-    $parentId = Db::table('__GOODS_CATS__')->where('catId', $catId)->value('parentId');
-    if ($parentId == 0) {
+    $data[]   = $cat_id;
+    $parent_id = Db::table('__GOODS_CATS__')->where('cat_id', $cat_id)->value('parent_id');
+    if ($parent_id == 0) {
         krsort($data);
         return $data;
     } else {
-        return FIGoodsCatPath($parentId, $data);
+        return FIGoodsCatPath($parent_id, $data);
     }
 }
 
@@ -1027,7 +1027,7 @@ function FIPager($total, $rs, $page, $size = 0)
 /**
  * 编辑器上传图片
  */
-function FIEditUpload($fromType)
+function FIEditUpload($from_type)
 {
     //PHP上传失败
     if (!empty($_FILES['imgFile']['error'])) {
@@ -1092,7 +1092,7 @@ function FIEditUpload($fromType)
         $name     = $info->getFilename();
         $imageSrc = trim($filePath, '/');
         //图片记录
-        FIRecordImages($imageSrc, (int) $fromType);
+        FIRecordImages($imageSrc, (int) $from_type);
         return json_encode(array('error' => 0, 'url' => $filePath));
     }
 }
@@ -1109,20 +1109,20 @@ function FIHtmlspecialchars($v)
  * 发送商城消息
  * @param int     $to 接受者d
  * @param string $content 内容
- * @param array  $msgJson 存放json数据
+ * @param array  $msg_json 存放json数据
  */
-function FISendMsg($to, $content, $msgJson = [])
+function FISendMsg($to, $content, $msg_json = [])
 {
     $message               = [];
-    $message['msgType']    = 0;
-    $message['sendUserId'] = 1;
-    $message['createTime'] = date('Y-m-d H:i:s');
-    $message['msgStatus']  = 0;
-    $message['dataFlag']   = 1;
+    $message['msg_type']    = 0;
+    $message['send_user_id'] = 1;
+    $message['create_time'] = date('Y-m-d H:i:s');
+    $message['msg_status']  = 0;
+    $message['status']   = 1;
 
-    $message['receiveUserId'] = $to;
-    $message['msgContent']    = $content;
-    $message['msgJson']       = json_encode($msgJson);
+    $message['receive_user_id'] = $to;
+    $message['msg_content']    = $content;
+    $message['msg_json']       = json_encode($msg_json);
     model('admin/Messages')->save($message);
 }
 

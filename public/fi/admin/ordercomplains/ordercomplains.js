@@ -15,12 +15,12 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '投诉人', name: 'userName',isSort: false,render:function(rowdata, rowindex, value){
-	        	return FI.blank(rowdata['userName'],rowdata['loginName']);
+	        { display: '投诉人', name: 'user_name',isSort: false,render:function(rowdata, rowindex, value){
+	        	return FI.blank(rowdata['user_name'],rowdata['login_name']);
 	        }},
-	        { display: '投诉订单号', name: 'orderNo',isSort: false},
-	        { display: '被投诉人', name: 'shopName',isSort: false},
-	        { display: '投诉类型', name: 'complainType',isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '投诉订单号', name: 'order_no',isSort: false},
+	        { display: '被投诉人', name: 'shop_name',isSort: false},
+	        { display: '投诉类型', name: 'complain_type',isSort: false,render:function(rowdata, rowindex, value){
 	        	var html='';
 	        	if(value==1)
 	        		html = '承诺的没有做到';
@@ -32,8 +32,8 @@ function initGrid(){
 	        		html = '恶意骚扰';
 	        	return html;
 	        }},
-	        { display: '投诉时间', name: 'complainTime',isSort: false},
-	        { display: '状态', name: 'complainStatus',isSort: false,render:function(rowdata, rowindex, value){
+	        { display: '投诉时间', name: 'complain_time',isSort: false},
+	        { display: '状态', name: 'complain_status',isSort: false,render:function(rowdata, rowindex, value){
 	        	var html='';
 	        	if(value==0)
 	        		html = '新投诉';
@@ -49,9 +49,9 @@ function initGrid(){
 	        }},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            h += "<a href='javascript:toView(" + rowdata['complainId'] + ")'>查看</a> ";
-	            if(rowdata['complainStatus']!=4)
-	            h += "<a href='javascript:toHandle(" + rowdata['complainId'] + ")'>处理</a> ";
+	            h += "<a href='javascript:toView(" + rowdata['complain_id'] + ")'>查看</a> ";
+	            if(rowdata['complain_status']!=4)
+	            h += "<a href='javascript:toHandle(" + rowdata['complain_id'] + ")'>处理</a> ";
 	            return h;
 	        }}
             
@@ -90,9 +90,9 @@ function finalHandle(id){
    params.cid = id;
    
 
-   params.orderStatus = $.trim($('#orderStatus').val());
-   params.finalResult = $.trim($('#finalResult').val());
-   if(params.finalResult==''){
+   params.order_status = $.trim($('#order_status').val());
+   params.final_result = $.trim($('#final_result').val());
+   if(params.final_result==''){
      FI.msg('请输入仲裁结果!',{icon:2});
      return;
    }

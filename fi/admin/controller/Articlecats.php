@@ -24,7 +24,7 @@ class ArticleCats extends Base{
      */
     public function listQuery(){
     	$m = new M();
-    	$rs = $m->listQuery(input('parentId/d',0));
+    	$rs = $m->listQuery(input('parent_id/d',0));
     	return $rs;
     }
     /**

@@ -66,7 +66,7 @@ class Users extends Base{
      * 判断账号是否存在
      */
     public function checkLoginKey(){
-    	$rs = FICheckLoginKey(Input('post.loginName'),Input('post.userId/d',0));
+    	$rs = FICheckLoginKey(Input('post.login_name'),Input('post.user_id/d',0));
     	if($rs['status']==1){
     		return ['ok'=>$rs['msg']];
     	}else{

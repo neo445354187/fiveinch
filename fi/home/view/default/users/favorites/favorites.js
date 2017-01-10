@@ -35,7 +35,7 @@ function freGoodsList(pages){
 	    	},function(){
 	    		$(this).find(".js-operate").slideUp();
 	    	});
-	    	$('.goodsImg2').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
+	    	$('.goods_img2').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
         }
     });
 }
@@ -80,8 +80,8 @@ function freShopList(pages){
 	            $('#list-shops').html(html);
 	        });
 	        //商品滑动
-	    	var goodsNum = json.Rows.length;
-	    	for(var i=0;i<goodsNum;++i){
+	    	var goods_num = json.Rows.length;
+	    	for(var i=0;i<goods_num;++i){
 		    	$("#js-goods"+i).als({
 		    		visible_items: 5,
 		    		scrolling_items: 1,
@@ -91,7 +91,7 @@ function freShopList(pages){
 		    		start_from: 2
 		    	});
 	    	}
-	    	$('.goodsImg2').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
+	    	$('.goods_img2').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.GOODS_LOGO});//商品默认图片
 	        $('.shopsImg2').lazyload({ effect: "fadeIn",failurelimit : 10,skip_invisible : false,threshold: 200,placeholder:window.conf.ROOT+'/'+window.conf.SHOP_LOGO});//店铺默认头像
 	        if(json.TotalPage>1){
 	            laypage({
@@ -116,5 +116,5 @@ function freShopList(pages){
     });
 }
 function getShop(id){
-	location.href=FI.U('home/shops/home','shopId='+id);
+	location.href=FI.U('home/shops/home','shop_id='+id);
 }

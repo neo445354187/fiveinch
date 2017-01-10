@@ -9,35 +9,35 @@
 </style>
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <form id='editFrom' autocomplete='off'>
-<input type='hidden' id='shopId' class='ipt' value="{$object['shopId']}"/>
-<input type='hidden' id='applyId' class='ipt' value="{$object['applyId']}"/>
+<input type='hidden' id='shop_id' class='ipt' value="{$object['shop_id']}"/>
+<input type='hidden' id='apply_id' class='ipt' value="{$object['apply_id']}"/>
 <table class='fi-form fi-box-top'>
  <tr>
      <td colspan='2' class='head-ititle'>基础信息</td>
   </tr
- {if $object['shopId']==0 || $object['userId']==0 }
+ {if $object['shop_id']==0 || $object['user_id']==0 }
   <tr>
      <th width='150'>登录账号<font color='red'>*</font>：</th>
-     <td><input type="text" id='loginName' name='loginName' class='ipt' value="{$object['loginName']}" maxLength='20' data-rule="登录账号: required;length[6~20];remote(post:{:url('admin/users/checkLoginKey')})" onkeyup="javascript:FI.isChinese(this,1)"/></td>
+     <td><input type="text" id='login_name' name='login_name' class='ipt' value="{$object['login_name']}" maxLength='20' data-rule="登录账号: required;length[6~20];remote(post:{:url('admin/users/checkLoginKey')})" onkeyup="javascript:FI.isChinese(this,1)"/></td>
   </tr>
   <tr>
      <th>登录密码<font color='red'>*</font>：</th>
-     <td><input type="password" id='loginPwd' class='ipt' maxLength='20' value='88888888' data-rule="登录密码: required;length[6~20];" data-target="#msg_loginPwd"/>
-     <span class='msg-box' id='msg_loginPwd'>(默认为88888888)</span>
+     <td><input type="password" id='login_password' class='ipt' maxLength='20' value='88888888' data-rule="登录密码: required;length[6~20];" data-target="#msg_login_password"/>
+     <span class='msg-box' id='msg_login_password'>(默认为88888888)</span>
      </td>
   </tr>
  {/if}
   <tr>
-     <th width='150'>店铺编号{if $object['shopId']>0}<font color='red'>*</font>{/if}：</th>
-     <td><input type="text" id='shopSn' name='shopSn' class='ipt' value="{$object['shopSn']}" maxLength='20' data-rule="店铺编号:{if $object['shopId']>0}required;length[1~20];{else /}ignoreBlank;{/if}remote(post:{:url('admin/shops/checkShopSn',array('shopId'=>$object['shopId']))})" data-target="#msg_shopSn"/><span class='msg-box' id='msg_shopSn'>{if $object['shopId']==0}(为空则自动生成'S000000001'类型号码){/if}</span></td>
+     <th width='150'>店铺编号{if $object['shop_id']>0}<font color='red'>*</font>{/if}：</th>
+     <td><input type="text" id='shop_sn' name='shop_sn' class='ipt' value="{$object['shop_sn']}" maxLength='20' data-rule="店铺编号:{if $object['shop_id']>0}required;length[1~20];{else /}ignoreBlank;{/if}remote(post:{:url('admin/shops/checkShopSn',array('shop_id'=>$object['shop_id']))})" data-target="#msg_shop_sn"/><span class='msg-box' id='msg_shop_sn'>{if $object['shop_id']==0}(为空则自动生成'S000000001'类型号码){/if}</span></td>
   </tr>
   <tr>
      <th>店铺名称<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopName' class='ipt' value="{$object['shopName']}" maxLength='20' data-rule="店铺名称: required;"/></td>
+     <td><input type="text" id='shop_name' class='ipt' value="{$object['shop_name']}" maxLength='20' data-rule="店铺名称: required;"/></td>
   </tr>
   <tr>
      <th>店主姓名<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopkeeper' class='ipt' value="{$object['shopkeeper']}" maxLength='20' data-rule="店主姓名: required;"/></td>
+     <td><input type="text" id='shop_keeper' class='ipt' value="{$object['shop_keeper']}" maxLength='20' data-rule="店主姓名: required;"/></td>
   </tr>
   <tr>
      <th>店主联系手机<font color='red'>*</font>：</th>
@@ -45,11 +45,11 @@
   </tr>
   <tr>
      <th>公司名称<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopCompany' class='ipt' value="{$object['shopCompany']}"  style='width:400px;' maxLength='50' data-rule="公司名称: required;"/></td>
+     <td><input type="text" id='shop_company' class='ipt' value="{$object['shop_company']}"  style='width:400px;' maxLength='50' data-rule="公司名称: required;"/></td>
   </tr>
   <tr>
      <th>店铺联系电话<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopTel' class='ipt' value="{$object['shopTel']}" maxLength='50' data-rule="店铺联系电话: required;"/></td>
+     <td><input type="text" id='shop_tel' class='ipt' value="{$object['shop_tel']}" maxLength='50' data-rule="店铺联系电话: required;"/></td>
   </tr>
   
   <tr>
@@ -57,7 +57,7 @@
      <td>
        {volist name="goodsCatList" id="vo"}
        <label class='goodsCat'>
-          <input type='checkbox' class='ipt' name='goodsCatIds' value='{$vo["catId"]}' {if $i == 1}data-rule="经营范围:checked"{/if} {if array_key_exists($vo['catId'],$object['catshops'])}checked{/if}/>{$vo["catName"]}
+          <input type='checkbox' class='ipt' name='goods_cat_ids' value='{$vo["cat_id"]}' {if $i == 1}data-rule="经营范围:checked"{/if} {if array_key_exists($vo['cat_id'],$object['catshops'])}checked{/if}/>{$vo["cat_name"]}
        </label>
        {/volist}
      </td>
@@ -67,7 +67,7 @@
      <td>
        {volist name="accredList" id="vo"}
        <label class='accreds'>
-          <input type='checkbox' class='ipt' name='accredIds' value='{$vo["accredId"]}' {if array_key_exists($vo['accredId'],$object['accreds'])}checked{/if}/>{$vo["accredName"]}
+          <input type='checkbox' class='ipt' name='accred_ids' value='{$vo["accred_id"]}' {if array_key_exists($vo['accred_id'],$object['accreds'])}checked{/if}/>{$vo["accred_name"]}
        </label>
        {/volist}
      </td>
@@ -75,18 +75,18 @@
   <tr>
      <th>店铺图标<font color='red'>*</font>：</th>
      <td>
-     <div id='shopImgPicker'>上传店铺图标</div><span id='uploadMsg'></span><span class='msg-box' id='msg_shopImg'></span>
-     {if $object["shopImg"]!=''}
-     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shopImg"]}'/>
+     <div id='shop_imgPicker'>上传店铺图标</div><span id='uploadMsg'></span><span class='msg-box' id='msg_shop_img'></span>
+     {if $object["shop_img"]!=''}
+     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shop_img"]}'/>
      {else}
      <img id='preview' width='150' height='150' src="__ROOT__/{:FIConf('CONF.goodsLogo')}"/>
      {/if}
-     <input type="hidden" id='shopImg' class='ipt' value="{$object['shopImg']}" data-rule="店铺图标: required;" data-target='#msg_shopImg'/>
+     <input type="hidden" id='shop_img' class='ipt' value="{$object['shop_img']}" data-rule="店铺图标: required;" data-target='#msg_shop_img'/>
      </td>
   </tr>
   <tr>
      <th>客服QQ<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopQQ' class='ipt' value="{$object['shopQQ']}" maxLength='50' data-rule="客服QQ: required;"/></td>
+     <td><input type="text" id='shop_qq' class='ipt' value="{$object['shop_qq']}" maxLength='50' data-rule="客服QQ: required;"/></td>
   </tr>
   <tr>
      <th>所属区域<font color='red'>*</font>：</th>
@@ -94,38 +94,38 @@
         <select id="area_0" class='ipt j-areas' level="0" onchange="FI.ITAreas({id:'area_0',val:this.value,isRequire:true,className:'j-areas'});">
 	      	<option value="">-请选择-</option>
 	      	{volist name="areaList" id="vo"}
-	        <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+	        <option value="{$vo['area_id']}">{$vo['area_name']}</option>
 	        {/volist}
 	     </select>
      </td>
   </tr>
   <tr>
      <th>店铺详细地址<font color='red'>*</font>：</th>
-     <td><input type="text" id='shopAddress' class='ipt' style='width:500px;' value="{$object['shopAddress']}" maxLength='50' data-rule="店铺详细地址: required;"/></td>
+     <td><input type="text" id='shop_address' class='ipt' style='width:500px;' value="{$object['shop_address']}" maxLength='50' data-rule="店铺详细地址: required;"/></td>
   </tr>
   <tr>
      <th>是否提供开发票<font color='red'>*</font>：</th>
      <td>
         <label>
-           <input type='radio' class='ipt' name='isInvoice' id='isInvoice1' value='1' {if $object['isInvoice']==1}checked{/if} onclick='javascript:FI.showHide(1,"#trInvoice")'>是
+           <input type='radio' class='ipt' name='is_invoice' id='is_invoice1' value='1' {if $object['is_invoice']==1}checked{/if} onclick='javascript:FI.showHide(1,"#trInvoice")'>是
         </label>
         <label>
-           <input type='radio' class='ipt' name='isInvoice' value='0' {if $object['isInvoice']==0}checked{/if} onclick='javascript:FI.showHide(0,"#trInvoice")'>否
+           <input type='radio' class='ipt' name='is_invoice' value='0' {if $object['is_invoice']==0}checked{/if} onclick='javascript:FI.showHide(0,"#trInvoice")'>否
         </label>
      </td>
   </tr>
-  <tr id='trInvoice' {if $object['isInvoice']==0}style='display:none'{/if}>
+  <tr id='trInvoice' {if $object['is_invoice']==0}style='display:none'{/if}>
      <th>发票说明<font color='red'>*</font>：</th>
-     <td><input type="text" id='invoiceRemarks' class='ipt' value="{$object['invoiceRemarks']}" style='width:500px;' maxLength='100' data-rule="发票说明:required(#isInvoice1:checked)"/></td>
+     <td><input type="text" id='invoice_remarks' class='ipt' value="{$object['invoice_remarks']}" style='width:500px;' maxLength='100' data-rule="发票说明:required(#is_invoice1:checked)"/></td>
   </tr>
   <tr>
      <th>营业状态<font color='red'>*</font>：</th>
      <td>
         <label>
-           <input type='radio' class='ipt' name='shopAtive' value='1' {if $object['shopAtive']==1}checked{/if}>营业中
+           <input type='radio' class='ipt' name='shop_ative' value='1' {if $object['shop_ative']==1}checked{/if}>营业中
         </label>
         <label>
-           <input type='radio' class='ipt' name='shopAtive' value='0' {if $object['shopAtive']==0}checked{/if}>休息中
+           <input type='radio' class='ipt' name='shop_ative' value='0' {if $object['shop_ative']==0}checked{/if}>休息中
         </label>
      </td>
   </tr>
@@ -136,9 +136,9 @@
   <tr>
      <th>营业时间<font color='red'>*</font>：</th>
      <td>
-        <select class='ipt' id='serviceStartTime'></select>
+        <select class='ipt' id='service_start_time'></select>
         至
-        <select class='ipt' id='serviceEndTime'></select>
+        <select class='ipt' id='service_end_time'></select>
      </td>
   </tr>
   <tr>
@@ -147,21 +147,21 @@
   <tr>
      <th>所属银行<font color='red'>*</font>：</th>
      <td>
-       <select class='ipt' id='bankId' data-rule="所属银行: required;">
+       <select class='ipt' id='bank_id' data-rule="所属银行: required;">
           <option value=''>请选择</option>
           {volist name="bankList" id="vo"}
-          <option value='{$vo["bankId"]}' {if $object['bankId']==$vo['bankId']}selected{/if}>{$vo["bankName"]}</option>
+          <option value='{$vo["bank_id"]}' {if $object['bank_id']==$vo['bank_id']}selected{/if}>{$vo["bank_name"]}</option>
           {/volist}
        </select>
      </td>
   </tr>
   <tr>
      <th>银行卡账号<font color='red'>*</font>：</th>
-     <td><input type="text" id='bankNo' class='ipt' value="{$object['bankNo']}" maxLength='20'  style='width:300px;' data-rule="银行卡账号: required;"/></td>
+     <td><input type="text" id='bank_no' class='ipt' value="{$object['bank_no']}" maxLength='20'  style='width:300px;' data-rule="银行卡账号: required;"/></td>
   </tr>
   <tr>
      <th>持卡人<font color='red'>*</font>：</th>
-     <td><input type="text" id='bankUserName' class='ipt' value="{$object['bankUserName']}" maxLength='50' data-rule="持卡人: required;"/></td>
+     <td><input type="text" id='bank_username' class='ipt' value="{$object['bank_username']}" maxLength='50' data-rule="持卡人: required;"/></td>
   </tr>
   <tr>
      <td colspan='2' class='head-ititle'>审核状态</td>
@@ -170,16 +170,16 @@
      <th>店铺状态<font color='red'>*</font>：</th>
      <td>
         <label>
-           <input type='radio' class='ipt' name='shopStatus' id='shopStatus-1' value='-1' {if $object['shopStatus']==-1}checked{/if} onclick='javascript:FI.showHide(1,"#trStatusDesc")'>停止
+           <input type='radio' class='ipt' name='shop_status' id='shop_status-1' value='-1' {if $object['shop_status']==-1}checked{/if} onclick='javascript:FI.showHide(1,"#trStatusDesc")'>停止
         </label>
         <label>
-           <input type='radio' class='ipt' name='shopStatus' value='1' {if $object['shopStatus']==1}checked{/if} onclick='javascript:FI.showHide(0,"#trStatusDesc")'>正常
+           <input type='radio' class='ipt' name='shop_status' value='1' {if $object['shop_status']==1}checked{/if} onclick='javascript:FI.showHide(0,"#trStatusDesc")'>正常
         </label>
      </td>
   </tr>
-  <tr id='trStatusDesc' {if $object['shopStatus']==1}style='display:none'{/if}>
+  <tr id='trStatusDesc' {if $object['shop_status']==1}style='display:none'{/if}>
      <th>停止原因<font color='red'>*</font>：</th>
-     <td><textarea id='statusDesc' class='ipt' style='width:500px;height:100px;' maxLength='100' data-rule="停止原因:required(#shopStatus-1:checked);">{$object['statusDesc']}</textarea></td>
+     <td><textarea id='status_desc' class='ipt' style='width:500px;height:100px;' maxLength='100' data-rule="停止原因:required(#shop_status-1:checked);">{$object['status_desc']}</textarea></td>
   </tr>
   <tr>
      <td colspan='2' align='center'>
@@ -190,7 +190,7 @@
 </table>
 </form>
 <script>
-$(function(){initEdit({serviceStartTime:'{:date("H:i",strtotime($object["serviceStartTime"]))}',serviceEndTime:'{:date("H:i",strtotime($object["serviceEndTime"]))}',areaId:'{$object["areaId"]}',areaIdPath:'{$object["areaIdPath"]}'});})
+$(function(){initEdit({service_start_time:'{:date("H:i",strtotime($object["service_start_time"]))}',service_end_time:'{:date("H:i",strtotime($object["service_end_time"]))}',area_id:'{$object["area_id"]}',area_id_path:'{$object["area_id_path"]}'});})
 </script>
 {/block}
 {block name="js"}

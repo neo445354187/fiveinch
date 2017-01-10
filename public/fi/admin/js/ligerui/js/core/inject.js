@@ -54,7 +54,7 @@
         config: {
             Grid: {
                 //动态
-                dynamics: 'data,isChecked,detail,rowDraggingRender,toolbar,columns',
+                dynamics: 'data,is_checked,detail,rowDraggingRender,toolbar,columns',
                 //数组
                 arrays: 'columns',
                 //复杂属性columns

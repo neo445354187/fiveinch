@@ -16,15 +16,15 @@ label{margin-right:10px;}
            <table class='fi-form'> 
 			  <tr>
 			     <th width='150'>店铺编号：</th>
-			     <td>{$object['shopSn']}</td>
+			     <td>{$object['shop_sn']}</td>
 			  </tr>
 			  <tr>
 			     <th>店铺名称：</th>
-			     <td>{$object['shopName']}</td>
+			     <td>{$object['shop_name']}</td>
 			  </tr>
 			  <tr>
 			     <th>店主姓名：</th>
-			     <td>{$object['shopkeeper']}</td>
+			     <td>{$object['shop_keeper']}</td>
 			  </tr>
 			  <tr>
 			     <th>店主联系手机：</th>
@@ -32,59 +32,59 @@ label{margin-right:10px;}
 			  </tr>
 			  <tr>
 			     <th>公司名称：</th>
-			     <td>{$object['shopCompany']}</td>
+			     <td>{$object['shop_company']}</td>
 			  </tr>
 			  <tr>
 			     <th>店铺联系电话：</th>
-			     <td>{$object['shopTel']}</td>
+			     <td>{$object['shop_tel']}</td>
 			  </tr>
 			  <tr>
 			     <th>经营范围：</th>
-			     <td>{$object['catshopNames']}</td>
+			     <td>{$object['catshop_names']}</td>
 			  </tr>
 			  <tr>
 			     <th>认证类型：</th>
 			     <td>
 			       {php}$accredLen = count($object['accreds']);{/php}
 			       {volist name="$object['accreds']" id="vo"}
-			       {$vo["accredName"]}{if $i < $accredLen }、{/if}
+			       {$vo["accred_name"]}{if $i < $accredLen }、{/if}
 			       {/volist}
 			     </td>
 			  </tr>
 			  <tr>
 			     <th>店铺图标：</th>
 			     <td>
-			     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shopImg"]}'/>
+			     <img id='preview' width='150' height='150' src='__ROOT__/{$object["shop_img"]}'/>
 			     </td>
 			  </tr>
 			  <tr>
 			     <th>客服QQ：</th>
-			     <td>{$object['shopQQ']}</td>
+			     <td>{$object['shop_qq']}</td>
 			  </tr>
 			  <tr>
 			     <th>店铺地址：</th>
 			     <td>
-			       {$object['areaName']}
+			       {$object['area_name']}
 			     </td>
 			  </tr>
 			  <tr>
 			     <th>店铺详细地址：</th>
-			     <td>{$object['shopAddress']}</td>
+			     <td>{$object['shop_address']}</td>
 			  </tr>
 			  <tr>
 			     <th>是否提供开发票：</th>
 			     <td>
-			        {if $object['isInvoice']==1}提供发票{/if}
-			        {if $object['isInvoice']==0}不提供发票{/if}  
+			        {if $object['is_invoice']==1}提供发票{/if}
+			        {if $object['is_invoice']==0}不提供发票{/if}  
 			     </td>
 			  </tr>
-			  <tr id='trInvoice' {if $object['isInvoice']==0}style='display:none'{/if}>
+			  <tr id='trInvoice' {if $object['is_invoice']==0}style='display:none'{/if}>
 			     <th>发票说明：</th>
-			     <td>{$object['invoiceRemarks']}</td>
+			     <td>{$object['invoice_remarks']}</td>
 			  </tr>
 			  <tr>
 			     <th>营业时间：</th>
-			     <td>{$object['serviceStartTime']}至{$object['serviceEndTime']}
+			     <td>{$object['service_start_time']}至{$object['service_end_time']}
 			     </td>
 			  </tr>
            </table>
@@ -93,15 +93,15 @@ label{margin-right:10px;}
            <table class='fi-form'>
               <tr>
 			     <th width='150'>所属银行：</th>
-			     <td>{$object['bankName']}</td>
+			     <td>{$object['bank_name']}</td>
 			  </tr>
               <tr>
 			     <th>银行卡账号：</th>
-			     <td>{$object['bankNo']}</td>
+			     <td>{$object['bank_no']}</td>
 			  </tr>
 			  <tr>
 			     <th>持卡人：</th>
-			     <td>{$object['bankUserName']}</td>
+			     <td>{$object['bank_username']}</td>
 			  </tr>
 			  
            </table>

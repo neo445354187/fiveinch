@@ -10,7 +10,7 @@
     <select name="cat1" id="cat1" onchange="getCat(this.value)" class="s-query">
         <option value="">-请选择-</option>
       {volist name=":FIShopCats(0)" id="vo"}
-            <option value="{$vo['catId']}" >{$vo['catName']}</option>
+            <option value="{$vo['cat_id']}" >{$vo['cat_name']}</option>
       {/volist}
     </select>
     <select name="cat2" id="cat2" class="s-query"><option value="">-请选择-</option></select>
@@ -38,56 +38,56 @@
    <script id="tblist" type="text/html">
    {{# for(var i = 0; i < d.length; i++){ }}
    <tr>
-      {{# if(d[i]['isSpec']==1) { }}
+      {{# if(d[i]['is_spec']==1) { }}
       <td>
           <div class="goods-img">
-          <a href="{{FI.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
-            <img class='j-goodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+          <a href="{{FI.U("home/goods/detail","id="+d[i]['goods_id']+"&key="+d[i]['verfiycode'])}}">
+            <img class='j-goods_img'  data-original='__ROOT__/{{d[i].goods_img}}'/>
           </a>
         </div>
-        <p class="goodsName">
-          {{FI.cutStr(d[i]['goodsName'],43)}}
+        <p class="goods_name">
+          {{FI.cutStr(d[i]['goods_name'],43)}}
         </p>
       </td>
-        <td>{{d[i]['productNo']}}</td>
+        <td>{{d[i]['product_no']}}</td>
 		<td>
 		<span class="spec">
 		{{# for(var s = 0; s < d[i].spec.length; s++){ }}
-			{{d[i].spec[s]['catName']}}：{{d[i].spec[s]['itemName']}};
+			{{d[i].spec[s]['cat_name']}}：{{d[i].spec[s]['item_name']}};
 		{{# } }}
 		</span>
 		</td>
 		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['id']}},1)">
-        <input id="ipt_1_{{d[i]['id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},1,{{d[i]['goodsId']}})" class="stockin" maxlength="6"/>
-        <span id="span_1_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goodsStock']}}</span>
+        <input id="ipt_1_{{d[i]['id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},1,{{d[i]['goods_id']}})" class="stockin" maxlength="6"/>
+        <span id="span_1_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goods_stock']}}</span>
         </td>
 		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['id']}},2)">
-        <input id="ipt_2_{{d[i]['id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},2,{{d[i]['goodsId']}})" class="stockin" maxlength="6"/>
-        <span id="span_2_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warnStock']}}</span>
+        <input id="ipt_2_{{d[i]['id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['id']}},2,{{d[i]['goods_id']}})" class="stockin" maxlength="6"/>
+        <span id="span_2_{{d[i]['id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warn_stock']}}</span>
         </td>
-      <td><a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"sale")'>[进入商品编辑]</a></td>
+      <td><a class="g-handle" href='javascript:toEdit({{d[i]['goods_id']}},"sale")'>[进入商品编辑]</a></td>
       {{# }else{ }}
       <td>
           <div class="goods-img">
-          <a href="{{FI.U("home/goods/detail","id="+d[i]['goodsId']+"&key="+d[i]['verfiycode'])}}">
-            <img class='j-goodsImg'  data-original='__ROOT__/{{d[i].goodsImg}}'/>
+          <a href="{{FI.U("home/goods/detail","id="+d[i]['goods_id']+"&key="+d[i]['verfiycode'])}}">
+            <img class='j-goods_img'  data-original='__ROOT__/{{d[i].goods_img}}'/>
           </a>
         </div>
-        <p class="goodsName">
-          {{FI.cutStr(d[i]['goodsName'],43)}}
+        <p class="goods_name">
+          {{FI.cutStr(d[i]['goods_name'],43)}}
         </p>
       </td>
-		<td>{{d[i]['productNo']}}</td>
+		<td>{{d[i]['product_no']}}</td>
 		<td>无</td>
-		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goodsId']}},3)">
-        <input id="ipt_3_{{d[i]['goodsId']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goodsId']}},3)" class="stockin" maxlength="6"/>
-        <span id="span_3_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goodsStock']}}</span>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goods_id']}},3)">
+        <input id="ipt_3_{{d[i]['goods_id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goods_id']}},3)" class="stockin" maxlength="6"/>
+        <span id="span_3_{{d[i]['goods_id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['goods_stock']}}</span>
         </td>
-		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goodsId']}},4)">
-        <input id="ipt_4_{{d[i]['goodsId']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goodsId']}},4)" class="stockin" maxlength="6"/>
-        <span id="span_4_{{d[i]['goodsId']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warnStock']}}</span>
+		<td width="40" ondblclick="javascript:toEditGoodsStock({{d[i]['goods_id']}},4)">
+        <input id="ipt_4_{{d[i]['goods_id']}}" onkeyup="javascript:FI.isChinese(this,1)" onkeypress="return FI.isNumberKey(event)" onblur="javascript:editGoodsStock({{d[i]['goods_id']}},4)" class="stockin" maxlength="6"/>
+        <span id="span_4_{{d[i]['goods_id']}}" style="display: inline;cursor:pointer;color:#f30505;">{{d[i]['warn_stock']}}</span>
         </td>
-        <td><a class="g-handle" href='javascript:toEdit({{d[i]['goodsId']}},"sale")'>[进入商品编辑]</a></td>
+        <td><a class="g-handle" href='javascript:toEdit({{d[i]['goods_id']}},"sale")'>[进入商品编辑]</a></td>
       {{# } }}
    </tr>
    {{# } }}

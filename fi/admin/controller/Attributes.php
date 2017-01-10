@@ -7,7 +7,7 @@ use fi\admin\model\Attributes as M;
 class Attributes extends Base{
 
     public function index(){
-    	$this->assign('catId', input("catId/d"));
+    	$this->assign('cat_id', input("cat_id/d"));
     	return $this->fetch("list");
     }
 
@@ -35,7 +35,7 @@ class Attributes extends Base{
         //获取该记录信息
         $this->assign('data', $this->get());
         $m = new M();
-        $this->assign('catId', input("catId/d",0));
+        $this->assign('cat_id', input("cat_id/d",0));
         return $this->fetch("edit");
     }
     /**
@@ -43,7 +43,7 @@ class Attributes extends Base{
      */
     public function get(){
         $m = new M();
-        $rs = $m->getById(input("attrId/d"));
+        $rs = $m->getById(input("attr_id/d"));
         return $rs;
     }
     /**

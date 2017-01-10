@@ -1,7 +1,7 @@
 /**获取本店分类**/
 function getShopsCats(objId,pVal,objVal){
 	$('#'+objId).empty();
-	$.post(FI.U('home/shopcats/listQuery'),{parentId:pVal},function(data,textStatus){
+	$.post(FI.U('home/shopcats/listQuery'),{parent_id:pVal},function(data,textStatus){
 	     var json = FI.toJson(data);
 	     var html = [],cat;
 	     html.push("<option value='' >-请选择-</option>");
@@ -9,7 +9,7 @@ function getShopsCats(objId,pVal,objVal){
 	    	 json = json.list;
 			 for(var i=0;i<json.length;i++){
 			     cat = json[i];
-			     html.push("<option value='"+cat.catId+"' "+((objVal==cat.catId)?"selected":"")+">"+cat.catName+"</option>");
+			     html.push("<option value='"+cat.cat_id+"' "+((objVal==cat.cat_id)?"selected":"")+">"+cat.cat_name+"</option>");
 			 }
 	     }
 	     $('#'+objId).html(html.join(''));
@@ -20,7 +20,7 @@ function getCat(val){
      $('#cat2').html("<option value='' >-请选择-</option>");
      return;
   }
-  $.post(FI.U('home/shopcats/listQuery'),{parentId:val},function(data,textStatus){
+  $.post(FI.U('home/shopcats/listQuery'),{parent_id:val},function(data,textStatus){
        var json = FI.toJson(data);
        var html = [],cat;
        html.push("<option value='' >-请选择-</option>");
@@ -28,7 +28,7 @@ function getCat(val){
          json = json.list;
        for(var i=0;i<json.length;i++){
            cat = json[i];
-           html.push("<option value='"+cat.catId+"'>"+cat.catName+"</option>");
+           html.push("<option value='"+cat.cat_id+"'>"+cat.cat_name+"</option>");
         }
        }
        $('#cat2').html(html.join(''));
@@ -89,7 +89,7 @@ function reply(t,id){
  }
  params.reply = $('#reply-'+id).val();
  params.id=id;
- $.post(FI.U('home/goodsappraises/shopReply'),params,function(data){
+ $.post(FI.U('home/goodsappraises/shop_reply'),params,function(data){
     var json = FI.toJson(data);
     if(json.status==1){
       var today = new Date();

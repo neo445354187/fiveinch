@@ -13,135 +13,135 @@ class Orders extends Base {
      * 提交订单
      */
     public function submit() {
-        $addressId = (int) input('post.s_addressId');
-        $deliverType = ((int) input('post.deliverType') != 0) ? 1 : 0;
-        $isInvoice = ((int) input('post.isInvoice') != 0) ? 1 : 0;
-        $invoiceClient = ($isInvoice == 1) ? input('post.invoiceClient') : '';
-        //payType为0是货到付款，1是在线付款，现在只支持在线付款，所以做出暂时修改
-//        $payType = ((int) input('post.payType') != 0) ? 1 : 0;
-        $payType = 1;
-        $userId = (int) session('FI_USER.userId');
+        $address_id = (int) input('post.s_address_id');
+        $deliver_type = ((int) input('post.deliver_type') != 0) ? 1 : 0;
+        $is_invoice = ((int) input('post.is_invoice') != 0) ? 1 : 0;
+        $invoice_client = ($is_invoice == 1) ? input('post.invoice_client') : '';
+        //pay_type为0是货到付款，1是在线付款，现在只支持在线付款，所以做出暂时修改
+//        $pay_type = ((int) input('post.pay_type') != 0) ? 1 : 0;
+        $pay_type = 1;
+        $user_id = (int) session('FI_USER.user_id');
         //检测购物车
         $carts = model('carts')->getCarts(true);
         if (empty($carts['carts']))
             return FIReturn("请选择要购买的商品");
         //检测地址是否有效
-        $address = Db::name('user_address')->where(['userId' => $userId, 'addressId' => $addressId, 'dataFlag' => 1])->find();
+        $address = Db::name('user_address')->where(['user_id' => $user_id, 'address_id' => $address_id, 'status' => 1])->find();
         if (empty($address)) {
             return FIReturn("无效的用户地址");
         }
-        $areaIds = [];
+        $area_ids = [];
         $areaMaps = [];
-        $tmp = explode('_', $address['areaIdPath']);
-        $address['areaId2'] = $tmp[1]; //记录配送城市
+        $tmp = explode('_', $address['area_id_path']);
+        $address['area_id2'] = $tmp[1]; //记录配送城市
         foreach ($tmp as $vv) {
             if ($vv == '')
                 continue;
-            if (!in_array($vv, $areaIds))
-                $areaIds[] = $vv;
+            if (!in_array($vv, $area_ids))
+                $area_ids[] = $vv;
         }
-        if (!empty($areaIds)) {
-            $areas = Db::name('areas')->where(['dataFlag' => 1, 'areaId' => ['in', $areaIds]])->field('areaId,areaName')->select();
+        if (!empty($area_ids)) {
+            $areas = Db::name('areas')->where(['status' => 1, 'area_id' => ['in', $area_ids]])->field('area_id,area_name')->select();
             foreach ($areas as $v) {
-                $areaMaps[$v['areaId']] = $v['areaName'];
+                $areaMaps[$v['area_id']] = $v['area_name'];
             }
-            $tmp = explode('_', $address['areaIdPath']);
-            $areaNames = [];
+            $tmp = explode('_', $address['area_id_path']);
+            $area_names = [];
             foreach ($tmp as $vv) {
                 if ($vv == '')
                     continue;
-                $areaNames[] = $areaMaps[$vv];
-                $address['areaName'] = implode('', $areaNames);
+                $area_names[] = $areaMaps[$vv];
+                $address['area_name'] = implode('', $area_names);
             }
         }
-        $address['userAddress'] = $address['areaName'] . $address['userAddress'];
-        FIUnset($address, 'isDefault,dataFlag,createTime,userId');
+        $address['user_address'] = $address['area_name'] . $address['user_address'];
+        FIUnset($address, 'is_default,status,create_time,user_id');
         //生成订单
         Db::startTrans();
         try {
-            $orderunique = FIOrderQnique();
+            $order_unique = FIOrderQnique();
             foreach ($carts['carts'] as $ckey => $shopOrder) {
-                $orderNo = FIOrderNo();
-                $orderScore = 0;
+                $order_no = FIOrderNo();
+                $order_score = 0;
                 //创建订单
                 $order = [];
                 $order = array_merge($order, $address);
-                $order['orderNo'] = $orderNo;
-                $order['userId'] = $userId;
-                $order['shopId'] = $shopOrder['shopId'];
-                $order['payType'] = $payType;
-                if ($payType == 1) {
-                    $order['orderStatus'] = -2; //待付款
-                    $order['isPay'] = 0;
+                $order['order_no'] = $order_no;
+                $order['user_id'] = $user_id;
+                $order['shop_id'] = $shopOrder['shop_id'];
+                $order['pay_type'] = $pay_type;
+                if ($pay_type == 1) {
+                    $order['order_status'] = -2; //待付款
+                    $order['is_pay'] = 0;
                 } else {
-                    $order['orderStatus'] = 0; //待发货
+                    $order['order_status'] = 0; //待发货
                 }
-                $order['goodsMoney'] = $shopOrder['goodsMoney'];
-                $order['deliverType'] = $deliverType;
-                $order['deliverMoney'] = ($deliverType == 1) ? 0 : FIOrderFreight($shopOrder['shopId'], $order['areaId2']);
-                $order['totalMoney'] = $order['goodsMoney'] + $order['deliverMoney'];
-                $order['realTotalMoney'] = $order['totalMoney'];
-                $order['needPay'] = $order['realTotalMoney'];
+                $order['goods_money'] = $shopOrder['goods_money'];
+                $order['deliver_type'] = $deliver_type;
+                $order['deliver_money'] = ($deliver_type == 1) ? 0 : FIOrderFreight($shopOrder['shop_id'], $order['area_id2']);
+                $order['total_money'] = $order['goods_money'] + $order['deliver_money'];
+                $order['real_total_money'] = $order['total_money'];
+                $order['need_pay'] = $order['real_total_money'];
                 //积分
-                $orderScore = 0;
+                $order_score = 0;
                 //如果开启下单获取积分则有积分
                 if (FIConf('CONF.isOrderScore') == 1) {
-                    $orderScore = round($order['goodsMoney'], 0);
+                    $order_score = round($order['goods_money'], 0);
                 }
-                $order['orderScore'] = $orderScore;
-                $order['isInvoice'] = $isInvoice;
-                $order['invoiceClient'] = $invoiceClient;
-                $order['orderRemarks'] = input('post.remark_' . $shopOrder['shopId']);
-                $order['orderunique'] = $orderunique;
-                $order['orderSrc'] = 0;
-                $order['dataFlag'] = 1;
-                $order['createTime'] = date('Y-m-d H:i:s');
+                $order['order_score'] = $order_score;
+                $order['is_invoice'] = $is_invoice;
+                $order['invoice_client'] = $invoice_client;
+                $order['order_remarks'] = input('post.remark_' . $shopOrder['shop_id']);
+                $order['order_unique'] = $order_unique;
+                $order['order_src'] = 0;
+                $order['status'] = 1;
+                $order['create_time'] = date('Y-m-d H:i:s');
                 $result = $this->data($order, true)->isUpdate(false)->allowField(true)->save($order);
                 if (false !== $result) {
-                    $orderId = $this->orderId;
+                    $order_id = $this->order_id;
                     $orderTotalGoods = [];
                     foreach ($shopOrder['list'] as $gkey => $goods) {
                         //创建订单商品记录
                         $orderGgoods = [];
-                        $orderGoods['orderId'] = $orderId;
-                        $orderGoods['goodsId'] = $goods['goodsId'];
-                        $orderGoods['goodsNum'] = $goods['cartNum'];
-                        $orderGoods['goodsPrice'] = $goods['shopPrice'];
-                        $orderGoods['goodsSpecId'] = $goods['goodsSpecId'];
+                        $orderGoods['order_id'] = $order_id;
+                        $orderGoods['goods_id'] = $goods['goods_id'];
+                        $orderGoods['goods_num'] = $goods['cart_num'];
+                        $orderGoods['goods_price'] = $goods['shop_price'];
+                        $orderGoods['goods_spec_id'] = $goods['goods_spec_id'];
                         if (!empty($goods['specNames'])) {
                             $specNams = [];
                             foreach ($goods['specNames'] as $pkey => $spec) {
-                                $specNams[] = $spec['catName'] . '：' . $spec['itemName'];
+                                $specNams[] = $spec['cat_name'] . '：' . $spec['item_name'];
                             }
-                            $orderGoods['goodsSpecNames'] = implode('@@_@@', $specNams);
+                            $orderGoods['goods_spec_names'] = implode('@@_@@', $specNams);
                         }
-                        $orderGoods['goodsName'] = $goods['goodsName'];
-                        $orderGoods['goodsImg'] = $goods['goodsImg'];
+                        $orderGoods['goods_name'] = $goods['goods_name'];
+                        $orderGoods['goods_img'] = $goods['goods_img'];
                         $orderTotalGoods[] = $orderGoods;
                         //修改库存
-                        if ($goods['goodsSpecId'] > 0) {
-                            Db::name('goods_specs')->where('id', $goods['goodsSpecId'])->setDec('specStock', $goods['cartNum']);
+                        if ($goods['goods_spec_id'] > 0) {
+                            Db::name('goods_specs')->where('id', $goods['goods_spec_id'])->setDec('spec_stock', $goods['cart_num']);
                         }
-                        Db::name('goods')->where('goodsId', $goods['goodsId'])->setDec('goodsStock', $goods['cartNum']);
+                        Db::name('goods')->where('goods_id', $goods['goods_id'])->setDec('goods_stock', $goods['cart_num']);
                     }
                     Db::name('order_goods')->insertAll($orderTotalGoods);
                     //建立订单记录
                     $logOrder = [];
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['orderStatus'] = $order['orderStatus'];
-                    $logOrder['logContent'] = ($payType == 1) ? "下单成功，等待用户支付" : "下单成功";
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['order_status'] = $order['order_status'];
+                    $logOrder['log_content'] = ($pay_type == 1) ? "下单成功，等待用户支付" : "下单成功";
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //给店铺增加提示消息
-                    FISendMsg($shopOrder['userId'], "您有一笔新的订单【" . $orderNo . "】待处理。", ['from' => 1, 'dataId' => $orderId]);
+                    FISendMsg($shopOrder['user_id'], "您有一笔新的订单【" . $order_no . "】待处理。", ['from' => 1, 'data_id' => $order_id]);
                 }
             }
             //删除已选的购物车商品
-            Db::name('carts')->where(['userId' => $userId, 'isCheck' => 1])->delete();
+            Db::name('carts')->where(['user_id' => $user_id, 'is_check' => 1])->delete();
             Db::commit();
-            return FIReturn("提交订单成功", 1, $orderunique);
+            return FIReturn("提交订单成功", 1, $order_unique);
         } catch (\Exception $e) {
             print_r($e);
             Db::rollback();
@@ -155,42 +155,42 @@ class Orders extends Base {
     public function getByUnique() {
         $id = input('id');
         $isBatch = input('isBatch/d', 1);
-        $userId = (int) session('FI_USER.userId');
+        $user_id = (int) session('FI_USER.user_id');
         if ($isBatch == 1) {
-            $rs = $this->where(['userId' => $userId, 'orderunique' => $id])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
+            $rs = $this->where(['user_id' => $user_id, 'order_unique' => $id])->field('order_id,order_no,pay_type,need_pay,order_unique,deliver_money')->select();
         } else {
-            $rs = $this->where(['userId' => $userId, 'orderId' => $id])->field('orderId,orderNo,payType,needPay,orderunique,deliverMoney')->select();
+            $rs = $this->where(['user_id' => $user_id, 'order_id' => $id])->field('order_id,order_no,pay_type,need_pay,order_unique,deliver_money')->select();
         }
 
         $data = [];
-        $data['orderunique'] = $id;
+        $data['order_unique'] = $id;
         $data['list'] = [];
-        $payType = 0;
-        $totalMoney = 0;
-        $orderIds = [];
+        $pay_type = 0;
+        $total_money = 0;
+        $order_ids = [];
         foreach ($rs as $key => $v) {
-            if ($v['payType'] == 1)
-                $payType = 1;
-            $totalMoney = $totalMoney + $v['needPay'];
-            $orderIds[] = $v['orderId'];
+            if ($v['pay_type'] == 1)
+                $pay_type = 1;
+            $total_money = $total_money + $v['need_pay'];
+            $order_ids[] = $v['order_id'];
             $data['list'][] = $v;
         }
-        $data['totalMoney'] = $totalMoney;
-        $data['payType'] = $payType;
+        $data['total_money'] = $total_money;
+        $data['pay_type'] = $pay_type;
         //如果是在线支付的话就要加载商品信息和支付信息
-        if ($data['payType'] == 1) {
+        if ($data['pay_type'] == 1) {
             //获取商品信息
-            $goods = Db::name('order_goods')->where(['orderId' => ['in', $orderIds]])->select();
+            $goods = Db::name('order_goods')->where(['order_id' => ['in', $order_ids]])->select();
             foreach ($goods as $key => $v) {
-                if ($v['goodsSpecNames'] != '') {
-                    $v['goodsSpecNames'] = explode('@@_@@', $v['goodsSpecNames']);
+                if ($v['goods_spec_names'] != '') {
+                    $v['goods_spec_names'] = explode('@@_@@', $v['goods_spec_names']);
                 } else {
-                    $v['goodsSpecNames'] = [];
+                    $v['goods_spec_names'] = [];
                 }
-                $data['goods'][$v['orderId']][] = $v;
+                $data['goods'][$v['order_id']][] = $v;
             }
             //获取支付信息
-            $payments = model('payments')->where(['isOnline' => 1, 'enabled' => 1])->order('payOrder asc')->select();
+            $payments = model('payments')->where(['is_online' => 1, 'enabled' => 1])->order('pay_order asc')->select();
             $data['payments'] = $payments;
         }
         return $data;
@@ -199,54 +199,54 @@ class Orders extends Base {
     /**
      * 获取用户订单列表
      */
-    public function userOrdersByPage($orderStatus, $isAppraise = -1) {
-        $userId = (int) session('FI_USER.userId');
-        $orderNo = (int) input('post.orderNo');
-        $shopName = input('post.shopName');
-        $isRefund = (int) input('post.isRefund');
-        $where = ['o.userId' => $userId, 'o.dataFlag' => 1];
-        if (is_array($orderStatus)) {
-            $where['orderStatus'] = ['in', $orderStatus];
+    public function userOrdersByPage($order_status, $is_appraise = -1) {
+        $user_id = (int) session('FI_USER.user_id');
+        $order_no = (int) input('post.order_no');
+        $shop_name = input('post.shop_name');
+        $is_refund = (int) input('post.is_refund');
+        $where = ['o.user_id' => $user_id, 'o.status' => 1];
+        if (is_array($order_status)) {
+            $where['order_status'] = ['in', $order_status];
         } else {
-            $where['orderStatus'] = $orderStatus;
+            $where['order_status'] = $order_status;
         }
-        if ($isAppraise != -1)
-            $where['isAppraise'] = $isAppraise;
-        if ($orderNo > 0) {
-            $where['o.orderNo'] = ['like', "%$orderNo%"];
+        if ($is_appraise != -1)
+            $where['is_appraise'] = $is_appraise;
+        if ($order_no > 0) {
+            $where['o.order_no'] = ['like', "%$order_no%"];
         }
-        if ($shopName != '') {
-            $where['s.shopName'] = ['like', "%$shopName%"];
+        if ($shop_name != '') {
+            $where['s.shop_name'] = ['like', "%$shop_name%"];
         }
-        if ($isRefund > 0) {
-            $where['isRefund'] = $isRefund;
+        if ($is_refund > 0) {
+            $where['is_refund'] = $is_refund;
         }
 
-        $page = $this->alias('o')->join('__SHOPS__ s', 'o.shopId=s.shopId', 'left')->join('__ORDER_COMPLAINS__ oc', 'oc.orderId=o.orderId', 'left')->where($where)
-                        ->field('o.orderId,o.orderNo,s.shopName,s.shopId,s.shopQQ,s.shopWangWang,o.goodsMoney,o.totalMoney,o.realTotalMoney,
-		              o.orderStatus,o.deliverType,deliverMoney,payType,payFrom,o.orderStatus,needPay,isAppraise,isRefund,orderSrc,o.createTime,oc.complainId')
-                        ->order('o.createTime', 'desc')
+        $page = $this->alias('o')->join('__SHOPS__ s', 'o.shop_id=s.shop_id', 'left')->join('__ORDER_COMPLAINS__ oc', 'oc.order_id=o.order_id', 'left')->where($where)
+                        ->field('o.order_id,o.order_no,s.shop_name,s.shop_id,s.shop_qq,s.shop_wangwang,o.goods_money,o.total_money,o.real_total_money,
+		              o.order_status,o.deliver_type,deliver_money,pay_type,pay_from,o.order_status,need_pay,is_appraise,is_refund,order_src,o.create_time,oc.complain_id')
+                        ->order('o.create_time', 'desc')
                         ->paginate(input('pagesize/d'))->toArray();
         if (count($page['Rows']) > 0) {
-            $orderIds = [];
+            $order_ids = [];
             foreach ($page['Rows'] as $v) {
-                $orderIds[] = $v['orderId'];
+                $order_ids[] = $v['order_id'];
             }
-            $goods = Db::name('order_goods')->where('orderId', 'in', $orderIds)->select();
+            $goods = Db::name('order_goods')->where('order_id', 'in', $order_ids)->select();
             $goodsMap = [];
             foreach ($goods as $v) {
-                $v['goodsSpecNames'] = str_replace('@@_@@', '、', $v['goodsSpecNames']);
-                $goodsMap[$v['orderId']][] = $v;
+                $v['goods_spec_names'] = str_replace('@@_@@', '、', $v['goods_spec_names']);
+                $goodsMap[$v['order_id']][] = $v;
             }
             foreach ($page['Rows'] as $key => $v) {
-                $page['Rows'][$key]['list'] = $goodsMap[$v['orderId']];
+                $page['Rows'][$key]['list'] = $goodsMap[$v['order_id']];
                 $page['Rows'][$key]['isComplain'] = 1;
-                if (($v['complainId'] == '') && ($v['payType'] == 0 || ($v['payType'] == 1 && $v['orderStatus'] != 2))) {
+                if (($v['complain_id'] == '') && ($v['pay_type'] == 0 || ($v['pay_type'] == 1 && $v['order_status'] != 2))) {
                     $page['Rows'][$key]['isComplain'] = '';
                 }
-                $page['Rows'][$key]['payTypeName'] = FILangPayType($v['payType']);
-                $page['Rows'][$key]['deliverType'] = FILangDeliverType($v['deliverType'] == 1);
-                $page['Rows'][$key]['status'] = FILangOrderStatus($v['orderStatus']);
+                $page['Rows'][$key]['pay_typeName'] = FILangPayType($v['pay_type']);
+                $page['Rows'][$key]['deliver_type'] = FILangDeliverType($v['deliver_type'] == 1);
+                $page['Rows'][$key]['status'] = FILangOrderStatus($v['order_status']);
             }
         }
         return $page;
@@ -255,52 +255,52 @@ class Orders extends Base {
     /**
      * 获取商家订单
      */
-    public function shopOrdersByPage($orderStatus) {
-        $orderNo = (int) input('post.orderNo');
-        $shopName = input('post.shopName');
-        $payType = (int) input('post.payType');
-        $deliverType = (int) input('post.deliverType');
+    public function shopOrdersByPage($order_status) {
+        $order_no = (int) input('post.order_no');
+        $shop_name = input('post.shop_name');
+        $pay_type = (int) input('post.pay_type');
+        $deliver_type = (int) input('post.deliver_type');
 
-        $shopId = (int) session('FI_USER.shopId');
-        $where = ['shopId' => $shopId, 'dataFlag' => 1];
-        if (is_array($orderStatus)) {
-            $where['orderStatus'] = ['in', $orderStatus];
+        $shop_id = (int) session('FI_USER.shop_id');
+        $where = ['shop_id' => $shop_id, 'status' => 1];
+        if (is_array($order_status)) {
+            $where['order_status'] = ['in', $order_status];
         } else {
-            $where['orderStatus'] = $orderStatus;
+            $where['order_status'] = $order_status;
         }
-        if ($orderNo > 0) {
-            $where['orderNo'] = ['like', "%$orderNo%"];
+        if ($order_no > 0) {
+            $where['order_no'] = ['like', "%$order_no%"];
         }
-        if ($shopName != '') {
-            $where['shopName'] = ['like', "%$shopName%"];
+        if ($shop_name != '') {
+            $where['shop_name'] = ['like', "%$shop_name%"];
         }
-        if ($payType > -1) {
-            $where['payType'] = $payType;
+        if ($pay_type > -1) {
+            $where['pay_type'] = $pay_type;
         }
-        if ($deliverType > -1) {
-            $where['deliverType'] = $deliverType;
+        if ($deliver_type > -1) {
+            $where['deliver_type'] = $deliver_type;
         }
         $page = $this->where($where)
-                        ->field('orderId,orderNo,goodsMoney,totalMoney,realTotalMoney,orderStatus,deliverType,deliverMoney,isAppraise
-		              ,payType,payFrom,userAddress,orderStatus,isPay,isAppraise,userName,orderSrc,createTime')
-                        ->order('createTime', 'desc')
+                        ->field('order_id,order_no,goods_money,total_money,real_total_money,order_status,deliver_type,deliver_money,is_appraise
+		              ,pay_type,pay_from,user_address,order_status,is_pay,is_appraise,user_name,order_src,create_time')
+                        ->order('create_time', 'desc')
                         ->paginate()->toArray();
         if (count($page['Rows']) > 0) {
-            $orderIds = [];
+            $order_ids = [];
             foreach ($page['Rows'] as $v) {
-                $orderIds[] = $v['orderId'];
+                $order_ids[] = $v['order_id'];
             }
-            $goods = Db::name('order_goods')->where('orderId', 'in', $orderIds)->select();
+            $goods = Db::name('order_goods')->where('order_id', 'in', $order_ids)->select();
             $goodsMap = [];
             foreach ($goods as $v) {
-                $v['goodsSpecNames'] = str_replace('@@_@@', '、', $v['goodsSpecNames']);
-                $goodsMap[$v['orderId']][] = $v;
+                $v['goods_spec_names'] = str_replace('@@_@@', '、', $v['goods_spec_names']);
+                $goodsMap[$v['order_id']][] = $v;
             }
             foreach ($page['Rows'] as $key => $v) {
-                $page['Rows'][$key]['list'] = $goodsMap[$v['orderId']];
-                $page['Rows'][$key]['payTypeName'] = FILangPayType($v['payType']);
-                $page['Rows'][$key]['deliverType'] = FILangDeliverType($v['deliverType'] == 1);
-                $page['Rows'][$key]['status'] = FILangOrderStatus($v['orderStatus']);
+                $page['Rows'][$key]['list'] = $goodsMap[$v['order_id']];
+                $page['Rows'][$key]['pay_typeName'] = FILangPayType($v['pay_type']);
+                $page['Rows'][$key]['deliver_type'] = FILangDeliverType($v['deliver_type'] == 1);
+                $page['Rows'][$key]['status'] = FILangOrderStatus($v['order_status']);
             }
         }
         return $page;
@@ -310,30 +310,30 @@ class Orders extends Base {
      * 商家发货
      */
     public function deliver() {
-        $orderId = (int) input('post.id');
-        $expressId = (int) input('post.expressId');
-        $expressNo = (int) input('post.expressNo');
-        $shopId = (int) session('FI_USER.shopId');
-        $userId = (int) session('FI_USER.userId');
-        $order = $this->where(['shopId' => $shopId, 'orderId' => $orderId, 'orderStatus' => 0])->field('orderId,orderNo,userId')->find();
+        $order_id = (int) input('post.id');
+        $express_id = (int) input('post.express_id');
+        $express_no = (int) input('post.express_no');
+        $shop_id = (int) session('FI_USER.shop_id');
+        $user_id = (int) session('FI_USER.user_id');
+        $order = $this->where(['shop_id' => $shop_id, 'order_id' => $order_id, 'order_status' => 0])->field('order_id,order_no,user_id')->find();
         if (!empty($order)) {
             Db::startTrans();
             try {
-                $data = ['orderStatus' => 1, 'expressId' => $expressId, 'expressNo' => $expressNo, 'deliveryTime' => date('Y-m-d H:i:s')];
-                $result = $this->where('orderId', $order['orderId'])->update($data);
+                $data = ['order_status' => 1, 'express_id' => $express_id, 'express_no' => $express_no, 'deliveryTime' => date('Y-m-d H:i:s')];
+                $result = $this->where('order_id', $order['order_id'])->update($data);
                 if (false != $result) {
                     //新增订单日志
                     $logOrder = [];
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['orderStatus'] = 1;
-                    $logOrder['logContent'] = "商家已发货" . (($expressNo != '') ? "，快递号为：" . $expressNo : "");
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['order_status'] = 1;
+                    $logOrder['log_content'] = "商家已发货" . (($express_no != '') ? "，快递号为：" . $express_no : "");
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //发送一条用户信息
-                    $msgContent = "您的订单【" . $order['orderNo'] . "】已发货啦" . (($expressNo != '') ? "，快递号为：" . $expressNo : "") . "，请做好收货准备哦~";
-                    FISendMsg($order['userId'], $msgContent, ['from' => 1, 'dataId' => $orderId]);
+                    $msg_content = "您的订单【" . $order['order_no'] . "】已发货啦" . (($express_no != '') ? "，快递号为：" . $express_no : "") . "，请做好收货准备哦~";
+                    FISendMsg($order['user_id'], $msg_content, ['from' => 1, 'data_id' => $order_id]);
                     Db::commit();
                     return FIReturn('操作成功', 1);
                 }
@@ -349,38 +349,38 @@ class Orders extends Base {
      * 用户收货
      */
     public function receive() {
-        $orderId = (int) input('post.id');
-        $userId = (int) session('FI_USER.userId');
-        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shopId=s.shopId', 'left')
-                        ->where(['o.userId' => $userId, 'o.orderId' => $orderId, 'o.orderStatus' => 1])
-                        ->field('o.orderId,o.orderNo,s.userId,o.orderScore')->find();
+        $order_id = (int) input('post.id');
+        $user_id = (int) session('FI_USER.user_id');
+        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shop_id=s.shop_id', 'left')
+                        ->where(['o.user_id' => $user_id, 'o.order_id' => $order_id, 'o.order_status' => 1])
+                        ->field('o.order_id,o.order_no,s.user_id,o.order_score')->find();
         if (!empty($order)) {
             Db::startTrans();
             try {
-                $data = ['orderStatus' => 2, 'receiveTime' => date('Y-m-d H:i:s')];
-                $result = $this->where('orderId', $order['orderId'])->update($data);
+                $data = ['order_status' => 2, 'receive_time' => date('Y-m-d H:i:s')];
+                $result = $this->where('order_id', $order['order_id'])->update($data);
                 if (false != $result) {
                     //新增订单日志
                     $logOrder = [];
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['orderStatus'] = 2;
-                    $logOrder['logContent'] = "用户已收货";
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['order_status'] = 2;
+                    $logOrder['log_content'] = "用户已收货";
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //发送一条商家信息
-                    FISendMsg($order['userId'], "您的订单【" . $order['orderNo'] . "】，用户已签收", ['from' => 1, 'dataId' => $orderId]);
+                    FISendMsg($order['user_id'], "您的订单【" . $order['order_no'] . "】，用户已签收", ['from' => 1, 'data_id' => $order_id]);
                     //给用户增加积分
                     if (FIConf("CONF.isOrderScore") == 1) {
                         $score = [];
-                        $score['userId'] = $userId;
-                        $score['score'] = $order['orderScore'];
-                        $score['dataSrc'] = 1;
-                        $score['dataId'] = $orderId;
-                        $score['dataRemarks'] = "交易订单【" . $order['orderNo'] . "】获得积分" . $order['orderScore'] . "个";
-                        $score['scoreType'] = 1;
-                        $score['createTime'] = date('Y-m-d H:i:s');
+                        $score['user_id'] = $user_id;
+                        $score['score'] = $order['order_score'];
+                        $score['data_src'] = 1;
+                        $score['data_id'] = $order_id;
+                        $score['data_remarks'] = "交易订单【" . $order['order_no'] . "】获得积分" . $order['order_score'] . "个";
+                        $score['score_type'] = 1;
+                        $score['create_time'] = date('Y-m-d H:i:s');
                         model('UserScores')->save($score);
                     }
                     Db::commit();
@@ -398,42 +398,42 @@ class Orders extends Base {
      * 用户取消订单
      */
     public function cancel() {
-        $orderId = (int) input('post.id');
+        $order_id = (int) input('post.id');
         $reason = (int) input('post.reason');
-        $userId = (int) session('FI_USER.userId');
-        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shopId=s.shopId', 'left')
-                        ->where(['o.userId' => $userId, 'o.orderId' => $orderId, 'o.orderStatus' => ['in', [-2, 0]]])
-                        ->field('o.orderId,o.orderNo,s.userId')->find();
+        $user_id = (int) session('FI_USER.user_id');
+        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shop_id=s.shop_id', 'left')
+                        ->where(['o.user_id' => $user_id, 'o.order_id' => $order_id, 'o.order_status' => ['in', [-2, 0]]])
+                        ->field('o.order_id,o.order_no,s.user_id')->find();
         $reasonData = FIDatas(1, $reason);
         if (empty($reasonData))
             return FIReturn("无效的取消原因");
         if (!empty($order)) {
             Db::startTrans();
             try {
-                $data = ['orderStatus' => -1, 'cancelReason' => $reason];
-                $result = $this->where('orderId', $order['orderId'])->update($data);
+                $data = ['order_status' => -1, 'cancel_reason' => $reason];
+                $result = $this->where('order_id', $order['order_id'])->update($data);
                 if (false != $result) {
                     //返还商品库存
-                    $goods = Db::table('__ORDER_GOODS__')->alias('og')->join('__GOODS__ g', 'og.goodsId=g.goodsId', 'inner')
-                                    ->where('orderId', $orderId)->field('og.*,g.isSpec')->select();
+                    $goods = Db::table('__ORDER_GOODS__')->alias('og')->join('__GOODS__ g', 'og.goods_id=g.goods_id', 'inner')
+                                    ->where('order_id', $order_id)->field('og.*,g.is_spec')->select();
                     foreach ($goods as $key => $v) {
                         //修改库存
-                        if ($v['isSpec'] > 0) {
-                            Db::name('goods_specs')->where('id', $v['goodsSpecId'])->setInc('specStock', $v['goodsNum']);
+                        if ($v['is_spec'] > 0) {
+                            Db::name('goods_specs')->where('id', $v['goods_spec_id'])->setInc('spec_stock', $v['goods_num']);
                         }
-                        Db::name('goods')->where('goodsId', $v['goodsId'])->setInc('goodsStock', $v['goodsNum']);
+                        Db::name('goods')->where('goods_id', $v['goods_id'])->setInc('goods_stock', $v['goods_num']);
                     }
                     //新增订单日志
                     $logOrder = [];
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['orderStatus'] = -1;
-                    $logOrder['logContent'] = "用户取消订单，取消原因：" . $reasonData['dataName'];
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['order_status'] = -1;
+                    $logOrder['log_content'] = "用户取消订单，取消原因：" . $reasonData['data_name'];
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //发送一条商家信息
-                    FISendMsg($order['userId'], "订单【" . $order['orderNo'] . "】用户已取消，取消原因：" . $reasonData['dataName'], ['from' => 1, 'dataId' => $orderId]);
+                    FISendMsg($order['user_id'], "订单【" . $order['order_no'] . "】用户已取消，取消原因：" . $reasonData['data_name'], ['from' => 1, 'data_id' => $order_id]);
                     Db::commit();
                     return FIReturn('订单取消成功', 1);
                 }
@@ -450,13 +450,13 @@ class Orders extends Base {
      * 用户拒收订单
      */
     public function reject() {
-        $orderId = (int) input('post.id');
+        $order_id = (int) input('post.id');
         $reason = (int) input('post.reason');
         $content = input('post.content');
-        $userId = (int) session('FI_USER.userId');
-        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shopId=s.shopId', 'left')
-                        ->where(['o.userId' => $userId, 'o.orderId' => $orderId, 'o.orderStatus' => 1])
-                        ->field('o.orderId,o.orderNo,s.userId')->find();
+        $user_id = (int) session('FI_USER.user_id');
+        $order = $this->alias('o')->join('__SHOPS__ s', 'o.shop_id=s.shop_id', 'left')
+                        ->where(['o.user_id' => $user_id, 'o.order_id' => $order_id, 'o.order_status' => 1])
+                        ->field('o.order_id,o.order_no,s.user_id')->find();
         $reasonData = FIDatas(2, $reason);
         if (empty($reasonData))
             return FIReturn("无效的拒收原因");
@@ -465,23 +465,23 @@ class Orders extends Base {
         if (!empty($order)) {
             Db::startTrans();
             try {
-                $data = ['orderStatus' => -3, 'rejectReason' => $reason];
+                $data = ['order_status' => -3, 'reject_reason' => $reason];
                 if ($reason == 10000)
-                    $data['rejectOtherReason'] = $content;
-                $result = $this->where('orderId', $order['orderId'])->update($data);
+                    $data['reject_other_reason'] = $content;
+                $result = $this->where('order_id', $order['order_id'])->update($data);
                 if (false != $result) {
                     //新增订单日志
                     $logOrder = [];
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['orderStatus'] = -3;
-                    $logOrder['logContent'] = "用户拒收订单，拒收原因：" . $reasonData['dataName'] . (($reason == 10000) ? "-" . $content : "");
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['order_status'] = -3;
+                    $logOrder['log_content'] = "用户拒收订单，拒收原因：" . $reasonData['data_name'] . (($reason == 10000) ? "-" . $content : "");
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //发送一条商家信息
-                    $msgContent = "订单【" . $order['orderNo'] . "】用户拒收，拒收原因：" . $reasonData['dataName'] . (($reason == 10000) ? "-" . $content : "");
-                    FISendMsg($order['userId'], $msgContent, ['from' => 1, 'dataId' => $orderId]);
+                    $msg_content = "订单【" . $order['order_no'] . "】用户拒收，拒收原因：" . $reasonData['data_name'] . (($reason == 10000) ? "-" . $content : "");
+                    FISendMsg($order['user_id'], $msg_content, ['from' => 1, 'data_id' => $order_id]);
                     Db::commit();
                     return FIReturn('操作成功', 1);
                 }
@@ -497,32 +497,32 @@ class Orders extends Base {
      * 获取订单价格
      */
     public function getMoneyByOrder() {
-        $orderId = (int) input('post.id');
-        return $this->where('orderId', $orderId)->field('orderId,goodsMoney,deliverMoney,totalMoney,realTotalMoney')->find();
+        $order_id = (int) input('post.id');
+        return $this->where('order_id', $order_id)->field('order_id,goods_money,deliver_money,total_money,real_total_money')->find();
     }
 
     /**
      * 修改订单价格
      */
     public function editOrderMoney() {
-        $orderId = input('post.id');
+        $order_id = input('post.id');
         $orderMoney = (float) input('post.orderMoney');
-        $userId = (int) session('FI_USER.userId');
-        $shopId = (int) session('FI_USER.shopId');
+        $user_id = (int) session('FI_USER.user_id');
+        $shop_id = (int) session('FI_USER.shop_id');
         if ($orderMoney < 0)
             return FIReturn("订单价格不能小于0");
         Db::startTrans();
         try {
-            $result = $this->where(['orderId' => $orderId, 'shopId' => $shopId, 'orderStatus' => -2])->update(['realTotalMoney' => $orderMoney]);
+            $result = $this->where(['order_id' => $order_id, 'shop_id' => $shop_id, 'order_status' => -2])->update(['real_total_money' => $orderMoney]);
             if (false !== $result) {
                 //新增订单日志
                 $logOrder = [];
-                $logOrder['orderId'] = $orderId;
-                $logOrder['orderStatus'] = -2;
-                $logOrder['logContent'] = "商家修改订单价格为：" . $orderMoney;
-                $logOrder['logUserId'] = $userId;
-                $logOrder['logType'] = 0;
-                $logOrder['logTime'] = date('Y-m-d H:i:s');
+                $logOrder['order_id'] = $order_id;
+                $logOrder['order_status'] = -2;
+                $logOrder['log_content'] = "商家修改订单价格为：" . $orderMoney;
+                $logOrder['log_user_id'] = $user_id;
+                $logOrder['log_type'] = 0;
+                $logOrder['log_time'] = date('Y-m-d H:i:s');
                 Db::name('log_orders')->insert($logOrder);
                 Db::commit();
                 return FIReturn('操作成功', 1);
@@ -537,35 +537,35 @@ class Orders extends Base {
      * 商家同意/不同意拒收
      */
     public function confer() {
-        $orderId = (int) input('post.id');
+        $order_id = (int) input('post.id');
         $content = input('post.content');
         $status = ((int) input('post.status') == 1) ? 1 : 0;
-        $userId = (int) session('FI_USER.userId');
-        $shopId = (int) session('FI_USER.shopId');
-        $order = $this->where(['shopId' => $shopId, 'orderId' => $orderId, 'orderStatus' => -3])
-                        ->field('orderId,orderNo,userId')->find();
+        $user_id = (int) session('FI_USER.user_id');
+        $shop_id = (int) session('FI_USER.shop_id');
+        $order = $this->where(['shop_id' => $shop_id, 'order_id' => $order_id, 'order_status' => -3])
+                        ->field('order_id,order_no,user_id')->find();
         if ($status == 0 && $content == '')
             return FIReturn("请输入不同意原因");
         if (!empty($order)) {
             Db::startTrans();
             try {
-                $data = ['orderStatus' => (($status == 1) ? -4 : -5)];
+                $data = ['order_status' => (($status == 1) ? -4 : -5)];
                 if ($status == 0)
-                    $data['shopRejectReason'] = $content;
-                $result = $this->where('orderId', $order['orderId'])->update($data);
+                    $data['shop_reject_reason'] = $content;
+                $result = $this->where('order_id', $order['order_id'])->update($data);
                 if (false != $result) {
                     //新增订单日志
                     $logOrder = [];
-                    $logOrder['orderStatus'] = (($status == 1) ? -4 : -5);
-                    $logOrder['orderId'] = $orderId;
-                    $logOrder['logContent'] = ($status == 1) ? "商家同意拒收订单" : "商家不同意拒收订单，原因：" . $content;
-                    $logOrder['logUserId'] = $userId;
-                    $logOrder['logType'] = 0;
-                    $logOrder['logTime'] = date('Y-m-d H:i:s');
+                    $logOrder['order_status'] = (($status == 1) ? -4 : -5);
+                    $logOrder['order_id'] = $order_id;
+                    $logOrder['log_content'] = ($status == 1) ? "商家同意拒收订单" : "商家不同意拒收订单，原因：" . $content;
+                    $logOrder['log_user_id'] = $user_id;
+                    $logOrder['log_type'] = 0;
+                    $logOrder['log_time'] = date('Y-m-d H:i:s');
                     Db::name('log_orders')->insert($logOrder);
                     //发送一条用户信息
-                    $msgContent = "您的订单【" . $order['orderNo'] . "】" . (($status == 1) ? "商家同意拒收订单" : "商家不同意拒收订单，原因：" . $content);
-                    FISendMsg($order['userId'], $msgContent, ['from' => 1, 'dataId' => $orderId]);
+                    $msg_content = "您的订单【" . $order['order_no'] . "】" . (($status == 1) ? "商家同意拒收订单" : "商家不同意拒收订单，原因：" . $content);
+                    FISendMsg($order['user_id'], $msg_content, ['from' => 1, 'data_id' => $order_id]);
                     Db::commit();
                     return FIReturn('操作成功', 1);
                 }
@@ -580,21 +580,21 @@ class Orders extends Base {
     /**
      * 获取订单详情
      */
-    public function getByView($orderId) {
-        $userId = (int) session('FI_USER.userId');
-        $shopId = (int) session('FI_USER.shopId');
-        $orders = $this->alias('o')->join('__EXPRESS__ e', 'o.expressId=e.expressId', 'left')
-                        ->join('__SHOPS__ s', 'o.shopId=s.shopId', 'left')
-                        ->join('__ORDER_REFUNDS__ orf ', 'o.orderId=orf.orderId', 'left')
-                        ->where('o.dataFlag=1 and o.orderId=' . $orderId . ' and ( o.userId=' . $userId . ' or o.shopId=' . $shopId . ')')
-                        ->field('o.*,e.expressName,s.shopName,s.shopQQ,s.shopWangWang,orf.refundRemark,orf.refundTime')->find();
+    public function getByView($order_id) {
+        $user_id = (int) session('FI_USER.user_id');
+        $shop_id = (int) session('FI_USER.shop_id');
+        $orders = $this->alias('o')->join('__EXPRESS__ e', 'o.express_id=e.express_id', 'left')
+                        ->join('__SHOPS__ s', 'o.shop_id=s.shop_id', 'left')
+                        ->join('__ORDER_REFUNDS__ orf ', 'o.order_id=orf.order_id', 'left')
+                        ->where('o.status=1 and o.order_id=' . $order_id . ' and ( o.user_id=' . $user_id . ' or o.shop_id=' . $shop_id . ')')
+                        ->field('o.*,e.express_name,s.shop_name,s.shop_qq,s.shop_wangwang,orf.refund_remark,orf.refund_time')->find();
         if (empty($orders))
             return FIReturn("无效的订单信息");
 
         //获取订单信息
-        $orders['log'] = Db::name('log_orders')->where('orderId', $orderId)->order('logId asc')->select();
+        $orders['log'] = Db::name('log_orders')->where('order_id', $order_id)->order('log_id asc')->select();
         //获取订单商品
-        $orders['goods'] = Db::name('order_goods')->where('orderId', $orderId)->order('id asc')->select();
+        $orders['goods'] = Db::name('order_goods')->where('order_id', $order_id)->order('id asc')->select();
         return $orders;
     }
 
@@ -602,24 +602,24 @@ class Orders extends Base {
      * 根据订单id获取 商品信息跟商品评价
      */
     public function getOrderInfoAndAppr() {
-        $orderId = (int) input('oId');
+        $order_id = (int) input('oId');
         $goodsInfo = Db::name('order_goods')
-                ->field('id,orderId,goodsName,goodsId,goodsSpecNames,goodsImg,goodsSpecId')
-                ->where(['orderId' => $orderId])
+                ->field('id,order_id,goods_name,goods_id,goods_spec_names,goods_img,goods_spec_id')
+                ->where(['order_id' => $order_id])
                 ->select();
         //根据商品id 与 订单id 取评价
         $alreadys = 0; // 已评价商品数
         $count = count($goodsInfo); //订单下总商品数
         if ($count > 0) {
             foreach ($goodsInfo as $k => $v) {
-                $goodsInfo[$k]['goodsSpecNames'] = str_replace('@@_@@', ';', $v['goodsSpecNames']);
+                $goodsInfo[$k]['goods_spec_names'] = str_replace('@@_@@', ';', $v['goods_spec_names']);
                 $appraise = Db::name('goods_appraises')
-                                ->field('goodsScore,serviceScore,timeScore,content,images,createTime')
-                                ->where(['goodsId' => $v['goodsId'],
-                                    'goodsSpecId' => $v['goodsSpecId'],
-                                    'orderId' => $orderId,
-                                    'dataFlag' => 1,
-                                    'isShow' => 1,
+                                ->field('goods_score,service_score,time_score,content,images,create_time')
+                                ->where(['goods_id' => $v['goods_id'],
+                                    'goods_spec_id' => $v['goods_spec_id'],
+                                    'order_id' => $order_id,
+                                    'status' => 1,
+                                    'is_show' => 1,
                                 ])->find();
                 if (!empty($appraise)) {
                     ++$alreadys;
@@ -635,17 +635,17 @@ class Orders extends Base {
      * 检查订单是否已支付
      */
     public function checkOrderPay() {
-        $userId = (int) session('FI_USER.userId');
-        $orderId = input("id");
+        $user_id = (int) session('FI_USER.user_id');
+        $order_id = input("id");
         $isBatch = (int) input("isBatch");
         $rs = array();
-        $where = ["userId" => $userId, "dataFlag" => 1, "orderStatus" => -2, "isPay" => 0, "payType" => 1];
+        $where = ["user_id" => $user_id, "status" => 1, "order_status" => -2, "is_pay" => 0, "pay_type" => 1];
         if ($isBatch == 1) {
-            $where['orderunique'] = $orderId;
+            $where['order_unique'] = $order_id;
         } else {
-            $where['orderId'] = $orderId;
+            $where['order_id'] = $order_id;
         }
-        $rs = $this->field('orderId,orderNo')->where($where)->select();
+        $rs = $this->field('order_id,order_no')->where($where)->select();
         if (count($rs) > 0) {
             return FIReturn('', 1);
         } else {

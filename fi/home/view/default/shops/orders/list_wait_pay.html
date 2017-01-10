@@ -5,14 +5,14 @@
 {block name="content"}
   <div class="fi-shop-head"><span>待付款订单</span></div>
   <div class='fi-shop-tbar'>
-     订单号：<input type='text' class="s-ipt" id='orderNo' size="40" /> 
-     支付方式：<select name="payType" id="payType" class="s-ipt">
+     订单号：<input type='text' class="s-ipt" id='order_no' size="40" /> 
+     支付方式：<select name="pay_type" id="pay_type" class="s-ipt">
                 <option value="-1">请选择</option>
                 <option value="0">货到付款</option>
                 <option value="1">在线支付</option>
                </select>
 
-     配送方式：<select name="deliverType" id="deliverType" class="s-ipt">
+     配送方式：<select name="deliver_type" id="deliver_type" class="s-ipt">
                 <option value="-1">请选择</option>
                 <option value="0">送货上门</option>
                 <option value="1">自提</option>
@@ -43,11 +43,11 @@
          </tr>
          <tr class='order-head'>
             <td colspan='4' align='right'>
-              <div class='time'>{{d[i].createTime}}</div>
-              <div class='orderno'>订单号：{{d[i].orderNo}}</div>
+              <div class='time'>{{d[i].create_time}}</div>
+              <div class='orderno'>订单号：{{d[i].order_no}}</div>
               <div>
-              {{#if(d[i].payType==1){}}
-              	{{# if(d[i].isPay==1){}}已支付
+              {{#if(d[i].pay_type==1){}}
+              	{{# if(d[i].is_pay==1){}}已支付
               	{{# }else{ }}
                                                 等待支付
                 {{# } }}
@@ -66,33 +66,33 @@
             <td>
 
                <div class='goods-img'>
-                <a href="{{FI.U('home/goods/detail','id='+tmp.goodsId)}}" target='_blank'>
-                <img data-original='__ROOT__/{{tmp.goodsImg}}'  title='{{tmp.goodsName}}' class="gImg">
+                <a href="{{FI.U('home/goods/detail','id='+tmp.goods_id)}}" target='_blank'>
+                <img data-original='__ROOT__/{{tmp.goods_img}}'  title='{{tmp.goods_name}}' class="gImg">
                 </a>
                </div>
 
                <div class='goods-name'>
-                 <div>{{tmp.goodsName}}</div>
-                 <div>{{tmp.goodsSpecNames}}</div>
+                 <div>{{tmp.goods_name}}</div>
+                 <div>{{tmp.goods_spec_names}}</div>
                </div>
-               <div class='goods-extra'>{{tmp.goodsPrice}} x {{tmp.goodsNum}}</div>
+               <div class='goods-extra'>{{tmp.goods_price}} x {{tmp.goods_num}}</div>
 
             </td>
             {{# if(j==0){ }}
             <td rowspan="{{rows}}">
-                <div>{{d[i].payTypeName}}</div>
-                <div>{{d[i].deliverType}}</div>
+                <div>{{d[i].pay_typeName}}</div>
+                <div>{{d[i].deliver_type}}</div>
             </td>
             <td rowspan="{{rows}}">
-                <div>商品金额：¥{{d[i].goodsMoney}}</div>
-                <div class='line'>运费：¥{{d[i].deliverMoney}}</div>
-                <div>实付金额：¥{{d[i].realTotalMoney}}</div>
+                <div>商品金额：¥{{d[i].goods_money}}</div>
+                <div class='line'>运费：¥{{d[i].deliver_money}}</div>
+                <div>实付金额：¥{{d[i].real_total_money}}</div>
             </td>
             <td rowspan="{{rows}}">
-                {{#if(d[i].payType==1 && d[i].isPay==0){}}
-                <div><a href='#none' onclick='editOrderMoney({{d[i].orderId}})'>【修改价格】</a></div>
+                {{#if(d[i].pay_type==1 && d[i].is_pay==0){}}
+                <div><a href='#none' onclick='editOrderMoney({{d[i].order_id}})'>【修改价格】</a></div>
                 {{#}}}
-                <div><a href='#none' onclick='view({{d[i].orderId}})'>【订单详情】</a></div>
+                <div><a href='#none' onclick='view({{d[i].order_id}})'>【订单详情】</a></div>
             </td>
             {{#}}}
          </tr>
@@ -109,23 +109,23 @@
        <table class='fi-form fi-box-top'>
           <tr>
             <th width='120'>订单号：</th>
-            <td><span id='m_orderNo'></span></td>
+            <td><span id='m_order_no'></span></td>
           </tr>
           <tr>
             <th>商品总价格：</th>
-            <td>¥<span id='m_goodsMoney'></span></td>
+            <td>¥<span id='m_goods_money'></span></td>
           </tr>
           <tr>
             <th>运费：</th>
-            <td>¥<span id='m_deliverMoney'></span></td>
+            <td>¥<span id='m_deliver_money'></span></td>
           </tr>
           <tr>
             <th>商品总价格：</th>
-            <td>¥<span id='m_totalMoney'></span></td>
+            <td>¥<span id='m_total_money'></span></td>
           </tr>
            <tr>
             <th>实际支付价格：</th>
-            <td>¥<span id='m_realTotalMoney' class='j-warn-order-money'></span></td>
+            <td>¥<span id='m_real_total_money' class='j-warn-order-money'></span></td>
           </tr>
           <tr>
             <th>新价格：</th>

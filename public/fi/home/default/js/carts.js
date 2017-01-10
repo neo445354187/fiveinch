@@ -24,16 +24,16 @@ function statCartMoney(){
 			cartMoney = cartMoney + goodsTotalPrice;
 		}
 	});
-	$('#totalMoney').html(cartMoney);
+	$('#total_money').html(cartMoney);
 	checkGoodsBuyStatus();
 }
 function checkGoodsBuyStatus(){
-	var cartNum = 0,stockNum = 0,cartId = 0;
+	var cart_num = 0,stockNum = 0,cart_id = 0;
 	$('.j-gchk').each(function(){
-		cartId = $(this).val();
-		cartNum = parseInt($('#buyNum_'+cartId).val(),10);
+		cart_id = $(this).val();
+		cart_num = parseInt($('#buyNum_'+cart_id).val(),10);
 		stockNum = parseInt($(this).attr('sval'),10);;
-		if(stockNum < 0 || stockNum < cartNum){
+		if(stockNum < 0 || stockNum < cart_num){
 			if($(this).prop('checked')){
 				$(this).parent().parent().css('border','2px solid red');
 			}else{
@@ -41,17 +41,17 @@ function checkGoodsBuyStatus(){
 				$(this).parent().parent().css('border-bottom','1px solid #eeeeee');
 			}
 			if(stockNum < 0){
-				$('#gchk_'+cartId).attr('allowbuy',0);
-				$('#err_'+cartId).css('color','red').html('库存不足');
+				$('#gchk_'+cart_id).attr('allowbuy',0);
+				$('#err_'+cart_id).css('color','red').html('库存不足');
 			}else{
-				$('#gchk_'+cartId).attr('allowbuy',1);
-				$('#err_'+cartId).css('color','red').html('购买量超过库存');
+				$('#gchk_'+cart_id).attr('allowbuy',1);
+				$('#err_'+cart_id).css('color','red').html('购买量超过库存');
 			}
 		}else{
-			$('#gchk_'+cartId).attr('allowbuy',10);
+			$('#gchk_'+cart_id).attr('allowbuy',10);
 			$(this).parent().parent().css('border','0px solid #eeeeee');
 			$(this).parent().parent().css('border-bottom','1px solid #eeeeee');
-			$('#err_'+cartId).html('');
+			$('#err_'+cart_id).html('');
 		}
 	});
 }
@@ -110,8 +110,8 @@ function changeAddrId(id){
 		var json = FI.toJson(data);
 		if(json.status==1){
 			inEffect($('#addr-'+id),1);
-			$('#s_addressId').val(json.data.addressId);
-			$('#s_areaId').val(json.data.areaId);
+			$('#s_address_id').val(json.data.address_id);
+			$('#s_area_id').val(json.data.area_id);
 			FI.setValues(json.data);
 		}
 	})
@@ -132,7 +132,7 @@ function delAddr(id){
 }
 
 function getAddressList(obj){
-	var id = $('#s_addressId').val();
+	var id = $('#s_address_id').val();
 	var load = FI.load({msg:'正在加载记录，请稍后...'});
 	$.post(FI.U('home/useraddress/listQuery'),{rnd:Math.random()},function(data,textStatus){
 		 layer.close(load);
@@ -142,26 +142,26 @@ function getAddressList(obj){
 	    		 var html = [],tmp;
 	    		 for(var i=0;i<json.data.length;i++){
 	    			 tmp = json.data[i];
-	    			 var selected = (id==tmp.addressId)?'j-selected':'';
+	    			 var selected = (id==tmp.address_id)?'j-selected':'';
 	    			 html.push(
-	    					 '<div class="fi-frame1 '+selected+'" onclick="javascript:changeAddrId('+tmp.addressId+')" id="addr-'+tmp.addressId+'" >'+tmp.userName+'<i></i></div>',
+	    					 '<div class="fi-frame1 '+selected+'" onclick="javascript:changeAddrId('+tmp.address_id+')" id="addr-'+tmp.address_id+'" >'+tmp.user_name+'<i></i></div>',
 	    					 '<li class="radio-box" onmouseover="addrBoxOver(this)" onmouseout="addrBoxOut(this)">',
-	    					 tmp.userName,
+	    					 tmp.user_name,
 	    					 '&nbsp;&nbsp;',
-	    					 tmp.areaName+tmp.userAddress,
+	    					 tmp.area_name+tmp.user_address,
 	    					 '&nbsp;&nbsp;&nbsp;&nbsp;',
-	    					 tmp.userPhone
+	    					 tmp.user_phone
 	    					 )
-	    			if(tmp.isDefault==1){
+	    			if(tmp.is_default==1){
 	    				html.push('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-default">默认地址</span>')
 	    			}		
 	    			html.push('<div class="operate-box">');
-	    			if(tmp.isDefault!=1){
-	    				html.push('<a href="javascript:;" onclick="setDeaultAddr('+tmp.addressId+')">设为默认地址</a>&nbsp;&nbsp;');
+	    			if(tmp.is_default!=1){
+	    				html.push('<a href="javascript:;" onclick="setDeaultAddr('+tmp.address_id+')">设为默认地址</a>&nbsp;&nbsp;');
 	    			}
-	    			html.push('<a href="javascript:void(0)" onclick="javascript:toEditAddress('+tmp.addressId+',this,1,1)">编辑</a>&nbsp;&nbsp;');
+	    			html.push('<a href="javascript:void(0)" onclick="javascript:toEditAddress('+tmp.address_id+',this,1,1)">编辑</a>&nbsp;&nbsp;');
 	    			if(json.data.length>1){
-	    				html.push('<a href="javascript:void(0)" onclick="javascript:delAddr('+tmp.addressId+',this)">删除</a></div>');
+	    				html.push('<a href="javascript:void(0)" onclick="javascript:delAddr('+tmp.address_id+',this)">删除</a></div>');
 	    			}
 	    			html.push('<div class="fi-clear"></div>','</li>');
 	    		 }
@@ -208,28 +208,28 @@ function editAddress(){
 	layer.close(layerbox);
 	var load = FI.load({msg:'正在提交数据，请稍后...'});
 	var params = FI.getParams('.j-eipt');
-	params.areaId = FI.ITGetAreaVal('j-areas');
-	$.post(FI.U('home/useraddress/'+((params.addressId>0)?'toEdit':'add')),params,function(data,textStatus){
+	params.area_id = FI.ITGetAreaVal('j-areas');
+	$.post(FI.U('home/useraddress/'+((params.address_id>0)?'toEdit':'add')),params,function(data,textStatus){
 		layer.close(load);
 		var json = FI.toJson(data);
 	     if(json.status==1){
 	    	 $('.j-edit-box').hide();
 	    	 $('.j-list-box').hide();
 	    	 $('.j-show-box').show();
-	    	 if(params.addressId==0){
-	    		 $('#s_addressId').val(json.data.addressId);
+	    	 if(params.address_id==0){
+	    		 $('#s_address_id').val(json.data.address_id);
 	    	 }else{
-	    		 $('#s_addressId').val(params.addressId);
+	    		 $('#s_address_id').val(params.address_id);
 	    	 }
-	    	 var areaIds = FI.ITGetAllAreaVals('area_0','j-areas');
-	    	 getCartMoney(areaIds[1]);
-	    	 var areaNames = [];
+	    	 var area_ids = FI.ITGetAllAreaVals('area_0','j-areas');
+	    	 getCartMoney(area_ids[1]);
+	    	 var area_names = [];
 	    	 $('.j-areas').each(function(){
-	    		 areaNames.push($('#'+$(this).attr('id')+' option:selected').text());
+	    		 area_names.push($('#'+$(this).attr('id')+' option:selected').text());
 	    	 })
-	    	 $('#s_userName').html(params.userName+'<i></i>');
-	    	 $('#s_address').html(params.userName+'&nbsp;&nbsp;&nbsp;'+areaNames.join('')+'&nbsp;&nbsp;'+params.userAddress+'&nbsp;&nbsp;'+params.userPhone);
-	    	 if(params.isDefault==1){
+	    	 $('#s_user_name').html(params.user_name+'<i></i>');
+	    	 $('#s_address').html(params.user_name+'&nbsp;&nbsp;&nbsp;'+area_names.join('')+'&nbsp;&nbsp;'+params.user_address+'&nbsp;&nbsp;'+params.user_phone);
+	    	 if(params.is_default==1){
 	    		 $('#isdefault').html('默认地址').addClass('j-default');
 	    	 }else{
 	    		 $('#isdefault').html('').removeClass('j-default');
@@ -247,8 +247,8 @@ function showEditAddressBox(){
 function emptyAddress(obj,n){
 	inEffect(obj,n);
 	$('#addressForm')[0].reset();
-	$('#s_addressId').val(0);
-	$('#addressId').val(0);
+	$('#s_address_id').val(0);
+	$('#address_id').val(0);
 	$("select[id^='area_0_']").remove();
 
 	layerbox =	layer.open({
@@ -260,7 +260,7 @@ function emptyAddress(obj,n){
 }
 function toEditAddress(id,obj,n,flag,type){
 	inEffect(obj,n);
-	id = (id>0)?id:$('#s_addressId').val();
+	id = (id>0)?id:$('#s_address_id').val();
 	$.post(FI.U('home/useraddress/getById'),{id:id},function(data,textStatus){
 	     var json = FI.toJson(data);
 	     if(json.status==1){
@@ -277,12 +277,12 @@ function toEditAddress(id,obj,n,flag,type){
 		    	 $('.j-show-box').hide();
 	     	}
 	    	 FI.setValues(json.data);
-	    	 $('input[name="addrUserPhone"]').val(json.data.userPhone)
+	    	 $('input[name="addrUserPhone"]').val(json.data.user_phone)
 	    	 $("select[id^='area_0_']").remove();
 	    	 if(id>0){
-		    	 var areaIdPath = json.data.areaIdPath.split("_");
-		     	 $('#area_0').val(areaIdPath[0]);
-		     	 var aopts = {id:'area_0',val:areaIdPath[0],childIds:areaIdPath,className:'j-areas'}
+		    	 var area_id_path = json.data.area_id_path.split("_");
+		     	 $('#area_0').val(area_id_path[0]);
+		     	 var aopts = {id:'area_0',val:area_id_path[0],childIds:area_id_path,className:'j-areas'}
 		 		 FI.ITSetAreas(aopts);
 	    	 }
 	     }else{
@@ -290,14 +290,14 @@ function toEditAddress(id,obj,n,flag,type){
 	     }
 	});
 }
-function getCartMoney(areaId2){
-	var deliverType = $('#deliverType').val();
-	if(deliverType==1){
-		$('#deliverMoney').html(0);
-		$('#totalMoney').html($('#totalMoney').attr('v'));
+function getCartMoney(area_id2){
+	var deliver_type = $('#deliver_type').val();
+	if(deliver_type==1){
+		$('#deliver_money').html(0);
+		$('#total_money').html($('#total_money').attr('v'));
 	}else{
 		var load = FI.load({msg:'正在计算运费，请稍后...'});
-		$.post(FI.U('home/carts/getCartMoney'),{areaId2:areaId2,rnd:Math.random()},function(data,textStatus){
+		$.post(FI.U('home/carts/getCartMoney'),{area_id2:area_id2,rnd:Math.random()},function(data,textStatus){
 			layer.close(load);  
 			var json = FI.toJson(data);
 		     if(json.status==1){
@@ -305,16 +305,16 @@ function getCartMoney(areaId2){
 		    	 for(var key in json.shops){
 		    		 shopFreight = shopFreight + json.shops[key];
 		    	 }
-		    	 $('#deliverMoney').html(shopFreight);
-		 		 $('#totalMoney').html(json.total);
+		    	 $('#deliver_money').html(shopFreight);
+		 		 $('#total_money').html(json.total);
 		     }
 		});
 	}
 }
 function changeDeliverType(n,index,obj){
 	changeSelected(n,index,obj);
-	var areaId2 = $('#areaId2').val();
-	getCartMoney(areaId2);
+	var area_id2 = $('#area_id2').val();
+	getCartMoney(area_id2);
 }
 function submitOrder(){
 	var params = FI.getParams('.j-ipt');
@@ -346,7 +346,7 @@ FI.showhide = function(t,str,obj){
 		}
 	}
 	s = null;
-	changeSelected(t,'isInvoice',obj);
+	changeSelected(t,'is_invoice',obj);
 }
 function changeSelected(n,index,obj){
 	$('#'+index).val(n);
@@ -359,15 +359,15 @@ function getPayUrl(){
 	var params = {};
 		params.id = $("#oId").val();
 		params.isBatch = $("#isBatch").val();
-		params.payCode = $.trim($("#payCode").val());
-	if(params.payCode==""){
+		params.pay_code = $.trim($("#pay_code").val());
+	if(params.pay_code==""){
 		FI.msg('请先选择支付方式', {icon: 5});
 		return;
 	}
-	jQuery.post(FI.U('home/'+params.payCode+'/get'+params.payCode+"URL"),params,function(data) {
+	jQuery.post(FI.U('home/'+params.pay_code+'/get'+params.pay_code+"URL"),params,function(data) {
 		var json = FI.toJson(data);
 		if(json.status==1){
-			if(params.payCode=="weixinpays"){
+			if(params.pay_code=="weixinpays"){
 				location.href = json.url;
 			}else{
 				window.open(json.url);

@@ -522,7 +522,7 @@
             var me = this,
                 opt = me.options,
                 form = e.target,
-                canSubmit = e.type === 'submit' && !e.isDefaultPrevented();
+                canSubmit = e.type === 'submit' && !e.is_defaultPrevented();
 
             e.preventDefault();
 
@@ -1038,7 +1038,7 @@
                             dataFilter = field.dataFilter;
 
                         // detect if data is json or jsonp format
-                        if (/jsonp?/.test(this.dataType)) {
+                        if (/jsonp?/.test(this.data_type)) {
                             data = d;
                         } else if (data.charAt(0) === '{') {
                             data = $.parseJSON(data);
@@ -1971,7 +1971,7 @@
                 url = arr[3],
                 type = arr[2] || 'POST',            // GET / POST
                 rType = (arr[1]||'').toLowerCase(), // CORS / JSONP
-                dataType;
+                data_type;
 
             rule.must = true;
             data[element.name] = me.value;
@@ -1996,9 +1996,9 @@
                 return rule.result;
             }
 
-            // Cross-domain request, force jsonp dataType
+            // Cross-domain request, force jsonp data_type
             if (rType !== 'cors' && /^https?:/.test(url) && !~url.indexOf(location.host)) {
-                dataType = 'jsonp';
+                data_type = 'jsonp';
             }
 
             // Asynchronous validation need return jqXHR objects
@@ -2006,7 +2006,7 @@
                 url: url,
                 type: type,
                 data: data,
-                dataType: dataType
+                data_type: data_type
             });
         },
 

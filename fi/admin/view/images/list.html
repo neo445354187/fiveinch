@@ -7,10 +7,10 @@
 <div class="fi-toolbar">
 目录：<select id='key' class='ipt'>
     {volist name="$datas" key="i" id='vo'}
-    <option value="{$vo['dataVal']}" {if $keyword==$vo['dataVal']}selected{/if}>{$vo['dataName']}</option>
+    <option value="{$vo['data_val']}" {if $keyword==$vo['data_val']}selected{/if}>{$vo['data_name']}</option>
     {/volist}
 </select>
-状态：<select id='isUse' class='ipt'>
+状态：<select id='is_use' class='ipt'>
     <option value='-1'>全部</option>
     <option value='1'>有效</option>
     <option value='0'>失效</option>

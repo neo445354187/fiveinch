@@ -48,8 +48,8 @@ class GoodsAppraises extends Base{
 	/**
 	* 商家回复评价
 	*/
-	public function shopReply(){
+	public function shop_reply(){
 		$m = new M();
-		return $m->shopReply();
+		return $m->shop_reply();
 	}
 }

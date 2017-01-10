@@ -22,7 +22,7 @@ class Homemenus extends Base{
      */
     public function get(){
     	$m = new M();
-    	return $m->getById((int)input("post.menuId"));
+    	return $m->getById((int)input("post.menu_id"));
     }
     /**
      * 新增菜单

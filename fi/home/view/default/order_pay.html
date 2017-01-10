@@ -26,11 +26,11 @@
          <div class="info">
           {php}$len = count($object['list'])-1;{/php}
               订单号：{volist name="$object['list']" id='vo'}
-                   <a href='{:url("home/orders/waitPay")}' target='_blank'>{$vo['orderNo']}</a>
+                   <a href='{:url("home/orders/waitPay")}' target='_blank'>{$vo['order_no']}</a>
                    {if $i < $len }、{/if}
                    {/volist}
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              应付金额：<span>¥{$object['totalMoney']}</span>
+              应付金额：<span>¥{$object['total_money']}</span>
          </div>
          <div class="go">
          <a href='__ROOT__/index.php' class="fi-order-success fi-cart-reda">继续购物</a>

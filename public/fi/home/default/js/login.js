@@ -1,8 +1,8 @@
 function login(typ){
 	var params = FI.getParams('.ipt');
 	params.typ = typ;
-	if(!$('#loginName').isValid())return;
-	if(!$('#loginPwd').isValid())return;
+	if(!$('#login_name').isValid())return;
+	if(!$('#login_password').isValid())return;
 	if(!$('#verifyCode').isValid())return;
 	var ll = FI.msg('正在处理数据，请稍后...',{time:600000});
 	$.post(FI.U('home/users/checkLogin'),params,function(data,textStatus){
@@ -43,11 +43,11 @@ function showProtocol(){
 
 var time = 0;
 var isSend = false;
-var isUse = false;
+var is_use = false;
 function getVerifyCode(){
 	var params = {};
-		params.userPhone = $.trim($("#loginName").val());
-	if(params.userPhone==''){
+		params.user_phone = $.trim($("#login_name").val());
+	if(params.user_phone==''){
 		FI.msg('请输入手机号码!', {icon: 5});
 		return;
 	}
@@ -116,7 +116,7 @@ function getPhoneVerifyCode(params){
 function initRegist(){
 	$('#reg_form').validator({
 	    rules: {
-	    	loginName: function(element) {
+	    	login_name: function(element) {
 	    		if(/^[a-zA-Z]\w{3,}/.test(element.value)){
 	    			$("#mobileCodeDiv").hide();
 	    			$("#authCodeDiv").show();
@@ -140,14 +140,14 @@ function initRegist(){
 	                   '请填写用户名、手机号或者邮箱';
 	        },
 	        mobileCode: function(element){
-	        	if(this.test(document.getElementById("loginName"), "mobile")===true){
+	        	if(this.test(document.getElementById("login_name"), "mobile")===true){
 	        		return true;
 	    		}else{
 	    			return false;
 	    		}
 	        },
 	        verifyCode: function(element){
-	        	if(this.test(document.getElementById("loginName"), "mobile")===false){
+	        	if(this.test(document.getElementById("login_name"), "mobile")===false){
 	        		return true;
 	    		}else{
 	    			return false;
@@ -155,15 +155,15 @@ function initRegist(){
 	        },
 	        //自定义remote规则（注意：虽然remote规则已经内置，但这里的remote会优先于内置）
 	        remote: function(element){
-	        	return $.post(FI.U('home/users/checkLoginKey'),{"loginName":element.value},function(data,textStatus){
+	        	return $.post(FI.U('home/users/checkLoginKey'),{"login_name":element.value},function(data,textStatus){
 	        	
 	        	});
 	        }
 	    },
 	    fields: {
-	        'loginName': 'required; loginName; remote;',
-	        'loginPwd' : '密码:required; password;',
-	        'reUserPwd': '确认密码:required; match(loginPwd);',
+	        'login_name': 'required; login_name; remote;',
+	        'login_password' : '密码:required; password;',
+	        'reUserPwd': '确认密码:required; match(login_password);',
 	        'mobileCode': {rule:"required(mobileCode)",msg:{required:'请输入短信验证码'}},
 	        'verifyCode': {rule:"required(verifyCode)",msg:{required:'请输入验证码'}}
 	    },

@@ -6,21 +6,21 @@
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <div class="fi-toolbar">
 商家所在地：
-<select id="areaId1" class='ipt j-ipt' level="0" onchange="FI.ITAreas({id:'areaId1',val:this.value,className:'j-ipt'});">
+<select id="area_id1" class='ipt j-ipt' level="0" onchange="FI.ITAreas({id:'area_id1',val:this.value,className:'j-ipt'});">
   <option value="-1">-请选择-</option>
   {volist name="areaList" id="vo"}
-  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  <option value="{$vo['area_id']}">{$vo['area_name']}</option>
   {/volist}
 </select>
     <br/>
-订单编号：<input type="text" name="orderNo"  placeholder='订单编号' id="orderNo" class='j-ipt'/>
-店铺：<input type="text" name="shopName"  placeholder='店铺名称/店铺编号' id="shopName" class='j-ipt'/>
-配送方式：<select id='deliverType' class='j-ipt'>
+订单编号：<input type="text" name="order_no"  placeholder='订单编号' id="order_no" class='j-ipt'/>
+店铺：<input type="text" name="shop_name"  placeholder='店铺名称/店铺编号' id="shop_name" class='j-ipt'/>
+配送方式：<select id='deliver_type' class='j-ipt'>
          <option value='-1'>全部</option>
          <option value='1'>自提</option>
          <option value='0'>送货上门</option>
        </select>
-退款状态：<select id='isRefund' class='j-ipt'>
+退款状态：<select id='is_refund' class='j-ipt'>
          <option value='-1'>全部</option>
          <option value='1'>已退款</option>
          <option value='0'>未退款</option>

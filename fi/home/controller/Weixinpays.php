@@ -8,25 +8,25 @@ class Weixinpays extends Base{
 	/**
 	 * 初始化
 	 */
-	private $wxpayConfig;
+	private $wxpay_config;
 	private $wxpay;
 	public function _initialize() {
 		header ("Content-type: text/html; charset=utf-8");
 		Loader::import('wxpay.wxpay.WxPayConf');
 		Loader::import('wxpay.wxpay.WxQrcodePay');
 		
-		$this->wxpayConfig = array();
+		$this->wxpay_config = array();
 		$m = new M();
 		$this->wxpay = $m->getPayment("weixinpays");
-		$this->wxpayConfig['appid'] = $this->wxpay['appId']; // 微信公众号身份的唯一标识
-		$this->wxpayConfig['appsecret'] = $this->wxpay['appsecret']; // JSAPI接口中获取openid
-		$this->wxpayConfig['mchid'] = $this->wxpay['mchId']; // 受理商ID
-		$this->wxpayConfig['key'] = $this->wxpay['apiKey']; // 商户支付密钥Key
-		$this->wxpayConfig['notifyurl'] = url("home/weixinpays/wxNotify","",true,true);
-		$this->wxpayConfig['curl_timeout'] = 30;
-		$this->wxpayConfig['returnurl'] = "";
+		$this->wxpay_config['appid'] = $this->wxpay['appId']; // 微信公众号身份的唯一标识
+		$this->wxpay_config['appsecret'] = $this->wxpay['appsecret']; // JSAPI接口中获取openid
+		$this->wxpay_config['mchid'] = $this->wxpay['mchId']; // 受理商ID
+		$this->wxpay_config['key'] = $this->wxpay['apiKey']; // 商户支付密钥Key
+		$this->wxpay_config['notifyurl'] = url("home/weixinpays/wxNotify","",true,true);
+		$this->wxpay_config['curl_timeout'] = 30;
+		$this->wxpay_config['returnurl'] = "";
 		// 初始化WxPayConf_pub
-		$wxpaypubconfig = new \WxPayConf($this->wxpayConfig);
+		$wxpaypubconfig = new \WxPayConf($this->wxpay_config);
 	}
 	
 	/**
@@ -34,12 +34,12 @@ class Weixinpays extends Base{
 	 */
 	public function getWeixinPaysURL(){
 		$m = new M();
-		$userId = (int)session('FI_USER.userId');
+		$user_id = (int)session('FI_USER.user_id');
 		$data = model('Orders')->checkOrderPay();
 		if($data["status"]==1){
-			$orderId = input("id/s");
+			$order_id = input("id/s");
 			$isBatch = (int)input("isBatch/d");
-			$pkey = $userId."@".$orderId;
+			$pkey = $user_id."@".$order_id;
 			if($isBatch==1){
 				$pkey = $pkey."@1";
 			}else{
@@ -57,21 +57,21 @@ class Weixinpays extends Base{
 		if(count($pkeys)!= 3){
 			$this->assign('out_trade_no', "");
 		}else{
-			$userId = (int)session('FI_USER.userId');
+			$user_id = (int)session('FI_USER.user_id');
 			$obj = array();
-			$obj["userId"] = $userId;
-			$obj["orderId"] = $pkeys[1];
+			$obj["user_id"] = $user_id;
+			$obj["order_id"] = $pkeys[1];
 			$obj["isBatch"] = $pkeys[2];
 			$m = new M();
-			$needPay = $m->getPayOrders($obj);
-			if($needPay>0){
+			$need_pay = $m->getPayOrders($obj);
+			if($need_pay>0){
 				// 使用统一支付接口
 				$wxQrcodePay = new \WxQrcodePay ();
 				$wxQrcodePay->setParameter ( "body", "支付订单费用" ); // 商品描述
-				$out_trade_no = $obj["orderId"];
+				$out_trade_no = $obj["order_id"];
 				$wxQrcodePay->setParameter ( "out_trade_no", "$out_trade_no" ); // 商户订单号
-				$wxQrcodePay->setParameter ( "total_fee", $needPay * 100 ); // 总金额
-				$wxQrcodePay->setParameter ( "notify_url", $this->wxpayConfig['notifyurl'] ); // 通知地址
+				$wxQrcodePay->setParameter ( "total_fee", $need_pay * 100 ); // 总金额
+				$wxQrcodePay->setParameter ( "notify_url", $this->wxpay_config['notifyurl'] ); // 通知地址
 				$wxQrcodePay->setParameter ( "trade_type", "NATIVE" ); // 交易类型
 				$wxQrcodePay->setParameter ( "attach", "$pkey" ); // 附加数据
 				$wxQrcodePay->SetParameter ( "input_charset", "UTF-8" );
@@ -91,10 +91,10 @@ class Weixinpays extends Base{
 					$code_url = $wxQrcodePayResult ["code_url"];
 					// 商户自行增加处理流程
 				}
-				$this->assign ( 'out_trade_no', $obj["orderId"] );
+				$this->assign ( 'out_trade_no', $obj["order_id"] );
 				$this->assign ( 'code_url', $code_url );
 				$this->assign ( 'wxQrcodePayResult', $wxQrcodePayResult );
-				$this->assign ( 'needPay', $needPay );
+				$this->assign ( 'need_pay', $need_pay );
 			}else{
 				$flag = false;
 			}
@@ -153,7 +153,7 @@ class Weixinpays extends Base{
 				$total_fee = $order ["total_fee"];
 				$pkey = $order ["attach"] ;
 				$pkeys = explode ( "@", $pkey );
-				$userId = $pkeys [0];
+				$user_id = $pkeys [0];
 				$out_trade_no = $pkeys [1];
 				$isBatch = $pkeys [2];
 				$m = new M();
@@ -163,8 +163,8 @@ class Weixinpays extends Base{
 				$obj["out_trade_no"] = $out_trade_no;
 				$obj["isBatch"] = $isBatch;
 				$obj["total_fee"] = (float)$total_fee/100;
-				$obj["userId"] = $userId;
-				$obj["payFrom"] = 2;
+				$obj["user_id"] = $user_id;
+				$obj["pay_from"] = 2;
 				// 支付成功业务逻辑
 				$rs = $m->complatePay ( $obj );
 				if($rs["status"]==1){

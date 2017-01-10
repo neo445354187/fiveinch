@@ -32,7 +32,7 @@ body{padding:0px;background:#EAEEF5;overflow:hidden;}
 
    {volist name="menus" id="vo" key="k"}
    {/* $vo虽然是对象，但是继承了array的相应接口，是可以作为数组访问的 */}
-   <div id="fi-tab-{$vo['menuId']}" tabId="fi-tab-{$vo['menuId']}" v="{$vo['menuId']}" title="{$vo['menuName']}" class='fi-tab' {if condition="$k ==0"}selected="true"{/if} style="height: 300px"> 
+   <div id="fi-tab-{$vo['menu_id']}" tabId="fi-tab-{$vo['menu_id']}" v="{$vo['menu_id']}" title="{$vo['menu_name']}" class='fi-tab' {if condition="$k ==0"}selected="true"{/if} style="height: 300px"> 
    </div>
    {/volist}
    <!-- 

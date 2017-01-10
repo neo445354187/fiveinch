@@ -9,34 +9,34 @@
 {block name="main"}
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <form autocomplete='off'> 
-<input type='hidden' id='staffId' class='ipt' value="{$object['staffId']}"/>
+<input type='hidden' id='staff_id' class='ipt' value="{$object['staff_id']}"/>
 <table class='fi-form fi-box-top'>
   <tr>
      <th width='150'>登录账号：</th>
-     <td width='290'>{$object['loginName']}</td>
+     <td width='290'>{$object['login_name']}</td>
      <td rowspan='5'>
        <div style='border:1px solid #ccc;width:130px;height:130px;margin-bottom:5px;'>
-           <img id='prevwPhoto' height='130' width='130' src='__ROOT__/{if $object["staffPhoto"] != '' }{$object["staffPhoto"]} {else}__ADMIN__/img/img_mrtx_gly.png{/if}'/>
+           <img id='prevwPhoto' height='130' width='130' src='__ROOT__/{if $object["staff_photo"] != '' }{$object["staff_photo"]} {else}__ADMIN__/img/img_mrtx_gly.png{/if}'/>
        </div>
        <div id='photoPicker' style='margin-left:32px;'>上传头像<span id='uploadMsg'></span></div>
-       <input type='hidden' id='staffPhoto' class='ipt' value='{$object["staffPhoto"]}'/>
+       <input type='hidden' id='staff_photo' class='ipt' value='{$object["staff_photo"]}'/>
      </td>
   </tr>
   <tr>
      <th>职员名称<font color='red'>*</font>：</th>
-     <td><input type="text" id='staffName' class='ipt' value="{$object['staffName']}" maxLength='20' data-rule="职员名称: required;"/></td>
+     <td><input type="text" id='staff_name' class='ipt' value="{$object['staff_name']}" maxLength='20' data-rule="职员名称: required;"/></td>
   </tr>
   <tr>
      <th>职员编号：</th>
-     <td><input type="text" id='staffNo' class='ipt' value="{$object['staffNo']}" maxLength='20'/></td>
+     <td><input type="text" id='staff_no' class='ipt' value="{$object['staff_no']}" maxLength='20'/></td>
   </tr>
   <tr>
      <th>角色：</th>
      <td>
-     <select id='staffRoleId' class='ipt'>
+     <select id='staff_role_id' class='ipt'>
         <option value='0'>请选择</option>
         {volist name="roles" id="vo"}
-		<option value="{$vo['roleId']}" {if condition="$object['staffRoleId'] == $vo['roleId']"}selected{/if}>{$vo.roleName}</option>
+		<option value="{$vo['role_id']}" {if condition="$object['staff_role_id'] == $vo['role_id']"}selected{/if}>{$vo.role_name}</option>
 		{/volist}
      </select>
      </td>
@@ -45,10 +45,10 @@
      <th>工作状态：</th>
      <td>
        <label>
-           <input id="workStatus1" name="workStatus" value="1" class='ipt' {if condition="$object['workStatus'] == 1"}checked{/if} type="radio">在职
+           <input id="work_itatus1" name="work_itatus" value="1" class='ipt' {if condition="$object['work_itatus'] == 1"}checked{/if} type="radio">在职
        </label>
        <label>
-           <input id="workStatus0" name="workStatus" value="0" class='ipt' {if condition="$object['workStatus'] == 0"}checked{/if} type="radio">离职
+           <input id="work_itatus0" name="work_itatus" value="0" class='ipt' {if condition="$object['work_itatus'] == 0"}checked{/if} type="radio">离职
        </label>
              
      </td>
@@ -57,10 +57,10 @@
      <th>账号状态：</th>
      <td colspan='2'>
        <label>
-          <input type='radio' id='staffStatus1' class='ipt' name='staffStatus' {if condition="$object['staffStatus'] == 1"}checked{/if} value='1'>开启
+          <input type='radio' id='staff_status1' class='ipt' name='staff_status' {if condition="$object['staff_status'] == 1"}checked{/if} value='1'>开启
        </label>
        <label>
-          <input type='radio' id='staffStatus0' class='ipt' name='staffStatus' {if condition="$object['staffStatus'] == 0"}checked{/if} value='0'>停用
+          <input type='radio' id='staff_status0' class='ipt' name='staff_status' {if condition="$object['staff_status'] == 0"}checked{/if} value='0'>停用
        </label>
      </td>
   </tr>
@@ -83,7 +83,7 @@ $(function(){
   		  if(json.status==1){
   			$('#uploadMsg').empty().hide();
   			$('#prevwPhoto').attr('src',FI.conf.ROOT+'/'+json.savePath+json.name);
-  			$('#staffPhoto').val(json.savePath+json.name);
+  			$('#staff_photo').val(json.savePath+json.name);
   		  }
 	  },
 	  progress:function(rate){

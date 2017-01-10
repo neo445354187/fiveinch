@@ -4,30 +4,30 @@ namespace fi\admin\model;
  * 友情链接业务处理
  */
 use think\Db;
-class friendlinks extends Base{
+class FriendLinks extends Base{
 	/**
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field('friendlinkId,friendlinkName,friendlinkIco,friendlinkSort,friendlinkUrl')->order('friendlinkId desc')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field('friend_link_id,friend_link_name,friend_link_ico,friend_link_sort,friend_link_url')->order('friend_link_id desc')->paginate(input('pagesize/d'));
 	}
 	public function getById($id){
-		return $this->get(['friendlinkId'=>$id,'dataFlag'=>1]);
+		return $this->get(['friend_link_id'=>$id,'status'=>1]);
 	}
 	/**
 	 * 新增
 	 */
 	public function add(){
 		$data = input('post.');
-		$data['createTime'] = date('Y-m-d H:i:s');
-		FIUnset($data,'friendlinkId');
+		$data['create_time'] = date('Y-m-d H:i:s');
+		FIUnset($data,'friend_link_id');
 		Db::startTrans();
 		try{
-			$result = $this->validate('friendlinks.add')->allowField(true)->save($data);
-			$id = $this->friendlinkId;
+			$result = $this->validate('friend_links.add')->allowField(true)->save($data);
+			$id = $this->friend_link_id;
 	        if(false !== $result){
 	        	//启用上传图片
-			    FIUseImages(1, $id, $data['friendlinkIco']);
+			    FIUseImages(1, $id, $data['friend_link_ico']);
 			    Db::commit();
 	        	return FIReturn("新增成功", 1);
 	        }
@@ -40,13 +40,14 @@ class friendlinks extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$id = (int)input('post.friendlinkId');
+		$id = (int)input('post.friend_link_id');
 		$data = input('post.');
-		FIUnset($data,'createTime');
+		FIUnset($data,'create_time');
+
 		Db::startTrans();
 		try{
-			FIUseImages(1, $id, $data['friendlinkIco'], 'friendlinks', 'friendlinkIco');
-		    $result = $this->validate('friendlinks.edit')->allowField(true)->save($data,['friendlinkId'=>$id]);
+			FIUseImages(1, $id, $data['friend_link_ico'], 'friend_links', 'friend_link_ico');
+		    $result = $this->validate('friend_links.edit')->allowField(true)->save($data,['friend_link_id'=>$id]);
 	        if(false !== $result){
 	        	Db::commit();
 	        	return FIReturn("编辑成功", 1);
@@ -64,10 +65,10 @@ class friendlinks extends Base{
 	    Db::startTrans();
 		try{
 			$data = [];
-			$data['dataFlag'] = -1;
-		    $result = $this->update($data,['friendlinkId'=>$id]);
+			$data['status'] = -1;
+		    $result = $this->update($data,['friend_link_id'=>$id]);
 	        if(false !== $result){
-	        	FIUnuseImage('friendlinks','friendlinkIco',$id);
+	        	FIUnuseImage('friend_links','friend_link_ico',$id);
 	        	Db::commit();
 	        	return FIReturn("删除成功", 1);
 	        }

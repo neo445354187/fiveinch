@@ -1,7 +1,7 @@
-{include file="default/header_top" /} {if !isset($_COOKIE['ads_cookie'])} {fi:ads code="index-top-ads" cache='86400' id="tads"} {if ($tads['adFile']!='')}
+{include file="default/header_top" /} {if !isset($_COOKIE['ads_cookie'])} {fi:ads code="index-top-ads" cache='86400' id="tads"} {if ($tads['ad_file']!='')}
 <div class="index-top-ads">
-    <a href="{$tads['adURL']}" {if ($tads[ 'adURL']!='' )}onclick="FI.recordClick({$tads['adId']})" {/if} onfocus="this.blur();">
-        <img src="__ROOT__/{$tads['adFile']}"></a>
+    <a href="{$tads['ad_url']}" {if ($tads[ 'ad_url']!='' )}onclick="FI.recordClick({$tads['ad_id']})" {/if} onfocus="this.blur();">
+        <img src="__ROOT__/{$tads['ad_file']}"></a>
     <a href="javascript:;" class="close-ads" onclick="FI.closeAds(this)"></a>
 </div>
 {/if} {/fi:ads} {/if}
@@ -52,15 +52,15 @@
         {/* 购物车 */}
         <script id="list-cart" type="text/html">
             {{# for(var i = 0; i
-            < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cartId }}">
+            < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cart_id }}">
                 <div class="imgs">
-                    <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a>
+                    <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goods_id }}"><img class="goods_imgc" data-original="__ROOT__/{{ d.list[i].goods_img }}" title="{{ d.list[i].goods_name }}"></a>
                 </div>
                 <div class="number">
-                    <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{FI.cutStr(d.list[i].goodsName,20)}}</a></p>
+                    <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goods_id }}">{{FI.cutStr(d.list[i].goods_name,20)}}</a></p>
                 </div>
                 <div class="price">
-                    <span>￥{{ d.list[i].shopPrice }} × {{ d.list[i].cartNum }}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:FI.delCheckCart({{ d.list[i].cartId }})" >×</a></div>
+                    <span>￥{{ d.list[i].shop_price }} × {{ d.list[i].cart_num }}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:FI.delCheckCart({{ d.list[i].cart_id }})" >×</a></div>
                 </div>
             {{# } }}
         </script>
@@ -80,7 +80,7 @@
                     <div id="cat-icon-{$k}" class="item fore1 {if ($key>=12)}over-cat{/if}">
                         <h3>
                       <div class="{if ($key>=12)} over-cat-icon {else /} cat-icon-{$k} {/if}"></div>
-                      <a href="{:Url('home/goods/lists','cat='.$vo['catId'])}" target="_blank">{$vo['catName']}</a>
+                      <a href="{:Url('home/goods/lists','cat='.$vo['cat_id'])}" target="_blank">{$vo['cat_name']}</a>
                      </h3>
                         <i>&gt;</i>
                     </div>
@@ -92,8 +92,8 @@
                         <div class="item-brands">
                             <div class="brands-inner">
                                 {volist name="$vo['brand']" id="b" length="16"}
-                                <a target="_blank" class="img-link" href="{:url('home/goods/lists',['cat'=>$vo['catId'],'brand'=>$b['brandId']])}">
-                                    <img width="83" height="35" class='goodsImg' data-original="__ROOT__/{$b['brandImg']}">
+                                <a target="_blank" class="img-link" href="{:url('home/goods/lists',['cat'=>$vo['cat_id'],'brand'=>$b['brand_id']])}">
+                                    <img width="83" height="35" class='goods_img' data-original="__ROOT__/{$b['brand_img']}">
                                 </a>
                                 {/volist}
                             </div>
@@ -102,11 +102,11 @@
                             {php}if(isset($vo['list'])){{/php} {volist name="vo['list']" id="vo2"}
                             <dl class="fore2">
                                 <dt>
-                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo2['catId'])}">{$vo2['catName']}<i>&gt;</i></a>
+                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo2['cat_id'])}">{$vo2['cat_name']}<i>&gt;</i></a>
                                 </dt>
                                 <dd>
                                     {php}if(isset($vo2['list'])){{/php} {volist name="vo2['list']" id="vo3"}
-                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo3['catId'])}">{$vo3['catName']}</a> {/volist} {php}}{/php}
+                                    <a target="_blank" href="{:Url('home/goods/lists','cat='.$vo3['cat_id'])}">{$vo3['cat_name']}</a> {/volist} {php}}{/php}
                                 </dd>
                             </dl>
                             {/volist} {php}}{/php}
@@ -121,7 +121,7 @@
             <ul>
                 {volist name=":FINavigations(0)" id='vo'}
                 <li class="fore1">
-                    <a href="{$vo['navUrl']}" {if $vo[ 'isOpen']==1}target="_blank" {/if}>{$vo['navTitle']}</a>
+                    <a href="{$vo['nav_url']}" {if $vo[ 'is_open']==1}target="_blank" {/if}>{$vo['nav_title']}</a>
                 </li>
                 {/volist}
             </ul>
@@ -132,8 +132,8 @@
                 <?php $adsCode = 'index-art-'.$i; ?>
                 <div class="fi-right-ads">
                     {fi:ads code="$adsCode" num='1' cache='86400' id='vo'}
-                    <a {if ($vo[ 'adURL']!='' )}onclick="FI.recordClick({$vo['adId']})" {/if} href="{$vo['adURL']}" onfocus="this.blur()">
-                        <img data-original="__ROOT__/{$vo.adFile}" class="goodsImg" />
+                    <a {if ($vo[ 'ad_url']!='' )}onclick="FI.recordClick({$vo['ad_id']})" {/if} href="{$vo['ad_url']}" onfocus="this.blur()">
+                        <img data-original="__ROOT__/{$vo.ad_file}" class="goods_img" />
                     </a>
                     {/fi:ads}
                 </div>

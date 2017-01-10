@@ -5,39 +5,39 @@
 {block name="main"}
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <form autocomplete='off'>
-<input type='hidden' id='applyId' class='ipt' value="{$object['applyId']}"/>
+<input type='hidden' id='apply_id' class='ipt' value="{$object['apply_id']}"/>
 <table class='fi-form fi-box-top'>
   <tr>
      <th width='150'>申请人：</th>
      <td>
-     {$object['linkman']}{if $object['loginName']!=''}会员：{$object['loginName']}{/if}
+     {$object['linkman']}{if $object['login_name']!=''}会员：{$object['login_name']}{/if}
      </td>
   </tr>
   <tr>
      <th>联系电话：</th>
-     <td>{$object['phoneNo']}</td>
+     <td>{$object['phone_no']}</td>
   </tr>
   <tr>
      <th valign='top'>申请说明：</th>
      <td>
-       {$object['applyDesc']}
+       {$object['apply_desc']}
      </td>
   </tr>
   <tr>
      <th>处理结果<font color='red'>*</font>：</th>
      <td>
         <label>
-           <input type='radio' class='ipt' name='applyStatus' id='applyStatus0' value='-1' onclick='javascript:FI.showHide(1,"#tr")'/>申请失败
+           <input type='radio' class='ipt' name='apply_status' id='apply_status0' value='-1' onclick='javascript:FI.showHide(1,"#tr")'/>申请失败
         </label>
         <label>
-           <input type='radio' class='ipt' name='applyStatus' id='applyStatus1' value='1' onclick='javascript:FI.showHide(0,"#tr")' data-rule="checked"/>申请成功
+           <input type='radio' class='ipt' name='apply_status' id='apply_status1' value='1' onclick='javascript:FI.showHide(0,"#tr")' data-rule="checked"/>申请成功
         </label>
      </td>
   </tr>
   <tr id='tr' style='display:none'>
      <th valign='top'>失败原因<font color='red'>*</font>：</th>
      <td>
-       <textarea id='handleDesc' class='ipt' style='width:70%;height:80px;' data-rule="失败原因: required;"></textarea>
+       <textarea id='handle_desc' class='ipt' style='width:70%;height:80px;' data-rule="失败原因: required;"></textarea>
      </td>
   </tr>
   <tr>

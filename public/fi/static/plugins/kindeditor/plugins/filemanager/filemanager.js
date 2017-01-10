@@ -10,7 +10,7 @@
 KindEditor.plugin('filemanager', function(K) {
 	var self = this, name = 'filemanager',
 		fileManagerJson = K.undef(self.fileManagerJson, self.basePath + 'php/file_manager_json.php'),
-		imgPath = self.pluginsPath + name + '/images/',
+		img_path = self.pluginsPath + name + '/images/',
 		lang = self.lang(name + '.');
 	function makeFileTitle(filename, filesize, datetime) {
 		return filename + ' (' + Math.ceil(filesize / 1024) + 'KB, ' + datetime + ')';
@@ -34,7 +34,7 @@ KindEditor.plugin('filemanager', function(K) {
 			'<div class="ke-plugin-filemanager-header">',
 			// left start
 			'<div class="ke-left">',
-			'<img class="ke-inline-block" name="moveupImg" src="' + imgPath + 'go-up.gif" width="16" height="16" border="0" alt="" /> ',
+			'<img class="ke-inline-block" name="moveupImg" src="' + img_path + 'go-up.gif" width="16" height="16" border="0" alt="" /> ',
 			'<a class="ke-inline-block" name="moveupLink" href="javascript:;">' + lang.moveup + '</a>',
 			'</div>',
 			// right start
@@ -138,7 +138,7 @@ KindEditor.plugin('filemanager', function(K) {
 				.mouseout(function(e) {
 					K(this).removeClass('ke-on');
 				});
-				var iconUrl = imgPath + (data.is_dir ? 'folder-16.gif' : 'file-16.gif'),
+				var iconUrl = img_path + (data.is_dir ? 'folder-16.gif' : 'file-16.gif'),
 					img = K('<img src="' + iconUrl + '" width="16" height="16" alt="' + data.filename + '" align="absmiddle" />'),
 					cell0 = K(row[0].insertCell(0)).addClass('ke-cell ke-name').append(img).append(document.createTextNode(' ' + data.filename));
 				if (!data.is_dir || data.has_file) {
@@ -168,7 +168,7 @@ KindEditor.plugin('filemanager', function(K) {
 					});
 				div.append(photoDiv);
 				var fileUrl = result.current_url + data.filename,
-					iconUrl = data.is_dir ? imgPath + 'folder-64.gif' : (data.is_photo ? fileUrl : imgPath + 'file-64.gif');
+					iconUrl = data.is_dir ? img_path + 'folder-64.gif' : (data.is_photo ? fileUrl : img_path + 'file-64.gif');
 				var img = K('<img src="' + iconUrl + '" width="80" height="80" alt="' + data.filename + '" />');
 				if (!data.is_dir || data.has_file) {
 					photoDiv.css('cursor', 'pointer');

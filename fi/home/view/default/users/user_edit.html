@@ -19,7 +19,7 @@
 		<tr>
 	      <th>账号<font color='red'>  </font>：</th>
 	      <td width="260" class="gray">
-	          <div id='user_account'>{:session('FI_USER.loginName')}</div>
+	          <div id='user_account'>{:session('FI_USER.login_name')}</div>
 	      </td>
 	      <td class="gray" style='padding-left:15px;'>个人头像：</td>
 	    </tr>
@@ -27,21 +27,21 @@
 	       <th><font color='red'>*</font>性别：</th>
 	       <td>
 	       	<div class="radio-box">
-	       	<label><input type='radio' class='ipt fi-radio' name='userSex'  id="userSex-1" <?=($data['userSex']==1)?'checked':'';?> value="1" /><label class="mt-1" for="userSex-1"></label> 男</label>
-	        	<label><input type='radio' class='ipt fi-radio' name='userSex'  id="userSex-2" <?=($data['userSex']==2)?'checked':'';?> value="2" /><label class="mt-1" for="userSex-2"></label> 女</label>
-	        	<label><input type='radio' class='ipt fi-radio' name='userSex'  id="userSex-3" <?=($data['userSex']==3)?'checked':'';?> value="3" /><label class="mt-1" for="userSex-3"></label> 保密</label>
+	       	<label><input type='radio' class='ipt fi-radio' name='user_sex'  id="user_sex-1" <?=($data['user_sex']==1)?'checked':'';?> value="1" /><label class="mt-1" for="user_sex-1"></label> 男</label>
+	        	<label><input type='radio' class='ipt fi-radio' name='user_sex'  id="user_sex-2" <?=($data['user_sex']==2)?'checked':'';?> value="2" /><label class="mt-1" for="user_sex-2"></label> 女</label>
+	        	<label><input type='radio' class='ipt fi-radio' name='user_sex'  id="user_sex-3" <?=($data['user_sex']==3)?'checked':'';?> value="3" /><label class="mt-1" for="user_sex-3"></label> 保密</label>
 	        	</div>
 	       </td>
 	    </tr>
 	  <tr>
 	      <th width='100'><font color='red'>*</font>昵称：</th>
 	          <td class="uinfo">
-	              <input type="text" class="ipt" id="userName" name="userName" value="{$data['userName']}" />
+	              <input type="text" class="ipt" id="user_name" name="user_name" value="{$data['user_name']}" />
 	          </td>
 	          <td rowspan="6" valign="top">
-	              	<div id='userPhotoPreview1' style="border:1px solid #ccc;width:151px;height:151px;margin-left:15px;">
-		              {if ($data['userPhoto'])}
-				      	<img  class="usersImg" data-original='__ROOT__/{$data['userPhoto']}' height='150'/>
+	              	<div id='user_photoPreview1' style="border:1px solid #ccc;width:151px;height:151px;margin-left:15px;">
+		              {if ($data['user_photo'])}
+				      	<img  class="usersImg" data-original='__ROOT__/{$data['user_photo']}' height='150'/>
 				      {else}
 				      	<img class="usersImg" src="__ROOT__/{:FIConf('CONF.userLogo')}" height='150' width="150" />
 				      {/if}
@@ -53,7 +53,7 @@
 	   		<tr>
 	          <th>姓名<font color='red'>  </font>：</th>
 	          <td class="uinfo">
-	              <input type="text" class="ipt" id="trueName" name="trueName" value="{$data['trueName']}" />
+	              <input type="text" class="ipt" id="true_name" name="true_name" value="{$data['true_name']}" />
 	          </td>
 	       </tr>
 	         
@@ -67,7 +67,7 @@
 	        <!-- <tr>
 	          <th>QQ<font color='red'>  </font>：</th>
 	          <td class="uinfo">
-	              <input type="text" class="ipt" id="userQQ" name="userQQ" value="{$data['userQQ']}" />
+	              <input type="text" class="ipt" id="user_qq" name="user_qq" value="{$data['user_qq']}" />
 	          </td>
 	        	       </tr> -->
 
@@ -75,7 +75,7 @@
 
 	  <tr>
 	     <td colspan='2' style="text-align:center">
-	       <input type="hidden" name="id" id="userId" class="ipt" value="{$data['userId']}" />
+	       <input type="hidden" name="id" id="user_id" class="ipt" value="{$data['user_id']}" />
 	       <button type="submit"  class="fi-sec-but u-btn">保存</button>
 	       <button type="reset"  class="fi-sec-but u-btn">重置</button>
 	     </td>
@@ -87,7 +87,7 @@
 
 <div class='fi-tab-item' style="display:none" >
 
-	<table class='fi-form'  id="userPhoto">
+	<table class='fi-form'  id="user_photo">
 		<tr>
 	      <th width='100'>头像预览<font color='red'> </font>：</th>
 	      <td></td>
@@ -95,9 +95,9 @@
 	   <tr>
 	   	<td></td>
    		<td>
-          	<div id='userPhotoPreview'>
-              {if ($data['userPhoto'])}
-		      	<img  class="usersImg" data-original='__ROOT__/{$data['userPhoto']}' height='150' width="150"/>
+          	<div id='user_photoPreview'>
+              {if ($data['user_photo'])}
+		      	<img  class="usersImg" data-original='__ROOT__/{$data['user_photo']}' height='150' width="150"/>
 		      {else}
 		      	<img class="usersImg" data-original='' height='150' width="150" />
 		      {/if}
@@ -111,15 +111,15 @@
 	   <tr>
             <td></td>
 	   		<td width="50">
-	           	<input type='hidden' id='userPic' value='{$data['userPhoto']}' data-rule="用户头像:required" data-target="#picErr"/>
-             	<div id="userPhotoPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传用户头像</div>
+	           	<input type='hidden' id='userPic' value='{$data['user_photo']}' data-rule="用户头像:required" data-target="#picErr"/>
+             	<div id="user_photoPicker" style='margin-left:0px;margin-top:5px;height:30px;overflow:hidden'>上传用户头像</div>
             </td>
 	   </tr>
     </table>
 
 
 
-    <div class="container"  id="userPhotoCut" style="display:none;">
+    <div class="container"  id="user_photoCut" style="display:none;">
 	<div class="row">
 		<div class="span12">
 			<div class="jc-demo-box">
@@ -128,11 +128,11 @@
 				</div>
 
 
-				  <div id="userPhotoCutBox" style="position:relative;height:505px;">
+				  <div id="user_photoCutBox" style="position:relative;height:505px;">
 					  <div id="cutArea"></div><p></p>
 				  </div>
 
-				 <form action="<?=url('Home/Users/editUserPhoto')?>" method="post" id="userPhotoInfo">
+				 <form action="<?=url('Home/Users/editUserPhoto')?>" method="post" id="user_photoInfo">
 						<input type="hidden" id="x" name="x" class="photo-size" />
 						<input type="hidden" id="y" name="y" class="photo-size" />
 						<input type="hidden" id="w" name="w" class="photo-size" />

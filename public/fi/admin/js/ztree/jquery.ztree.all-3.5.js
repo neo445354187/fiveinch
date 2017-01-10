@@ -97,7 +97,7 @@
 			enable: false,
 			contentType: "application/x-www-form-urlencoded",
 			type: "post",
-			dataType: "text",
+			data_type: "text",
 			url: "",
 			autoParam: [],
 			otherParam: [],
@@ -225,7 +225,7 @@
 				tId = tools.getNodeMainDom(target).id;
 				nodeEventType = "switchNode";
 			} else {
-				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+				tmp = tools.getMDom(setting, target, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 				if (tmp) {
 					tId = tools.getNodeMainDom(tmp).id;
 					nodeEventType = "clickNode";
@@ -233,14 +233,14 @@
 			}
 		} else if (tools.eqs(event.type, "dblclick")) {
 			treeEventType = "dblclick";
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 			if (tmp) {
 				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "switchNode";
 			}
 		}
 		if (treeEventType.length > 0 && tId.length == 0) {
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 			if (tmp) {tId = tools.getNodeMainDom(tmp).id;}
 		}
 		// event to node
@@ -843,7 +843,7 @@
 			if (!curDom) return null;
 			while (curDom && curDom.id !== setting.treeId) {
 				for (var i=0, l=targetExpr.length; curDom.tagName && i<l; i++) {
-					if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
+					if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attr_name) !== null) {
 						return curDom;
 					}
 				}
@@ -854,8 +854,8 @@
 		getNodeMainDom:function(target) {
 			return ($(target).parent("li").get(0) || $(target).parentsUntil("li").parent().get(0));
 		},
-		isChildOrSelf: function(dom, parentId) {
-			return ( $(dom).closest("#" + parentId).length> 0 );
+		isChildOrSelf: function(dom, parent_id) {
+			return ( $(dom).closest("#" + parent_id).length> 0 );
 		},
 		uCanDo: function(setting, e) {
 			return true;
@@ -1003,7 +1003,7 @@
 				type: setting.async.type,
 				url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
 				data: tmpParam,
-				dataType: setting.async.dataType,
+				data_type: setting.async.data_type,
 				success: function(msg) {
 					if (_tmpV != data.getRoot(setting)._ver) {
 						return;
@@ -2576,19 +2576,19 @@
 		tmp = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 			if (tmp) {
 				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "hoverOverNode";
 			}
 		} else if (tools.eqs(e.type, "mouseout")) {
-			tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+			tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 			if (!tmp) {
 				tId = "remove";
 				nodeEventType = "hoverOutNode";
 			}
 		} else if (tools.eqs(e.type, "mousedown")) {
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attr_name:"treeNode"+consts.id.A}]);
 			if (tmp) {
 				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "mousedownNode";

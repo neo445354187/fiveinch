@@ -156,7 +156,7 @@ td.head-ititle{background:url('../img/img_seller_ggjt.png') no-repeat 5px 4px;pa
 .order-box .line{border-top:1px solid #dddddd;}
 .order-box .goods-summary{margin-top:10px;}
 .order-box .summary{height:30px;line-height:30px;}
-.order-box .orderScore{margin-right:5px;}
+.order-box .order_score{margin-right:5px;}
 .order-box .log td{height:25px;line-height:25px;padding-left:15px;}
 /*流程图*/
 .order-box .log-box{height:132px;}

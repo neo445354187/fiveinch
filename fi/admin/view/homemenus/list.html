@@ -5,7 +5,7 @@
 {block name="main"}
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <div class="fi-toolbar">
-   菜单类型：<select id='s_menuType' onchange='loadGrid()'>
+   菜单类型：<select id='s_menu_type' onchange='loadGrid()'>
       <option value='-1'>全部</option>
       <option value='0'>用户菜单</option>
       <option value='1'>商家菜单</option>
@@ -22,25 +22,25 @@
        <tr>
           <th>菜单名称<font color='red'>*</font>：</th>
           <td>
-              <input type="text" id="menuName" name="menuName" class="ipt" maxLength='20' />
+              <input type="text" id="menu_name" name="menu_name" class="ipt" maxLength='20' />
           </td>
        </tr>
        <tr>
           <th>菜单Url<font color='red'>*</font>：</th>
           <td>
-              <input type="text" id="menuUrl" name="menuUrl" class="ipt" maxLength='200' style='width:300px'/>
+              <input type="text" id="menu_url" name="menu_url" class="ipt" maxLength='200' style='width:300px'/>
           </td>
        </tr>
        <tr>
           <th>附加资源：</th>
           <td>
-              <textarea id="menuOtherUrl" name="menuOtherUrl" class="ipt" style='width:80%'></textarea>
+              <textarea id="menu_other_url" name="menu_other_url" class="ipt" style='width:80%'></textarea>
           </td>
        </tr>
        <tr>
           <th>菜单类型<font color='red'>*</font>：</th>
           <td>
-			<select id="menuType" class="ipt">
+			<select id="menu_type" class="ipt">
 				<option value="0">用户菜单</option>
 				<option value="1">商家菜单</option>
 			</select>
@@ -49,18 +49,18 @@
        <tr>
           <th>菜单排序<font color='red'>*</font>：</th>
           <td>
-              <input type="text" id="menuSort" name="menuSort" class="ipt" maxLength='20' />
+              <input type="text" id="menu_sort" name="menu_sort" class="ipt" maxLength='20' />
           </td>
        </tr>
        <tr>
           <th>是否显示<font color='red'>  </font>：</th>
           <td>
             <lable>
-              <input type="radio" name="isShow" value="1" id="isShow" class="ipt" data-target="#verifyCodeTips"/>显示
+              <input type="radio" name="is_show" value="1" id="is_show" class="ipt" data-target="#verifyCodeTips"/>显示
             </lable>
             <lable>
-              <input type="radio" name="isShow" value="0" id="isShow" class="ipt" />隐藏
-            </lable><span id="isShowTips"></span>
+              <input type="radio" name="is_show" value="0" id="is_show" class="ipt" />隐藏
+            </lable><span id="is_showTips"></span>
           </td>
        </tr>
     </table>

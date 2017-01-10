@@ -30,17 +30,17 @@ $(function(){
         delayLoad:true,
         rownumbers:true,
         columns: [
-	        { display: '权限名称', name: 'privilegeName'},
-	        { display: '权限代码', name: 'privilegeCode'},
-	        { display: '是否菜单权限', name: 'isMenuPrivilege',render: function (rowdata, rowindex, value){
+	        { display: '权限名称', name: 'privilege_name'},
+	        { display: '权限代码', name: 'privilege_code'},
+	        { display: '是否菜单权限', name: 'is_menu_privilege',render: function (rowdata, rowindex, value){
 	            return value==1?"是":"否";
 	        }},
-	        { display: '权限资源', name: 'privilegeUrl'},
-	        { display: '关联资源', name: 'otherPrivilegeUrl'},
+	        { display: '权限资源', name: 'privilege_url'},
+	        { display: '关联资源', name: 'other_privilege_url'},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.QXGL_02)h += "<a href='javascript:getForEdit(" + rowdata['privilegeId'] + ")'>修改</a> ";
-	            if(FI.GRANT.QXGL_03)h += "<a href='javascript:toDel(" + rowdata['privilegeId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.QXGL_02)h += "<a href='javascript:getForEdit(" + rowdata['privilege_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.QXGL_03)h += "<a href='javascript:toDel(" + rowdata['privilege_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -75,7 +75,7 @@ function onRightClick(event, treeId, treeNode) {
              text : '新增菜单',
              click: function(parent, menu) {
             	   treeNode = zTree.getSelectedNodes()[0];
-            	   editMenu({menuId:0,menuName:'',parentId:treeNode.id,pnode:treeNode,menuSort:0});
+            	   editMenu({menu_id:0,menu_name:'',parent_id:treeNode.id,pnode:treeNode,menu_sort:0});
              }});
 		 treeNode = zTree.getSelectedNodes()[0];
 		 if(treeNode.id>0){
@@ -117,7 +117,7 @@ function getForEditMenu(id){
     $.post(FI.U('admin/menus/get'),{id:id},function(data,textStatus){
           layer.close(loading);
           var json = FI.toAdminJson(data);
-          if(json.menuId){
+          if(json.menu_id){
           	  editMenu(json);
           }else{
           	  FI.msg(json.msg,{icon:2});
@@ -126,15 +126,15 @@ function getForEditMenu(id){
 }	                    		
 function editMenu(obj){
 	FI.setValues(obj);
-	var box = FI.open({ title:(obj.menuId==0)?'新增菜单':"编辑菜单",type: 1,area: ['430px', '190px'],
+	var box = FI.open({ title:(obj.menu_id==0)?'新增菜单':"编辑菜单",type: 1,area: ['430px', '190px'],
 	                content:$('#menuBox'),
 	                btn:['确定','取消'],
 	                yes: function(index, layero){
-	                	if(!$('#menuName').isValid())return;
+	                	if(!$('#menu_name').isValid())return;
 		                var params = FI.getParams('.ipt2');
-		                params.menuId = obj.menuId;
+		                params.menu_id = obj.menu_id;
 		                var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
-		                $.post(FI.U('admin/menus/'+((params.menuId)?"edit":"add")),params,function(data,textStatus){
+		                $.post(FI.U('admin/menus/'+((params.menu_id)?"edit":"add")),params,function(data,textStatus){
 		                	layer.close(loading);
 		                	var json = FI.toAdminJson(data);
 		                	if(json.status=='1'){
@@ -142,7 +142,7 @@ function editMenu(obj){
 		                		layer.close(box);
 		                	    $('#menuForm')[0].reset();
 		                		treeNode = zTree.getSelectedNodes()[0];
-		                		if(params.menuId){
+		                		if(params.menu_id){
 			                		zTree.reAsyncChildNodes(treeNode.getParentNode(), "refresh",true);
 		                	    }else{
 		                			zTree.reAsyncChildNodes(treeNode, "refresh",true);
@@ -159,9 +159,9 @@ function getForEdit(id){
      $.post(FI.U('admin/privileges/get'),{id:id},function(data,textStatus){
            layer.close(loading);
            var json = FI.toAdminJson(data);
-           if(json.privilegeId){
+           if(json.privilege_id){
            		FI.setValues(json);
-           		toEdit(json.privilegeId);
+           		toEdit(json.privilege_id);
            }else{
            		FI.msg(json.msg,{icon:2});
            }
@@ -171,10 +171,10 @@ function getForEdit(id){
 function toEdit(id){
 	var title =(id==0)?"新增权限":"编辑权限";
 	var box = FI.open({title:title,type:1,content:$('#privilegeBox'),area: ['450px', '320px'],btn:['确定','取消'],yes:function(){
-		            if(!$('#privilegeName').isValid())return;
-		            if(!$('#privilegeCode').isValid())return;
+		            if(!$('#privilege_name').isValid())return;
+		            if(!$('#privilege_code').isValid())return;
 	                var params = FI.getParams('.ipt');
-	                params.menuId = zTree.getSelectedNodes()[0].id;
+	                params.menu_id = zTree.getSelectedNodes()[0].id;
 	                params.id = id;
 	                var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 	           		$.post(FI.U('admin/privileges/'+((id==0)?"add":"edit")),params,function(data,textStatus){
@@ -216,7 +216,7 @@ function checkPrivilegeCode(obj){
 		var json = FI.toAdminJson(data);
 		if(json.status!='1'){
 			FI.msg(json.msg,{icon:2});
-			$('#privilegeCode').val('');
+			$('#privilege_code').val('');
 		}
 	});
 }

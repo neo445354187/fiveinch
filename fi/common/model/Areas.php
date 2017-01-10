@@ -34,32 +34,32 @@ class Areas extends Base
     public function getCityGroupByKey()
     {
         $rs     = array();
-        $rslist = $this->where('isShow=1 AND dataFlag = 1 AND areaType=1')->field('areaId,areaName,areaKey')->order('areaKey, areaSort')->select();
+        $rslist = $this->where('is_show=1 AND status = 1 AND area_type=1')->field('area_id,area_name,area_key')->order('area_key, area_sort')->select();
         foreach ($rslist as $key => $row) {
-            $rs[$row["areaKey"]][] = $row;
+            $rs[$row["area_key"]][] = $row;
         }
         return $rs;
     }
 
-    public function getArea($areaId2)
+    public function getArea($area_id2)
     {
-        $rs = $this->where(["isShow" => 1, "dataFlag" => 1, "areaType" => 1, "areaId" => $areaId2])->field('areaId,areaName,areaKey')->find();
+        $rs = $this->where(["is_show" => 1, "status" => 1, "area_type" => 1, "area_id" => $area_id2])->field('area_id,area_name,area_key')->find();
         return $rs;
     }
     /**
      *  获取地区列表
      */
-    public function listQuery($parentId = 0)
+    public function listQuery($parent_id = 0)
     {
-        $parentId = ($parentId > 0) ? $parentId : (int) input('parentId');
-        return $this->where(['isShow' => 1, 'dataFlag' => 1, 'parentId' => $parentId])->field('areaId,areaName,parentId')->order('areaSort desc')->select();
+        $parent_id = ($parent_id > 0) ? $parent_id : (int) input('parent_id');
+        return $this->where(['is_show' => 1, 'status' => 1, 'parent_id' => $parent_id])->field('area_id,area_name,parent_id')->order('area_sort desc')->select();
     }
     /**
      *  获取指定对象
      */
     public function getById($id)
     {
-        return $this->where(["areaId" => (int) $id])->find()->toArray();
+        return $this->where(["area_id" => (int) $id])->find()->toArray();
     }
     /**
      * 根据子分类获取其父级分类
@@ -67,45 +67,45 @@ class Areas extends Base
     public function getParentIs($id, $data = array())
     {
         $data[]   = $id;
-        $parentId = $this->where('areaId', $id)->value('parentId');
-        if ($parentId == 0) {
+        $parent_id = $this->where('area_id', $id)->value('parent_id');
+        if ($parent_id == 0) {
             krsort($data);
             return $data;
         } else {
-            return $this->getParentIs($parentId, $data);
+            return $this->getParentIs($parent_id, $data);
         }
     }
 
     /**
      * [getAddr 根据$area_id获取]
-     * @param  [type] $areaId [description]
+     * @param  [type] $area_id [description]
      * @return [type]         [description]
      */
     public function getAddr($area_id)
     {
         // 如果有筛选地区 获取上级地区信息
         if ($area_id !== 0) {
-            $areaIds = $this->getParentIs($area_id);
+            $area_ids = $this->getParentIs($area_id);
             /*
             2 => int 440000
             1 => int 440100
             0 => int 440106
              */
             $selectArea = [];
-            $areaName   = '';
-            foreach ($areaIds as $k => $v) {
+            $area_name   = '';
+            foreach ($area_ids as $k => $v) {
                 $a = $this->getById($v);
-                $areaName .= $a['areaName'];
+                $area_name .= $a['area_name'];
                 $selectArea[] = $a;
             }
             // 地区完整名称
-            $selectArea['areaName'] = $areaName;
+            $selectArea['area_name'] = $area_name;
             // 当前选择的地区
             $data['areaInfo'] = $selectArea;
 
-            $data['area2'] = $this->listQuery($areaIds[2]); // 广东的下级
+            $data['area2'] = $this->listQuery($area_ids[2]); // 广东的下级
 
-            $data['area3'] = $this->listQuery($areaIds[1]); // 广州的下级
+            $data['area3'] = $this->listQuery($area_ids[1]); // 广州的下级
         } else {
             // 获取地区
             $data['area1'] = $this->listQuery(); // 省级
@@ -149,26 +149,26 @@ class Areas extends Base
     public function getLocationByNameOrId($province, $city, $is_id = false)
     {
         //组装sql
-        $this->field('areaId, areaName, areaType')->limit(2);
+        $this->field('area_id, area_name, area_type')->limit(2);
         if ($is_id) {
-            $this->where(['areaId' => ['IN', [$province, $city]]]);
+            $this->where(['area_id' => ['IN', [$province, $city]]]);
         } else {
             $this->where([
-                'areaName' => ['LIKE', "$province%"],
-                'areaType' => ['IN', [self::CODE_PROVINCE, self::CODE_CITY]],
-            ])->whereOr(['areaName' => ['LIKE', "$city%"]]);
+                'area_name' => ['LIKE', "$province%"],
+                'area_type' => ['IN', [self::CODE_PROVINCE, self::CODE_CITY]],
+            ])->whereOr(['area_name' => ['LIKE', "$city%"]]);
         }
         $this->where([
-            'dataFlag' => CODE_SUCCESS,
+            'status' => CODE_SUCCESS,
         ]);
         $result = $this->select();
 
         if ($result) {
             foreach ($result as $key => $res) {
-                if ($res['areaType'] == self::CODE_PROVINCE) {
-                    $data['province'] = $res['areaId'] . '_' . $res['areaName'];
+                if ($res['area_type'] == self::CODE_PROVINCE) {
+                    $data['province'] = $res['area_id'] . '_' . $res['area_name'];
                 } else {
-                    $data['city'] = $res['areaId'] . '_' . $res['areaName'];
+                    $data['city'] = $res['area_id'] . '_' . $res['area_name'];
                 }
 
             }
@@ -194,44 +194,44 @@ class Areas extends Base
      */
     public function getProvincesAndCities()
     {
-        $list = $this->field('areaId, parentId, areaName')
+        $list = $this->field('area_id, parent_id, area_name')
             ->where([
-                'isShow'   => self::SHOWING,
-                'dataFlag' => FLAG_ENABLE,
-                'areaType' => ['IN', [self::CODE_PROVINCE, self::CODE_CITY]],
+                'is_show'   => self::SHOWING,
+                'status' => FLAG_ENABLE,
+                'area_type' => ['IN', [self::CODE_PROVINCE, self::CODE_CITY]],
             ])->toArray()
             ->select();
         if ($list) {
-            $list = Tree::list_to_tree($list, 'areaId', 'parentId');
+            $list = Tree::list_to_tree($list, 'area_id', 'parent_id');
         }
         return $list;
     }
 
     /**
      * [getLocation 把含有省、市、区的记录数组返回下标分别为province、city、district的数组]
-     * @param  [type] $areaIdPath [description]
+     * @param  [type] $area_id_path [description]
      * @return [array]        [description]
      */
-    public function getLocationByAreaIdPath($areaIdPath)
+    public function getLocationByAreaIdPath($area_id_path)
     {
-        $areaIds  = explode('_', trim($areaIdPath, '_'));
+        $area_ids  = explode('_', trim($area_id_path, '_'));
         $location = array();
-        $addrs    = $this->field('areaId, areaName, areaType')
-            ->where(['areaId' => ['IN', $areaIds]])
+        $addrs    = $this->field('area_id, area_name, area_type')
+            ->where(['area_id' => ['IN', $area_ids]])
             ->limit(3)
             ->toArray()
             ->select();
         if ($addrs) {
             foreach ($addrs as $key => $addr) {
-                switch ($addr['areaType']) {
+                switch ($addr['area_type']) {
                     case self::CODE_PROVINCE:
-                        $location['province'] = $addr['areaId'] .'_'. $addr['areaName'];
+                        $location['province'] = $addr['area_id'] .'_'. $addr['area_name'];
                         break;
                     case self::CODE_CITY:
-                        $location['city'] = $addr['areaId'] .'_'. $addr['areaName'];
+                        $location['city'] = $addr['area_id'] .'_'. $addr['area_name'];
                         break;
                     case self::CODE_DISTRICT:
-                        $location['district'] = $addr['areaId'] .'_'. $addr['areaName'];
+                        $location['district'] = $addr['area_id'] .'_'. $addr['area_name'];
                         break;
                 }
             }

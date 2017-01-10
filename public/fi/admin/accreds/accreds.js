@@ -9,15 +9,15 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '图标', name: 'accredImg', isSort: false,render:function(rowdata, rowindex, value){
-	        	return '<img src="'+FI.conf.ROOT+'/'+rowdata['accredImg']+'" height="28px" />';
+	        { display: '图标', name: 'accred_img', isSort: false,render:function(rowdata, rowindex, value){
+	        	return '<img src="'+FI.conf.ROOT+'/'+rowdata['accred_img']+'" height="28px" />';
 	        }},
-	        { display: '认证名称', name: 'accredName', isSort: false},
-	        { display: '创建时间', name: 'createTime', isSort: false},
+	        { display: '认证名称', name: 'accred_name', isSort: false},
+	        { display: '创建时间', name: 'create_time', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	        	var h="";
-	            if(FI.GRANT.RZGL_02)h += "<a href='javascript:getForEdit(" + rowdata['accredId'] + ")'>修改</a> ";
-	            if(FI.GRANT.RZGL_03)h += "<a href='javascript:toDel(" + rowdata['accredId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.RZGL_02)h += "<a href='javascript:getForEdit(" + rowdata['accred_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.RZGL_03)h += "<a href='javascript:toDel(" + rowdata['accred_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -30,12 +30,12 @@ function getForEdit(id){
      $.post(FI.U('admin/accreds/get'),{id:id},function(data,textStatus){
            layer.close(loading);
            var json = FI.toAdminJson(data);
-           if(json.accredId){
+           if(json.accred_id){
            		FI.setValues(json);
            		//显示原来的图片
-           		$('#preview').html('<img src="'+FI.conf.ROOT+'/'+json.accredImg+'" height="70px" />');
+           		$('#preview').html('<img src="'+FI.conf.ROOT+'/'+json.accred_img+'" height="70px" />');
            		$('#isImg').val('ok');
-           		toEdit(json.accredId);
+           		toEdit(json.accred_id);
            }else{
            		FI.msg(json.msg,{icon:2});
            }
@@ -51,25 +51,25 @@ function toEdit(id){
 		$('#accredForm')[0].reset();
 		//清空预览图
 		$('#preview').html('');
-		$('#accredImg').val('');
+		$('#accred_img').val('');
 
 	},end:function(){
 		//重置表单
 		$('#accredForm')[0].reset();
 		//清空预览图
 		$('#preview').html('');
-		$('#accredImg').val('');
+		$('#accred_img').val('');
 
 	}});
 	$('#accredForm').validator({
         fields: {
-            accredName: {
+            accred_name: {
             	rule:"required;",
             	msg:{required:"请输入认证名称"},
             	tip:"请输入认证名称",
             	ok:"",
             },
-            accredImg:  {
+            accred_img:  {
             	rule:"required;",
             	msg:{required:"请上传图标"},
             	tip:"请上传图标",
@@ -79,7 +79,7 @@ function toEdit(id){
         },
        valid: function(form){
 		        var params = FI.getParams('.ipt');
-		        	params.accredId = id;
+		        	params.accred_id = id;
 		        var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 		   		$.post(FI.U('admin/accreds/'+((id==0)?"add":"edit")),params,function(data,textStatus){
 		   			  layer.close(loading);
@@ -90,7 +90,7 @@ function toEdit(id){
 		   			    	//清空预览图
 		   			    	$('#preview').html('');
 		   			    	//清空图片隐藏域
-		   			    	$('#accredImg').val('');
+		   			    	$('#accred_img').val('');
 		   			    	layer.close(box);
 		   		            grid.reload();
 		   			  }else{
@@ -106,7 +106,7 @@ function toEdit(id){
 $(function(){
 //文件上传
 FI.upload({
-    pick:'#adFilePicker',
+    pick:'#ad_filePicker',
     formData: {dir:'accreds'},
     accept: {extensions: 'gif,jpg,jpeg,bmp,png',mimeTypes: 'image/*'},
     callback:function(f){
@@ -114,7 +114,7 @@ FI.upload({
       if(json.status==1){
         $('#uploadMsg').empty().hide();
         //将上传的图片路径赋给全局变量
-	    $('#accredImg').val(json.savePath+json.thumb);
+	    $('#accred_img').val(json.savePath+json.thumb);
 	    $('#preview').html('<img src="'+FI.conf.ROOT+'/'+json.savePath+json.thumb+'" height="75" />');
       }else{
       	FI.msg(json.msg,{icon:2});

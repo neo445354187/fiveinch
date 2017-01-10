@@ -20,7 +20,7 @@
 	      	<select id="area_0" class='j-areas' level="0" onchange="FI.ITAreas({id:'area_0',val:this.value,isRequire:true,className:'j-areas'});">
 	      		<option value="">-请选择-</option>
 	      		{foreach $area1 as $v}
-	      			<option value="{$v['areaId']}">{$v['areaName']}</option>
+	      			<option value="{$v['area_id']}">{$v['area_name']}</option>
 	      		{/foreach}
 	      	</select>
 	      </td>
@@ -31,29 +31,29 @@
 	  <tr>
 	      <th width='110'><font color='red'>*</font>详细地址：</th>
 	          <td>
-	              <input type="text" class="ipt" id="userAddress" name="userAddress" value="{$data['userAddress']}" placeholder="您的详细地址" maxlength="30" />
+	              <input type="text" class="ipt" id="user_address" name="user_address" value="{$data['user_address']}" placeholder="您的详细地址" maxlength="30" />
 	          </td>
 	   </tr>
 
 	     <tr>
 	        <th><font color='red'>*</font>联系名称：</th>
 	        <td>
-	        	<input type="text" class="ipt" id="userName" name="userName" value="{$data['userName']}" placeholder="联系名称" maxlength="6" />
+	        	<input type="text" class="ipt" id="user_name" name="user_name" value="{$data['user_name']}" placeholder="联系名称" maxlength="6" />
 	        </td>
 	     </tr>
 
 	        <tr>
 	          <th><font color='red'>*</font>联系电话：</th>
 	          <td>   
-	              <input type="text" class="ipt contact" id="userPhone" name="userPhone" value="{$data['userPhone']}"  placeholder="联系电话" >
+	              <input type="text" class="ipt contact" id="user_phone" name="user_phone" value="{$data['user_phone']}"  placeholder="联系电话" >
 	          </td>
 	       </tr>
 	       <tr>
 	          <th><font color='red'>*</font>是否默认地址：</th>
 	          <td>
 	          	<div class="radio-box">
-	              <label><input type="radio" class="ipt fi-radio" id="isDefault-1" name="isDefault"   <?=($data['isDefault']==1)?'checked':'';?> value="1" /><label class="mt-1" for="isDefault-1"></label> 是</label>
-	              <label><input type="radio" class="ipt fi-radio" id="isDefault-0" name="isDefault"   <?=($data['isDefault']==0)?'checked':'';?> value="0" /><label class="mt-1" for="isDefault-0"></label> 否</label>
+	              <label><input type="radio" class="ipt fi-radio" id="is_default-1" name="is_default"   <?=($data['is_default']==1)?'checked':'';?> value="1" /><label class="mt-1" for="is_default-1"></label> 是</label>
+	              <label><input type="radio" class="ipt fi-radio" id="is_default-0" name="is_default"   <?=($data['is_default']==0)?'checked':'';?> value="0" /><label class="mt-1" for="is_default-0"></label> 否</label>
 	            </div>
 	              
 	          </td>
@@ -61,7 +61,7 @@
 	  
 	</table>
 	<div class="addr-btn-box">
-	       <input type="hidden" name="id" id="addressId" class="ipt" value="{$data['addressId']}" />
+	       <input type="hidden" name="id" id="address_id" class="ipt" value="{$data['address_id']}" />
 	       <button type="submit" class="fi-sec-but u-btn">提交</button>
 	       <button type="button" onclick="javascript:history.go(-1)" class="fi-sec-but u-btn">返回</button>
 	</div>
@@ -74,10 +74,10 @@
 <script>
 $(function(){
 	//默认选中下拉框
-	if($('#addressId').val()>0){
-	    var areaIdPath = "{$data['areaIdPath']}".split("_");
-	    $('#area_0').val(areaIdPath[0]);
-	    var aopts = {id:'area_0',val:areaIdPath[0],childIds:areaIdPath,className:'j-areas'}
+	if($('#address_id').val()>0){
+	    var area_id_path = "{$data['area_id_path']}".split("_");
+	    $('#area_0').val(area_id_path[0]);
+	    var aopts = {id:'area_0',val:area_id_path[0],childIds:area_id_path,className:'j-areas'}
 	    FI.ITSetAreas(aopts);
 	}
 	userAddrEditInit();

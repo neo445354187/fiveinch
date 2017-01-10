@@ -15,7 +15,7 @@
     <div class='pay-sbox' >
     	<div class="qrcode-box">
 		    <div class="pbox">
-	        	请您扫描以下二维码，支付订单总额：<span class="fi-fred">￥{$needPay}</span>
+	        	请您扫描以下二维码，支付订单总额：<span class="fi-fred">￥{$need_pay}</span>
 	        </div>
 	        <div style="" class="fi-qrcode"></div>
         </div>
@@ -40,7 +40,7 @@
 			url:"{:url('home/weixinpays/getPayStatus')}",
 			data:params,
 			type:"POST",
-			dataType:"json",
+			data_type:"json",
 			success:function(data){
 				if(data.status==1){
 					location.href = "{:url('home/weixinpays/paySuccess')}";

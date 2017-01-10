@@ -9,7 +9,7 @@ function enterLicense(){
 {/block}
 {block name="main"}
 <div class="fi-login-tips">
-    <p>您好，{:session('FI_STAFF.staffName')}，欢迎使用 Fi。 您上次登录的时间是 {:session('FI_STAFF.lastTime')} ，IP 是 {:session('FI_STAFF.lastIP')}</p>
+    <p>您好，{:session('FI_STAFF.staff_name')}，欢迎使用 Fi。 您上次登录的时间是 {:session('FI_STAFF.last_time')} ，IP 是 {:session('FI_STAFF.last_ip')}</p>
 </div>
 <div id='fi-version-tips' class='fi-version-tips'>您有新的版本(<span id='fi_version'>0.0.0</span>)可以下载啦~，<a id='fi_down' href='' target='_blank'>点击</a>下载</div>
 <div id='fi-accredit-tips' class='fi-accredit-tips'>系统检测到您未获取授权，点此<a target='_blank' href='http://www.fi.net/index.php?c=License&a=index'>获取系统授权码</a></div>                
@@ -22,9 +22,9 @@ function enterLicense(){
 		  </tr>
 		  <tr>
 			 <td width="25%" align='right'>新增会员：</td>
-			 <td width="25%">{$object['tody']['userType0']}</td>
+			 <td width="25%">{$object['tody']['user_type0']}</td>
 			 <td width="25%" align='right'>新增商家：</td>
-			 <td>{$object['tody']['userType1']}</td>
+			 <td>{$object['tody']['user_type1']}</td>
 		  </tr>
 		  <tr>
 		     <td align='right'>开店申请：</td>
@@ -45,9 +45,9 @@ function enterLicense(){
 		  </tr>
 		  <tr>
 			 <td width="25%" align='right'>会员总数：</td>
-			 <td width="25%">{$object['mall']['userType0']}</td>
+			 <td width="25%">{$object['mall']['user_type0']}</td>
 			 <td width="25%" align='right'>商家总数：</td>
-			 <td>{$object['mall']['userType1']}</td>
+			 <td>{$object['mall']['user_type1']}</td>
 		  </tr>
 		  <tr>
 		     <td align='right'>上架商品总数：</td>

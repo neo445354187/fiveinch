@@ -6,14 +6,14 @@ use think\Validate;
  */
 class OrderComplains extends Validate{
 	protected $rule = [
-        ['complainType'  ,'in:1,2,3,4','无效的投诉类型！'],
-        ['complainContent'  ,'require|length:3,600','投诉内容不能为空|投诉内容应为3-200个字'],
-        ['respondContent'  ,'require|length:3,600','应诉内容不能为空|应诉内容应为3-200个字'],
+        ['complain_type'  ,'in:1,2,3,4','无效的投诉类型！'],
+        ['complain_content'  ,'require|length:3,600','投诉内容不能为空|投诉内容应为3-200个字'],
+        ['respond_content'  ,'require|length:3,600','应诉内容不能为空|应诉内容应为3-200个字'],
     ];
 
     protected $scene = [
-        'add'   =>  ['complainType','complainContent'],
-        'edit'   =>  ['complainType','complainContent'],
-        'respond' =>['respondContent'],
+        'add'   =>  ['complain_type','complain_content'],
+        'edit'   =>  ['complain_type','complain_content'],
+        'respond' =>['respond_content'],
     ]; 
 }

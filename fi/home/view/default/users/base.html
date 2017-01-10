@@ -22,7 +22,7 @@
         "SHOP_LOGO": "{:FIConf('CONF.shopLogo')}",
         "MALL_LOGO": "{:FIConf('CONF.mallLogo')}",
         "USER_LOGO": "{:FIConf('CONF.userLogo')}",
-        "IS_LOGIN": "{if (int)session('FI_USER.userId')>0 }1{else}0{/if}",
+        "IS_LOGIN": "{if (int)session('FI_USER.user_id')>0 }1{else}0{/if}",
         "TIME_TASK": "1"
     } 
 
@@ -53,16 +53,16 @@
             </div>
             <script id="list-cart" type="text/html">
                 {{# for(var i = 0; i
-                < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cartId }}">
+                < d.list.length; i++){ }} <div class="goods" id="j-goods{{ d.list[i].cart_id }}">
                     <div class="imgs">
-                        <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}"><img class="goodsImgc" data-original="__ROOT__/{{ d.list[i].goodsImg }}" title="{{ d.list[i].goodsName }}"></a>
+                        <a href="__ROOT__/home/goods/detail/id/{{d.list[i].goods_id }}"><img class="goods_imgc" data-original="__ROOT__/{{ d.list[i].goods_img }}" title="{{ d.list[i].goods_name }}"></a>
                     </div>
                     <div class="number">
-                        <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goodsId }}">{{FI.cutStr(d.list[i].goodsName,26)}}</a></p>
-                        <p>数量：{{ d.list[i].cartNum }}</p>
+                        <p><a href="__ROOT__/home/goods/detail/id/{{d.list[i].goods_id }}">{{FI.cutStr(d.list[i].goods_name,26)}}</a></p>
+                        <p>数量：{{ d.list[i].cart_num }}</p>
                     </div>
                     <div class="price">
-                        <p>￥{{ d.list[i].shopPrice }}</p><span><a href="javascript:FI.delCheckCart({{ d.list[i].cartId }})">删除</a></span></div>
+                        <p>￥{{ d.list[i].shop_price }}</p><span><a href="javascript:FI.delCheckCart({{ d.list[i].cart_id }})">删除</a></span></div>
         </div>
         {{# } }}
         </script>
@@ -95,8 +95,8 @@
             <div class="fi-shop-nav">
                 <div class="fi-nav-box">
                     {php}$homeMenus = FIHomeMenus(0);{/php} {volist name="$homeMenus['menus']" id="vo"}
-                    <a href="__ROOT__/{$vo['menuUrl']}?id={$vo['menuId']}">
-                        <li class="liselect fi-lfloat {if($vo['menuId'] == $homeMenus['menuId1'])}fi-nav-boxa{/if}">{$vo['menuName']}</li>
+                    <a href="__ROOT__/{$vo['menu_url']}?id={$vo['menu_id']}">
+                        <li class="liselect fi-lfloat {if($vo['menu_id'] == $homeMenus['menu_id1'])}fi-nav-boxa{/if}">{$vo['menu_name']}</li>
                     </a>
                     {/volist}
                     <div class="fi-clear"></div>
@@ -107,13 +107,13 @@
         <div class='fi-nav'></div>
         <div class='fi-main'>
             <div class='fi-menu'>
-                {volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
-                <span class='fi-menu-title'>{$menus['menuName']}<!-- <img src="__HOME__/img/user_icon_sider_zhankai.png"> --></span>
+                {volist name="$homeMenus['menus'][$homeMenus['menu_id1']]['list']" id="menus"}
+                <span class='fi-menu-title'>{$menus['menu_name']}<!-- <img src="__HOME__/img/user_icon_sider_zhankai.png"> --></span>
                 <ul>
                     {volist name="menus['list']" id="menu" key='k'}
-                    <li class="{if($homeMenus['menuId3']==$menu['menuId'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
-                        {$menu['menuName']}
-                        <span id="mId_{$menu['menuId']}"></span>
+                    <li class="{if($homeMenus['menu_id3']==$menu['menu_id'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menu_id']}','{$menu['menu_url']}')">
+                        {$menu['menu_name']}
+                        <span id="mId_{$menu['menu_id']}"></span>
                     </li>
                     {/volist}
                 </ul>
@@ -134,7 +134,7 @@
             <div style='clear:both;'></div>
             <div class="fi-bottom-g">
                 <div class="fi-bottom-gs">
-                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-i"><img class="goods_img" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
                     </span>
@@ -143,7 +143,7 @@
                     <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="fi-bottom-gs">
-                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-i"><img class="goods_img" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
                     </span>
@@ -152,7 +152,7 @@
                     <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="fi-bottom-gs">
-                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-i"><img class="goods_img" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
                     </span>
@@ -161,7 +161,7 @@
                     <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="fi-bottom-gs">
-                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-i"><img class="goods_img" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
                     </span>
@@ -170,7 +170,7 @@
                     <span class="fi-bottom-n4"><span class="fi-lfloat">店铺名称店铺名称</span><img class="fi-lfloat" style="margin: 2px 0px 0px 5px;" src="__HOME__/img/icon_dianpujie_03.png"></span>
                 </div>
                 <div class="fi-bottom-gs">
-                    <div class="fi-bottom-i"><img class="goodsImg" data-original="__HOME__/img/img_hot_02.jpg"></div>
+                    <div class="fi-bottom-i"><img class="goods_img" data-original="__HOME__/img/img_hot_02.jpg"></div>
                     <div class="fi-bottom-n1">商品名称商品名称商品名称商品名称商品名称</div>
                     <span class="fi-bottom-n2"><span class="fi-bottom-n2l">￥100.00</span><span class="fi-bottom-n2r">成交数：<span>123</span></span>
                     </span>
@@ -189,11 +189,11 @@
     </div>
     {block name="footer"} {include file="default/footer" /} {/block} {block name="js"}{/block}
     <script>
-    function getMenus(menuId, menuUrl) {
+    function getMenus(menu_id, menu_url) {
         $.post(FI.U('home/index/getMenuSession'), {
-            menuId: menuId
+            menu_id: menu_id
         }, function(data) {
-            location.href = FI.U(menuUrl);
+            location.href = FI.U(menu_url);
         });
     }
     </script>

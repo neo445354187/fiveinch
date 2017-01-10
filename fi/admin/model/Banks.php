@@ -8,24 +8,24 @@ class Banks extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field('bankId,bankName')->order('bankId desc')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field('bank_id,bank_name')->order('bank_id desc')->paginate(input('pagesize/d'));
 	}
 	public function getById($id){
-		return $this->get(['bankId'=>$id,'dataFlag'=>1]);
+		return $this->get(['bank_id'=>$id,'status'=>1]);
 	}
 	/**
 	 * 列表
 	 */
 	public function listQuery(){
-		return $this->where('dataFlag',1)->field('bankId,bankName')->select();
+		return $this->where('status',1)->field('bank_id,bank_name')->select();
 	}
 	/**
 	 * 新增
 	 */
 	public function add(){
-		$data = ['bankName'=>input('post.bankName'),
-				 'createTime'=>date('Y-m-d H:i:s'),];
-		$result = $this->validate('Banks.add')->allowField(['bankName','createTime'])->save($data);
+		$data = ['bank_name'=>input('post.bank_name'),
+				 'create_time'=>date('Y-m-d H:i:s'),];
+		$result = $this->validate('Banks.add')->allowField(['bank_name','create_time'])->save($data);
         if(false !== $result){
         	return FIReturn("新增成功", 1);
         }else{
@@ -36,8 +36,8 @@ class Banks extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$bankId = input('post.bankId/d',0);
-	    $result = $this->validate('Banks.edit')->allowField(['bankName'])->save(['bankName'=>input('post.bankName')],['bankId'=>$bankId]);
+		$bank_id = input('post.bank_id/d',0);
+	    $result = $this->validate('Banks.edit')->allowField(['bank_name'])->save(['bank_name'=>input('post.bank_name')],['bank_id'=>$bank_id]);
 
         if(false !== $result){
         	return FIReturn("编辑成功", 1);
@@ -51,8 +51,8 @@ class Banks extends Base{
     public function del(){
 	    $id = input('post.id/d',0);
 		$data = [];
-		$data['dataFlag'] = -1;
-	    $result = $this->update($data,['bankId'=>$id]);
+		$data['status'] = -1;
+	    $result = $this->update($data,['bank_id'=>$id]);
         if(false !== $result){
         	return FIReturn("删除成功", 1);
         }else{

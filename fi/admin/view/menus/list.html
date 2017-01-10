@@ -27,15 +27,15 @@ body{padding:5px;}
 </div>
 <div id='menuBox' style='display:none'>
 <form id='menuForm'>
-  <input type='hidden' id='parentId' class='ipt2' maxLength='20'/>
+  <input type='hidden' id='parent_id' class='ipt2' maxLength='20'/>
   <table class='fi-form fi-box-top'>
      <tr>
         <th width='100'>菜单名称<font color='red'>*</font>：</th>
-        <td><input type='text' id='menuName' class='ipt2' maxLength='20' data-rule="菜单名称: required;"/></td>
+        <td><input type='text' id='menu_name' class='ipt2' maxLength='20' data-rule="菜单名称: required;"/></td>
      </tr>
      <tr>
         <th width='100'>菜单排序<font color='red'>*</font>：</th>
-        <td><input type='text' id='menuSort' class='ipt2' maxLength='5'/></td>
+        <td><input type='text' id='menu_sort' class='ipt2' maxLength='5'/></td>
      </tr>
   </table>
 </form>
@@ -45,31 +45,31 @@ body{padding:5px;}
   <table class='fi-form fi-box-top'>
      <tr>
         <th width='100'>权限名称<font color='red'>*</font>：</th>
-        <td><input type='text' id='privilegeName' class='ipt' maxLength='20' data-rule="权限名称: required;"/></td>
+        <td><input type='text' id='privilege_name' class='ipt' maxLength='20' data-rule="权限名称: required;"/></td>
      </tr>
      <tr>
         <th>权限代码<font color='red'>*</font>：</th>
-        <td><input type='text' id='privilegeCode' class='ipt' maxLength='10' onblur='javascript:checkPrivilegeCode(this)' data-rule="权限代码: required;"/></td>
+        <td><input type='text' id='privilege_code' class='ipt' maxLength='10' onblur='javascript:checkPrivilegeCode(this)' data-rule="权限代码: required;"/></td>
      </tr>
      <tr>
         <th>是否菜单权限<font color='red'>*</font>：</th>
         <td height='24'>
            <label>
-              <input type="radio" id="isMenuPrivilege1" name="isMenuPrivilege" class="ipt" value="1">是
+              <input type="radio" id="is_menu_privilege1" name="is_menu_privilege" class="ipt" value="1">是
            </label>
            <label>
-              <input type="radio" id="isMenuPrivilege1" name="isMenuPrivilege" class="ipt" value="0" checked>否
+              <input type="radio" id="is_menu_privilege1" name="is_menu_privilege" class="ipt" value="0" checked>否
            </label>
         </td>
      </tr>
      <tr>
         <th>权限资源：</th>
-        <td><input type='text' id='privilegeUrl' class='ipt' maxLength='100' style='width:90%'/></td>
+        <td><input type='text' id='privilege_url' class='ipt' maxLength='100' style='width:90%'/></td>
      </tr>
      <tr>
         <th>关联资源：<br/>(以,号分隔)&nbsp;&nbsp;&nbsp;</th>
         <td>
-        <textarea id='otherPrivilegeUrl' class='ipt' maxLength='100' style='width:90%;height:60px;'></textarea>
+        <textarea id='other_privilege_url' class='ipt' maxLength='100' style='width:90%;height:60px;'></textarea>
         </td>
      </tr>
      

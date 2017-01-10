@@ -9,11 +9,11 @@ class Messages extends Base{
     * 获取列表
     */
     public function pageQuery(){
-      	 $userId = (int)session('FI_USER.userId');
-         $where = ['receiveUserId'=>(int)$userId,'dataFlag'=>1];
-         $page = model('Messages')->where($where)->order('msgStatus asc,id desc')->paginate(input('pagesize/d'))->toArray();
+      	 $user_id = (int)session('FI_USER.user_id');
+         $where = ['receive_user_id'=>(int)$user_id,'status'=>1];
+         $page = model('Messages')->where($where)->order('msg_status asc,id desc')->paginate(input('pagesize/d'))->toArray();
          foreach ($page['Rows'] as $key => $v){
-         	$page['Rows'][$key]['msgContent'] = FIMSubstr(strip_tags($v['msgContent']),0,140);
+         	$page['Rows'][$key]['msg_content'] = FIMSubstr(strip_tags($v['msg_content']),0,140);
          }
          return $page;
     }
@@ -21,12 +21,12 @@ class Messages extends Base{
     *  获取某一条消息详情
     */
     public function getById(){
-    	$userId = (int)session('FI_USER.userId');
+    	$user_id = (int)session('FI_USER.user_id');
         $id = (int)input('msgId');
-        $data = $this->get(['id'=>$id,'receiveUserId'=>$userId]);
+        $data = $this->get(['id'=>$id,'receive_user_id'=>$user_id]);
         if(!empty($data)){
-          if($data['msgStatus']==0)
-            model('Messages')->where('id',$id)->setField('msgStatus',1);
+          if($data['msg_status']==0)
+            model('Messages')->where('id',$id)->setField('msg_status',1);
         }
         return $data;
     }
@@ -35,11 +35,11 @@ class Messages extends Base{
      * 删除
      */
     public function del(){
-    	$userId = (int)session('FI_USER.userId');
+    	$user_id = (int)session('FI_USER.user_id');
         $id = input('id/d');
         $data = [];
-        $data['dataFlag'] = -1;
-        $result = $this->update($data,['id'=>$id,'receiveUserId'=>$userId]);
+        $data['status'] = -1;
+        $result = $this->update($data,['id'=>$id,'receive_user_id'=>$user_id]);
         if(false !== $result){
             return FIReturn("删除成功", 1);
         }else{
@@ -50,11 +50,11 @@ class Messages extends Base{
     * 批量删除
     */
     public function batchDel(){
-    	$userId = (int)session('FI_USER.userId');
+    	$user_id = (int)session('FI_USER.user_id');
         $ids = input('ids/a');
         $data = [];
-        $data['dataFlag'] = -1;
-        $result = $this->update($data,['id'=>['in',$ids],'receiveUserId'=>$userId]);
+        $data['status'] = -1;
+        $result = $this->update($data,['id'=>['in',$ids],'receive_user_id'=>$user_id]);
         if(false !== $result){
             return FIReturn("删除成功", 1);
         }else{
@@ -65,11 +65,11 @@ class Messages extends Base{
     * 标记为已读
     */
     public function batchRead(){
-    	$userId = (int)session('FI_USER.userId');
+    	$user_id = (int)session('FI_USER.user_id');
         $ids = input('ids/a');
         $data = [];
-        $data['msgStatus'] = 1;
-        $result = $this->update($data,['id'=>['in',$ids],'receiveUserId'=>$userId]);
+        $data['msg_status'] = 1;
+        $result = $this->update($data,['id'=>['in',$ids],'receive_user_id'=>$user_id]);
         if(false !== $result){
             return FIReturn("操作成功", 1);
         }else{

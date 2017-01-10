@@ -22,7 +22,7 @@ class Messages extends Base{
     */
     public function userQuery(){
         $m = model('users');
-        return $m->getByName(input('post.loginName'));
+        return $m->getByName(input('post.login_name'));
     }
     /**
     * 发送消息

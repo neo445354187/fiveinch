@@ -8,11 +8,11 @@ function showProtocol(){
 
 var time = 0;
 var isSend = false;
-var isUse = false;
+var is_use = false;
 var index2 = null;
 function getShopCode(){
 	var params = {};
-	if(!$('#userPhone2').isValid())return;
+	if(!$('#user_phone2').isValid())return;
 	if(window.conf.SMS_VERFY==1){
 	    index2 = FI.open({
 	    	type: 1,

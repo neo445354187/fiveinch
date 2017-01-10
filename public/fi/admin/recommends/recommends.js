@@ -26,8 +26,8 @@ function moveLeft(suffix){
 function loadGoods(suffix){
 	var params = FI.getParams('.ipt'+suffix);
 	params.key = params['key'+suffix];
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
-	if(params.goodsCatId==''){
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
+	if(params.goods_cat_id==''){
 		FI.msg('请选择一个商品分类',{icon:2});
 		return;
 	}
@@ -43,9 +43,9 @@ function loadGoods(suffix){
 			var data,html=[];
 			for(var i=0;i<json.length;i++){
 				data = json[i]; 
-				if($.inArray(data.goodsId.toString(),ids)==-1){
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.goodsId+'"></div>');
-					html.push('<div class="ttxt">【'+data.shopName+'】'+data.goodsName+'</div></div>');
+				if($.inArray(data.goods_id.toString(),ids)==-1){
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.goods_id+'"></div>');
+					html.push('<div class="ttxt">【'+data.shop_name+'】'+data.goods_name+'</div></div>');
 				}
 			}
 			$("#llist"+suffix).html(html.join(''));
@@ -59,8 +59,8 @@ function listQueryByGoods(suffix){
 	$('#rlist'+suffix).empty();
 	$('#ids'+suffix).val('');
 	var params = {};
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/listQueryByGoods'),params,function(data,textStatus){
     	layer.close(loading);
@@ -71,10 +71,10 @@ function listQueryByGoods(suffix){
 				var data,html=[],ids = [];
 				for(var i=0;i<json.length;i++){
 					data = json[i]; 
-					ids.push(data.dataId);
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.dataId+'"></div>');
-					html.push('<div class="ttxt">【'+data.shopName+'】'+data.goodsName+'</div>');
-					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.dataSort+'" v="'+data.dataId+'"></div></div>');
+					ids.push(data.data_id);
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.data_id+'"></div>');
+					html.push('<div class="ttxt">【'+data.shop_name+'】'+data.goods_name+'</div>');
+					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.data_sort+'" v="'+data.data_id+'"></div></div>');
 				}
 				$('#ids'+suffix).val(ids.join(','));
 				$("#rlist"+suffix).html(html.join(''));
@@ -96,8 +96,8 @@ function editGoods(suffix){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})
 	params.ids = ids.join(',');
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/editGoods'),params,function(data,textStatus){
     	layer.close(loading);
@@ -114,8 +114,8 @@ function editGoods(suffix){
 function loadShops(suffix){
 	var params = FI.getParams('.ipt'+suffix);
 	params.key = params['key'+suffix];
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
-	if(params.goodsCatId==''){
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
+	if(params.goods_cat_id==''){
 		FI.msg('请选择一个经营范围',{icon:2});
 		return;
 	}
@@ -131,9 +131,9 @@ function loadShops(suffix){
 			var data,html=[];
 			for(var i=0;i<json.length;i++){
 				data = json[i]; 
-				if($.inArray(data.shopId.toString(),ids)==-1){
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.shopId+'"></div>');
-					html.push('<div class="ttxt">【'+data.shopSn+'】'+data.shopName+'</div></div>');
+				if($.inArray(data.shop_id.toString(),ids)==-1){
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.shop_id+'"></div>');
+					html.push('<div class="ttxt">【'+data.shop_sn+'】'+data.shop_name+'</div></div>');
 				}
 			}
 			$("#llist"+suffix).html(html.join(''));
@@ -147,8 +147,8 @@ function listQueryByShops(suffix){
 	$('#rlist'+suffix).empty();
 	$('#ids'+suffix).val('');
 	var params = {};
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/listQueryByShops'),params,function(data,textStatus){
     	layer.close(loading);
@@ -159,10 +159,10 @@ function listQueryByShops(suffix){
 				var data,html=[],ids = [];
 				for(var i=0;i<json.length;i++){
 					data = json[i]; 
-					ids.push(data.dataId);
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.dataId+'"></div>');
-					html.push('<div class="ttxt">【'+data.shopSn+'】'+data.shopName+'</div>');
-					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.dataSort+'" v="'+data.dataId+'"></div></div>');
+					ids.push(data.data_id);
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.data_id+'"></div>');
+					html.push('<div class="ttxt">【'+data.shop_sn+'】'+data.shop_name+'</div>');
+					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.data_sort+'" v="'+data.data_id+'"></div></div>');
 				}
 				$('#ids'+suffix).val(ids.join(','));
 				$("#rlist"+suffix).html(html.join(''));
@@ -185,8 +185,8 @@ function editShops(suffix){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})
 	params.ids = ids.join(',');
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/editShops'),params,function(data,textStatus){
     	layer.close(loading);
@@ -202,8 +202,8 @@ function editShops(suffix){
 function loadBrands(suffix){
 	var params = FI.getParams('.ipt'+suffix);
 	params.key = params['key'+suffix];
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
-	if(params.goodsCatId==''){
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats1'+suffix);
+	if(params.goods_cat_id==''){
 		FI.msg('请选择一个商品分类',{icon:2});
 		return;
 	}
@@ -219,9 +219,9 @@ function loadBrands(suffix){
 			var data,html=[];
 			for(var i=0;i<json.length;i++){
 				data = json[i]; 
-				if($.inArray(data.brandId.toString(),ids)==-1){
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.brandId+'"></div>');
-					html.push('<div class="ttxt">'+data.brandName+'</div></div>');
+				if($.inArray(data.brand_id.toString(),ids)==-1){
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="lchk'+suffix+'" class="lchk'+suffix+'" value="'+data.brand_id+'"></div>');
+					html.push('<div class="ttxt">'+data.brand_name+'</div></div>');
 				}
 			}
 			$("#llist"+suffix).html(html.join(''));
@@ -235,8 +235,8 @@ function listQueryByBrands(suffix){
 	$('#rlist'+suffix).empty();
 	$('#ids'+suffix).val('');
 	var params = {};
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/listQueryByBrands'),params,function(data,textStatus){
     	layer.close(loading);
@@ -247,10 +247,10 @@ function listQueryByBrands(suffix){
 				var data,html=[],ids = [];
 				for(var i=0;i<json.length;i++){
 					data = json[i]; 
-					ids.push(data.dataId);
-					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.dataId+'"></div>');
-					html.push('<div class="ttxt">'+data.brandName+'</div>');
-					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.dataSort+'" v="'+data.dataId+'"></div></div>');
+					ids.push(data.data_id);
+					html.push('<div class="trow"><div class="tck"><input type="checkbox" name="rchk'+suffix+'" class="rchk'+suffix+'" value="'+data.data_id+'"></div>');
+					html.push('<div class="ttxt">'+data.brand_name+'</div>');
+					html.push('<div class="top"><input type="text" class="s-sort s-ipt'+suffix+'" value="'+data.data_sort+'" v="'+data.data_id+'"></div></div>');
 				}
 				$('#ids'+suffix).val(ids.join(','));
 				$("#rlist"+suffix).html(html.join(''));
@@ -273,8 +273,8 @@ function editBrands(suffix){
 		params['ipt'+$(this).attr('v')] = $(this).val();
 	})
 	params.ids = ids.join(',');
-	params.dataType = $('#dataType'+suffix).val();
-	params.goodsCatId = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
+	params.data_type = $('#data_type'+suffix).val();
+	params.goods_cat_id = FI.ITGetGoodsCatVal('pgoodsCats2'+suffix);
 	var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
     $.post(FI.U('admin/recommends/editBrands'),params,function(data,textStatus){
     	layer.close(loading);

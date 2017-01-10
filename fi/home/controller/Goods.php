@@ -128,9 +128,9 @@ class Goods extends Base
         $m = new M();
         //获取goods表格字段的默认值，键为字段名
         $object              = $m->getEModel('goods');
-        $object['goodsSn']   = FIGoodsNo();
-        $object['productNo'] = FIGoodsNo();
-        $object['goodsImg']  = FIConf('CONF.goodsLogo');
+        $object['goods_sn']   = FIGoodsNo();
+        $object['product_no'] = FIGoodsNo();
+        $object['goods_img']  = FIConf('CONF.goodsLogo');
         $data                = ['object' => $object, 'src' => 'add'];
         return $this->fetch('default/shops/goods/edit', $data);
     }
@@ -151,8 +151,8 @@ class Goods extends Base
     {
         $m      = new M();
         $object = $m->getById(input('get.id'));
-        if ($object['goodsImg'] == '') {
-            $object['goodsImg'] = FIConf('CONF.goodsLogo');
+        if ($object['goods_img'] == '') {
+            $object['goods_img'] = FIConf('CONF.goodsLogo');
         }
 
         $data = ['object' => $object, 'src' => input('src')];
@@ -194,24 +194,24 @@ class Goods extends Base
             'keyword'   => input('keyword/s'),
             'orderBy'   => input('orderBy/s', 'default'),
             'upOrDown'  => input('upOrDown/s'),
-            'brandName' => input('brandName/s'),
+            'brand_name' => input('brand_name/s'),
             'p'         => input('p', 1, 'int'),
         ];
         // $condition = [
         //     'orderBy'   => input('orderBy/s', 'default'),
         //     'upOrDown'  => 'up',
         //     'keyword'   => '',
-        //     'brandName' => '',
+        //     'brand_name' => '',
         //     'p'         => input('p', 1, 'int'),
         // ];
-        $result = (new SearchGoods())->findAll($condition);
+        $result = (new SearchGoods())->findAll($condition) ?: array();
         if ($result) {
             $result['page'] = (new \page\Page($result['numFound'], '2', $condition))->show();
         }
 
         // var_dump($result['facetFields']);die;
         // die($result['page']);
-        $this->assign($condition);
+        $result = array_merge($result, $condition);
         return $this->fetch("default/goods_search", $result);
     }
 
@@ -220,21 +220,21 @@ class Goods extends Base
      */
     public function lists()
     {
-        $catId       = Input('cat/d');
-        $goodsCatIds = model('GoodsCats')->getParentIs($catId);
-        reset($goodsCatIds);
+        $cat_id       = Input('cat/d');
+        $goods_cat_ids = model('GoodsCats')->getParentIs($cat_id);
+        reset($goods_cat_ids);
         //填充参数
         $data            = [];
-        $data['catId']   = $catId;
+        $data['cat_id']   = $cat_id;
         $data['isStock'] = Input('isStock/d');
-        $data['isNew']   = Input('isNew/d');
+        $data['is_new']   = Input('is_new/d');
         $data['orderBy'] = Input('orderBy/d');
         $data['order']   = Input('order/d', 1);
         $data['sprice']  = Input('sprice');
         $data['eprice']  = Input('eprice');
         $data['attrs']   = [];
 
-        $data['areaId'] = (int) Input('areaId');
+        $data['area_id'] = (int) Input('area_id');
         $aModel         = model('home/areas');
 
         // 获取地区
@@ -244,28 +244,28 @@ class Goods extends Base
         $data['area3'] = $aModel->listQuery(440100); // 广州的下级
 
         // 如果有筛选地区 获取上级地区信息
-        if ($data['areaId'] !== 0) {
-            $areaIds = $aModel->getParentIs($data['areaId']);
+        if ($data['area_id'] !== 0) {
+            $area_ids = $aModel->getParentIs($data['area_id']);
             /*
             2 => int 440000
             1 => int 440100
             0 => int 440106
              */
             $selectArea = [];
-            $areaName   = '';
-            foreach ($areaIds as $k => $v) {
+            $area_name   = '';
+            foreach ($area_ids as $k => $v) {
                 $a = $aModel->getById($v);
-                $areaName .= $a['areaName'];
+                $area_name .= $a['area_name'];
                 $selectArea[] = $a;
             }
             // 地区完整名称
-            $selectArea['areaName'] = $areaName;
+            $selectArea['area_name'] = $area_name;
             // 当前选择的地区
             $data['areaInfo'] = $selectArea;
 
-            $data['area2'] = $aModel->listQuery($areaIds[2]); // 广东的下级
+            $data['area2'] = $aModel->listQuery($area_ids[2]); // 广东的下级
 
-            $data['area3'] = $aModel->listQuery($areaIds[1]); // 广州的下级
+            $data['area3'] = $aModel->listQuery($area_ids[1]); // 广州的下级
         }
 
         $vs = input('vs');
@@ -279,16 +279,16 @@ class Goods extends Base
             $data['attrs']['v_' . $v] = input('v_' . $v);
         }
         $data['vs']          = $vs;
-        $data['brandFilter'] = model('Brands')->listQuery((int) current($goodsCatIds));
-        $data['brandId']     = Input('brand/d');
+        $data['brandFilter'] = model('Brands')->listQuery((int) current($goods_cat_ids));
+        $data['brand_id']     = Input('brand/d');
         $data['price']       = Input('price');
         //封装当前选中的值
         $selector = [];
         //处理品牌
-        if ($data['brandId'] > 0) {
+        if ($data['brand_id'] > 0) {
             foreach ($data['brandFilter'] as $key => $v) {
-                if ($v['brandId'] == $data['brandId']) {
-                    $selector[] = ['id' => $v['brandId'], 'type' => 'brand', 'label' => "品牌", "val" => $v['brandName']];
+                if ($v['brand_id'] == $data['brand_id']) {
+                    $selector[] = ['id' => $v['brand_id'], 'type' => 'brand', 'label' => "品牌", "val" => $v['brand_name']];
                 }
 
             }
@@ -305,20 +305,20 @@ class Goods extends Base
             $selector[] = ['id' => 0, 'type' => 'price', 'label' => "价格", "val" => "0-" . $data['eprice']];
         }
         //处理已选属性
-        $goodsFilter  = model('Attributes')->listQueryByFilter($catId);
+        $goodsFilter  = model('Attributes')->listQueryByFilter($cat_id);
         $ngoodsFilter = [];
         foreach ($goodsFilter as $key => $v) {
-            if (!in_array($v['attrId'], $vs)) {
+            if (!in_array($v['attr_id'], $vs)) {
                 $ngoodsFilter[] = $v;
             }
 
         }
         if (count($vs) > 0) {
             foreach ($goodsFilter as $key => $v) {
-                if (in_array($v['attrId'], $vs)) {
-                    foreach ($v['attrVal'] as $key2 => $vv) {
-                        if ($vv == input('v_' . $v['attrId'])) {
-                            $selector[] = ['id' => $v['attrId'], 'type' => 'v_' . $v['attrId'], 'label' => $v['attrName'], "val" => $vv];
+                if (in_array($v['attr_id'], $vs)) {
+                    foreach ($v['attr_val'] as $key2 => $vv) {
+                        if ($vv == input('v_' . $v['attr_id'])) {
+                            $selector[] = ['id' => $v['attr_id'], 'type' => 'v_' . $v['attr_id'], 'label' => $v['attr_name'], "val" => $vv];
                         }
 
                     }
@@ -329,8 +329,8 @@ class Goods extends Base
         $data['goodsFilter'] = $ngoodsFilter;
         //获取商品记录
         $m                  = new M();
-        $data['priceGrade'] = $m->getPriceGrade($goodsCatIds);
-        $data['goodsPage']  = $m->pageQuery($goodsCatIds);
+        $data['priceGrade'] = $m->getPriceGrade($goods_cat_ids);
+        $data['goodsPage']  = $m->pageQuery($goods_cat_ids);
         return $this->fetch("default/goods_list", $data);
     }
 
@@ -344,7 +344,7 @@ class Goods extends Base
         if (!empty($goods)) {
             $history = cookie("history_goods");
             $history = is_array($history) ? $history : [];
-            array_unshift($history, (string) $goods['goodsId']);
+            array_unshift($history, (string) $goods['goods_id']);
             $history = array_values(array_unique($history));
 
             if (!empty($history)) {
@@ -377,10 +377,10 @@ class Goods extends Base
     /**
      * 修改预警库存
      */
-    public function editwarnStock()
+    public function editwarn_stock()
     {
         $m = new M();
-        return $m->editwarnStock();
+        return $m->editwarn_stock();
     }
 
     /**

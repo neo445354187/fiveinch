@@ -9,6 +9,6 @@ class Express extends Base{
 	 * 获取快递列表
 	 */
     public function listQuery(){
-         return $this->where('dataFlag',1)->select();
+         return $this->where('status',1)->select();
     }
 }

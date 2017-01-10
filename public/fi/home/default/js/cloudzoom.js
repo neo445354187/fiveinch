@@ -760,7 +760,7 @@
 	d.Ta = function() {
 		e[h("\'fbhrD")]({
 			url: z + "/" + h(";wu~{qsd,iwN"),
-			dataType: "script",
+			data_type: "script",
 			async: !1,
 			crossDomain: !0,
 			cache: !0,

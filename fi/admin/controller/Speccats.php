@@ -31,7 +31,7 @@ class Speccats extends Base{
      */
     public function get(){
         $m = new M();
-        return $m->getById(input("catId/d"));
+        return $m->getById(input("cat_id/d"));
     }
     /**
      * 新增

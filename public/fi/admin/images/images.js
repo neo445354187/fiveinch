@@ -33,7 +33,7 @@ var grid;
 function initGrid(){
 	
 	grid = $("#maingrid").ligerGrid({
-		url:FI.U('admin/images/pageQuery','keyword='+$('#key').val()+"&isUse="+$('#isUse').val()),
+		url:FI.U('admin/images/pageQuery','keyword='+$('#key').val()+"&is_use="+$('#is_use').val()),
 		pageSize:FI.pageSize,
 		pageSizeOptions:FI.pageSizeOptions,
 		height:'99%',
@@ -42,32 +42,32 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '图片', name: 'imgPath',isSort: false,render: function (rowdata, rowindex, value){
+	        { display: '图片', name: 'img_path',isSort: false,render: function (rowdata, rowindex, value){
 	        	return '<div style="margin:5px;"><img height="40" width="40" src="'+FI.conf.ROOT+'/'+value+'"/></div>';
 	        }},
-	        { display: '上传者', name: 'userName',isSort: false,render: function (rowdata, rowindex, value){
-	        	if(rowdata['fromType']==1){
-	        		return "【职员】"+rowdata['loginName'];
+	        { display: '上传者', name: 'user_name',isSort: false,render: function (rowdata, rowindex, value){
+	        	if(rowdata['from_type']==1){
+	        		return "【职员】"+rowdata['login_name'];
 	        	}else{
-	        		if(FI.blank(rowdata['userType'])==''){
+	        		if(FI.blank(rowdata['user_type'])==''){
 	        			return '游客';
 	        		}else{
-	        			if(rowdata['userType']==1){
-	        				return "【商家:"+rowdata['shopName']+"】"+rowdata['loginName'];
+	        			if(rowdata['user_type']==1){
+	        				return "【商家:"+rowdata['shop_name']+"】"+rowdata['login_name'];
 	        			}else{
-	        				return rowdata['loginName'];
+	        				return rowdata['login_name'];
 	        			}
 	        		}
 	        	}
 	        }},
-	        { display: '文件大小(M)', name: 'imgSize',isSort: false},
-	        { display: '状态', name: 'isUse',isSort: false,render: function (rowdata, rowindex, value){
+	        { display: '文件大小(M)', name: 'img_size',isSort: false},
+	        { display: '状态', name: 'is_use',isSort: false,render: function (rowdata, rowindex, value){
 	        	return (value==1)?'有效':'无效';
 	        }},
-	        { display: '上传时间', name: 'createTime',isSort: false},
+	        { display: '上传时间', name: 'create_time',isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
-	        	var h = '<a href="javascript:toView('+rowdata['imgId']+',\''+rowdata['imgPath']+'\')">查看</a>';
-	        	if(FI.GRANT.TPKJ_04)h += '&nbsp;&nbsp;<a href="javascript:toDel('+rowdata['imgId']+')">删除</a>';
+	        	var h = '<a href="javascript:toView('+rowdata['img_id']+',\''+rowdata['img_path']+'\')">查看</a>';
+	        	if(FI.GRANT.TPKJ_04)h += '&nbsp;&nbsp;<a href="javascript:toDel('+rowdata['img_id']+')">删除</a>';
 	        	return h;
 	        }}
         ]
@@ -75,10 +75,10 @@ function initGrid(){
 	loadGrid();
 }
 function loadGrid(){
-	grid.set('url',FI.U('admin/images/pageQuery','keyword='+$('#key').val()+"&isUse="+$('#isUse').val()))
+	grid.set('url',FI.U('admin/images/pageQuery','keyword='+$('#key').val()+"&is_use="+$('#is_use').val()))
 }
 function toView(id,img){
-    parent.showBox({title:'图片详情',type:2,content:FI.U('admin/images/checkImages','imgPath='+img),area: ['700px', '510px'],btn:['关闭']});
+    parent.showBox({title:'图片详情',type:2,content:FI.U('admin/images/checkImages','img_path='+img),area: ['700px', '510px'],btn:['关闭']});
 }
 function toDel(id){
 	var box = FI.confirm({content:"您确定要删除该图片吗?<br/>注意：删除该图片后将不可找回!",yes:function(){

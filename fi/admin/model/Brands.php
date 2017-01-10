@@ -12,20 +12,20 @@ class Brands extends Base{
 		$key = input('get.key');
 		$id = input('get.id/d');
 		$where = [];
-		$where['b.dataFlag'] = 1;
-		if($key!='')$where['b.brandName'] = ['like','%'.$key.'%'];
-		if($id>0)$where['gcb.catId'] = $id;
+		$where['b.status'] = 1;
+		if($key!='')$where['b.brand_name'] = ['like','%'.$key.'%'];
+		if($id>0)$where['gcb.cat_id'] = $id;
 		$total = Db::table('__BRANDS__')->alias('b');
 		if($id>0){ 
-		    $total->join('__CAT_BRANDS__ gcb','b.brandId = gcb.brandId','left');
+		    $total->join('__CAT_BRANDS__ gcb','b.brand_id = gcb.brand_id','left');
 		}
 		$page = $total->where($where)
-		->field('b.brandId,b.brandName,b.brandImg,b.brandDesc')
-		->order('b.brandId', 'desc')
+		->field('b.brand_id,b.brand_name,b.brand_img,b.brand_desc')
+		->order('b.brand_id', 'desc')
 		->paginate(input('post.pagesize/d'))->toArray();
 		if(count($page['Rows'])>0){
 			foreach ($page['Rows'] as $key => $v){
-				$page['Rows'][$key]['brandDesc'] = strip_tags(htmlspecialchars_decode($v['brandDesc']));
+				$page['Rows'][$key]['brand_desc'] = strip_tags(htmlspecialchars_decode($v['brand_desc']));
 			}
 		}
 		return $page;
@@ -35,9 +35,9 @@ class Brands extends Base{
 	 * 获取指定对象
 	 */
 	public function getById($id){
-		$result = $this->where(['brandId'=>$id])->find();
+		$result = $this->where(['brand_id'=>$id])->find();
 		//获取关联的分类
-		$result['catIds'] = Db::table('__CAT_BRANDS__')->where(['brandId'=>$id])->column('catId');
+		$result['cat_ids'] = Db::table('__CAT_BRANDS__')->where(['brand_id'=>$id])->column('cat_id');
 		return $result;
 	}
 	
@@ -46,9 +46,9 @@ class Brands extends Base{
 	 */
 	public function add(){
 		$data = input('post.');
-		FIUnset($data,'brandId,dataFlag');
-		$data['createTime'] = date('Y-m-d H:i:s');
-		$idsStr = explode(',',$data['catId']);
+		FIUnset($data,'brand_id,status');
+		$data['create_time'] = date('Y-m-d H:i:s');
+		$idsStr = explode(',',$data['cat_id']);
 		if($idsStr!=''){
 			foreach ($idsStr as $v){
 				if((int)$v>0)$ids[] = (int)$v;
@@ -59,13 +59,13 @@ class Brands extends Base{
 			$result = $this->validate('Brands.add')->allowField(true)->save($data);
 			if(false !== $result){
 				//启用上传图片
-			    FIUseImages(1, $this->brandId, $data['brandImg']);
+			    FIUseImages(1, $this->brand_id, $data['brand_img']);
 				//商品描述图片
-				FIEditorImageRocord(1, $this->brandId, '',$data['brandDesc']);
+				FIEditorImageRocord(1, $this->brand_id, '',$data['brand_desc']);
 				foreach ($ids as $key =>$v){
 					$d = array();
-					$d['catId'] = $v;
-					$d['brandId'] = $this->brandId;
+					$d['cat_id'] = $v;
+					$d['brand_id'] = $this->brand_id;
 					Db::table('__CAT_BRANDS__')->insert($d);
 				}
 				Db::commit();
@@ -81,9 +81,9 @@ class Brands extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$brandId = input('post.id/d');
+		$brand_id = input('post.id/d');
 		$data = input('post.');
-		$idsStr = explode(',',$data['catId']);
+		$idsStr = explode(',',$data['cat_id']);
 		if($idsStr!=''){
 			foreach ($idsStr as $v){
 				if((int)$v>0)$ids[] = (int)$v;
@@ -91,25 +91,25 @@ class Brands extends Base{
 		}
 		$filter = array();
 		//获取品牌的关联分类
-		$catBrands = Db::table('__CAT_BRANDS__')->where(['brandId'=>$brandId])->select();
+		$catBrands = Db::table('__CAT_BRANDS__')->where(['brand_id'=>$brand_id])->select();
 		foreach ($catBrands as $key =>$v){
-			if(!in_array($v['catId'],$ids))$filter[] = $v['catId'];
+			if(!in_array($v['cat_id'],$ids))$filter[] = $v['cat_id'];
 		}
 		Db::startTrans();
         try{
-			FIUseImages(1, $brandId, $data['brandImg'], 'brands', 'brandImg');
+			FIUseImages(1, $brand_id, $data['brand_img'], 'brands', 'brand_img');
 			// 品牌描述图片
-			$desc = $this->where('brandId',$brandId)->value('brandDesc');
-			FIEditorImageRocord(1, $brandId, $desc, $data['brandDesc']);
-			$result = $this->validate('Brands.edit')->allowField(['brandName','brandImg','brandDesc'])->save(input('post.'),['brandId'=>$brandId]);
+			$desc = $this->where('brand_id',$brand_id)->value('brand_desc');
+			FIEditorImageRocord(1, $brand_id, $desc, $data['brand_desc']);
+			$result = $this->validate('Brands.edit')->allowField(['brand_name','brand_img','brand_desc'])->save(input('post.'),['brand_id'=>$brand_id]);
 			if(false !== $result){
 				foreach ($catBrands as $key =>$v){
-					Db::table('__CAT_BRANDS__')->where('brandId',$brandId)->delete();
+					Db::table('__CAT_BRANDS__')->where('brand_id',$brand_id)->delete();
 				}
 				foreach ($ids as $key =>$v){
 					$d = array();
-					$d['catId'] = $v;
-					$d['brandId'] = $brandId;
+					$d['cat_id'] = $v;
+					$d['brand_id'] = $brand_id;
 					Db::table('__CAT_BRANDS__')->insert($d);
 				}
 				Db::commit();
@@ -127,13 +127,13 @@ class Brands extends Base{
 	public function del(){
 		$id = input('post.id/d');
 		$data = [];
-		$data['dataFlag'] = -1;
+		$data['status'] = -1;
 		Db::startTrans();
         try{
-			$result = $this->where(['brandId'=>$id])->update($data);
-		    FIUnuseImage('brands','brandImg',$id);
+			$result = $this->where(['brand_id'=>$id])->update($data);
+		    FIUnuseImage('brands','brand_img',$id);
 			// 品牌描述图片
-			$desc = $this->where('brandId',$id)->value('brandDesc');
+			$desc = $this->where('brand_id',$id)->value('brand_desc');
 			FIEditorImageRocord(1, $id, $desc,'');
 			if(false !== $result){
 				Db::commit();
@@ -149,14 +149,14 @@ class Brands extends Base{
 	 * 获取品牌
 	 */
 	public function searchBrands(){
-		$goodsCatatId = (int)input('post.goodsCatId');
+		$goodsCatatId = (int)input('post.goods_cat_id');
 		if($goodsCatatId<=0)return [];
 		$key = input('post.key');
 		$where = [];
-		$where['dataFlag'] = 1;
-		$where['catId'] = $goodsCatatId;
+		$where['status'] = 1;
+		$where['cat_id'] = $goodsCatatId;
 		if($key!='')$where['brandsName'] = ['like','%'.$key.'%'];
-		return $this->alias('s')->join('__CAT_BRANDS__ cb','s.brandId=cb.brandId','inner')
-		            ->where($where)->field('brandName,s.brandId')->select();
+		return $this->alias('s')->join('__CAT_BRANDS__ cb','s.brand_id=cb.brand_id','inner')
+		            ->where($where)->field('brand_name,s.brand_id')->select();
 	}
 }

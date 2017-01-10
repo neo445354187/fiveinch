@@ -9,11 +9,11 @@ function initGrid(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '快递名称', name: 'expressName', isSort: false},
+	        { display: '快递名称', name: 'express_name', isSort: false},
 	        { display: '操作', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
 	            var h = "";
-	            if(FI.GRANT.KDGL_02)h += "<a href='javascript:getForEdit(" + rowdata['expressId'] + ")'>修改</a> ";
-	            if(FI.GRANT.KDGL_03)h += "<a href='javascript:toDel(" + rowdata['expressId'] + ")'>删除</a> "; 
+	            if(FI.GRANT.KDGL_02)h += "<a href='javascript:getForEdit(" + rowdata['express_id'] + ")'>修改</a> ";
+	            if(FI.GRANT.KDGL_03)h += "<a href='javascript:toDel(" + rowdata['express_id'] + ")'>删除</a> "; 
 	            return h;
 	        }}
         ]
@@ -41,9 +41,9 @@ function getForEdit(id){
      $.post(FI.U('admin/express/get'),{id:id},function(data,textStatus){
            layer.close(loading);
            var json = FI.toAdminJson(data);
-           if(json.expressId){
+           if(json.express_id){
            		FI.setValues(json);
-           		toEdit(json.expressId);
+           		toEdit(json.express_id);
            }else{
            		FI.msg(json.msg,{icon:2});
            }
@@ -57,7 +57,7 @@ function toEdit(id){
 	}});
 	$('#expressForm').validator({
         fields: {
-            expressName: {
+            express_name: {
             	rule:"required;",
             	msg:{required:"快递名称不能为空"},
             	tip:"请输入快递名称",
@@ -67,7 +67,7 @@ function toEdit(id){
         },
        valid: function(form){
 		        var params = FI.getParams('.ipt');
-	                params.expressId = id;
+	                params.express_id = id;
 	                var loading = FI.msg('正在提交数据，请稍后...', {icon: 16,time:60000});
 	           		$.post(FI.U('admin/express/'+((id==0)?"add":"edit")),params,function(data,textStatus){
 	           			  layer.close(loading);

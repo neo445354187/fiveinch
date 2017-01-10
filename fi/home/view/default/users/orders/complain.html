@@ -8,15 +8,15 @@
   <div class="fi-user-head"><span>投诉订单</span></div>
   <div class='fi-user-content'>
       <form id="complainForm" method="post" >
-      {if condition="$data['complainStatus'] eq 0"}
-            <input type='hidden' id='orderId' class='ipt' value="{$data['order']['orderId']}"/>
+      {if condition="$data['complain_status'] eq 0"}
+            <input type='hidden' id='order_id' class='ipt' value="{$data['order']['order_id']}"/>
           <div class='fi-complain-left'>
              <div class='fi-complain-order-head'>订单商品</div>
              <div class='fi-complain-order-goods'>
              {volist name="$data['order']['goodsList']" id="goods" key='key2'}
-              <a target='_blank' href="{:Url('Home/Goods/detail',array('id'=>$goods['goodsId']))}" title="{$goods['goodsName']}">
+              <a target='_blank' href="{:Url('Home/Goods/detail',array('id'=>$goods['goods_id']))}" title="{$goods['goods_name']}">
 
-              <img data-original="__ROOT__/{$goods['goodsImg']}"  height="55" width="55" class='goodsImg'/>
+              <img data-original="__ROOT__/{$goods['goods_img']}"  height="55" width="55" class='goods_img'/>
               </a>
             {/volist}
              </div>
@@ -24,15 +24,15 @@
              <div class='fi-complain-order-info'>
                <dl>
                    <dt>订单编号：</dt>
-                   <dd>{$data['order']['orderNo']}</dd>
+                   <dd>{$data['order']['order_no']}</dd>
                    <dt>订单金额：</dt>
-                   <dd>{$data['order']['realTotalMoney']}</dd>
+                   <dd>{$data['order']['real_total_money']}</dd>
                    <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
-                   <dd>{$data['order']['deliverMoney']}</dd>
+                   <dd>{$data['order']['deliver_money']}</dd>
                    <dt>下单时间：</dt>
-                   <dd>{$data['order']['createTime']}</dd>
+                   <dd>{$data['order']['create_time']}</dd>
                    <dt>商&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</dt>
-                   <dd>{$data['order']['shopName']}</dd>
+                   <dd>{$data['order']['shop_name']}</dd>
                 </dl>
               </div>
           </div>
@@ -43,15 +43,15 @@
                 <tr>
                   <td>投诉类型：</td>
                   <td>
-                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='1' checked>承诺的没有做到</label>
-                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='2'>未按约定时间发货</label>
-                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='3'>未按成交价格进行交易</label>
-                    <label><input type='radio' name='complainType' class='ipt' autocomplete="off" value='4'>恶意骚扰</label>
+                    <label><input type='radio' name='complain_type' class='ipt' autocomplete="off" value='1' checked>承诺的没有做到</label>
+                    <label><input type='radio' name='complain_type' class='ipt' autocomplete="off" value='2'>未按约定时间发货</label>
+                    <label><input type='radio' name='complain_type' class='ipt' autocomplete="off" value='3'>未按成交价格进行交易</label>
+                    <label><input type='radio' name='complain_type' class='ipt' autocomplete="off" value='4'>恶意骚扰</label>
                   </td>
                 </tr>
                 <tr>
                    <td colspan='2'>
-                      <textarea id='complainContent' name="complainContent" class='ipt' autocomplete="off" style='width:700px;height:155px;' placeholder='请输入投诉内容'></textarea>
+                      <textarea id='complain_content' name="complain_content" class='ipt' autocomplete="off" style='width:700px;height:155px;' placeholder='请输入投诉内容'></textarea>
                    </td>
                 </tr>
                 <tr>

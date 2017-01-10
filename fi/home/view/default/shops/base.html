@@ -23,7 +23,7 @@ window.conf = {
     	"SHOP_LOGO"  : "{:FIConf('CONF.shopLogo')}",
     	"MALL_LOGO"  : "{:FIConf('CONF.mallLogo')}",
     	"USER_LOGO"  : "{:FIConf('CONF.userLogo')}",
-    	"IS_LOGIN"   : "{if (int)session('FI_USER.userId')>0 }1{else}0{/if}",
+    	"IS_LOGIN"   : "{if (int)session('FI_USER.user_id')>0 }1{else}0{/if}",
     	"TIME_TASK"  : "1"
 	}
 	{:FILoginTarget(1)}
@@ -71,7 +71,7 @@ $(function() {
 				<div class="fi-nav-box">
 				    {php}$homeMenus = FIHomeMenus(1);{/php}
 					{volist name="$homeMenus['menus']" id="vo"}
-						<a href="__ROOT__/{$vo['menuUrl']}?id={$vo['menuId']}"><li class="liselect fi-lfloat {if($vo['menuId'] == $homeMenus['menuId1'])}fi-nav-boxa{/if}">{$vo['menuName']}</li></a>
+						<a href="__ROOT__/{$vo['menu_url']}?id={$vo['menu_id']}"><li class="liselect fi-lfloat {if($vo['menu_id'] == $homeMenus['menu_id1'])}fi-nav-boxa{/if}">{$vo['menu_name']}</li></a>
 					{/volist}
 					<div class="fi-clear"></div>
 				</div>
@@ -81,13 +81,13 @@ $(function() {
           <div class='fi-nav'></div>
           <div class='fi-main'>
             <div class='fi-menu'>
-            	{volist name="$homeMenus['menus'][$homeMenus['menuId1']]['list']" id="menus"}
-            	<span class='fi-menu-title'>{$menus['menuName']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
+            	{volist name="$homeMenus['menus'][$homeMenus['menu_id1']]['list']" id="menus"}
+            	<span class='fi-menu-title'>{$menus['menu_name']}<img src="__HOME__/img/user_icon_sider_zhankai.png"></span>
             	<ul>
             	{volist name="menus['list']" id="menu" key='k'}
-              	<li class="{if($homeMenus['menuId3']==$menu['menuId'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menuId']}','{$menu['menuUrl']}')">
-              	{$menu['menuName']}
-              	<span id="mId_{$menu['menuId']}"></span>
+              	<li class="{if($homeMenus['menu_id3']==$menu['menu_id'])}fi-menua{/if} fi-menuas" onclick="getMenus('{$menu['menu_id']}','{$menu['menu_url']}')">
+              	{$menu['menu_name']}
+              	<span id="mId_{$menu['menu_id']}"></span>
               	</li>
             	{/volist}
             	</ul>
@@ -105,9 +105,9 @@ $(function() {
 {/block}
 {block name="js"}{/block}
 <script>
-function getMenus(menuId,menuUrl){
-    $.post(FI.U('home/index/getMenuSession'), {menuId:menuId}, function(data){
-    	location.href=FI.U(menuUrl);
+function getMenus(menu_id,menu_url){
+    $.post(FI.U('home/index/getMenuSession'), {menu_id:menu_id}, function(data){
+    	location.href=FI.U(menu_url);
     });
 }
 </script>

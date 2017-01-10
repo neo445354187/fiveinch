@@ -8,13 +8,13 @@ class Roles extends Base{
 	 * 分页
 	 */
 	public function pageQuery(){
-		return $this->where('dataFlag',1)->field('roleId,roleName')->paginate(input('pagesize/d'));
+		return $this->where('status',1)->field('role_id,role_name')->paginate(input('pagesize/d'));
 	}
 	/**
 	 * 列表
 	 */
 	public function listQuery(){
-		return $this->where('dataFlag',1)->field('roleId,roleName')->select();
+		return $this->where('status',1)->field('role_id,role_name')->select();
 	}
 	/**
 	 * 删除
@@ -22,8 +22,8 @@ class Roles extends Base{
     public function del(){
 	    $id = input('post.id/d');
 		$data = [];
-		$data['dataFlag'] = -1;
-	    $result = $this->update($data,['roleId'=>$id]);
+		$data['status'] = -1;
+	    $result = $this->update($data,['role_id'=>$id]);
         if(false !== $result){
         	return FIReturn("删除成功", 1);
         }else{
@@ -35,7 +35,7 @@ class Roles extends Base{
 	 * 获取角色权限
 	 */
 	public function getById($id){
-		return $this->get(['dataFlag'=>1,'roleId'=>$id]);
+		return $this->get(['status'=>1,'role_id'=>$id]);
 	}
 	
 	/**
@@ -53,14 +53,14 @@ class Roles extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$id = input('post.roleId/d');
-	    $result = $this->validate('Roles.edit')->allowField(true)->save(input('post.'),['roleId'=>$id]);
+		$id = input('post.role_id/d');
+	    $result = $this->validate('Roles.edit')->allowField(true)->save(input('post.'),['role_id'=>$id]);
         if(false !== $result){
-            $staffRoleId = (int)session('FI_STAFF.staffRoleId');
-        	if($id==$staffRoleId){
+            $staff_role_id = (int)session('FI_STAFF.staff_role_id');
+        	if($id==$staff_role_id){
         		$STAFF = session('FI_STAFF');
         		$STAFF['privileges'] = explode(',',input('post.privileges'));
-        		$STAFF['roleName'] = Input('post.roleName');
+        		$STAFF['role_name'] = Input('post.role_name');
         		session('FI_STAFF',$STAFF);
         	}
         	return FIReturn("编辑成功", 1);

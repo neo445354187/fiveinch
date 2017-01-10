@@ -25,9 +25,9 @@ class Index extends Base {
      * 保存目录ID
      */
     public function getMenuSession() {
-        $menuId = input("post.menuId");
-        $menuType = session('FI_USER.loginTarget');
-        session('FI_MENUID3' . $menuType, $menuId);
+        $menu_id = input("post.menu_id");
+        $menu_type = session('FI_USER.loginTarget');
+        session('FI_MENUID3' . $menu_type, $menu_id);
     }
 
     /**
@@ -42,9 +42,9 @@ class Index extends Base {
      * 定位菜单以及跳转页面
      */
     public function position() {
-        $menuId = (int) input("post.menuId");
-        $menuType = ((int) input("post.menuType") == 1) ? 1 : 0;
-        session('FI_MENUID3' . $menuType, $menuId);
+        $menu_id = (int) input("post.menu_id");
+        $menu_type = ((int) input("post.menu_type") == 1) ? 1 : 0;
+        session('FI_MENUID3' . $menu_type, $menu_id);
     }
 
 }

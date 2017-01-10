@@ -311,7 +311,7 @@ function view(id){
 	location.href=FI.U('home/orders/detail','id='+id);
 }
 function complain(id){
-	location.href=FI.U('home/ordercomplains/complain','orderId='+id);
+	location.href=FI.U('home/ordercomplains/complain','order_id='+id);
 }
 
 
@@ -381,12 +381,12 @@ function validator(n){
               });
               params.images = images.join(',');
               //获取评分
-              params.goodsScore = $('.goodsScore'+n).find('[name=score]').val();
-              params.timeScore = $('.timeScore'+n).find('[name=score]').val();
-              params.serviceScore = $('.serviceScore'+n).find('[name=score]').val();
-              params.goodsId = $('#gid'+n).val();
-              params.orderId = $('#oid'+n).val();
-              params.goodsSpecId = $('#gsid'+n).val();
+              params.goods_score = $('.goods_score'+n).find('[name=score]').val();
+              params.time_score = $('.time_score'+n).find('[name=score]').val();
+              params.service_score = $('.service_score'+n).find('[name=score]').val();
+              params.goods_id = $('#gid'+n).val();
+              params.order_id = $('#oid'+n).val();
+              params.goods_spec_id = $('#gsid'+n).val();
 
               $.post(FI.U('home/goodsAppraises/add'),params,function(data,dataStatus){
                 var json = FI.toJson(data);
@@ -395,19 +395,19 @@ function validator(n){
                    var html = '<div class="appraise-area"><div class="appraise-item"><div class="appraise-title">商品评分：</div>';
                        html += '<div class="appraise-content">';
                        // 商品评分
-                       for(var i=1;i<=params.goodsScore;i++){
+                       for(var i=1;i<=params.goods_score;i++){
                           html +='<img src="'+FI.conf.STATIC+'/plugins/raty/img/star-on-big.png">';
                        }
                        html +='</div></div><div class="fi-clear"></div><div class="appraise-item"><div class="appraise-title"> 时效评分：</div>'
                        html +='<div class="appraise-content">'
                        // 时效评分
-                       for(var i=1;i<=params.timeScore;i++){
+                       for(var i=1;i<=params.time_score;i++){
                           html +='<img src="'+FI.conf.STATIC+'/plugins/raty/img/star-on-big.png">';
                        }
                        html +='</div></div><div class="fi-clear"></div><div class="appraise-item"><div class="appraise-title">服务评分：</div>';
                        html +='<div class="appraise-content">';
                        // 服务评分
-                       for(var i=1;i<=params.serviceScore;i++){
+                       for(var i=1;i<=params.service_score;i++){
                           html +='<img src="'+FI.conf.STATIC+'/plugins/raty/img/star-on-big.png">';
                        }
                        html +='</div></div><div class="fi-clear"></div><div class="appraise-item"><div class="appraise-title">点评内容：</div>';
@@ -523,12 +523,12 @@ function saveComplain(historyURL){
    /* 表单验证 */
   $('#complainForm').validator({
               fields: {
-                  complainContent: {
+                  complain_content: {
                     rule:"required",
                     msg:{required:"清输入投诉内容"},
                     tip:"清输入投诉内容",
                   },
-                  complainType: {
+                  complain_type: {
                     rule:"checked;",
                     msg:{checked:"投诉类型不能为空"},
                     tip:"请选择投诉类型",
@@ -542,7 +542,7 @@ function saveComplain(historyURL){
                   $('.complain_pic').each(function(){
                     img.push($(this).attr('v'));
                   });
-                  params.complainAnnex = img.join(',');
+                  params.complain_annex = img.join(',');
 
                   $.post(FI.U('home/orderComplains/saveComplain'),params,function(data,textStatus){
                     layer.close(loading);

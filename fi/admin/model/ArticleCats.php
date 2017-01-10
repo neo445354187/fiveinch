@@ -9,18 +9,18 @@ class ArticleCats extends Base{
 	 * 获取树形分类
 	 */
 	public function pageQuery(){
-		$parentId = input('catId/d',0);
-		$data = $this->where(['dataFlag'=>1,'parentId'=>$parentId])->order('catId desc')->paginate(input('post.pagesize/d'))->toArray();
+		$parent_id = input('cat_id/d',0);
+		$data = $this->where(['status'=>1,'parent_id'=>$parent_id])->order('cat_id desc')->paginate(input('post.pagesize/d'))->toArray();
 		return $data;
 	}
 	/**
 	 * 获取列表
 	 */
-	public function listQuery($parentId){
-		$rs = $this->where(['dataFlag'=>1,'parentId'=>$parentId])->order('catSort asc,catName asc')->select();
+	public function listQuery($parent_id){
+		$rs = $this->where(['status'=>1,'parent_id'=>$parent_id])->order('cat_sort asc,cat_name asc')->select();
 		if(count($rs)>0){
 			foreach ($rs as $key => $v){
-				$rs[$key]['childrenurl'] = url('admin/articlecats/listQuery',array('parentId'=>$v['catId']));
+				$rs[$key]['childrenurl'] = url('admin/articlecats/listQuery',array('parent_id'=>$v['cat_id']));
 				$rs[$key]['children'] = [];
 				$rs[$key]['isextend'] = false;
 			}
@@ -31,14 +31,14 @@ class ArticleCats extends Base{
 	 * 获取指定对象
 	 */
 	public function getById($id){
-		return $this->get(['dataFlag'=>1,'catId'=>$id]);
+		return $this->get(['status'=>1,'cat_id'=>$id]);
 	}
 	
 	/**
 	 *  获取文章分类列表
 	 */
 	public function listQuery2(){
-		return $this->where(['dataFlag'=>1,'isShow'=>1])->field('catId,catName,parentId')->order('catSort desc')->select();
+		return $this->where(['status'=>1,'is_show'=>1])->field('cat_id,cat_name,parent_id')->order('cat_sort desc')->select();
 	}
 	
 	/**
@@ -48,8 +48,8 @@ class ArticleCats extends Base{
 		$ids = array();
 		$id = input('post.id/d');
 		$ids = $this->getChild($id);
-		$isShow = input('post.isShow/d')?1:0;
-		$result = $this->where("catId in(".implode(',',$ids).")")->update(['isShow' => $isShow]);
+		$is_show = input('post.is_show/d')?1:0;
+		$result = $this->where("cat_id in(".implode(',',$ids).")")->update(['is_show' => $is_show]);
 		if(false !== $result){
 			return FIReturn("操作成功", 1);
 		}else{
@@ -62,7 +62,7 @@ class ArticleCats extends Base{
 	 * 获取一个分类下的所有子级分类id
 	 */
 	public function getChild($pid=1){
-		$data = $this->where("dataFlag=1")->select();
+		$data = $this->where("status=1")->select();
 		//获取该分类id下的所有子级分类id
 		$ids = $this->_getChild($data, $pid, true);//每次调用都清空一次数组
 		//把自己也放进来
@@ -75,11 +75,11 @@ class ArticleCats extends Base{
 			$ids = array();
 		foreach($data as $k=>$v)
 		{
-			if($v['parentId']==$pid && $v['dataFlag']==1)
+			if($v['parent_id']==$pid && $v['status']==1)
 			{
-				$ids[] = $v['catId'];//将找到的下级分类id放入静态数组
+				$ids[] = $v['cat_id'];//将找到的下级分类id放入静态数组
 				//再找下当前id是否还存在下级id
-				$this->_getChild($data, $v['catId']);
+				$this->_getChild($data, $v['cat_id']);
 			}
 		}
 		return $ids;
@@ -89,11 +89,11 @@ class ArticleCats extends Base{
 	 * 新增
 	 */
 	public function add(){
-		$parentId = input('post.parentId/d');
+		$parent_id = input('post.parent_id/d');
 		$data = input('post.');
-		FIUnset($data,'catId,catType,dataFlag');
-		$data['parentId'] = $parentId;
-		$data['createTime'] = date('Y-m-d H:i:s');
+		FIUnset($data,'cat_id,cat_type,status');
+		$data['parent_id'] = $parent_id;
+		$data['create_time'] = date('Y-m-d H:i:s');
 		$result = $this->validate('ArticleCats.add')->allowField(true)->save($data);
 		if(false !== $result){
 			return FIReturn("新增成功", 1);
@@ -106,11 +106,11 @@ class ArticleCats extends Base{
 	 * 编辑
 	 */
 	public function edit(){
-		$catId = input('post.id/d');
-		$result = $this->validate('ArticleCats.edit')->allowField(['catName','isShow','catSort'])->save(input('post.'),['catId'=>$catId]);
+		$cat_id = input('post.id/d');
+		$result = $this->validate('ArticleCats.edit')->allowField(['cat_name','is_show','cat_sort'])->save(input('post.'),['cat_id'=>$cat_id]);
 		$ids = array();
-		$ids = $this->getChild($catId);
-		$this->where("catId in(".implode(',',$ids).")")->update(['isShow' => input('post.')['isShow']]);
+		$ids = $this->getChild($cat_id);
+		$this->where("cat_id in(".implode(',',$ids).")")->update(['is_show' => input('post.')['is_show']]);
 		if(false !== $result){
 			return FIReturn("修改成功", 1);
 		}else{
@@ -126,16 +126,16 @@ class ArticleCats extends Base{
 		$id = input('post.id/d');
 		$ids = $this->getChild($id);
 		$data = [];
-		$data['dataFlag'] = -1;
+		$data['status'] = -1;
 		$rs = $this->getById($id);
-		if($rs['catType']==1){
+		if($rs['cat_type']==1){
 			return FIReturn("不能删除该分类", -1);
 		}else{
 			Db::startTrans();
             try{
-				$result = $this->where("catId in(".implode(',',$ids).")")->update($data);
+				$result = $this->where("cat_id in(".implode(',',$ids).")")->update($data);
 				if(false !==$result){
-					Db::table('__ARTICLES__')->where(['catId'=>['in',$ids]])->update(['dataFlag'=>-1]);
+					Db::table('__ARTICLES__')->where(['cat_id'=>['in',$ids]])->update(['status'=>-1]);
 				}
 				Db::commit();
 	            return FIReturn("删除成功", 1);

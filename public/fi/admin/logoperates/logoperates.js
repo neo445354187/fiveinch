@@ -11,15 +11,15 @@ $(function(){
         minColToggle:6,
         rownumbers:true,
         columns: [
-	        { display: '职员', name: 'staffName',isSort: false},
-	        { display: '操作功能', name: 'operateDesc',isSort: false,render: function (rowdata, rowindex, value){
-	        	return rowdata['menuName']+"-"+rowdata['operateDesc'];
+	        { display: '职员', name: 'staff_name',isSort: false},
+	        { display: '操作功能', name: 'operate_desc',isSort: false,render: function (rowdata, rowindex, value){
+	        	return rowdata['menu_name']+"-"+rowdata['operate_desc'];
 	        }},
-	        { display: '访问路径', name: 'operateUrl',isSort: false},
-	        { display: '操作IP', name: 'operateIP',isSort: false},
-	        { display: '操作时间', name: 'operateTime',isSort: false},
+	        { display: '访问路径', name: 'operate_url',isSort: false},
+	        { display: '操作IP', name: 'operate_ip',isSort: false},
+	        { display: '操作时间', name: 'operate_time',isSort: false},
 	        { display: '传递参数', name: 'op',isSort: false,render: function (rowdata, rowindex, value){
-	        	return '<a href="javascript:toView('+rowdata['operateId']+')">查看</a>';
+	        	return '<a href="javascript:toView('+rowdata['operate_id']+')">查看</a>';
 	        }}
         ]
     });

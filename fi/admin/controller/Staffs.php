@@ -29,7 +29,7 @@ class Staffs extends Base{
     public function toAdd(){
     	$id = (int)Input("get.id",0);
     	$m = new M();
-    	$this->assign("object",['staffId'=>0,'workStatus'=>1,'staffStatus'=>1]);
+    	$this->assign("object",['staff_id'=>0,'work_itatus'=>1,'staff_status'=>1]);
     	$m = new R();
     	$this->assign("roles",$m->listQuery());
     	return $this->fetch("add");
@@ -79,13 +79,13 @@ class Staffs extends Base{
      */
     public function editMyPass(){
     	$m = new M();
-    	return $m->editMyPass((int)session('FI_STAFF.staffId'));
+    	return $m->editMyPass((int)session('FI_STAFF.staff_id'));
     }
     /**
      * 编辑职员密码
      */
     public function editPass(){
     	$m = new M();
-    	return $m->editPass((int)input('post.staffId'));
+    	return $m->editPass((int)input('post.staff_id'));
     }
 }

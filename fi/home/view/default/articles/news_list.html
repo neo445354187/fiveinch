@@ -10,10 +10,10 @@
 		<a href="{:url('/')}">首页</a>
 		<a href="{:url('home/news/view')}">> 资讯中心</a>
 		{volist name="$bcNav" id="bc"}
-	    <a href="{:url('home/news/nlist',['catId'=>$bc['catId']])}">> {$bc['catName']}</a> 
+	    <a href="{:url('home/news/nlist',['cat_id'=>$bc['cat_id']])}">> {$bc['cat_name']}</a> 
 	    {/volist}
-	    {if isset($content['articleTitle'])}
-	    	<a href="{:url('home/news/view',['id'=>$content['articleId']])}">> 详情</a>
+	    {if isset($content['article_title'])}
+	    	<a href="{:url('home/news/view',['id'=>$content['article_id']])}">> 详情</a>
 	    {/if}
 	</p>
 </div>
@@ -23,10 +23,10 @@
 		<ul id="parent">
 			{volist name="$list" id="v" }
             <li class="h-cat h-show">
-                <span>{$v['catName']}<p></p></span>
+                <span>{$v['cat_name']}<p></p></span>
                 <ul class="h-list">
                 	{volist name="$v['children']" id="v1" key="k1"}
-                    <a href="{:url('home/News/nList',['catId'=>$v1['catId']])}"><li class="{if ($v1['catId']==$catId)}h-curr{/if}">{$v1['catName']}（{$v1['newsCount']}）</li></a>
+                    <a href="{:url('home/News/nList',['cat_id'=>$v1['cat_id']])}"><li class="{if ($v1['cat_id']==$cat_id)}h-curr{/if}">{$v1['cat_name']}（{$v1['newsCount']}）</li></a>
                     {/volist}
                 </ul>
             </li>
@@ -35,27 +35,27 @@
 	</div>
 	<div class="help-right">
 		<div class="h-content">
-			{if(!input("param.catId") && !input("param.id"))}
+			{if(!input("param.cat_id") && !input("param.id"))}
 			<div class="head"><p><span>N</span>ews&nbsp;资讯中心</p><div class='fi-clear'></div></div>
 			<ul class="news-list">
 				{volist name="$index" id="li"}
-				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$li['articleId']])}">{$li['articleTitle']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($li['createTime']))}</span></li>
+				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$li['article_id']])}">{$li['article_title']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($li['create_time']))}</span></li>
 				{/volist}
 			</ul>
 			{/if}
 			{if isset($newsList)}
-			<div class="head"><p><span>N</span>ews&nbsp;{$bc['catName']}</p><div class='fi-clear'></div></div>
+			<div class="head"><p><span>N</span>ews&nbsp;{$bc['cat_name']}</p><div class='fi-clear'></div></div>
 			<ul class="news-list">
 				{volist name="$newsList" id="n"}
-				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$n['articleId']])}">{$n['articleTitle']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($n['createTime']))}</span></li>
+				<li><div id="g-square"></div><a href="{:url('home/news/view',['id'=>$n['article_id']])}">{$n['article_title']}</a><span class="list-time"> {:date('Y-m-d H:i:s',strtotime($n['create_time']))}</span></li>
 				{/volist}
 			</ul>
 			{/if}
 			{if isset($content)}
-			<h1>{$content.articleTitle}</h1>
-			<div class="cat-time"><span>{$content.catName}　</span>发布于：{:date('Y-m-d',strtotime($content.createTime))}</div>
+			<h1>{$content.article_title}</h1>
+			<div class="cat-time"><span>{$content.cat_name}　</span>发布于：{:date('Y-m-d',strtotime($content.create_time))}</div>
 			<div class="n-content">
-				{$content.articleContent}
+				{$content.article_content}
 			</div>
 
 

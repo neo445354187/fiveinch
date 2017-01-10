@@ -87,7 +87,7 @@ KindEditor.plugin('flash', function(K) {
 			if (allowFlashUpload) {
 				var uploadbutton = K.uploadbutton({
 					button : K('.ke-upload-button', div)[0],
-					fieldName : filePostName,
+					field_name : filePostName,
 					extraParams : extraParams,
 					url : K.addParam(uploadJson, 'dir=flash'),
 					afterUpload : function(data) {

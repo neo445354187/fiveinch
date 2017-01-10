@@ -6,17 +6,17 @@
 <div class="l-loading" style="display: block" id="fi-loading"></div>
 <div class="fi-toolbar">
 商家所在地：
-<select id="areaId1" class='ipt j-ipt' level="0" onchange="FI.ITAreas({id:'areaId1',val:this.value,className:'j-ipt'});">
+<select id="area_id1" class='ipt j-ipt' level="0" onchange="FI.ITAreas({id:'area_id1',val:this.value,className:'j-ipt'});">
   <option value="-1">-请选择-</option>
   {volist name="areaList" id="vo"}
-  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+  <option value="{$vo['area_id']}">{$vo['area_name']}</option>
   {/volist}
 </select>
     <br/>
-订单编号：<input type="text" name="orderNo"  placeholder='订单编号' id="orderNo" class='j-ipt'/>
+订单编号：<input type="text" name="order_no"  placeholder='订单编号' id="order_no" class='j-ipt'/>
 
 
-投诉处理状态：<select id='complainStatus' class='j-ipt'>
+投诉处理状态：<select id='complain_status' class='j-ipt'>
 		         <option value='-1'>请选择</option>
 		         <option value='0'>新投诉</option>
 		         <option value='1'>转给应诉人</option>

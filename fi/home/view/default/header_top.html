@@ -1,21 +1,21 @@
 <div class="fi-header">
     <div class="fi-nav">
 		<ul class="headlf" style='float:left;width:500px;'>
-		{if condition="session('FI_USER.userId') >0"}
+		{if condition="session('FI_USER.user_id') >0"}
 		   <li class="drop-info">
 			  <div class="drop-infos">
-			  <a href="{:Url('home/users/index')}">欢迎您，{:session('FI_USER.userName')?session('FI_USER.userName'):session('FI_USER.loginName')}</a>
+			  <a href="{:Url('home/users/index')}">欢迎您，{:session('FI_USER.user_name')?session('FI_USER.user_name'):session('FI_USER.login_name')}</a>
 			  </div>
 			  <div class="fi-tag dorpdown-user">
 			  	<div class="fi-tagt">
 			  	   <div class="userImg" >
-				  	<img class='usersImg' data-original="__ROOT__/{:session('FI_USER.userPhoto')}"/>
+				  	<img class='usersImg' data-original="__ROOT__/{:session('FI_USER.user_photo')}"/>
 				   </div>	
 				  <div class="fi-tagt-n">
 				    <div>
-					  	<span class="fi-tagt-na">{:session('FI_USER.userName')?session('FI_USER.userName'):session('FI_USER.loginName')}</span>
-					  	{if (int)session('FI_USER.rankId') > 0 }
-					  		<img src="__ROOT__/{:session('FI_USER.userrankImg')}" title="{:{:session('FI_USER.rankName')}"/>
+					  	<span class="fi-tagt-na">{:session('FI_USER.user_name')?session('FI_USER.user_name'):session('FI_USER.login_name')}</span>
+					  	{if (int)session('FI_USER.rank_id') > 0 }
+					  		<img src="__ROOT__/{:session('FI_USER.userrank_img')}" title="{:{:session('FI_USER.rank_name')}"/>
 					  	{/if}
 				  	</div>
 				  	<div class='fi-tags'>
@@ -103,8 +103,8 @@
 				</div>
 			</li>
 			<li class="spacer">|</li>
-			{if condition="session('FI_USER.userId') gt 0"}
-				{if condition="session('FI_USER.userType') eq 0"}
+			{if condition="session('FI_USER.user_id') gt 0"}
+				{if condition="session('FI_USER.user_type') eq 0"}
 				<li class="j-dorpdown">
 				<div class="drop-down pdl5" ><a href="#" target="_blank">商家管理<i class="di-right"><s>◇</s></i></a></div>
 				<div class='j-dorpdown-layer foucs-list'>
@@ -152,7 +152,7 @@ $(function(){
 	$('#qrcodea').html(a.createImgTag());
 });
 function goShop(id){
-  location.href=FI.U('home/shops/home','shopId='+id);
+  location.href=FI.U('home/shops/home','shop_id='+id);
 }
 </script>
 <script type='text/javascript' src='__HOME__/js/qrcode.js?v={$v}'></script>

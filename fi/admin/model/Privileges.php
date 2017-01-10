@@ -11,9 +11,9 @@ class Privileges extends Base
     /**
      * 加载指定菜单的权限
      */
-    public function listQuery($parentId)
+    public function listQuery($parent_id)
     {
-        $rs = $this->where(['menuId' => $parentId, 'dataFlag' => 1])->order('privilegeId', 'asc')->select();
+        $rs = $this->where(['menu_id' => $parent_id, 'status' => 1])->order('privilege_id', 'asc')->select();
         return ['Rows' => $rs];
     }
     /**
@@ -21,7 +21,7 @@ class Privileges extends Base
      */
     public function getById($id)
     {
-        return $this->get(['privilegeId' => $id, 'dataFlag' => 1]);
+        return $this->get(['privilege_id' => $id, 'status' => 1]);
     }
 
     /**
@@ -43,7 +43,7 @@ class Privileges extends Base
     public function edit()
     {
         $id     = input('post.id/d');
-        $result = $this->validate('Privileges.edit')->allowField(true)->save(input('post.'), ['privilegeId' => $id]);
+        $result = $this->validate('Privileges.edit')->allowField(true)->save(input('post.'), ['privilege_id' => $id]);
         if (false !== $result) {
             cache('FI_LISTEN_URL', null);
             return FIReturn("编辑成功", 1);
@@ -58,8 +58,8 @@ class Privileges extends Base
     {
         $id               = input('post.id/d');
         $data             = [];
-        $data['dataFlag'] = -1;
-        $result           = $this->update($data, ['privilegeId' => $id]);
+        $data['status'] = -1;
+        $result           = $this->update($data, ['privilege_id' => $id]);
         if (false !== $result) {
             return FIReturn("删除成功", 1);
         } else {
@@ -77,7 +77,7 @@ class Privileges extends Base
             return FIReturn("", 1);
         }
 
-        $rs = $this->where(['privilegeCode' => $code, 'dataFlag' => 1])->Count();
+        $rs = $this->where(['privilege_code' => $code, 'status' => 1])->Count();
         if ($rs == 0) {
             return FIReturn("", 1);
         }
@@ -90,12 +90,12 @@ class Privileges extends Base
      */
     public function listQueryByRole($id)
     {
-        $mrs = Db::table('__MENUS__')->alias('m')->join('__PRIVILEGES__ p', 'm.menuId= p.menuId and isMenuPrivilege=1 and p.dataFlag=1', 'left')
-            ->where(['parentId' => $id, 'm.dataFlag' => 1])
-            ->field('m.menuId id,m.menuName name,p.privilegeCode,1 as isParent')
-            ->order('menuSort', 'asc')
+        $mrs = Db::table('__MENUS__')->alias('m')->join('__PRIVILEGES__ p', 'm.menu_id= p.menu_id and is_menu_privilege=1 and p.status=1', 'left')
+            ->where(['parent_id' => $id, 'm.status' => 1])
+            ->field('m.menu_id id,m.menu_name name,p.privilege_code,1 as isParent')
+            ->order('menu_sort', 'asc')
             ->select();
-        $prs = $this->where(['dataFlag' => 1, 'menuId' => $id])->field('privilegeId id,privilegeName name,privilegeCode,0 as isParent')->select();
+        $prs = $this->where(['status' => 1, 'menu_id' => $id])->field('privilege_id id,privilege_name name,privilege_code,0 as isParent')->select();
         if ($mrs) {
             if ($prs) {
                 foreach ($prs as $v) {
@@ -130,8 +130,8 @@ class Privileges extends Base
      */
     public function getAllPrivileges()
     {
-        return $this->where(['dataFlag' => 1])
-            ->field('menuId,privilegeName,privilegeCode,privilegeUrl,otherPrivilegeUrl')
+        return $this->where(['status' => 1])
+            ->field('menu_id,privilege_name,privilege_code,privilege_url,other_privilege_url')
             ->select();
     }
 }

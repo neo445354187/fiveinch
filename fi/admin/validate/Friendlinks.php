@@ -6,12 +6,12 @@ use think\Validate;
  */
 class Friendlinks extends Validate{
 	protected $rule = [
-	    ['friendlinkName'  ,'require|max:90','请输入网站名称|网站名称不能超过30个字符'],
-        ['friendlinkUrl'  ,'require','请输入网址']
+	    ['friend_link_name'  ,'require|max:90','请输入网站名称|网站名称不能超过30个字符'],
+        ['friend_link_url'  ,'require','请输入网址']
     ];
 
     protected $scene = [
-        'add'   =>  ['friendlinkName'],
-        'edit'  =>  ['friendlinkName'],
+        'add'   =>  ['friend_link_name'],
+        'edit'  =>  ['friend_link_name'],
     ]; 
 }

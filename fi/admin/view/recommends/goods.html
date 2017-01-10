@@ -12,7 +12,7 @@
 	        <select id="cat12_0" class='ipt pgoodsCats1_2' level="0" onchange="FI.ITGoodsCats({id:'cat12_0',val:this.value,isRequire:false,className:'pgoodsCats1_2'});">
 	          <option value=''>请选择</option>
 	          {volist name=":FIGoodsCats(0)" id="vo"}
-	          <option value="{$vo['catId']}">{$vo['catName']}</option>
+	          <option value="{$vo['cat_id']}">{$vo['cat_name']}</option>
 	          {/volist}
 	        </select>
 	     </td>
@@ -21,7 +21,7 @@
 	        <select id="cat22_0" class='ipt pgoodsCats2_2' level="0" onchange="FI.ITGoodsCats({id:'cat22_0',val:this.value,isRequire:false,className:'pgoodsCats2_2',afterFunc:'listQueryByGoods'});">
 	          <option value=''>所有分类</option>
 	          {volist name=":FIGoodsCats(0)" id="vo"}
-	          <option value="{$vo['catId']}">{$vo['catName']}</option>
+	          <option value="{$vo['cat_id']}">{$vo['cat_name']}</option>
 	          {/volist}
 	        </select>
 	     </td>
@@ -33,7 +33,7 @@
 	     </td>
 	     <td style='padding-left:30px;'>
 	       类型<font color='red'>*</font>：
-	       <select id='dataType_2' onchange='listQueryByGoods("_2")'>
+	       <select id='data_type_2' onchange='listQueryByGoods("_2")'>
 	          <option value='0'>推荐</option>
 	          <option value='1'>热销</option>
 	          <option value='2'>精品</option>

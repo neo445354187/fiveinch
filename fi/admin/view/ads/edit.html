@@ -19,27 +19,27 @@
   <tr>
       <th width='150'>位置类型<font color='red'>*</font>：</th>
           <td>
-            <select id="positionType" name="positionType" class='ipt' maxLength='20' onchange="addPosition(this.value)">
+            <select id="position_type" name="position_type" class='ipt' maxLength='20' onchange="addPosition(this.value)">
               <option value="-1">-请选择-</option>
-              <option <?=($data['positionType']===1)?'selected':'';?> value="1">PC版</option>
+              <option <?=($data['position_type']===1)?'selected':'';?> value="1">PC版</option>
             </select>
           </td>
        </tr>
        <tr>
           <th>广告位置<font color='red'>*</font>：</th>
           <td>
-            <select id="adPositionId" name="adPositionId" class='ipt' maxLength='20' onchange="getPhotoSize(this.value)">
+            <select id="ad_position_id" name="ad_position_id" class='ipt' maxLength='20' onchange="getPhotoSize(this.value)">
               <option value="">-请选择-</option>
             </select>
           </td>
        </tr>
        <tr>
           <th>广告标题<font color='red'>*</font>：</th>
-          <td><input type='text' id='adName' name="adName" value='{$data['adName']}' class='ipt' maxLength='20'/></td>
+          <td><input type='text' id='ad_name' name="ad_name" value='{$data['ad_name']}' class='ipt' maxLength='20'/></td>
        </tr>
        <tr>
           <th>广告图片<font color='red'>*</font>：</th>
-          <td><div id='adFilePicker'>上传广告图</div><span id='uploadMsg'></span>
+          <td><div id='ad_filePicker'>上传广告图</div><span id='uploadMsg'></span>
               <div>
                 图片大小:<span id="img_size">300x300</span>(px)，格式为 gif, jpg, jpeg, png
               </div>
@@ -50,11 +50,11 @@
           <th>预览图<font color='red'>  </font>：</th>
           <td>
             <div id="preview" style="min-height:30px;">
-              {if ($data['adFile']!='')}
-              <img src="__ROOT__/{$data['adFile']}">
+              {if ($data['ad_file']!='')}
+              <img src="__ROOT__/{$data['ad_file']}">
               {/if}
             </div>
-            <input type="hidden" name="adFile" id="adFile" class="ipt" value="{$data['adFile']}" />
+            <input type="hidden" name="ad_file" id="ad_file" class="ipt" value="{$data['ad_file']}" />
           </td>
 
 
@@ -62,31 +62,31 @@
        <tr>
           <th>广告网址<font color='red'>  </font>：</th>
           <td>
-            <input type="text" id="adURL" class="ipt" maxLength="20" value='{$data['adURL']}' />
+            <input type="text" id="ad_url" class="ipt" maxLength="20" value='{$data['ad_url']}' />
           </td>
        </tr>
        <tr>
           <th >广告开始时间<font color='red'>*</font>：</th>
           <td>
-            <input type="text" style="margin:0px;vertical-align:baseline;" id="adStartDate" name="adStartDate" class="ipt" maxLength="20"  />
+            <input type="text" style="margin:0px;vertical-align:baseline;" id="ad_start_date" name="ad_start_date" class="ipt" maxLength="20"  />
           </td>
        </tr>
        <tr>
           <th>广告结束时间<font color='red'>*</font>：</th>
           <td>
-            <input type="text" style="margin:0px;vertical-align:baseline;" id="adEndDate" name="adEndDate" class="ipt" maxLength="20" value='{$data['adEndDate']}' />
+            <input type="text" style="margin:0px;vertical-align:baseline;" id="ad_end_date" name="ad_end_date" class="ipt" maxLength="20" value='{$data['ad_end_date']}' />
           </td>
        </tr>
        <tr>
           <th>广告排序号：</th>
           <td>
-            <input type="text" id="adSort" class="ipt" maxLength="20"  value='{$data['adSort']}' />
+            <input type="text" id="ad_sort" class="ipt" maxLength="20"  value='{$data['ad_sort']}' />
           </td>
        </tr>
   
   <tr>
      <td colspan='2' align='center'>
-       <input type="hidden" name="id" id="adId" class="ipt" value="{$data['adId']+0}" />
+       <input type="hidden" name="id" id="ad_id" class="ipt" value="{$data['ad_id']+0}" />
        <input type="submit" value="提交" class='btn btn-blue' />
        <input type="button" onclick="javascript:history.go(-1)" class='btn' value="返回" />
      </td>
@@ -97,10 +97,10 @@
 $(function(){
 editInit();
 //初始化位置类型
-if("{$data['positionType']}" == '1')addPosition("{$data['positionType']}","{$data['adPositionId']}");
+if("{$data['position_type']}" == '1')addPosition("{$data['position_type']}","{$data['ad_position_id']}");
 //时间插件
-$("#adStartDate").ligerDateEditor().setValue('{$data['adStartDate']}');
-$("#adEndDate").ligerDateEditor().setValue('{$data['adEndDate']}');
+$("#ad_start_date").ligerDateEditor().setValue('{$data['ad_start_date']}');
+$("#ad_end_date").ligerDateEditor().setValue('{$data['ad_end_date']}');
 });
 
 </script>

@@ -13,35 +13,35 @@
 	<div class="fi-route"><a href="{:url('home/index/index')}" ><img style="float:left;margin-right:10px" src="__HOME__/img/icon_dianpujie_09.png"/>首页</a> > <a href="{:url('home/shops/shopstreet')}">店铺街</a></div>
 	{fi:ads code="shop-street" num="1" cache='86400'}
 	<div class="fi-shopstr-ads">
-		<a href="{$vo['adURL']}" {if ($vo['adURL']!='')}onclick="FI.recordClick({$vo['adId']})"{/if}><img class="goodsImg" data-original="__ROOT__/{$vo['adFile']}"/></a>
+		<a href="{$vo['ad_url']}" {if ($vo['ad_url']!='')}onclick="FI.recordClick({$vo['ad_id']})"{/if}><img class="goods_img" data-original="__ROOT__/{$vo['ad_file']}"/></a>
 	</div>
 	{/fi:ads}
 	<div class="fi-shopstr-cat">
 		<div class="fi-shopstr-catt">店铺行业</div>
 		{volist name="goodscats" id="ca" key="k"}
-		<span class="{if($selectedId==$ca['catId'])}js-selected{/if}" onclick="javascript:screenCat({$ca['catId']});">{$ca['catName']}</span>
+		<span class="{if($selectedId==$ca['cat_id'])}js-selected{/if}" onclick="javascript:screenCat({$ca['cat_id']});">{$ca['cat_name']}</span>
 		{/volist}
 		<div class="fi-clear"></div>
 	</div>
 	{volist name="list['Rows']" id="v1" key="k"}
 	<div class="fi-shopstr-shop">
-		<div class="fi-shopstr-shopl"><a target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}"><img class="shopsImg" data-original="__ROOT__/{$v1['shopImg']}" title="{$v1['shopName']}" alt="{$v1['shopName']}"/></a></div>
+		<div class="fi-shopstr-shopl"><a target='_blank' href="{:url('home/shops/home',array('shop_id'=>$v1['shop_id']))}"><img class="shopsImg" data-original="__ROOT__/{$v1['shop_img']}" title="{$v1['shop_name']}" alt="{$v1['shop_name']}"/></a></div>
 		<div class="fi-shopstr-shopi">
 			<div class="fi-shopstr-name">
-				<a class="name" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{:FIMSubstr($v1['shopName'],0,8)}</a>
-			    {if ((int)$v1['favoriteId']>0)}
-			    <a class="favorite j-fav" href='javascript:void(0);' onclick='FI.cancelFavorite(this,1,{$v1['favoriteId']})'>已关注</a>
+				<a class="name" target='_blank' href="{:url('home/shops/home',array('shop_id'=>$v1['shop_id']))}">{:FIMSubstr($v1['shop_name'],0,8)}</a>
+			    {if ((int)$v1['favorite_id']>0)}
+			    <a class="favorite j-fav" href='javascript:void(0);' onclick='FI.cancelFavorite(this,1,{$v1['favorite_id']})'>已关注</a>
                 {else}
-                <a class="favorite j-fav2" href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$v1['shopId']})'>关注店铺</a>
+                <a class="favorite j-fav2" href='javascript:void(0);' onclick='FI.addFavorite(this,1,{$v1['shop_id']})'>关注店铺</a>
                 {/if}
 				<div class="fi-clear"></div>
 			</div>
 			<div class="fi-shopstr-pr">
-				<span class="fi-lfloat" style="margin-left:3px;">卖家：<a class="company" target='_blank' href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}">{$v1['loginName']}</a></span>
-				<span class="fi-rfloat" style="margin-right:50px;">{$v1['areas']['areaName1']}&nbsp;&nbsp;{$v1['areas']['areaName2']}</span>
+				<span class="fi-lfloat" style="margin-left:3px;">卖家：<a class="company" target='_blank' href="{:url('home/shops/home',array('shop_id'=>$v1['shop_id']))}">{$v1['login_name']}</a></span>
+				<span class="fi-rfloat" style="margin-right:50px;">{$v1['areas']['area_name1']}&nbsp;&nbsp;{$v1['areas']['area_name2']}</span>
 			</div>
 			<div class="fi-shopstr-pr">
-				<span class="fi-lfloat" style="margin-left:3px;">电话：{$v1['shopTel']}</span>
+				<span class="fi-lfloat" style="margin-left:3px;">电话：{$v1['shop_tel']}</span>
 			</div>
 			<div class="fi-shopstr-pr">
 				
@@ -49,13 +49,13 @@
 				<img class="fi-lfloat" style="margin:5px 0px 0px 45px;width:16px;cursor:pointer;" src="__HOME__/img/icon_fenlei.png"/>
 				<div class="fi-shopstr-score j-scores hide">
 					<p class="title" style="margin-top:18px;">店铺动态评分</p>
-					<p class="">商品评价：<span class="title">{$v1['goodsScore']}</span></p>
-					<p class="">时效评价：<span class="title">{$v1['timeScore']}</span></p>
-					<p class="">服务评价：<span class="title">{$v1['serviceScore']}</span></p>
+					<p class="">商品评价：<span class="title">{$v1['goods_score']}</span></p>
+					<p class="">时效评价：<span class="title">{$v1['time_score']}</span></p>
+					<p class="">服务评价：<span class="title">{$v1['service_score']}</span></p>
 				</div>
 				</span>
 			{volist name="v1['accreds']" id="v2"}
-				<img class="fi-lfloat" style="margin:5px 0px 0px 6px;width:15px;" src="__ROOT__/{$v2['accredImg']}" title="{$v2['accredName']}" alt="{$v2['accredName']}"/>
+				<img class="fi-lfloat" style="margin:5px 0px 0px 6px;width:15px;" src="__ROOT__/{$v2['accred_img']}" title="{$v2['accred_name']}" alt="{$v2['accred_name']}"/>
 			{/volist}
 			</div>
 			<div class="fi-shopstr-pr">
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 		<div class="fi-shopstr-shopr">
-			<div class="fi-shopstr-more"><a href="{:url('home/shops/home',array('shopId'=>$v1['shopId']))}" class="fi-rfloat">查看更多 ></a></div>
+			<div class="fi-shopstr-more"><a href="{:url('home/shops/home',array('shop_id'=>$v1['shop_id']))}" class="fi-rfloat">查看更多 ></a></div>
 			<div class="fi-shopstr-more"><span class="fi-lfloat">&nbsp;店长推荐</span></div>
 			<div class="fi-shopstr-good fi-lfloat">
 			  <div class="als-container" id="{if ($v1['goodsTotal']>6)}js-goods{$k}{/if}">
@@ -72,8 +72,8 @@
 			    <ul class="als-wrapper">
 				{volist name="v1['goods']" id="v3"}
 			      <li class="als-item fi-shopstr-goods">
-					<div class="fi-shopstr-goodimg"><a href="{:url('home/goods/detail',array('id'=>$v3['goodsId']))}" target="_blank"><img class="goodsImg" data-original="__ROOT__/{$v3['goodsImg']}" title="{$v3['goodsName']}"/></a></div>
-					<span>￥{$v3['shopPrice']}</span>
+					<div class="fi-shopstr-goodimg"><a href="{:url('home/goods/detail',array('id'=>$v3['goods_id']))}" target="_blank"><img class="goods_img" data-original="__ROOT__/{$v3['goods_img']}" title="{$v3['goods_name']}"/></a></div>
+					<span>￥{$v3['shop_price']}</span>
 				  </li>
 				{/volist}
 			    </ul>

@@ -7,13 +7,13 @@ class UserScores extends Base{
      /**
       * 获取列表
       */
-      public function pageQuery($userId){
+      public function pageQuery($user_id){
       	  $type = (int)input('post.type');
-          $where = ['userId'=>(int)$userId];
-          if($type!=0)$where['scoreType'] = $type;
-          $page = $this->where($where)->order('scoreId desc')->paginate()->toArray();
+          $where = ['user_id'=>(int)$user_id];
+          if($type!=0)$where['score_type'] = $type;
+          $page = $this->where($where)->order('score_id desc')->paginate()->toArray();
           foreach ($page['Rows'] as $key => $v){
-          	  $page['Rows'][$key]['dataSrc'] = FILangScore($v['dataSrc']);
+          	  $page['Rows'][$key]['data_src'] = FILangScore($v['data_src']);
           }
           return $page;
       }

@@ -31,7 +31,7 @@ $(function(){
 	if(goodsInfo.sku){
 		var specs,dv;
 		for(var key in goodsInfo.sku){
-			if(goodsInfo.sku[key].isDefault==1){
+			if(goodsInfo.sku[key].is_default==1){
 				specs = key.split(':');
 				$('.j-option').each(function(){
 					dv = $(this).attr('data-val')
@@ -39,11 +39,11 @@ $(function(){
 						$(this).addClass('j-selected');
 					}
 				})
-				$('#buyNum').attr('data-max',goodsInfo.sku[key].specStock);
+				$('#buyNum').attr('data-max',goodsInfo.sku[key].spec_stock);
 			}
 		}
 	}else{
-		$('#buyNum').attr('data-max',goodsInfo.goodsStock);
+		$('#buyNum').attr('data-max',goodsInfo.goods_stock);
 	}
 	checkGoodsStock();
 	//图片放大镜效果
@@ -58,25 +58,25 @@ $(function(){
 });
 
 function checkGoodsStock(){
-	var specIds = [],stock = 0,goodsPrice=0,marketPrice=0;
-	if(goodsInfo.isSpec==1){
+	var spec_ids = [],stock = 0,goods_price=0,market_price=0;
+	if(goodsInfo.is_spec==1){
 		$('.j-selected').each(function(){
-			specIds.push(parseInt($(this).attr('data-val'),10));
+			spec_ids.push(parseInt($(this).attr('data-val'),10));
 		});
-		specIds.sort(function(a,b){return a-b;});
-		if(goodsInfo.sku[specIds.join(':')]){
-			stock = goodsInfo.sku[specIds.join(':')].specStock;
-			marketPrice = goodsInfo.sku[specIds.join(':')].marketPrice;
-			goodsPrice = goodsInfo.sku[specIds.join(':')].specPrice;
+		spec_ids.sort(function(a,b){return a-b;});
+		if(goodsInfo.sku[spec_ids.join(':')]){
+			stock = goodsInfo.sku[spec_ids.join(':')].spec_stock;
+			market_price = goodsInfo.sku[spec_ids.join(':')].market_price;
+			goods_price = goodsInfo.sku[spec_ids.join(':')].spec_price;
 		}
 	}else{
-		stock = goodsInfo.goodsStock;
-		marketPrice = goodsInfo.marketPrice;
-		goodsPrice = goodsInfo.goodsPrice;
+		stock = goodsInfo.goods_stock;
+		market_price = goodsInfo.market_price;
+		goods_price = goodsInfo.goods_price;
 	}
 	$('#goods-stock').html(stock);
-	$('#j-market-price').html('￥'+marketPrice);
-	$('#j-shop-price').html('￥'+goodsPrice);
+	$('#j-market-price').html('￥'+market_price);
+	$('#j-shop-price').html('￥'+goods_price);
 	if(stock<=0){
 		$('#addBtn').addClass('disabled');
 		$('#buyBtn').addClass('disabled');
@@ -132,7 +132,7 @@ function showImg(id){
 function queryByPage(p){
   var params = {};
   params.p = p;
-  params.goodsId = goodsInfo.id;
+  params.goods_id = goodsInfo.id;
   params.anonymous = 1;
   $.post(FI.U('home/goodsappraises/getById'),params,function(data,textStatus){
       var json = FI.toJson(data);
@@ -171,22 +171,22 @@ function addCart(type,iptId){
 		FI.loginWindow();
 		return;
 	}
-	var goodsSpecId = 0;
-	if(goodsInfo.isSpec==1){
-		var specIds = [];
+	var goods_spec_id = 0;
+	if(goodsInfo.is_spec==1){
+		var spec_ids = [];
 		$('.j-selected').each(function(){
-			specIds.push($(this).attr('data-val'));
+			spec_ids.push($(this).attr('data-val'));
 		});
-		if(specIds.length==0){
+		if(spec_ids.length==0){
 			FI.msg('请选择你要购买的商品信息',{icon:2});
 		}
-		specIds.sort();
-		if(goodsInfo.sku[specIds.join(':')]){
-			goodsSpecId = goodsInfo.sku[specIds.join(':')].id;
+		spec_ids.sort();
+		if(goodsInfo.sku[spec_ids.join(':')]){
+			goods_spec_id = goodsInfo.sku[spec_ids.join(':')].id;
 		}
 	}
 	var buyNum = $(iptId)[0]?$(iptId).val():1;
-	$.post(FI.U('home/carts/addCart'),{goodsId:goodsInfo.id,goodsSpecId:goodsSpecId,buyNum:buyNum,rnd:Math.random()},function(data,textStatus){
+	$.post(FI.U('home/carts/addCart'),{goods_id:goodsInfo.id,goods_spec_id:goods_spec_id,buyNum:buyNum,rnd:Math.random()},function(data,textStatus){
 	     var json = FI.toJson(data);
 	     if(json.status==1){
 	    	 FI.msg(json.msg,{icon:1});

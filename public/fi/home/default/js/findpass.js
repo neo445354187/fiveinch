@@ -16,13 +16,13 @@ $(function(){
     //重置密码
     $('#forgetPwdForm3').validator({
         fields: {
-        	loginPwd: {
+        	login_password: {
               rule:"required;length[6~16]",
               msg:{required:"请输入新密码"},
               tip:"请输入新密码"
             },
             repassword: {
-              rule:"required;length[6~16];match[loginPwd]",
+              rule:"required;length[6~16];match[login_password]",
               msg:{required:"请再次输入新密码",match:"两次输入密码不匹配"},
               tip:"请再次输入新密码"
             },

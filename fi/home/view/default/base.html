@@ -25,7 +25,7 @@ window.conf = {
     	"SHOP_LOGO" : "{:FIConf('CONF.shopLogo')}",
     	"MALL_LOGO" : "{:FIConf('CONF.mallLogo')}",
     	"USER_LOGO" : "{:FIConf('CONF.userLogo')}",
-    	"IS_LOGIN"  : "{if (int)session('FI_USER.userId')>0 }1{else}0{/if}",
+    	"IS_LOGIN"  : "{if (int)session('FI_USER.user_id')>0 }1{else}0{/if}",
     	"TIME_TASK" : "1"
 	}
 $(function() {
