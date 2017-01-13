@@ -97,6 +97,7 @@ class SearchGoods extends Base
         $result    = json_decode(Browser::curl($this->url, $condition), true);
         //粗暴判断，有数据返回和没有数据返回两种情况
         if (isset($result['response']['numFound']) && $result['response']['numFound'] > 0) {
+            // var_dump($result);die;//debug
             //判断是否需要整理facet数据
             $facet = array();
             if (!$this->brand) {

@@ -40,9 +40,7 @@ class GoodsAppraises extends Base{
 	* 根据商品id取评论
 	*/
 	public function getById(){
-		$m = new M();
-		$rs = $m->getById();
-		return $rs;
+		return json_encode((new M())->getById());//debug 暂未知道前端获取什么类型
 	}
 
 	/**

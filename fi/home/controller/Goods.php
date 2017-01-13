@@ -342,14 +342,16 @@ class Goods extends Base
         $m     = new M();
         $goods = $m->getBySale(input('id/d', 0));
         if (!empty($goods)) {
-            $history = cookie("history_goods");
-            $history = is_array($history) ? $history : [];
-            array_unshift($history, (string) $goods['goods_id']);
-            $history = array_values(array_unique($history));
+            //暂时屏蔽掉历史查看商品记录
+            // $history = cookie("history_goods");
+            // $history = is_array($history) ? $history : [];
+            // array_unshift($history, (string) $goods['goods_id']);
+            // $history = array_values(array_unique($history));
 
-            if (!empty($history)) {
-                cookie("history_goods", $history, 25920000);
-            }
+            // if (!empty($history)) {
+            //     cookie("history_goods", $history, 25920000);
+            // }
+            // var_dump($goods);die;//debug
             $this->assign('goods', $goods);
             $this->assign('shop', $goods['shop']);
             return $this->fetch("default/goods_detail");

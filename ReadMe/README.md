@@ -1,5 +1,9 @@
 ﻿# 配置
 
+坚定目标可以的
+
+
+
 ## thinkphp 内核修改
 
 ### 修改模型的select()只返回对象数组的不足
@@ -42,7 +46,6 @@ location / {
 3. 位置：商品详情页
 问题：商品属性和商品评价切换卡都没有，并且样式烂
 
-
 ## JS
 
 ## 功能问题
@@ -72,6 +75,8 @@ location / {
 23. 错误页面`/home/error/index.html`有样式问题
 24. 前端的页面全部都是没有主题theme的，虽然tp5没有theme,但是有view_path可以充当，有空将模板页面整理一下
 25. 买家退货、还需要运单号
+26. 高德地图-信息窗体-带检索功能的信息窗体(安居乐是采用 高德地图-信息窗体-给多个点添加信息窗体 有可能是云图<http://lbs.amap.com/yuntu/reference/cloudstorage/>)
+27. 
 
 ## 直接bug
 bug1：
@@ -141,12 +146,10 @@ bug4:
 
 ## 暂时工作笔记
 
-http://127.0.0.1:8983/solr/redundancy/select?_=1483668297438&bq=(city:%E6%88%90%E9%83%BD%E5%B8%82%5E10000)+AND+(province:%E5%9B%9B%E5%B7%9D%5E100)&defType=edismax&fl=*,score&indent=on&q=%E8%8B%B9%E6%9E%9C&wt=json
+地图需要的功能
+1. 搜索页面可以直接跳转高德地图
+2. 商品详情页展示店铺信息以及可以搜索路线(最好可以生成二维码)
+3. 店铺首页展示店铺信息以及可以搜索路线(最好可以生成二维码)
 
-喊 q.alt
-http://127.0.0.1:8983/solr/redundancy/select?_=1483668297438&bq=(city:%E6%88%90%E9%83%BD%E5%B8%82%5E10000)+AND+(province:%E5%9B%9B%E5%B7%9D%5E100)&defType=edismax&fl=*,score&indent=on&q.alt=%E8%8B%B9%E6%9E%9C&wt=json
 
-
-bq=(city:100) AND (province:10)
-
-http://127.0.0.1:8983/solr/redundancy/select?_=1483949406063&bq=city:510100_%E6%88%90%E9%83%BD%E5%B8%82%5E100++AND+province:510000_%E5%9B%9B%E5%B7%9D%5E1000&defType=edismax&facet=on&facet.field=brandName&fl=*,score&indent=on&q=*:*&wt=json
+OSS CDN

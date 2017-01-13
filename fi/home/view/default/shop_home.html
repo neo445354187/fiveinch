@@ -64,12 +64,24 @@
 				{volist name="$data['shopcats']" id="sc" offset="0" length='8'}
 					<a href="{:url('home/shops/home',array('shop_id'=>$sc['shop_id'],'ct1'=>$sc['cat_id']))}"><li class="liselect fi-lfloat {if condition="$ct1 eq $sc['cat_id']"}fi-nav-boxa{/if}">{$sc['cat_name']}</li></a>
 				{/volist}
+				
 				<a class="homepage" href='{$Request.root.true}'>返回商城首页</a>
+				<a id="show-map" class="homepage" href="javascript:void(0)">店铺位置</a>
 				<div class="fi-clear"></div>
 			</div>
 		</div>
 		<div class="fi-clear"></div>
 	</div>
+	<!-- 地图开始 -->
+	<div id="gd" style="display:none;">
+		<div id="gd-container"></div>
+		<div id="gd-panel"></div>
+		<div class="gd-button-group">
+		    <input type="button" class="button" id="gd-route" value="重新规划路线" onclick="infowindow.open(map,lnglat)" style="display:none;" />
+		    <input type="button" class="button" id="gd-redirect" value="去高德地图" onclick="gd.redirect(marker)" />
+		</div>
+	</div>
+	<!-- 地图结束 -->
 	{if($data['shop']['shop_ads'])}
 	<div class="ck-slide">
 		<ul class="ck-slide-wrapper">
@@ -98,6 +110,7 @@
 	{/if}
 {/block}
 {block name="main"}
+
 <input type="hidden" id="msort" value="{$msort}" autocomplete="off"/>
 <input type="hidden" id="mdesc" value="{$mdesc}" autocomplete="off"/>
 <input type="hidden" id="shop_id" value="{$data['shop']['shop_id']}" autocomplete="off"/>
@@ -243,6 +256,31 @@ $(function(){
 	$('#qrcode').html(qr.createImgTag());
 });
 </script>
+<!-- 地图js 开始 -->
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=85529f8860b0a549ae8505adf5a472d2&plugin=AMap.AdvancedInfoWindow"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+<script type="text/javascript">
+var lnglat = [<?php echo $data['shop']['scores']['shop_lnglat']; ?>],
+    shop_info = {
+      shop_name:'<?php echo FIMSubstr($data['shop']['scores']['shop_name'],0,13)?>',
+      img:'<?php echo $data['shop']['scores']['shop_img'] ?>',
+      catshop_names:'<?php echo $data['shop']['scores']['catshop_names'];?>',
+      sub_catshop_names:'<?php echo FIMSubstr($data['shop']['scores']['catshop_names'],0,13)?>',
+      address:'<?php echo $data['shop']['scores']['area_name'].$data['shop']['scores']['shop_address']?>',
+      sub_address:'<?php echo FIMSubstr($data['shop']['scores']['area_name'].$data['shop']['scores']['shop_address'],0,13)?>',
+      telephone:'<?php echo $data['shop']['scores']['shop_tel']?:$data['shop']['scores']['telephone'] ?>'
+    },
+    show_map = $('#show-map'), 
+    gd_div = $('#gd')
+    ck_slide = $('.ck-slide');
+    show_map.click(function(event) {
+    	gd_div.slideToggle();
+    });
+    
+
+</script>
+<script type='text/javascript' src='__HOME__/js/gd.js'></script>
+<!-- 地图js结束 -->
 {/block}
 {block name="footer"}{__block__}
 {/block}

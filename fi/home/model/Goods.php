@@ -555,7 +555,6 @@ class Goods extends Base
             if (empty($rs['shop'])) {
                 return [];
             }
-
             $gallery   = [];
             $gallery[] = $rs['goods_img'];
             if ($rs['gallery'] != '') {
@@ -563,6 +562,7 @@ class Goods extends Base
                 $gallery = array_merge($gallery, $tmp);
             }
             $rs['gallery'] = $gallery;
+
             //获取规格值
             $specs = Db::table('__SPEC_CATS__')->alias('gc')->join('__SPEC_ITEMS__ sit', 'gc.cat_id=sit.cat_id', 'inner')
                 ->where(['sit.goods_id' => $goods_id, 'gc.is_show' => 1, 'sit.status' => 1])

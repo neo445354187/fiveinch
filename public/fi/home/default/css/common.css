@@ -1067,3 +1067,73 @@ div.fi-right-ads>a>img:hover{
   text-decoration:underline;
 }
 
+/* 地图css */
+#gd{
+  margin:auto;
+  height:700px;
+  width:1200px;
+  border:1px solid #ccc;
+  position:relative;
+  margin-top: 2px;
+}
+.gd-info-title {
+    color: white;
+    font-size: 14px;
+    background-color: blue;
+    line-height: 26px;
+    padding: 0px 0 0 6px;
+    font-weight: lighter;
+    letter-spacing: 1px;
+}
+
+.gd-info-content {
+    font: 12px Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial;
+    padding: 4px;
+    color: #666666;
+    line-height: 28px;
+}
+
+.gd-info-content img {
+    float: left;
+    margin: 3px;
+    width: 80px !important;
+    height: 80px !important;
+    margin-right: 15px;
+}
+
+#gd-container{
+    height:700px;
+    width:100%;
+}
+
+#gd-panel{
+    position:absolute;
+    top:15px;
+    right:5px;
+    width:25%;
+    height:90%;
+    overflow-y: auto;
+}
+
+.gd-button-group{
+    position:absolute;
+    bottom: 2px;
+    right:50px;
+}
+.gd-button-group .button{
+    height: 30px;
+    line-height: 30px;
+    background-color: #0D9BF2;
+    color: #FFF;
+    border: 0;
+    outline: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+}
+.gd-shop-info, .gd-shop-info:hover{
+    color:#eee;
+}
